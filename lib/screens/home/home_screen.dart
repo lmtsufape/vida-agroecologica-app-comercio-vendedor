@@ -73,7 +73,10 @@ class HomeScreen extends StatelessWidget {
                     Column(
                       children: <Widget>[
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            navigatorKey.currentState!
+                                .pushNamed(Screens.orders);
+                          },
                           title: const Text('Pedidos'),
                           leading: const Icon(Icons.list),
                         ),

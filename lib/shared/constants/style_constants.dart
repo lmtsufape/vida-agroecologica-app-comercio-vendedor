@@ -30,7 +30,7 @@ const Color kDarkTextColor = Color(0xFF212931);
 //**DARK COLORS */
 
 //*GENERAL COLORS*//
-const Color kSuccessColor = Colors.greenAccent;
+const Color kSuccessColor = Colors.green;
 const Color kErrorColor = Colors.redAccent;
 const Color kAlertColor = Colors.orangeAccent;
 //*GENERAL COLORS*//
@@ -48,9 +48,8 @@ const TextStyle kBody1 = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.w900,
 );
-const TextStyle kBody2 = TextStyle(
-  fontSize: 20,
-);
+const TextStyle kBody2 =
+    TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
 const TextStyle kBody3 = TextStyle(
   fontSize: 20,
 );
