@@ -4,6 +4,7 @@ import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
+import 'package:thunderapp/screens/edit_profile.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
@@ -61,9 +62,11 @@ class HomeScreen extends StatelessWidget {
                           const Spacer(),
                           IconButton(
                               onPressed: () {
-                                navigatorKey.currentState!
-                                    .pushNamed(
-                                        Screens.myStore);
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                        builder: (context) {
+                                  return EditProfileScreen();
+                                }));
                               },
                               icon: const Icon(Icons.edit,
                                   color: kBackgroundColor)),
@@ -89,7 +92,11 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const Divider(),
                         ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            navigatorKey.currentState!
+                                .pushNamed(
+                                    Screens.payments);
+                          },
                           title: const Text('Pagamentos'),
                           leading:
                               const Icon(Icons.credit_card),

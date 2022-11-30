@@ -9,7 +9,8 @@ class CustomTextFormField extends StatefulWidget {
       this.keyboardType,
       this.hintText,
       this.isPassword,
-      this.icon})
+      this.icon,
+      this.isBordered})
       : super(key: key);
   final String? label;
   final String? hintText;
@@ -17,6 +18,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final bool? isPassword;
   final IconData? icon;
+  final bool? isBordered;
   @override
   State<CustomTextFormField> createState() =>
       _CustomTextFormFieldState();
@@ -49,6 +51,9 @@ class _CustomTextFormFieldState
           prefixIcon: widget.icon == null
               ? null
               : Icon(widget.icon),
+          border: widget.isBordered == null
+              ? InputBorder.none
+              : const OutlineInputBorder(),
           labelText: widget.label,
           filled: true,
           fillColor: Colors.white,
