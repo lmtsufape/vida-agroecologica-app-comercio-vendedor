@@ -55,65 +55,32 @@ class MyStoreScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Expanded(
-                        child: GridView.count(
-                      crossAxisCount: 2,
-                      children: [
-                        ItemCardHolder(
-                          icon: Icons.storefront,
-                          title: 'Produtos',
-                        ),
-                        ItemCardHolder(
-                          icon: Icons.list_alt_sharp,
-                          title: 'Pedidos',
-                        ),
-                        ItemCardHolder(
-                          icon: Icons.credit_card,
-                          title: 'Pagamentos',
-                        ),
-                        ItemCardHolder(
-                          icon: Icons.bar_chart_rounded,
-                          title: 'Relatório',
-                        ),
-                      ],
-                    )),
+                    // Expanded(
+                    //     child: GridView.count(
+                    //   crossAxisCount: 2,
+                    //   children: [
+                    //     ItemCardHolder(
+                    //       icon: Icons.storefront,
+                    //       title: 'Produtos',
+                    //     ),
+                    //     ItemCardHolder(
+                    //       icon: Icons.list_alt_sharp,
+                    //       title: 'Pedidos',
+                    //     ),
+                    //     ItemCardHolder(
+                    //       icon: Icons.credit_card,
+                    //       title: 'Pagamentos',
+                    //     ),
+                    //     ItemCardHolder(
+                    //       icon: Icons.bar_chart_rounded,
+                    //       title: 'Relatório',
+                    //     ),
+                    //   ],
+                    // )),
                   ],
                 ),
               ),
             )),
-      ),
-    );
-  }
-}
-
-class ItemCardHolder extends StatelessWidget {
-  const ItemCardHolder({
-    Key? key,
-    required this.title,
-    required this.icon,
-  }) : super(key: key);
-  final String title;
-  final IconData icon;
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Icon(
-            icon,
-            size: 84,
-            color: kPrimaryColor,
-          ),
-          const VerticalSpacerBox(size: SpacerSize.medium),
-          Text(
-            title,
-            style: kBody2.copyWith(
-                fontWeight: FontWeight.bold),
-          )
-        ],
       ),
     );
   }

@@ -14,4 +14,5 @@ class Screens {
   static const String orderDetail = '/order_detail';
   static const String myStore = '/my_store';
   static const String payments = '/payments';
+  static const String products = '/products';
 }

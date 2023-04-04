@@ -11,6 +11,7 @@ import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
+import 'components/item_card_holder.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,14 +25,24 @@ class HomeScreen extends StatelessWidget {
           Consumer<HomeScreenController>(
         builder: ((context, controller, child) => Scaffold(
               appBar: AppBar(
-                title: const Text('Gestão Agroecológica'),
+                title: Text(
+                  'Gestão Agroecológica',
+                  style: kTitle2.copyWith(
+                      color: kPrimaryColor),
+                ),
+                iconTheme: const IconThemeData(
+                    color: kPrimaryColor),
               ),
               drawer: Drawer(
                   child: ListView(
                 children: [
                   ListTile(
                     title: const Text('Sair'),
-                    trailing: const Icon(Icons.exit_to_app),
+                    trailing: const Icon(
+                      Icons.exit_to_app,
+                      size: 20,
+                      color: kPrimaryColor,
+                    ),
                     onTap: () {},
                   )
                 ],
@@ -49,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                           vertical: 28.0, horizontal: 14),
                       child: Row(
                         children: <Widget>[
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 38,
                           ),
                           const HorizontalSpacerBox(
@@ -73,43 +84,57 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Column(
-                      children: <Widget>[
-                        ListTile(
-                          onTap: () {
-                            navigatorKey.currentState!
-                                .pushNamed(Screens.orders);
-                          },
-                          title: const Text('Pedidos'),
-                          leading: const Icon(Icons.list),
-                        ),
-                        const Divider(),
-                        ListTile(
-                          onTap: () {},
-                          title: const Text('Endereços'),
-                          leading: const Icon(
-                              Icons.location_on_sharp),
-                        ),
-                        const Divider(),
-                        ListTile(
-                          onTap: () {
-                            navigatorKey.currentState!
-                                .pushNamed(
-                                    Screens.payments);
-                          },
-                          title: const Text('Pagamentos'),
-                          leading:
-                              const Icon(Icons.credit_card),
-                        ),
-                        const Divider(),
-                      ],
+                    Container(
+                      width: size.width,
+                      height: size.width,
+                      padding: const EdgeInsets.all(
+                          kDefaultPadding),
+                      child: Expanded(
+                          child: GridView.count(
+                        crossAxisCount: 2,
+                        children: [
+                          ItemCardHolder(
+                            icon: Icons.storefront,
+                            title: 'Produtos',
+                            onTap: () {
+                              Navigator.pushNamed(context,
+                                  Screens.products);
+                            },
+                          ),
+                          ItemCardHolder(
+                            icon: Icons.list_alt_sharp,
+                            title: 'Pedidos',
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Screens.orders);
+                            },
+                          ),
+                          ItemCardHolder(
+                            icon: Icons.credit_card,
+                            title: 'Pagamentos',
+                            onTap: () {
+                              Navigator.pushNamed(context,
+                                  Screens.payments);
+                            },
+                          ),
+                          ItemCardHolder(
+                            icon: Icons.bar_chart_rounded,
+                            title: 'Relatório',
+                            onTap: () {},
+                          ),
+                        ],
+                      )),
                     ),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
                       child: PrimaryButton(
-                          text: 'Sair', onPressed: () {}),
+                          text: 'Sair',
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, Screens.myStore);
+                          }),
                     ),
                     const VerticalSpacerBox(
                         size: SpacerSize.huge)
