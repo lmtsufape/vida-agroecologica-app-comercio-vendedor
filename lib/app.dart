@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
 import 'package:thunderapp/screens/my%20store/my_store_screen.dart';
@@ -21,7 +22,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       navigatorKey: navigatorKey,
