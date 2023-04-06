@@ -68,7 +68,27 @@ class SplashScreenController {
           .pushNamed(Screens.carrousel);
     } else {
       log('User already open app: sign in or home');
-      return;
+      if (await userHasToken()) {
+        Screens.start;
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.popAndPushNamed(context, Screens.signin);
+      }
+    }
+  }
+
+  Future<bool> userHasToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final email = prefs.getString('email');
+    final token = prefs.getString('token');
+    if (token != null) {
+      log('user has token');
+      log(email!);
+      log(token);
+      return true;
+    } else {
+      log('user has no token');
+      return false;
     }
   }
 }
