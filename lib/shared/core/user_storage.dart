@@ -21,6 +21,11 @@ class UserStorage {
     return nome ?? '';
   }
 
+  Future<String> getUserToken() async {
+    String? token = await storage.read(key: 'token');
+    return token ?? '';
+  }
+
   Future<bool> userHasCredentials() async {
     log('Checking if user has credentials');
     String? token = await storage.read(key: 'token');

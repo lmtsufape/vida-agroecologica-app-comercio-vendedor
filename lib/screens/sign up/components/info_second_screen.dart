@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:thunderapp/shared/core/models/bairro_model.dart';
 
 import '../../../components/forms/custom_text_form_field.dart';
 import '../../../components/utils/vertical_spacer_box.dart';
@@ -26,10 +27,23 @@ class InfoSecondScreen extends StatelessWidget {
           controller: controller.cepController,
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
-        CustomTextFormField(
-          hintText: 'Bairro',
-          icon: Icons.location_city_rounded,
-          controller: controller.bairroController,
+        DropdownButtonFormField<BairroModel>(
+          isExpanded: true,
+          decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.location_city),
+              border: InputBorder.none),
+          style: Theme.of(context).textTheme.titleLarge,
+          hint: const Text('Bairro'),
+          value: null,
+          items: controller.bairros.map((obj) {
+            return DropdownMenuItem<BairroModel>(
+              value: obj,
+              child: Text(obj.nome.toString()),
+            );
+          }).toList(),
+          onChanged: (selectedObj) {
+            controller.bairroId = selectedObj!.id!.toInt();
+          },
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(
