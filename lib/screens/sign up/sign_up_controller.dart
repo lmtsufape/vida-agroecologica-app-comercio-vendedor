@@ -1,15 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:thunderapp/screens/sign%20up/sign_up_repository.dart';
 
 import 'package:thunderapp/shared/constants/app_enums.dart';
 
+import '../../shared/core/models/bairro_model.dart';
+
 class SignUpController extends GetxController {
   int _infoIndex = 0;
+  int bairroId = 0;
+  List<BairroModel> bairros = [];
   ScreenState screenState = ScreenState.idle;
-
+  final SignUpRepository signUpRepository =
+      SignUpRepository();
   String? _errorMessage = '';
+
   final TextEditingController _nomeController =
       TextEditingController();
   final TextEditingController _emailController =
@@ -26,7 +36,6 @@ class SignUpController extends GetxController {
       TextEditingController();
   final TextEditingController _bairroController =
       TextEditingController();
-
   TextEditingController get nomeController =>
       _nomeController;
   TextEditingController get emailController =>
@@ -54,5 +63,13 @@ class SignUpController extends GetxController {
     update();
   }
 
-  void getBairros() {}
+  void loadBairros() async {
+    bairros = await signUpRepository.getbairros();
+  }
+
+  @override
+  void onInit() {
+    loadBairros();
+    super.onInit();
+  }
 }
