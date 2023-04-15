@@ -4,8 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
+import 'package:thunderapp/shared/core/user_storage.dart';
 
 class SignInRepository {
+  final userStorage = UserStorage();
+
   final _dio = Dio();
   Future signIn({
     required String email,
@@ -21,13 +24,13 @@ class SignInRepository {
         },
       );
       if (response.statusCode == 200) {
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setInt('id', response.data['user']['id']);
-        prefs.setString('email', email);
-        prefs.setString('token',
-            response.data['user']['token'].toString());
-        prefs.setString('name',
-            response.data['user']['nome'].toString());
+        userStorage.saveUserCredentials(
+          id: response.data['user']['id'].toString(),
+          nome: response.data['user']['nome'].toString(),
+          token: response.data['user']['token'].toString(),
+          email: response.data['user']['email'].toString(),
+        );
+
         onSuccess();
       }
     } catch (e) {

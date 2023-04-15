@@ -68,7 +68,7 @@ class SplashScreenController {
           .pushNamed(Screens.carrousel);
     } else {
       log('User already open app: sign in or home');
-      if (await userHasToken()) {
+      if (await userStorage.userHasCredentials()) {
         Screens.start;
       } else {
         // ignore: use_build_context_synchronously
