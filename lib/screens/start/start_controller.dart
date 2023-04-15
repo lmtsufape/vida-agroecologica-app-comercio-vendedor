@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thunderapp/shared/core/user_storage.dart';
 
 class StartController extends GetxController {
+  UserStorage userStorage = UserStorage();
   String userName = 'teste';
 
   Future getUserName() async {
-    final prefs = await SharedPreferences.getInstance();
-    userName = prefs.getString('name')!;
+    userName = await userStorage.getUserName();
     update();
   }
 
