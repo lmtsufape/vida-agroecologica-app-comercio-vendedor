@@ -31,11 +31,15 @@ class SignInController with ChangeNotifier {
       status = SignInStatus.loading;
       notifyListeners();
       status = SignInStatus.done;
-      Navigator.pushReplacementNamed(context, Screens.home);
       await _repository.signIn(
         email: _emailController.text,
         password: _passwordController.text,
-        onSuccess: () {},
+        onSuccess: () {
+          status = SignInStatus.done;
+          notifyListeners();
+          Navigator.pushReplacementNamed(
+              context, Screens.home);
+        },
       );
     } catch (e) {
       status = SignInStatus.idle;
