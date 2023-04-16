@@ -9,11 +9,13 @@ class UserStorage {
     required String nome,
     required String token,
     required String email,
+    required String papel,
   }) async {
     await storage.write(key: 'id', value: id);
     await storage.write(key: 'nome', value: nome);
     await storage.write(key: 'token', value: token);
     await storage.write(key: 'email', value: email);
+    await storage.write(key: 'papel', value: papel);
   }
 
   Future<String> getUserName() async {
@@ -36,5 +38,9 @@ class UserStorage {
       log('User doesnt have any credentials. Returning false');
       return false;
     }
+  }
+
+  Future<void> clearUserCredentials() async {
+    await storage.deleteAll();
   }
 }
