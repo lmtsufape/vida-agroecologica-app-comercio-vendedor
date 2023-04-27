@@ -6,4 +6,5 @@ class Assets {
 
   //**IMAGES */
   static const String logo = 'assets/images/logo.png';
+  static const String example = 'lib/assets/images/melancia.jpg';
 }
