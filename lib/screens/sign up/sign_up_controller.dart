@@ -36,6 +36,15 @@ class SignUpController extends GetxController {
       TextEditingController();
   final TextEditingController _bairroController =
       TextEditingController();
+  final TextEditingController _nomeBancaController =
+      TextEditingController();
+  final TextEditingController _quantiaMinController =
+      TextEditingController();
+  final TextEditingController _horarioAberturaController =
+      TextEditingController();
+  final TextEditingController _horarioFechamentoController =
+      TextEditingController();
+
   TextEditingController get nomeController =>
       _nomeController;
   TextEditingController get emailController =>
@@ -50,6 +59,15 @@ class SignUpController extends GetxController {
       _numeroController;
   TextEditingController get bairroController =>
       _bairroController;
+  TextEditingController get nomeBancaController =>
+      _nomeBancaController;
+  TextEditingController get quantiaMinController =>
+      _quantiaMinController;
+  TextEditingController get horarioAberturaController =>
+      _horarioAberturaController;
+  TextEditingController get horarioFechamentoController =>
+      _horarioFechamentoController;
+
   String? get errorMessage => _errorMessage;
   int get infoIndex => _infoIndex;
 
