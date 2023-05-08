@@ -17,10 +17,16 @@ import '../../shared/core/navigator.dart';
 import '../start/start_controller.dart';
 import 'components/info_first_screen.dart';
 import 'components/info_second_screen.dart';
+import 'components/info_third_screen.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     /**Declare this variable to get the Media Query of the screen in the current context */
@@ -33,91 +39,108 @@ class SignUpScreen extends StatelessWidget {
         body: Stack(
           children: [
             Container(
-              width: size.width,
-              margin:
-                  EdgeInsets.only(top: size.height * 0.3),
-              padding:
-                  const EdgeInsets.all(kDefaultPadding),
-              decoration: BoxDecoration(
-                  color: kBackgroundColor,
-                  borderRadius: BorderRadius.circular(30)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  Center(
-                    child: Text(
-                      controller.infoIndex == 0
-                          ? 'Cadastro'
-                          : 'Endereço',
-                      style: kTitle1.copyWith(
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const VerticalSpacerBox(
-                      size: SpacerSize.huge),
-                  Form(
-                    child: Column(
-                      children: controller.infoIndex == 0
-                          ? [
-                              InfoFirstScreen(controller),
-                            ]
-                          : [InfoSecondScreen(controller)],
-                    ),
-                  ),
-                  const VerticalSpacerBox(
-                      size: SpacerSize.huge),
-                  controller.screenState ==
-                          ScreenState.loading
-                      ? const CircularProgressIndicator()
-                      : PrimaryButton(
-                          text: 'Próximo',
-                          onPressed: () {
-                            controller.next();
-                          }),
-                  const VerticalSpacerBox(
-                      size: SpacerSize.large),
-                  controller.infoIndex != 0
-                      ? Center(
-                          child: CustomTextButton(
-                              onPressed: () =>
-                                  controller.back(),
-                              title: 'Anterior'),
-                        )
-                      : const SizedBox(),
-                  SizedBox(
-                    width: size.width,
-                    child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.center,
-                      children: <Widget>[
-                        controller.errorMessage != null
-                            ? Text(
-                                controller.errorMessage!,
-                                style: kCaption1,
-                              )
-                            : const SizedBox(),
-                        const VerticalSpacerBox(
-                            size: SpacerSize.small),
+                width: size.width,
+                margin: EdgeInsets.only(
+                    top: size.height * 0.15),
+                padding:
+                    const EdgeInsets.all(kDefaultPadding),
+                decoration: BoxDecoration(
+                    color: kBackgroundColor,
+                    borderRadius:
+                        BorderRadius.circular(30)),
+                child: Column(
+                  children: [
+                    const Spacer(),
+                    Center(
+                      child: Text(
                         controller.infoIndex == 0
-                            ? CustomTextButton(
-                                title: 'Já tenho conta',
-                                onPressed: () {
-                                  navigatorKey.currentState!
-                                      .pushReplacementNamed(
-                                          Screens.signin);
-                                },
-                              )
-                            : const SizedBox(),
-                      ],
+                            ? 'Cadastro'
+                            : controller.infoIndex == 1
+                                ? 'Endereço'
+                                : controller.infoIndex == 2
+                                    ? 'Cadastro da Banca'
+                                    : 'Cadastro da Banca',
+                        style: kTitle1.copyWith(
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                ],
-              ),
-            ),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.huge),
+                    Form(
+                      child: Column(
+                          children: controller.infoIndex ==
+                                  0
+                              ? [
+                                  InfoFirstScreen(
+                                      controller),
+                                ]
+                              : controller.infoIndex == 1
+                                  ? [
+                                      InfoSecondScreen(
+                                          controller),
+                                    ]
+                                  : controller.infoIndex ==
+                                          2
+                                      ? [
+                                          InfoThirdScreen(
+                                              controller),
+                                        ]
+                                      : [
+                                          InfoThirdScreen(
+                                              controller),
+                                        ]),
+                    ),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.huge),
+                    controller.screenState ==
+                            ScreenState.loading
+                        ? const CircularProgressIndicator()
+                        : PrimaryButton(
+                            text: 'Próximo',
+                            onPressed: () {
+                              controller.next();
+                            }),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.medium),
+                    controller.infoIndex != 0
+                        ? Center(
+                            child: CustomTextButton(
+                                onPressed: () =>
+                                    controller.back(),
+                                title: 'Anterior'),
+                          )
+                        : const SizedBox(),
+                    SizedBox(
+                      width: size.width,
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.center,
+                        children: <Widget>[
+                          controller.errorMessage != null
+                              ? Text(
+                                  controller.errorMessage!,
+                                  style: kCaption1,
+                                )
+                              : const SizedBox(),
+                          const VerticalSpacerBox(
+                              size: SpacerSize.small),
+                          controller.infoIndex == 0
+                              ? CustomTextButton(
+                                  title: 'Já tenho conta',
+                                  onPressed: () {
+                                    navigatorKey
+                                        .currentState!
+                                        .pushReplacementNamed(
+                                            Screens.signin);
+                                  },
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                )),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -131,7 +154,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.5,
+                  height: size.height * 0.75,
                 )
               ],
             ),
