@@ -17,6 +17,7 @@ import 'screens/home/home_screen.dart';
 import 'screens/order detail/order_detail_screen.dart';
 import 'screens/signin/sign_in_screen.dart';
 import 'screens/splash/splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -24,6 +25,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('pt, BR')
+      ],
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       navigatorKey: navigatorKey,
@@ -63,7 +71,8 @@ class App extends StatelessWidget {
             OrderDetailScreen(),
         Screens.payments: (context) => PaymentsScreen(),
         Screens.products: (context) => ProductsScreen(),
-        Screens.editProducts: (context) => EditProductsScreen(),
+        Screens.editProducts: (context) =>
+            EditProductsScreen(),
       },
     );
   }
