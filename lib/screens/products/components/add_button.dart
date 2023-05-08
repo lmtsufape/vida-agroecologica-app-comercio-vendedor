@@ -3,7 +3,9 @@ import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class AddButton extends StatelessWidget {
-  const AddButton({Key? key}) : super(key: key);
+  const AddButton({Key? key, required this.onPressed})
+      : super(key: key);
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class AddButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButton(
-            onPressed: () {},
+            onPressed: onPressed,
             icon: Icon(
               Icons.add_box,
               size: size.height * 0.045,
@@ -22,7 +24,8 @@ class AddButton extends StatelessWidget {
         Text(
           'Adicionar produto',
           style: TextStyle(
-              fontSize: size.height * 0.018, fontWeight: FontWeight.w600),
+              fontSize: size.height * 0.018,
+              fontWeight: FontWeight.w600),
         ),
       ],
     );
