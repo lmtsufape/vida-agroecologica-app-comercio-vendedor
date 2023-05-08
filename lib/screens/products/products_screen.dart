@@ -11,6 +11,7 @@ import '../../components/utils/vertical_spacer_box.dart';
 import '../../shared/constants/app_enums.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
+import '../screens_index.dart';
 import 'components/info_cards_products.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -45,15 +46,22 @@ class ProductsScreen extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           InfoCards(),
-                          const VerticalSpacerBox(size: SpacerSize.medium),
+                          const VerticalSpacerBox(
+                              size: SpacerSize.medium),
                           SearchBar(
                               controller: controller
                                   .searchController,
                               onSearch: () {}),
                           const VerticalSpacerBox(
                               size: SpacerSize.tiny),
-                          AddButton(),
-                          const VerticalSpacerBox(size: SpacerSize.large),
+                          AddButton(
+                              onPressed: () =>
+                                  Navigator.pushNamed(
+                                      context,
+                                      Screens
+                                          .editProducts)),
+                          const VerticalSpacerBox(
+                              size: SpacerSize.large),
                           CardProducts(),
                           CardProducts(),
                           CardProducts(),
