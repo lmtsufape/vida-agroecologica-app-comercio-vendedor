@@ -27,23 +27,28 @@ class InfoSecondScreen extends StatelessWidget {
           controller: controller.cepController,
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
-        DropdownButtonFormField<BairroModel>(
-          isExpanded: true,
-          decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.location_city),
-              border: InputBorder.none),
-          style: Theme.of(context).textTheme.titleLarge,
-          hint: const Text('Bairro'),
-          value: null,
-          items: controller.bairros.map((obj) {
-            return DropdownMenuItem<BairroModel>(
-              value: obj,
-              child: Text(obj.nome.toString()),
-            );
-          }).toList(),
-          onChanged: (selectedObj) {
-            controller.bairroId = selectedObj!.id!.toInt();
-          },
+        // DropdownButtonFormField<BairroModel>(
+        //   isExpanded: true,
+        //   decoration: const InputDecoration(
+        //       prefixIcon: Icon(Icons.location_city),
+        //       border: InputBorder.none),
+        //   style: Theme.of(context).textTheme.titleLarge,
+        //   hint: const Text('Bairro'),
+        //   value: null,
+        //   items: controller.bairros.map((obj) {
+        //     return DropdownMenuItem<BairroModel>(
+        //       value: obj,
+        //       child: Text(obj.nome.toString()),
+        //     );
+        //   }).toList(),
+        //   onChanged: (selectedObj) {
+        //     controller.bairroId = selectedObj!.id!.toInt();
+        //   },
+        // ),
+        CustomTextFormField(
+          hintText: 'Bairro',
+          icon: Icons.location_city,
+          controller: controller.bairroController,
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(

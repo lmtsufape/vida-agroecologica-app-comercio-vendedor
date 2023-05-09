@@ -4,6 +4,7 @@ import 'package:thunderapp/shared/constants/app_number_constants.dart';
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField(
       {Key? key,
+      this.onChanged,
       this.label,
       this.controller,
       this.keyboardType,
@@ -12,6 +13,7 @@ class CustomTextFormField extends StatefulWidget {
       this.icon,
       this.isBordered})
       : super(key: key);
+  final Function(String)? onChanged;
   final String? label;
   final String? hintText;
   final TextEditingController? controller;
@@ -45,6 +47,7 @@ class _CustomTextFormFieldState
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
+        onChanged: widget.onChanged,
         obscureText: _obscureText,
         controller: widget.controller,
         decoration: InputDecoration(
