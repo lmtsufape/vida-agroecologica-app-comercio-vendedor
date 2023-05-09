@@ -14,7 +14,12 @@ import '../../shared/core/models/bairro_model.dart';
 class SignUpController extends GetxController {
   int _infoIndex = 0;
   int bairroId = 0;
-  List<BairroModel> bairros = [];
+  double strength = 0;
+  RegExp numReg = RegExp(r".*[0-9].*");
+  RegExp letterReg = RegExp(r".*[A-Z].*");
+  String displayText = 'Digite sua Senha';
+
+  ///List<BairroModel> bairros = [];
   ScreenState screenState = ScreenState.idle;
   final SignUpRepository signUpRepository =
       SignUpRepository();
@@ -81,13 +86,36 @@ class SignUpController extends GetxController {
     update();
   }
 
-  void loadBairros() async {
-    bairros = await signUpRepository.getbairros();
-  }
+  // void loadBairros() async {
+  //   bairros = await signUpRepository.getbairros();
+  // }
 
   @override
   void onInit() {
-    loadBairros();
+    // loadBairros();
     super.onInit();
+  }
+
+  checkPasswordStrength(String password) {
+    password = password.trim();
+    if (password.isEmpty) {
+      strength = 0;
+      displayText = 'Digite sua Senha';
+    } else if (password.length <= 6) {
+      strength = 1 / 4;
+      displayText = 'Senha muito fraca';
+    } else if (password.length <= 8) {
+      strength = 2 / 4;
+      displayText = 'Senha fraca';
+    } else if (numReg.hasMatch(password) &&
+        letterReg.hasMatch(password)) {
+      strength = 1;
+      displayText = 'Senha muito forte';
+    } else {
+      strength = 3 / 4;
+      displayText = 'Senha forte';
+    }
+
+    update();
   }
 }
