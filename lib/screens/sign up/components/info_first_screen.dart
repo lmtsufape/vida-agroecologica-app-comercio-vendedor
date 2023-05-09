@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,9 +30,29 @@ class InfoFirstScreen extends StatelessWidget {
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(
           hintText: 'Senha',
+          onChanged: (value) =>
+              controller.checkPasswordStrength(
+                  controller.passwordController.text),
           isPassword: true,
           icon: Icons.lock,
           controller: controller.passwordController,
+        ),
+        LinearProgressIndicator(
+          value: controller.strength,
+          backgroundColor: Colors.grey[300],
+          color: controller.strength <= 1 / 4
+              ? Colors.red
+              : controller.strength == 2 / 4
+                  ? Colors.yellow
+                  : controller.strength == 3 / 4
+                      ? Colors.blue
+                      : Colors.green,
+          minHeight: 15,
+        ),
+        Text(
+          controller.displayText,
+          style: const TextStyle(
+              color: Colors.black, fontSize: 16),
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(

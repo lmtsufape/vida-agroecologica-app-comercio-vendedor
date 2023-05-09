@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:provider/provider.dart';
 import 'package:thunderapp/screens/products/components/add_button.dart';
 import 'package:thunderapp/screens/products/components/card_products.dart';
@@ -45,7 +44,7 @@ class ProductsScreen extends StatelessWidget {
                           kDefaultPadding),
                       child: Column(
                         children: <Widget>[
-                          InfoCards(),
+                          const InfoCards(),
                           const VerticalSpacerBox(
                               size: SpacerSize.medium),
                           SearchBar(
@@ -62,9 +61,9 @@ class ProductsScreen extends StatelessWidget {
                                           .editProducts)),
                           const VerticalSpacerBox(
                               size: SpacerSize.large),
-                          CardProducts(),
-                          CardProducts(),
-                          CardProducts(),
+                          const CardProducts(),
+                          const CardProducts(),
+                          const CardProducts(),
                         ],
                       ),
                     ),

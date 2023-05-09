@@ -98,7 +98,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         : PrimaryButton(
                             text: 'Próximo',
                             onPressed: () {
-                              controller.next();
+                              controller.strength < 1 / 2
+                                  ? () => null
+                                  : controller.next();
                             }),
                     const VerticalSpacerBox(
                         size: SpacerSize.medium),
