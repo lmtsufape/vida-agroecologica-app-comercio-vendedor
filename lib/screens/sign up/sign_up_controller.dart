@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 
@@ -9,6 +10,7 @@ import 'package:thunderapp/screens/sign%20up/sign_up_repository.dart';
 
 import 'package:thunderapp/shared/constants/app_enums.dart';
 
+import '../../shared/core/image_picker_controller.dart';
 import '../../shared/core/models/bairro_model.dart';
 
 class SignUpController extends GetxController {
@@ -18,6 +20,11 @@ class SignUpController extends GetxController {
   RegExp numReg = RegExp(r".*[0-9].*");
   RegExp letterReg = RegExp(r".*[A-Z].*");
   String displayText = 'Digite sua Senha';
+  final _imagePickerController = ImagePickerController();
+  File? _selectedImage;
+
+  String? _imagePath;
+  bool hasImg = false;
 
   ///List<BairroModel> bairros = [];
   ScreenState screenState = ScreenState.idle;
@@ -96,6 +103,54 @@ class SignUpController extends GetxController {
     super.onInit();
   }
 
+  bool checkImg() {
+    if (_selectedImage == null) {
+      return false;
+    }
+    return true;
+  }
+
+  String? get imagePath => _imagePath;
+
+  File? get selectedImage => _selectedImage;
+
+  set selectedImage(File? value) {
+    _selectedImage = value;
+    update();
+  }
+
+  Future selectImageCam() async {
+    File? file =
+        await _imagePickerController.pickImageFromCamera();
+    if (file != null) {
+      _imagePath = file.path;
+    } else {
+      return null;
+    }
+
+    _selectedImage = file;
+
+    update();
+  }
+
+  Future selectImage() async {
+    File? file =
+        await _imagePickerController.pickImageFromGalery();
+    if (file != null) {
+      _imagePath = file.path;
+    } else {
+      return null;
+    }
+
+    _selectedImage = file;
+    update();
+  }
+
+  Future clearImg() async {
+    _selectedImage = null;
+    update();
+  }
+
   checkPasswordStrength(String password) {
     password = password.trim();
     if (password.isEmpty) {
@@ -118,4 +173,7 @@ class SignUpController extends GetxController {
 
     update();
   }
+
+  void signUp(String nome, String senha, String email,
+      String telefone) {}
 }

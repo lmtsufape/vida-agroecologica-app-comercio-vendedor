@@ -16,6 +16,7 @@ import '../../shared/constants/app_enums.dart';
 import '../../shared/core/navigator.dart';
 import '../start/start_controller.dart';
 import 'components/info_first_screen.dart';
+import 'components/info_fourth_screen.dart';
 import 'components/info_second_screen.dart';
 import 'components/info_third_screen.dart';
 
@@ -59,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ? 'Endereço'
                                 : controller.infoIndex == 2
                                     ? 'Cadastro da Banca'
-                                    : 'Cadastro da Banca',
+                                    : 'Selecione uma foto',
                         style: kTitle1.copyWith(
                             fontWeight: FontWeight.bold),
                       ),
@@ -86,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               controller),
                                         ]
                                       : [
-                                          InfoThirdScreen(
+                                          InfoFourthScreen(
                                               controller),
                                         ]),
                     ),
@@ -95,13 +96,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller.screenState ==
                             ScreenState.loading
                         ? const CircularProgressIndicator()
-                        : PrimaryButton(
-                            text: 'Próximo',
-                            onPressed: () {
-                              controller.strength < 1 / 2
-                                  ? () => null
-                                  : controller.next();
-                            }),
+                        : controller.infoIndex != 3
+                            ? PrimaryButton(
+                                text: 'Próximo',
+                                onPressed: () {
+                                  controller.strength <
+                                          1 / 2
+                                      ? () => null
+                                      : controller.next();
+                                })
+                            : PrimaryButton(
+                                text: 'Concluir',
+                                onPressed: () {},
+                              ),
                     const VerticalSpacerBox(
                         size: SpacerSize.medium),
                     controller.infoIndex != 0
