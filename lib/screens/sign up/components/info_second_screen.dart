@@ -53,6 +53,7 @@ class InfoSecondScreen extends StatelessWidget {
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(
+          keyboardType: TextInputType.number,
           hintText: 'Número',
           icon: Icons.home_filled,
           controller: controller.numeroController,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -209,5 +210,57 @@ class SignUpController extends GetxController {
     update();
   }
 
-  void signUp() async {}
+  // void signUp() async {
+  //   signUpRepository.SignUp(
+  //       _nomeController.text,
+  //       _emailController.text,
+  //       _passwordController.text,
+  //       _apelidoController.text,
+  //       _telefoneController.text,
+  //       _cpfController.text,
+  //       _ruaController.text,
+  //       _bairroController.text,
+  //       _numeroController.text,
+  //       _cepController.text);
+  // }
+
+  bool validateEmptyFields() {
+    if (_nomeController.text.isEmpty ||
+        _apelidoController.text.isEmpty ||
+        _cpfController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _telefoneController.text.isEmpty ||
+        _cepController.text.isEmpty ||
+        _ruaController.text.isEmpty ||
+        _numeroController.text.isEmpty ||
+        _bairroController.text.isEmpty ||
+        _nomeBancaController.text.isEmpty ||
+        _quantiaMinController.text.isEmpty ||
+        _horarioAberturaController.text.isEmpty ||
+        _horarioFechamentoController.text.isEmpty) {
+      log('Error, o user não preencheu todos os campos, retornando falso');
+      return false;
+    }
+
+    return true;
+  }
+
+  bool validateEmail() {
+    if (_emailController.text.contains('@') &&
+        _emailController.text.contains('.com')) {
+      return true;
+    }
+    log('Error no cadastro de email, retornando falso');
+    return false;
+  }
+
+  bool validateNumber() {
+    if (_numeroController.text.length <= 4 &&
+        _numeroController.text.contains(RegExp(r'[0-9]'))) {
+      return true;
+    }
+    log('Error no cadastro de número, retornando falso');
+    return false;
+  }
 }
