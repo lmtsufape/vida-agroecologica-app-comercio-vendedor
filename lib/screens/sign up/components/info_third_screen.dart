@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
@@ -19,12 +21,10 @@ class InfoThirdScreen extends StatefulWidget {
 }
 
 class _InfoThirdScreenState extends State<InfoThirdScreen> {
-  final List<bool> _isSelected = [false, false];
-  final List<String> _checkItems = ['Dinheiro', 'PIX'];
-
   void _onItemTapped(int index) {
     setState(() {
-      _isSelected[index] = !_isSelected[index];
+      widget.controller.isSelected[index] =
+          !widget.controller.isSelected[index];
     });
   }
 
@@ -36,7 +36,7 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
         CustomTextFormField(
           hintText: 'Nome da Banca',
           icon: Icons.person,
-          controller: widget.controller.nomeController,
+          controller: widget.controller.nomeBancaController,
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
         SizedBox(
@@ -103,8 +103,9 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
           children: [
             Flexible(
               child: CheckboxListTile(
-                value: _isSelected[0],
-                title: Text(_checkItems[0]),
+                value: widget.controller.isSelected[0],
+                title:
+                    Text(widget.controller.checkItems[0]),
                 checkboxShape: const CircleBorder(),
                 controlAffinity:
                     ListTileControlAffinity.leading,
@@ -116,8 +117,10 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8.0),
                     child: CheckboxListTile(
-                      value: _isSelected[1],
-                      title: Text(_checkItems[1]),
+                      value:
+                          widget.controller.isSelected[1],
+                      title: Text(
+                          widget.controller.checkItems[1]),
                       checkboxShape: const CircleBorder(),
                       controlAffinity:
                           ListTileControlAffinity.leading,
@@ -126,6 +129,17 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
                     ))),
           ],
         ),
+        CheckboxListTile(
+            title: Text('Realiza Entrega?',
+                style: kTitle1.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: kSecondaryColor)),
+            value: widget.controller.deliver,
+            checkboxShape: const CircleBorder(),
+            onChanged: (bool? value) {
+              widget.controller.setDeliver(value!);
+            }),
         SizedBox(
           width: size.width * 0.81,
           child: Text('Quantia mínima para entrega',

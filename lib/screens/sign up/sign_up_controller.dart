@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:thunderapp/screens/sign%20up/sign_up_repository.dart';
 
 import 'package:thunderapp/shared/constants/app_enums.dart';
@@ -22,9 +23,17 @@ class SignUpController extends GetxController {
   String displayText = 'Digite sua Senha';
   final _imagePickerController = ImagePickerController();
   File? _selectedImage;
+  final List<bool> isSelected = [false, false];
+  final List<String> checkItems = ['Dinheiro', 'PIX'];
+  bool deliver = false;
 
   String? _imagePath;
   bool hasImg = false;
+
+  void setDeliver(bool value) {
+    deliver = value;
+    update();
+  }
 
   ///List<BairroModel> bairros = [];
   ScreenState screenState = ScreenState.idle;
@@ -32,10 +41,33 @@ class SignUpController extends GetxController {
       SignUpRepository();
   String? _errorMessage = '';
 
+  MaskTextInputFormatter phoneFormatter =
+      MaskTextInputFormatter(
+          mask: '(##) #####-####',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: MaskAutoCompletionType.lazy);
+
+  MaskTextInputFormatter cepFormatter =
+      MaskTextInputFormatter(
+          mask: '#####-###',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: MaskAutoCompletionType.lazy);
+
+  MaskTextInputFormatter cpfFormatter =
+      MaskTextInputFormatter(
+          mask: '###.###.###-##',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: MaskAutoCompletionType.lazy);
+
   final TextEditingController _nomeController =
+      TextEditingController();
+  final TextEditingController _apelidoController =
+      TextEditingController();
+  final TextEditingController _cpfController =
       TextEditingController();
   final TextEditingController _emailController =
       TextEditingController();
+
   final TextEditingController _passwordController =
       TextEditingController();
   final TextEditingController _telefoneController =
@@ -59,6 +91,9 @@ class SignUpController extends GetxController {
 
   TextEditingController get nomeController =>
       _nomeController;
+  TextEditingController get apelidoController =>
+      _apelidoController;
+  TextEditingController get cpfController => _cpfController;
   TextEditingController get emailController =>
       _emailController;
   TextEditingController get passwordController =>
@@ -174,6 +209,5 @@ class SignUpController extends GetxController {
     update();
   }
 
-  void signUp(String nome, String senha, String email,
-      String telefone) {}
+  void signUp() async {}
 }

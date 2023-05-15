@@ -23,6 +23,19 @@ class InfoFirstScreen extends StatelessWidget {
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(
+          hintText: 'Apelido',
+          icon: Icons.person,
+          controller: controller.apelidoController,
+        ),
+        const VerticalSpacerBox(size: SpacerSize.small),
+        CustomTextFormField(
+          hintText: 'CPF',
+          icon: Icons.description,
+          maskFormatter: controller.cpfFormatter,
+          controller: controller.cpfController,
+        ),
+        const VerticalSpacerBox(size: SpacerSize.small),
+        CustomTextFormField(
           hintText: 'E-mail',
           icon: Icons.email,
           controller: controller.emailController,
@@ -57,6 +70,7 @@ class InfoFirstScreen extends StatelessWidget {
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(
           hintText: 'Telefone',
+          maskFormatter: controller.phoneFormatter,
           icon: Icons.phone,
           controller: controller.telefoneController,
         ),
