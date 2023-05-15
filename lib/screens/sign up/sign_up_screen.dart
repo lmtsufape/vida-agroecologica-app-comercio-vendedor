@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
@@ -107,7 +108,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 })
                             : PrimaryButton(
                                 text: 'Concluir',
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (controller
+                                          .validateEmptyFields() ==
+                                      false) {
+                                  } else if (controller
+                                          .validateEmail() ==
+                                      false) {
+                                  } else if (controller
+                                          .validateNumber() ==
+                                      false) {
+                                  } else {
+                                    // controller.signUp();
+                                  }
+                                },
                               ),
                     const VerticalSpacerBox(
                         size: SpacerSize.medium),

@@ -24,6 +24,7 @@ class InfoSecondScreen extends StatelessWidget {
         CustomTextFormField(
           hintText: 'CEP',
           icon: Icons.numbers_outlined,
+          maskFormatter: controller.cepFormatter,
           controller: controller.cepController,
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
@@ -52,6 +53,7 @@ class InfoSecondScreen extends StatelessWidget {
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
         CustomTextFormField(
+          keyboardType: TextInputType.number,
           hintText: 'Número',
           icon: Icons.home_filled,
           controller: controller.numeroController,
