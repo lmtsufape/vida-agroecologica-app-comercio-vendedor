@@ -119,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           .validateNumber() ==
                                       false) {
                                   } else {
-                                    // controller.signUp();
+                                    controller.signUp();
                                   }
                                 },
                               ),

@@ -210,19 +210,25 @@ class SignUpController extends GetxController {
     update();
   }
 
-  // void signUp() async {
-  //   signUpRepository.SignUp(
-  //       _nomeController.text,
-  //       _emailController.text,
-  //       _passwordController.text,
-  //       _apelidoController.text,
-  //       _telefoneController.text,
-  //       _cpfController.text,
-  //       _ruaController.text,
-  //       _bairroController.text,
-  //       _numeroController.text,
-  //       _cepController.text);
-  // }
+  void signUp() async {
+    signUpRepository.signUp(
+        _nomeController.text,
+        _emailController.text,
+        _passwordController.text,
+        _apelidoController.text,
+        _telefoneController.text,
+        _cpfController.text,
+        _ruaController.text,
+        _bairroController.text,
+        _numeroController.text,
+        _cepController.text,
+        _nomeBancaController.text,
+        _horarioAberturaController.text,
+        _horarioFechamentoController.text,
+        _quantiaMinController.text,
+        deliver,
+        _imagePath);
+  }
 
   bool validateEmptyFields() {
     if (_nomeController.text.isEmpty ||
@@ -238,7 +244,8 @@ class SignUpController extends GetxController {
         _nomeBancaController.text.isEmpty ||
         _quantiaMinController.text.isEmpty ||
         _horarioAberturaController.text.isEmpty ||
-        _horarioFechamentoController.text.isEmpty) {
+        _horarioFechamentoController.text.isEmpty ||
+        _imagePath == null) {
       log('Error, o user não preencheu todos os campos, retornando falso');
       return false;
     }
