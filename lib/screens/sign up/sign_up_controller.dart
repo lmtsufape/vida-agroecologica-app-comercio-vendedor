@@ -211,7 +211,7 @@ class SignUpController extends GetxController {
   }
 
   void signUp() async {
-    signUpRepository.SignUp(
+    signUpRepository.signUp(
         _nomeController.text,
         _emailController.text,
         _passwordController.text,

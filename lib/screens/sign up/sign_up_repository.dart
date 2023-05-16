@@ -17,7 +17,7 @@ class SignUpRepository {
   SignInRepository signInRepository = SignInRepository();
   BairroModel bairroModel = BairroModel();
   UserStorage userStorage = UserStorage();
-  Future<bool> SignUp(
+  Future<bool> signUp(
       String name,
       String email,
       String password,
