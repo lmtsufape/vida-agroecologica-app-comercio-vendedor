@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:thunderapp/screens/edit_products/edit_products_repository.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class DropDownEditProduct extends StatelessWidget {
   final dropValue = ValueNotifier('');
-  final dropOpcoes = ['Melancia', 'Manga', 'Banana', 'Maçã'];
 
   DropDownEditProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    EditProductsRepository repository =
+        EditProductsRepository();
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -28,29 +30,51 @@ class DropDownEditProduct extends StatelessWidget {
           height: size.height * 0.06,
           child: ValueListenableBuilder(
               valueListenable: dropValue,
-              builder: (BuildContext context, String value, _) {
-                return DropdownButtonFormField<String>(
-                  isExpanded: true,
-                  decoration: const InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border:  OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(6),),
-                      borderSide: BorderSide(color: kTextButtonColor),
-                    ),
-                  ),
-                  icon: Icon(Icons.keyboard_arrow_down, color: kPrimaryColor, size: size.width * 0.05,),
-                  hint: Text('Selecione'),
-                  value: (value.isEmpty) ? null : value,
-                  onChanged: (escolha) => dropValue.value = escolha.toString(),
-                  items: dropOpcoes
-                      .map(
-                        (op) => DropdownMenuItem(
-                          child: Text(op),
-                          value: op,
+              builder:
+                  (BuildContext context, String value, _) {
+                return FutureBuilder(
+                  future: repository.getProducts(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<String> dropOptions =
+                          snapshot.data as List<String>;
+                      return DropdownButtonFormField<
+                          String>(
+                        isExpanded: true,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(6),
+                            ),
+                            borderSide: BorderSide(
+                                color: kTextButtonColor),
+                          ),
                         ),
-                      )
-                      .toList(),
+                        icon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: kPrimaryColor,
+                          size: size.width * 0.05,
+                        ),
+                        hint: Text('Selecione'),
+                        value:
+                            (value.isEmpty) ? null : value,
+                        onChanged: (escolha) => dropValue
+                            .value = escolha.toString(),
+                        items: dropOptions
+                            .map(
+                              (op) => DropdownMenuItem(
+                                value: op,
+                                child: Text(op),
+                              ),
+                            )
+                            .toList(),
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
                 );
               }),
         ),

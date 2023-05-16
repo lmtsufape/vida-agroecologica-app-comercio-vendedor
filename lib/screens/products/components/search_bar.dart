@@ -34,7 +34,7 @@ class SearchBar extends StatelessWidget {
           ),
           hintStyle: TextStyle(fontSize: size.height * 0.02),
           hintText: 'Buscar',
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           isDense: true,
           prefixIcon: Padding(
             padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
