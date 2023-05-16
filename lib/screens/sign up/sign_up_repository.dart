@@ -158,7 +158,7 @@ class SignUpRepository {
         log('erro ao deletar');
       }
     } catch (e) {
-      log(e.toString());
+      log('Erro ao deletar${e.toString()}');
     }
   }
   // Future<List<BairroModel>> getbairros() async {

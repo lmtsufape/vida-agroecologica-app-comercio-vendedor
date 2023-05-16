@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
@@ -15,11 +16,9 @@ class MyStoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ChangeNotifierProvider(
-      create: (_) => HomeScreenController(),
-      builder: (context, child) =>
-          Consumer<HomeScreenController>(
-        builder: ((context, controller, child) => Scaffold(
+    return GetBuilder<HomeScreenController>(
+        init: HomeScreenController(),
+        builder: (controller) => Scaffold(
               appBar: AppBar(
                 title: const Text(
                   'Minha loja',
@@ -45,7 +44,7 @@ class MyStoreScreen extends StatelessWidget {
                           ),
                           const HorizontalSpacerBox(
                               size: SpacerSize.small),
-                          Text('Nome da Loja',
+                          Text(controller.bancaModel!.nome,
                               style: kBody2),
                           const Spacer(),
                           IconButton(
@@ -80,8 +79,6 @@ class MyStoreScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            )),
-      ),
-    );
+            ));
   }
 }
