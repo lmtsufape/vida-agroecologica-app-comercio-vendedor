@@ -64,8 +64,7 @@ class SplashScreenController {
     final bool? isFirstTime = prefs.getBool(loadedKey);
     if (isFirstTime != null && isFirstTime) {
       log('First time user in: carrosel');
-      navigatorKey.currentState!
-          .pushNamed(Screens.carrousel);
+      navigatorKey.currentState!.pushNamed(Screens.signin);
     } else {
       log('User already open app: sign in or home');
       if (await userStorage.userHasCredentials()) {
