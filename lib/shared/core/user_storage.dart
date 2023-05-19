@@ -28,6 +28,11 @@ class UserStorage {
     return token ?? '';
   }
 
+  Future<String> getUserId() async {
+    String? id = await storage.read(key: 'id');
+    return id ?? '';
+  }
+
   Future<bool> userHasCredentials() async {
     log('Checking if user has credentials');
     String? token = await storage.read(key: 'token');

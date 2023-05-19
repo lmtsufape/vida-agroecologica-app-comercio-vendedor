@@ -15,8 +15,8 @@ import '../../shared/core/models/bairro_model.dart';
 class SignUpRepository {
   Dio _dio = Dio();
   SignInRepository signInRepository = SignInRepository();
-  BairroModel bairroModel = BairroModel();
   UserStorage userStorage = UserStorage();
+  BairroModel bairroModel = BairroModel();
   Future<bool> signUp(
       String name,
       String email,
@@ -48,39 +48,58 @@ class SignUpRepository {
             "telefone": telefone,
             "cpf": cpf,
             "rua": rua,
-            // 'bairro': bairro,
-            "bairro_id": 1,
+            "bairro": bairro,
+            //"bairro_id": 1,
             "numero": numero,
             "cep": cep,
-            "distancia_feira": 100.0,
-            "distancia_semana": 100.0
+            "distancia_feira": 200.15,
+            "distancia_semana": 200.15
           });
       if (response.statusCode == 201) {
         String emailProdutor =
             response.data["produtor"]["email"];
-        String idProdutor =
-            response.data["produtor"]["id"].toString();
-        signInRepository.signIn(
-            email: emailProdutor,
-            password: password,
-            onSuccess: () async {
-              String userToken =
-                  await userStorage.getUserToken();
-              signUpBanca(
-                  idProdutor,
-                  userToken,
-                  nomeBanca,
-                  horarioAbertura,
-                  horarioFechamento,
-                  precoMin,
-                  entrega,
-                  imgPath);
-            });
+        String idProdutor = response.data["produtor"]
+                ["papel_id"]
+            .toString();
+        log('idProdutor: $idProdutor');
+        try {
+          Response login = await _dio.post(
+            '$kBaseURL/login',
+            data: {
+              'email': emailProdutor,
+              'password': password,
+            },
+          );
+          if (login.statusCode == 200) {
+            String userToken =
+                login.data['user']['token'].toString();
+            userStorage.saveUserCredentials(
+                nome: login.data['user']['nome'],
+                email: login.data['user']['email'],
+                token: userToken,
+                id: login.data['user']['id'].toString(),
+                papel: login.data['user']['papel_id']
+                    .toString());
+
+            signUpBanca(
+                idProdutor,
+                userToken,
+                nomeBanca,
+                horarioAbertura,
+                horarioFechamento,
+                precoMin,
+                entrega,
+                imgPath);
+          }
+        } catch (e) {
+          log('Erro no login ${e.toString()}');
+          return false;
+        }
         log('cadastro do produtor bem sucedido');
 
         return true;
       } else {
-        log('error dentro do request do cadastro do produtor ${response.statusCode.toString()}');
+        log('error dentro do request do cadastro do produtor ${response.statusMessage}');
         return false;
       }
     } catch (e) {
@@ -98,6 +117,11 @@ class SignUpRepository {
       String precoMin,
       bool entrega,
       String? imgPath) async {
+    print(nomeBanca);
+    print(horarioAbertura);
+    print(horarioFechamento);
+    print(precoMin);
+    print(imgPath!.split("\\").last.toString());
     String tipoEntega = '';
     try {
       if (entrega == true) {
@@ -105,60 +129,60 @@ class SignUpRepository {
       } else {
         tipoEntega = 'RETIRADA';
       }
+      print(tipoEntega);
       final body = FormData.fromMap({
         "nome": nomeBanca,
         "descricao": "loja",
-        "horario_funcionamento": "$horarioAbertura:00",
-        "horario_fechamento": "$horarioFechamento:00",
+        "horario_funcionamento": '$horarioAbertura:00',
+        "horario_fechamento": '$horarioFechamento:00',
         "funcionamento": "1",
         "preco_minimo": precoMin,
         "tipo_entrega": tipoEntega,
         "imagem": await MultipartFile.fromFile(
-          imgPath!.toString(),
+          imgPath.toString(),
           filename: imgPath.split("\\").last,
         )
       });
-      try {
-        Response response = await _dio.post(
-          '$kBaseURL/bancas',
-          options: Options(headers: {
-            "Content-Type": "multipart/form-data",
-            "Authorization": "Bearer $userToken"
-          }),
-          data: body,
-        );
-        if (response.statusCode == 201) {
-          log('cadastro da banca bem sucedida');
-          return true;
-        } else {
-          log('erro no cadastro da banca ${response.statusCode.toString()}');
-          deleteUserInfo(idProdutor);
-          return false;
-        }
-      } catch (e) {
-        log(e.toString());
-        deleteUserInfo(idProdutor);
+
+      Response response = await _dio.post(
+        '$kBaseURL/bancas',
+        options: Options(headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": "Bearer $userToken"
+        }),
+        data: body,
+      );
+      if (response.statusCode == 201) {
+        log('cadastro da banca bem sucedida');
+        return true;
+      } else {
+        log('erro no cadastro da banca ${response.statusCode.toString()}');
+        deleteUserInfo(idProdutor, userToken);
         return false;
       }
     } catch (e) {
       log(e.toString());
-      deleteUserInfo(idProdutor);
+      deleteUserInfo(idProdutor, userToken);
       return false;
     }
   }
 
-  void deleteUserInfo(String id) async {
+  void deleteUserInfo(String id, String userToken) async {
+    UserStorage userStorage = UserStorage();
+    userStorage.clearUserCredentials();
     try {
-      Response response =
-          await _dio.delete('$kBaseURL/produtores/$id');
+      Response response = await _dio.delete(
+          '$kBaseURL/produtores/$id',
+          options: Options(headers: {
+            "Authorization": "Bearer $userToken"
+          }));
       if (response.statusCode == 204) {
-        userStorage.clearUserCredentials();
         log('deletado com sucesso');
       } else {
         log('erro ao deletar');
       }
     } catch (e) {
-      log('Erro ao deletar${e.toString()}');
+      log('Erro ao deletar ${e.toString()}');
     }
   }
   // Future<List<BairroModel>> getbairros() async {
