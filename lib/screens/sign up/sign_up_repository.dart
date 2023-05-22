@@ -79,6 +79,8 @@ class SignUpRepository {
                 token: userToken,
                 id: login.data['user']['id'].toString(),
                 papel: login.data['user']['papel_id']
+                    .toString(),
+                papelId: login.data['user']['papel_id']
                     .toString());
 
             signUpBanca(

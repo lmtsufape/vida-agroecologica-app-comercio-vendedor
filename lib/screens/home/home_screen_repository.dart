@@ -2,34 +2,37 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
+import 'package:thunderapp/shared/core/user_storage.dart';
 
 import '../../shared/constants/app_text_constants.dart';
 
 class HomeScreenRepository {
   final Dio _dio = Dio();
+  UserStorage userStorage = UserStorage();
 
   Future<BancaModel?> getBancaPrefs(
-      String? userToken) async {
+      String? userToken, String? userPapelId) async {
+    print('userId: $userPapelId');
     log('chegou aqui');
     try {
       Response response = await _dio.get(
-          '$kBaseURL/bancas/3',
+          '$kBaseURL/produtores/$userPapelId/bancas',
           options: Options(headers: {
             "Authorization": "Bearer $userToken"
           }));
       if (response.statusCode == 200) {
-        print(response.data["banca"]["nome"].toString());
+        print(response.data["Banca"]["nome"].toString());
         BancaModel bancaModel = BancaModel(
-            response.data["banca"]["nome"].toString(),
-            response.data["banca"]["descricao"].toString(),
-            response.data["banca"]["horario_funcionamento"]
+            response.data["Banca"]["nome"].toString(),
+            response.data["Banca"]["descricao"].toString(),
+            response.data["Banca"]["horario_funcionamento"]
                 .toString(),
-            response.data["banca"]["horario_fechamento"]
+            response.data["Banca"]["horario_fechamento"]
                 .toString(),
-            response.data["banca"]["preco_min"].toString(),
-            response.data["banca"]["tipo_entrega"]
+            response.data["Banca"]["preco_min"].toString(),
+            response.data["Banca"]["tipo_entrega"]
                 .toString(),
-            response.data["banca"]["id"].toString());
+            response.data["Banca"]["id"].toString());
         log('bancaModel: ${bancaModel.getNome}');
         return bancaModel;
       } else {

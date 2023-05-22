@@ -9,11 +9,13 @@ class HomeScreenController extends GetxController {
       HomeScreenRepository();
   String? userToken;
   BancaModel? bancaModel;
+  String? userPapelId;
 
   Future getBancaPrefs() async {
     userToken = await userStorage.getUserToken();
-    bancaModel =
-        await homeScreenRepository.getBancaPrefs(userToken);
+    userPapelId = await userStorage.getPapelId();
+    bancaModel = await homeScreenRepository.getBancaPrefs(
+        userToken, userPapelId);
     update();
   }
 

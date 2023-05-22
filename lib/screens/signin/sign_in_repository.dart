@@ -27,15 +27,17 @@ class SignInRepository {
             'Produtor') {
           log('User é um produtor');
           userStorage.saveUserCredentials(
-            id: response.data['user']['id'].toString(),
-            nome: response.data['user']['nome'].toString(),
-            token:
-                response.data['user']['token'].toString(),
-            email:
-                response.data['user']['email'].toString(),
-            papel:
-                response.data['user']['papel'].toString(),
-          );
+              id: response.data['user']['id'].toString(),
+              nome:
+                  response.data['user']['nome'].toString(),
+              token:
+                  response.data['user']['token'].toString(),
+              email:
+                  response.data['user']['email'].toString(),
+              papel:
+                  response.data['user']['papel'].toString(),
+              papelId: response.data['user']['papel_id']
+                  .toString());
           onSuccess();
         } else {
           log('User não é um produtor');
