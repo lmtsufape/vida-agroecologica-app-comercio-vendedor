@@ -10,12 +10,14 @@ class UserStorage {
     required String token,
     required String email,
     required String papel,
+    required String papelId,
   }) async {
     await storage.write(key: 'id', value: id);
     await storage.write(key: 'nome', value: nome);
     await storage.write(key: 'token', value: token);
     await storage.write(key: 'email', value: email);
     await storage.write(key: 'papel', value: papel);
+    await storage.write(key: 'papelId', value: papelId);
   }
 
   Future<String> getUserName() async {
@@ -31,6 +33,17 @@ class UserStorage {
   Future<String> getUserId() async {
     String? id = await storage.read(key: 'id');
     return id ?? '';
+  }
+
+  Future<String> getUserEmail() async {
+    String? email = await storage.read(key: 'email');
+    return email ?? '';
+  }
+
+  Future<String> getPapelId() async {
+    String papelId =
+        await storage.read(key: 'papelId') ?? '';
+    return papelId;
   }
 
   Future<bool> userHasCredentials() async {

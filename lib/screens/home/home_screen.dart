@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                                     null
                                 ? null
                                 : NetworkImage(
-                                    '$kBaseURL/imagens/bancas/3',
+                                    '$kBaseURL/imagens/bancas/${controller.bancaModel!.id}',
                                     headers: {
                                         "Authorization":
                                             "Bearer ${controller.userToken}"
