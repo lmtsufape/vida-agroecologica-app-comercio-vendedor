@@ -12,20 +12,82 @@ class DefaultAlertDialog extends StatelessWidget {
   final String confirmText;
   final VoidCallback onConfirm;
 
+  static ButtonStyle styleConfirm = ElevatedButton.styleFrom(
+    backgroundColor: kSuccessColor,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+  );
+
+  static ButtonStyle styleCancel = ElevatedButton.styleFrom(
+    backgroundColor: kErrorColor,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+  );
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return AlertDialog(
-      backgroundColor: Theme.of(context).cardColor,
-      title: Text(
-        title,
-        style: kBody2,
+    return SizedBox(
+      height: size.height * 0.3,
+      child: AlertDialog(
+        backgroundColor: Theme.of(context).cardColor,
+        insetPadding:
+        const EdgeInsets.symmetric(horizontal: 15),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)),
+        title: Center(
+          child: Text(
+            title,
+            style: kBody2,
+          ),
+        ),
+        content: Text(
+          body,
+          style: kCaption2,
+        ),
+        actions:<Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    right: 28, bottom: 4),
+                child: SizedBox(
+                  width: size.width * 0.3,
+                  height: size.height * 0.040,
+                  child: ElevatedButton(
+                    style: styleConfirm,
+                    onPressed: onConfirm,
+                    child: Text(
+                      confirmText,
+                      style: TextStyle(
+                          color: kTextColor,
+                          fontSize: size.height * 0.018,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: SizedBox(
+                  width: size.width * 0.3,
+                  height: size.height * 0.040,
+                  child: ElevatedButton(
+                    style: styleCancel,
+                    onPressed: (() => navigatorKey.currentState!.pop()),
+                    child: Text(
+                      cancelText,
+                      style: TextStyle(
+                          color: kTextColor,
+                          fontSize: size.height * 0.018,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-      content: Text(
-        body,
-        style: kCaption2,
-      ),
-      actions: [CustomTextButton(title: cancelText, onPressed: (() => navigatorKey.currentState!.pop())), SizedBox(width: size.width * 0.3, child: PrimaryButton(text: confirmText, onPressed: onConfirm))],
     );
   }
 }
