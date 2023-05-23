@@ -10,6 +10,7 @@ import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/sign%20up/sign_up_controller.dart';
 import 'package:thunderapp/screens/signin/sign_in_controller.dart';
+import 'package:thunderapp/shared/components/dialogs/default_alert_dialog.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
@@ -112,14 +113,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (controller
                                           .validateEmptyFields() ==
                                       false) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            DefaultAlertDialog(
+                                              title: 'Erro',
+                                              body:
+                                                  'Preencha todos os campos e adicione uma imagem',
+                                              cancelText:
+                                                  'Ok',
+                                              confirmText:
+                                                  'Ok',
+                                              onConfirm:
+                                                  () => Get
+                                                      .back(),
+                                            ));
                                   } else if (controller
                                           .validateEmail() ==
                                       false) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            DefaultAlertDialog(
+                                              title: 'Erro',
+                                              body:
+                                                  'Digite um email válido',
+                                              cancelText:
+                                                  'Ok',
+                                              confirmText:
+                                                  'Ok',
+                                              onConfirm:
+                                                  () => Get
+                                                      .back(),
+                                            ));
                                   } else if (controller
                                           .validateNumber() ==
                                       false) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            DefaultAlertDialog(
+                                              title: 'Erro',
+                                              body:
+                                                  'Número de telefone inválido',
+                                              cancelText:
+                                                  'Ok',
+                                              confirmText:
+                                                  'Ok',
+                                              onConfirm:
+                                                  () => Get
+                                                      .back(),
+                                            ));
                                   } else {
-                                    controller.signUp();
+                                    controller
+                                        .signUp(context);
                                   }
                                 },
                               ),
