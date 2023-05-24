@@ -19,6 +19,8 @@ import '../screens_index.dart';
 class SignUpRepository {
   Dio _dio = Dio();
   SignInRepository signInRepository = SignInRepository();
+  List<String> checkItems = [];
+  String formasPagamento = '';
   UserStorage userStorage = UserStorage();
   BairroModel bairroModel = BairroModel();
   Future<bool> signUp(
@@ -38,7 +40,23 @@ class SignUpRepository {
       String precoMin,
       bool entrega,
       String? imgPath,
+      List<bool> isSelected,
       BuildContext context) async {
+    if (formasPagamento == '' && checkItems.isEmpty) {
+      for (int i = 0; i < isSelected.length; i++) {
+        if (isSelected[i] == true) {
+          checkItems.add((i + 1).toString());
+          print(checkItems);
+        }
+      }
+      for (int i = 0; i < checkItems.length; i++) {
+        formasPagamento += '${checkItems[i]},';
+      }
+
+      formasPagamento = formasPagamento.substring(
+          0, formasPagamento.length - 1);
+    }
+    print(formasPagamento);
     try {
       Response response =
           await _dio.post('$kBaseURL/produtores',
@@ -54,7 +72,6 @@ class SignUpRepository {
             "cpf": cpf,
             "rua": rua,
             "bairro": bairro,
-            //"bairro_id": 1,
             "numero": numero,
             "cep": cep,
             "distancia_feira": 200.15,
@@ -111,6 +128,8 @@ class SignUpRepository {
                               context, Screens.home)));
               return true;
             } else {
+              formasPagamento = '';
+              checkItems = [];
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
@@ -120,20 +139,27 @@ class SignUpRepository {
                       cancelText: 'ok',
                       onConfirm: () {},
                       confirmText: 'ok'));
+
               return false;
             }
           }
         } catch (e) {
+          formasPagamento = '';
+          checkItems = [];
           log('Erro no login ${e.toString()}');
           return false;
         }
 
         return false;
       } else {
+        formasPagamento = '';
+        checkItems = [];
         log('error dentro do request do cadastro do produtor ${response.statusMessage}');
         return false;
       }
     } catch (e) {
+      formasPagamento = '';
+      checkItems = [];
       log('Erro na chamada do cadastro do produtor ${e.toString()}');
       showDialog(
           context: context,
@@ -170,6 +196,7 @@ class SignUpRepository {
         tipoEntega = 'RETIRADA';
       }
       print(tipoEntega);
+      print(formasPagamento);
       final body = FormData.fromMap({
         "nome": nomeBanca,
         "descricao": "loja",
@@ -181,7 +208,8 @@ class SignUpRepository {
         "imagem": await MultipartFile.fromFile(
           imgPath.toString(),
           filename: imgPath.split("\\").last,
-        )
+        ),
+        "formas pagamento": formasPagamento,
       });
 
       Response response = await _dio.post(
@@ -196,11 +224,15 @@ class SignUpRepository {
         log('cadastro da banca bem sucedida');
         return true;
       } else {
+        formasPagamento = '';
+        checkItems = [];
         log('erro no cadastro da banca ${response.statusCode.toString()}');
         deleteUserInfo(idProdutor, userToken);
         return false;
       }
     } catch (e) {
+      formasPagamento = '';
+      checkItems = [];
       log(e.toString());
       deleteUserInfo(idProdutor, userToken);
       return false;
@@ -219,9 +251,13 @@ class SignUpRepository {
       if (response.statusCode == 204) {
         log('deletado com sucesso');
       } else {
+        formasPagamento = '';
+        checkItems = [];
         log('erro ao deletar');
       }
     } catch (e) {
+      formasPagamento = '';
+      checkItems = [];
       log('Erro ao deletar ${e.toString()}');
     }
   }

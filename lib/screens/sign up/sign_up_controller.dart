@@ -232,6 +232,7 @@ class SignUpController extends GetxController {
         _quantiaMinController.text,
         deliver,
         _imagePath,
+        isSelected,
         context);
     update();
     log(signupSuccess.toString());
