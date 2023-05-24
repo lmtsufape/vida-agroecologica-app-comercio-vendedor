@@ -90,8 +90,10 @@ class SignInScreen extends StatelessWidget {
                                     CircularProgressIndicator())
                             : PrimaryButton(
                                 text: 'Entrar',
-                                onPressed: () => controller
-                                    .signIn(context)),
+                                onPressed: () {
+                                  controller
+                                      .signIn(context);
+                                }),
                         const VerticalSpacerBox(
                             size: SpacerSize.large),
                         SizedBox(

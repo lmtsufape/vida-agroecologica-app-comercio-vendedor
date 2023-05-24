@@ -63,8 +63,9 @@ class SplashScreenController {
     _logger.fine('Default app settings configured!');
     final bool? isFirstTime = prefs.getBool(loadedKey);
     if (isFirstTime != null && isFirstTime) {
-      log('First time user in: carrosel');
-      navigatorKey.currentState!.pushNamed(Screens.signin);
+      log('First time user in: login');
+      navigatorKey.currentState!
+          .popAndPushNamed(Screens.signin);
     } else {
       log('User already open app: sign in or home');
       if (await userStorage.userHasCredentials()) {
