@@ -76,7 +76,9 @@ class HomeScreen extends StatelessWidget {
                           const HorizontalSpacerBox(
                               size: SpacerSize.small),
                           controller.bancaModel == null
-                              ? const CircularProgressIndicator()
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
                               : Text(
                                   controller
                                       .bancaModel!.getNome,

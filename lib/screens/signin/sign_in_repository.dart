@@ -26,7 +26,10 @@ class SignInRepository {
         if (response.data['user']['papel'].toString() ==
             'Produtor') {
           log('User é um produtor');
-          userStorage.saveUserCredentials(
+          if (await userStorage.userHasCredentials()) {
+            await userStorage.clearUserCredentials();
+          }
+          await userStorage.saveUserCredentials(
               id: response.data['user']['id'].toString(),
               nome:
                   response.data['user']['nome'].toString(),
