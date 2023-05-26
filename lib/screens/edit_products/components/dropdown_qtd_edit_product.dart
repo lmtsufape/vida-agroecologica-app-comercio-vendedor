@@ -4,7 +4,12 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class DropDownQtdEditProduct extends StatelessWidget {
   final dropValue = ValueNotifier('');
-  final dropOpcoes = ['Quilo(s)', 'Grama(s)', 'Litro(s)'];
+  final dropOpcoes = [
+    'Unidade',
+    'Quilo(s)',
+    'Grama(s)',
+    'Litro(s)'
+  ];
 
   DropDownQtdEditProduct({Key? key}) : super(key: key);
 
@@ -28,28 +33,37 @@ class DropDownQtdEditProduct extends StatelessWidget {
           width: size.width * 0.25,
           child: ValueListenableBuilder(
               valueListenable: dropValue,
-              builder: (BuildContext context, String value, _) {
+              builder:
+                  (BuildContext context, String value, _) {
                 return DropdownButtonFormField<String>(
                   isExpanded: true,
                   decoration: const InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
-                    border:  OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(6),),
-                      borderSide: BorderSide(color: kTextButtonColor),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                      borderSide: BorderSide(
+                          color: kTextButtonColor),
                     ),
                   ),
-                  icon: Icon(Icons.keyboard_arrow_down, color: kPrimaryColor, size: size.width * 0.05,),
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: kPrimaryColor,
+                    size: size.width * 0.05,
+                  ),
                   hint: Text('Unidade'),
                   value: (value.isEmpty) ? null : value,
-                  onChanged: (escolha) => dropValue.value = escolha.toString(),
+                  onChanged: (escolha) =>
+                      dropValue.value = escolha.toString(),
                   items: dropOpcoes
                       .map(
                         (op) => DropdownMenuItem(
-                      child: Text(op),
-                      value: op,
-                    ),
-                  )
+                          child: Text(op),
+                          value: op,
+                        ),
+                      )
                       .toList(),
                 );
               }),

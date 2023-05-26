@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/edit_products/edit_products_repository.dart';
+import 'package:thunderapp/screens/edit_products/add_products_repository.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
