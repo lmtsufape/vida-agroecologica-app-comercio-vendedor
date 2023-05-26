@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
@@ -9,6 +10,7 @@ import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/sign%20up/sign_up_controller.dart';
 import 'package:thunderapp/screens/signin/sign_in_controller.dart';
+import 'package:thunderapp/shared/components/dialogs/default_alert_dialog.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
@@ -16,6 +18,7 @@ import '../../shared/constants/app_enums.dart';
 import '../../shared/core/navigator.dart';
 import '../start/start_controller.dart';
 import 'components/info_first_screen.dart';
+import 'components/info_fourth_screen.dart';
 import 'components/info_second_screen.dart';
 import 'components/info_third_screen.dart';
 
@@ -59,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ? 'Endereço'
                                 : controller.infoIndex == 2
                                     ? 'Cadastro da Banca'
-                                    : 'Cadastro da Banca',
+                                    : 'Selecione uma foto',
                         style: kTitle1.copyWith(
                             fontWeight: FontWeight.bold),
                       ),
@@ -86,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               controller),
                                         ]
                                       : [
-                                          InfoThirdScreen(
+                                          InfoFourthScreen(
                                               controller),
                                         ]),
                     ),
@@ -95,11 +98,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller.screenState ==
                             ScreenState.loading
                         ? const CircularProgressIndicator()
-                        : PrimaryButton(
-                            text: 'Próximo',
-                            onPressed: () {
-                              controller.next();
-                            }),
+                        : controller.infoIndex != 3
+                            ? PrimaryButton(
+                                text: 'Próximo',
+                                onPressed: () {
+                                  controller.strength <
+                                          1 / 2
+                                      ? () => null
+                                      : controller.next();
+                                })
+                            : PrimaryButton(
+                                text: 'Concluir',
+                                onPressed: () {
+                                  if (controller
+                                          .validateEmptyFields() ==
+                                      false) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            DefaultAlertDialog(
+                                              title: 'Erro',
+                                              body:
+                                                  'Preencha todos os campos e adicione uma imagem',
+                                              cancelText:
+                                                  'Ok',
+                                              confirmText:
+                                                  'Ok',
+                                              onConfirm:
+                                                  () => Get
+                                                      .back(),
+                                            ));
+                                  } else if (controller
+                                          .validateEmail() ==
+                                      false) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            DefaultAlertDialog(
+                                              title: 'Erro',
+                                              body:
+                                                  'Digite um email válido',
+                                              cancelText:
+                                                  'Ok',
+                                              confirmText:
+                                                  'Ok',
+                                              onConfirm:
+                                                  () => Get
+                                                      .back(),
+                                            ));
+                                  } else if (controller
+                                          .validateNumber() ==
+                                      false) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            DefaultAlertDialog(
+                                              title: 'Erro',
+                                              body:
+                                                  'Número de telefone inválido',
+                                              cancelText:
+                                                  'Ok',
+                                              confirmText:
+                                                  'Ok',
+                                              onConfirm:
+                                                  () => Get
+                                                      .back(),
+                                            ));
+                                  } else {
+                                    controller
+                                        .signUp(context);
+                                  }
+                                },
+                              ),
                     const VerticalSpacerBox(
                         size: SpacerSize.medium),
                     controller.infoIndex != 0

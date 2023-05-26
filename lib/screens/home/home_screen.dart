@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
@@ -9,6 +10,7 @@ import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
+import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 import 'components/item_card_holder.dart';
@@ -19,11 +21,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return ChangeNotifierProvider(
-      create: (_) => HomeScreenController(),
-      builder: (context, child) =>
-          Consumer<HomeScreenController>(
-        builder: ((context, controller, child) => Scaffold(
+    return GetBuilder<HomeScreenController>(
+        init: HomeScreenController(),
+        builder: (controller) => Scaffold(
               appBar: AppBar(
                 title: Text(
                   'Gestão Agroecológica',
@@ -60,16 +60,32 @@ class HomeScreen extends StatelessWidget {
                           vertical: 28.0, horizontal: 14),
                       child: Row(
                         children: <Widget>[
-                          const CircleAvatar(
+                          CircleAvatar(
+                            backgroundImage: controller
+                                        .userToken ==
+                                    null
+                                ? null
+                                : NetworkImage(
+                                    '$kBaseURL/imagens/bancas/${controller.bancaModel!.id}',
+                                    headers: {
+                                        "Authorization":
+                                            "Bearer ${controller.userToken}"
+                                      }),
                             radius: 38,
                           ),
                           const HorizontalSpacerBox(
                               size: SpacerSize.small),
-                          Text(
-                            'Nome da Loja',
-                            style: kBody2.copyWith(
-                                color: kBackgroundColor),
-                          ),
+                          controller.bancaModel == null
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : Text(
+                                  controller
+                                      .bancaModel!.getNome,
+                                  style: kBody2.copyWith(
+                                      color:
+                                          kBackgroundColor),
+                                ),
                           const Spacer(),
                           IconButton(
                               onPressed: () {
@@ -141,8 +157,6 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            )),
-      ),
-    );
+            ));
   }
 }

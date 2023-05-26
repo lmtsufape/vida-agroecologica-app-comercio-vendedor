@@ -37,9 +37,8 @@ class SplashScreenController {
     ///we can also use the following code to go to the home screen:
     ///Navigator.pushNamed(context, Screens.home);
     ///or we can use the following code to go to the sign in screen:
-    await configDefaultAppSettings();
     // FirebaseAuth.instance.authStateChanges().listen((User? user) {
-    Future.delayed(const Duration(seconds: 3), () {
+    await Future.delayed(const Duration(seconds: 3), () {
       onComplete.call();
       // if (user == null) {
       //   navigatorKey.currentState!.pushNamed(Screens.signin);
@@ -47,6 +46,7 @@ class SplashScreenController {
       //   onComplete();
       // }
     });
+    await configDefaultAppSettings();
     // });
   }
 
@@ -63,16 +63,18 @@ class SplashScreenController {
     _logger.fine('Default app settings configured!');
     final bool? isFirstTime = prefs.getBool(loadedKey);
     if (isFirstTime != null && isFirstTime) {
-      log('First time user in: carrosel');
+      log('First time user in: login');
       navigatorKey.currentState!
-          .pushNamed(Screens.carrousel);
+          .popAndPushNamed(Screens.signin);
     } else {
       log('User already open app: sign in or home');
       if (await userStorage.userHasCredentials()) {
-        Screens.start;
+        navigatorKey.currentState!
+            .popAndPushNamed(Screens.start);
       } else {
         // ignore: use_build_context_synchronously
-        Navigator.popAndPushNamed(context, Screens.signin);
+        navigatorKey.currentState!
+            .popAndPushNamed(Screens.signin);
       }
     }
   }
