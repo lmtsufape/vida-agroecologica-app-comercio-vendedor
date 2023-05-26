@@ -8,6 +8,7 @@ import 'package:thunderapp/screens/my%20store/my_store_screen.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
 import 'package:thunderapp/screens/payments/payments_screen.dart';
 import 'package:thunderapp/screens/products/products_screen.dart';
+import 'package:thunderapp/screens/report/report_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/sign%20up/sign_up_screen.dart';
 import 'package:thunderapp/screens/start/start_screen.dart';
@@ -73,6 +74,7 @@ class App extends StatelessWidget {
         Screens.products: (context) => ProductsScreen(),
         Screens.editProducts: (context) =>
             EditProductsScreen(),
+        Screens.report: (context) => ReportScreen(),
       },
     );
   }
