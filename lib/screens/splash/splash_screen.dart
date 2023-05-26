@@ -9,6 +9,7 @@ import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../shared/core/assets_index.dart';
+import '../../shared/core/navigator.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -31,9 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setController();
       stopController();
-      _controller.initApplication(() {
-        Navigator.popAndPushNamed(context, Screens.start);
-      });
+      _controller.initApplication(() {});
     });
   }
 
