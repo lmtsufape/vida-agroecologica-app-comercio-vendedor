@@ -3,12 +3,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:thunderapp/assets/index.dart';
-import 'package:thunderapp/screens/edit_products/components/dropdown_edit_product.dart';
-import 'package:thunderapp/screens/edit_products/components/dropdown_qtd_edit_product.dart';
-import 'package:thunderapp/screens/edit_products/components/elevated_button_edit_product.dart';
+import 'package:thunderapp/screens/edit_products/components/dropdown_add_product.dart';
+import 'package:thunderapp/screens/edit_products/components/dropdown_qtd_add_product.dart';
+import 'package:thunderapp/screens/edit_products/components/elevated_button_add_product.dart';
 import 'package:thunderapp/screens/edit_products/components/image_edit.dart';
 import 'package:thunderapp/screens/edit_products/components/sale_infos.dart';
-import 'package:thunderapp/screens/edit_products/components/stock_edit_product.dart';
+import 'package:thunderapp/screens/edit_products/components/stock_add_product.dart';
 import 'package:thunderapp/screens/products/components/add_button.dart';
 import 'package:thunderapp/screens/products/components/card_products.dart';
 import 'package:thunderapp/screens/products/components/search_bar.dart';
@@ -18,8 +18,8 @@ import '../../shared/constants/app_enums.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
 
-class EditProductsScreen extends StatelessWidget {
-  const EditProductsScreen({Key? key}) : super(key: key);
+class AddProductsScreen extends StatelessWidget {
+  const AddProductsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,8 @@ class EditProductsScreen extends StatelessWidget {
           'Editar produto',
           style: kTitle2.copyWith(color: kPrimaryColor),
         ),
-        iconTheme: const IconThemeData(color: kPrimaryColor),
+        iconTheme:
+            const IconThemeData(color: kPrimaryColor),
       ),
       /*drawer: Drawer(
           child: ListView(
@@ -61,7 +62,7 @@ class EditProductsScreen extends StatelessWidget {
               height: size.height * 0.025,
               color: Colors.transparent,
             ),
-            DropDownEditProduct(),
+            DropDownAddProduct(),
             Divider(
               height: size.height * 0.025,
               color: Colors.transparent,
@@ -86,19 +87,19 @@ class EditProductsScreen extends StatelessWidget {
             ),
             Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: DropDownQtdEditProduct()),
+                child: DropDownQtdAddProduct()),
             Divider(
               height: size.height * 0.01,
               color: Colors.transparent,
             ),
             const Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: StockEditProduct()),
+                child: StockAddProduct()),
             Divider(
               height: size.height * 0.020,
               color: Colors.transparent,
             ),
-            const ElevatedButtonEditProduct(),
+            const ElevatedButtonAddProduct(),
           ],
         ),
       ),

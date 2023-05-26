@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-class StockEditProduct extends StatelessWidget {
-  const StockEditProduct({Key? key}) : super(key: key);
+class StockAddProduct extends StatelessWidget {
+  const StockAddProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,8 @@ class StockEditProduct extends StatelessWidget {
         Text(
           'Estoque atual',
           style: TextStyle(
-              color: kPrimaryColor, fontSize: size.height * 0.017),
+              color: kPrimaryColor,
+              fontSize: size.height * 0.017),
         ),
         SizedBox(
           height: size.height * 0.06,
@@ -28,7 +29,10 @@ class StockEditProduct extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   '25',
-                  style: TextStyle(fontSize: size.height * 0.017, fontWeight: FontWeight.w700, color: kPrimaryColor),
+                  style: TextStyle(
+                      fontSize: size.height * 0.017,
+                      fontWeight: FontWeight.w700,
+                      color: kPrimaryColor),
                 )),
           ),
         ),

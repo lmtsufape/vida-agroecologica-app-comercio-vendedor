@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-class ElevatedButtonEditProduct extends StatelessWidget {
-  const ElevatedButtonEditProduct({Key? key})
+class ElevatedButtonAddProduct extends StatelessWidget {
+  const ElevatedButtonAddProduct({Key? key})
       : super(key: key);
 
   static ButtonStyle styleEditProduct =

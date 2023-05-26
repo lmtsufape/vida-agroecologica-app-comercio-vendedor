@@ -4,7 +4,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../shared/constants/app_text_constants.dart';
 import '../../shared/core/user_storage.dart';
 
-class EditProductsRepository extends GetxController {
+class AddProductsRepository extends GetxController {
   late String userToken;
 
   Future<List<String>> getProducts() async {

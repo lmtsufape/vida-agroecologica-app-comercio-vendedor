@@ -3,15 +3,15 @@ import 'package:thunderapp/screens/edit_products/add_products_repository.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-class DropDownEditProduct extends StatelessWidget {
+class DropDownAddProduct extends StatelessWidget {
   final dropValue = ValueNotifier('');
 
-  DropDownEditProduct({Key? key}) : super(key: key);
+  DropDownAddProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    EditProductsRepository repository =
-        EditProductsRepository();
+    AddProductsRepository repository =
+        AddProductsRepository();
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
