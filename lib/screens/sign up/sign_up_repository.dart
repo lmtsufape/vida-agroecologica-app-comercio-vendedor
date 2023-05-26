@@ -4,17 +4,23 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:thunderapp/screens/signin/sign_in_repository.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
+import '../../shared/components/dialogs/default_alert_dialog.dart';
 import '../../shared/core/models/bairro_model.dart';
+import '../screens_index.dart';
 
 class SignUpRepository {
   Dio _dio = Dio();
   SignInRepository signInRepository = SignInRepository();
+  List<String> checkItems = [];
+  String formasPagamento = '';
   UserStorage userStorage = UserStorage();
   BairroModel bairroModel = BairroModel();
   Future<bool> signUp(
@@ -33,7 +39,24 @@ class SignUpRepository {
       String horarioFechamento,
       String precoMin,
       bool entrega,
-      String? imgPath) async {
+      String? imgPath,
+      List<bool> isSelected,
+      BuildContext context) async {
+    if (formasPagamento == '' && checkItems.isEmpty) {
+      for (int i = 0; i < isSelected.length; i++) {
+        if (isSelected[i] == true) {
+          checkItems.add((i + 1).toString());
+          print(checkItems);
+        }
+      }
+      for (int i = 0; i < checkItems.length; i++) {
+        formasPagamento += '${checkItems[i]},';
+      }
+
+      formasPagamento = formasPagamento.substring(
+          0, formasPagamento.length - 1);
+    }
+    print(formasPagamento);
     try {
       Response response =
           await _dio.post('$kBaseURL/produtores',
@@ -49,7 +72,6 @@ class SignUpRepository {
             "cpf": cpf,
             "rua": rua,
             "bairro": bairro,
-            //"bairro_id": 1,
             "numero": numero,
             "cep": cep,
             "distancia_feira": 200.15,
@@ -83,7 +105,7 @@ class SignUpRepository {
                 papelId: login.data['user']['papel_id']
                     .toString());
 
-            signUpBanca(
+            if (await signUpBanca(
                 idProdutor,
                 userToken,
                 nomeBanca,
@@ -91,21 +113,63 @@ class SignUpRepository {
                 horarioFechamento,
                 precoMin,
                 entrega,
-                imgPath);
+                imgPath)) {
+              // ignore: use_build_context_synchronously
+              showDialog(
+                  context: context,
+                  builder: (context) => DefaultAlertDialog(
+                      title: 'Sucesso',
+                      body:
+                          'Cadastro realizado com sucesso',
+                      cancelText: 'Ok',
+                      confirmText: 'Ok',
+                      onConfirm: () =>
+                          Navigator.pushReplacementNamed(
+                              context, Screens.home)));
+              return true;
+            } else {
+              formasPagamento = '';
+              checkItems = [];
+              showDialog(
+                  context: context,
+                  builder: (context) => DefaultAlertDialog(
+                      title: 'Erro',
+                      body:
+                          'Ocorreu um erro, verifique os campos e tente novamente',
+                      cancelText: 'ok',
+                      onConfirm: () {},
+                      confirmText: 'ok'));
+
+              return false;
+            }
           }
         } catch (e) {
+          formasPagamento = '';
+          checkItems = [];
           log('Erro no login ${e.toString()}');
           return false;
         }
-        log('cadastro do produtor bem sucedido');
 
-        return true;
+        return false;
       } else {
+        formasPagamento = '';
+        checkItems = [];
         log('error dentro do request do cadastro do produtor ${response.statusMessage}');
         return false;
       }
     } catch (e) {
+      formasPagamento = '';
+      checkItems = [];
       log('Erro na chamada do cadastro do produtor ${e.toString()}');
+      showDialog(
+          context: context,
+          builder: (context) => DefaultAlertDialog(
+              title: 'Erro',
+              body:
+                  'Ocorreu um erro, verifique os campos e tente novamente',
+              cancelText: 'ok',
+              onConfirm: () {},
+              confirmText: 'ok'));
       return false;
     }
   }
@@ -132,6 +196,7 @@ class SignUpRepository {
         tipoEntega = 'RETIRADA';
       }
       print(tipoEntega);
+      print(formasPagamento);
       final body = FormData.fromMap({
         "nome": nomeBanca,
         "descricao": "loja",
@@ -143,7 +208,8 @@ class SignUpRepository {
         "imagem": await MultipartFile.fromFile(
           imgPath.toString(),
           filename: imgPath.split("\\").last,
-        )
+        ),
+        "formas pagamento": formasPagamento,
       });
 
       Response response = await _dio.post(
@@ -158,11 +224,15 @@ class SignUpRepository {
         log('cadastro da banca bem sucedida');
         return true;
       } else {
+        formasPagamento = '';
+        checkItems = [];
         log('erro no cadastro da banca ${response.statusCode.toString()}');
         deleteUserInfo(idProdutor, userToken);
         return false;
       }
     } catch (e) {
+      formasPagamento = '';
+      checkItems = [];
       log(e.toString());
       deleteUserInfo(idProdutor, userToken);
       return false;
@@ -181,9 +251,13 @@ class SignUpRepository {
       if (response.statusCode == 204) {
         log('deletado com sucesso');
       } else {
+        formasPagamento = '';
+        checkItems = [];
         log('erro ao deletar');
       }
     } catch (e) {
+      formasPagamento = '';
+      checkItems = [];
       log('Erro ao deletar ${e.toString()}');
     }
   }

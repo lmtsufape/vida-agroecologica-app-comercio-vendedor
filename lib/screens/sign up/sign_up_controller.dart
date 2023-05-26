@@ -19,6 +19,7 @@ class SignUpController extends GetxController {
   int _infoIndex = 0;
   int bairroId = 0;
   double strength = 0;
+  bool? signupSuccess;
   RegExp numReg = RegExp(r".*[0-9].*");
   RegExp letterReg = RegExp(r".*[A-Z].*");
   String displayText = 'Digite sua Senha';
@@ -146,6 +147,8 @@ class SignUpController extends GetxController {
     return true;
   }
 
+  bool? get signupSucess => signupSuccess;
+
   String? get imagePath => _imagePath;
 
   File? get selectedImage => _selectedImage;
@@ -210,8 +213,9 @@ class SignUpController extends GetxController {
     update();
   }
 
-  void signUp() async {
-    signUpRepository.signUp(
+  void signUp(BuildContext context) async {
+    log(signupSuccess.toString());
+    signupSuccess = await signUpRepository.signUp(
         _nomeController.text,
         _emailController.text,
         _passwordController.text,
@@ -227,7 +231,11 @@ class SignUpController extends GetxController {
         _horarioFechamentoController.text,
         _quantiaMinController.text,
         deliver,
-        _imagePath);
+        _imagePath,
+        isSelected,
+        context);
+    update();
+    log(signupSuccess.toString());
   }
 
   bool validateEmptyFields() {

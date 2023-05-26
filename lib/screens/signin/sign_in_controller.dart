@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/screens_index.dart';
@@ -30,28 +32,37 @@ class SignInController with ChangeNotifier {
     try {
       status = SignInStatus.loading;
       notifyListeners();
-      status = SignInStatus.done;
-      await _repository.signIn(
+
+      var succ = await _repository.signIn(
         email: _emailController.text,
         password: _passwordController.text,
-        onSuccess: () {
-          status = SignInStatus.done;
-          notifyListeners();
-          Navigator.pushReplacementNamed(
-              context, Screens.home);
-        },
       );
-    } catch (e) {
-      status = SignInStatus.idle;
+      if (succ == true) {
+        status = SignInStatus.done;
+        notifyListeners();
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacementNamed(
+            context, Screens.home);
+      }
+      if (!succ) {
+        status = SignInStatus.error;
+        setErrorMessage(
+            'Credenciais inválidas, verifique seus dados');
+        notifyListeners();
+      }
       notifyListeners();
-      setErrorMessage('Something wrong');
+    } catch (e) {
+      status = SignInStatus.error;
+      setErrorMessage(
+          'Credenciais inválidas verifique seus dados');
+      notifyListeners();
     }
   }
 
-  void setErrorMessage(String value) {
+  void setErrorMessage(String value) async {
     errorMessage = value;
     notifyListeners();
-    Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     errorMessage = null;
     notifyListeners();
   }
