@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.0.3
   responsive_framework: ^0.2.0
+
   intl: ^0.17.0
   get: ^4.6.5
   url_launcher: ^6.1.2
@@ -61,6 +62,7 @@ dependencies:
   date_time_picker: ^2.1.0
   file_picker: ^5.3.0
   mask_text_input_formatter: ^2.4.0
+  currency_text_input_formatter: ^2.1.8
 
 dev_dependencies:
   flutter_test:

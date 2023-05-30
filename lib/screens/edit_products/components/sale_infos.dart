@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:thunderapp/screens/edit_products/add_products_controller.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'currency_format.dart';
+import '../../../components/forms/custom_currency_form_field.dart';
 
 class SaleInfos extends StatefulWidget {
   const SaleInfos({Key? key}) : super(key: key);
@@ -14,8 +16,8 @@ class SaleInfos extends StatefulWidget {
 class _SaleInfosState extends State<SaleInfos> {
   CurrencyInputFormatter currency =
       CurrencyInputFormatter();
-  TextEditingController costPrice = TextEditingController();
-  TextEditingController salePrice = TextEditingController();
+  AddProductsController controller =
+      AddProductsController();
   double profit = 0.0;
   @override
   Widget build(BuildContext context) {
@@ -45,38 +47,23 @@ class _SaleInfosState extends State<SaleInfos> {
                           color: kTextButtonColor)),
                   child: Align(
                       alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: TextFormField(
-                          controller: costPrice,
-                          decoration: InputDecoration(
-                            floatingLabelBehavior:
-                                FloatingLabelBehavior.never,
-                            label: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'R\$ 2,70',
-                                style: TextStyle(
-                                    fontSize:
-                                        size.height * 0.017,
-                                    fontWeight:
-                                        FontWeight.w700),
-                              ),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              costPrice.text = value;
-                              profit = double.parse(
-                                      salePrice.text) -
-                                  double.parse(
-                                      costPrice.text);
-                            });
-                          },
-                          style: TextStyle(
-                              fontSize: size.height * 0.017,
-                              fontWeight: FontWeight.w700),
-                        ),
+                      child: CustomCurrencyTextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            profit =
+                                controller.changeProfit(
+                                    controller
+                                        .saleController
+                                        .text,
+                                    controller
+                                        .costController
+                                        .text);
+                          });
+                        },
+                        inputFormatter:
+                            controller.currencyFormatter,
+                        controller:
+                            controller.costController,
                       )),
                 ),
               )
@@ -103,37 +90,23 @@ class _SaleInfosState extends State<SaleInfos> {
                           color: kTextButtonColor)),
                   child: Align(
                       alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: TextFormField(
-                          controller: salePrice,
-                          decoration: InputDecoration(
-                            floatingLabelBehavior:
-                                FloatingLabelBehavior.never,
-                            label: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'R\$ 4,90',
-                                style: TextStyle(
-                                    fontSize:
-                                        size.height * 0.017,
-                                    fontWeight:
-                                        FontWeight.w700),
-                              ),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              profit = double.parse(
-                                      salePrice.text) -
-                                  double.parse(
-                                      costPrice.text);
-                            });
-                          },
-                          style: TextStyle(
-                              fontSize: size.height * 0.017,
-                              fontWeight: FontWeight.w700),
-                        ),
+                      child: CustomCurrencyTextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            profit =
+                                controller.changeProfit(
+                                    controller
+                                        .saleController
+                                        .text,
+                                    controller
+                                        .costController
+                                        .text);
+                          });
+                        },
+                        inputFormatter:
+                            controller.currencyFormatter,
+                        controller:
+                            controller.saleController,
                       )),
                 ),
               ),
@@ -156,12 +129,12 @@ class _SaleInfosState extends State<SaleInfos> {
                   shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(6),
-                      side: BorderSide(
+                      side: const BorderSide(
                           color: kTextButtonColor)),
                   child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        '$profit',
+                        profit.toStringAsPrecision(4),
                         style: TextStyle(
                             fontSize: size.height * 0.017,
                             fontWeight: FontWeight.w700,
