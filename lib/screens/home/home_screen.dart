@@ -136,7 +136,9 @@ class HomeScreen extends StatelessWidget {
                           ItemCardHolder(
                             icon: Icons.bar_chart_rounded,
                             title: 'Relatório',
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(context, Screens.report);
+                            },
                           ),
                         ],
                       ),
