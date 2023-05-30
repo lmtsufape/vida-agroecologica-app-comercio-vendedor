@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-class DropDownEditProduct extends StatelessWidget {
+class DropDownQtdAddProduct extends StatelessWidget {
   final dropValue = ValueNotifier('');
-  final dropOpcoes = ['Melancia', 'Manga', 'Banana', 'Maçã'];
+  final dropOpcoes = [
+    'Unidade',
+    'Quilo(s)',
+    'Grama(s)',
+    'Litro(s)'
+  ];
 
-  DropDownEditProduct({Key? key}) : super(key: key);
+  DropDownQtdAddProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,31 +23,40 @@ class DropDownEditProduct extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.only(bottom: 4),
           child: Text(
-            'Nome do produto',
+            'Un.Med.',
             style: TextStyle(color: kTextButtonColor),
           ),
         ),
         Container(
-          alignment: Alignment.topCenter,
-          width: size.width,
+          alignment: AlignmentDirectional.centerStart,
           height: size.height * 0.06,
+          width: size.width * 0.25,
           child: ValueListenableBuilder(
               valueListenable: dropValue,
-              builder: (BuildContext context, String value, _) {
+              builder:
+                  (BuildContext context, String value, _) {
                 return DropdownButtonFormField<String>(
                   isExpanded: true,
                   decoration: const InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
-                    border:  OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(6),),
-                      borderSide: BorderSide(color: kTextButtonColor),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                      borderSide: BorderSide(
+                          color: kTextButtonColor),
                     ),
                   ),
-                  icon: Icon(Icons.keyboard_arrow_down, color: kPrimaryColor, size: size.width * 0.05,),
-                  hint: Text('Selecione'),
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: kPrimaryColor,
+                    size: size.width * 0.05,
+                  ),
+                  hint: Text('Unidade'),
                   value: (value.isEmpty) ? null : value,
-                  onChanged: (escolha) => dropValue.value = escolha.toString(),
+                  onChanged: (escolha) =>
+                      dropValue.value = escolha.toString(),
                   items: dropOpcoes
                       .map(
                         (op) => DropdownMenuItem(
