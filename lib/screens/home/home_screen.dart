@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                   )
                 ],
               )),
-              body: Container(
+              body: SizedBox(
                 width: size.width,
                 height: size.height,
                 child: Column(
@@ -86,7 +86,6 @@ class HomeScreen extends StatelessWidget {
                                       color:
                                           kBackgroundColor),
                                 ),
-                          const Spacer(),
                           IconButton(
                               onPressed: () {
                                 Navigator.push(context,
@@ -105,9 +104,10 @@ class HomeScreen extends StatelessWidget {
                       height: size.width,
                       padding: const EdgeInsets.all(
                           kDefaultPadding),
-                      child: Expanded(
-                          child: GridView.count(
+                      child: GridView.count(
                         crossAxisCount: 2,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
                         children: [
                           ItemCardHolder(
                             icon: Icons.storefront,
@@ -139,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                             onTap: () {},
                           ),
                         ],
-                      )),
+                      ),
                     ),
                     const Spacer(),
                     Padding(
