@@ -123,6 +123,8 @@ class SignUpRepository {
                           'Cadastro realizado com sucesso',
                       cancelText: 'Ok',
                       confirmText: 'Ok',
+                      confirmColor: Colors.green,
+                      cancelColor: Colors.red,
                       onConfirm: () =>
                           Navigator.pushReplacementNamed(
                               context, Screens.home)));
@@ -130,15 +132,19 @@ class SignUpRepository {
             } else {
               formasPagamento = '';
               checkItems = [];
+              // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
-                      title: 'Erro',
-                      body:
-                          'Ocorreu um erro, verifique os campos e tente novamente',
-                      cancelText: 'ok',
-                      onConfirm: () {},
-                      confirmText: 'ok'));
+                        title: 'Erro',
+                        body:
+                            'Ocorreu um erro, verifique os campos e tente novamente',
+                        cancelText: 'ok',
+                        onConfirm: () {},
+                        confirmText: 'ok',
+                        confirmColor: Colors.green,
+                        cancelColor: Colors.red,
+                      ));
 
               return false;
             }
@@ -164,12 +170,15 @@ class SignUpRepository {
       showDialog(
           context: context,
           builder: (context) => DefaultAlertDialog(
-              title: 'Erro',
-              body:
-                  'Ocorreu um erro, verifique os campos e tente novamente',
-              cancelText: 'ok',
-              onConfirm: () {},
-              confirmText: 'ok'));
+                title: 'Erro',
+                body:
+                    'Ocorreu um erro, verifique os campos e tente novamente',
+                cancelText: 'ok',
+                onConfirm: () {},
+                confirmText: 'ok',
+                confirmColor: Colors.green,
+                cancelColor: Colors.red,
+              ));
       return false;
     }
   }

@@ -127,6 +127,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               onConfirm:
                                                   () => Get
                                                       .back(),
+                                              confirmColor:
+                                                  Colors
+                                                      .green,
+                                              cancelColor:
+                                                  Colors
+                                                      .red,
                                             ));
                                   } else if (controller
                                           .validateEmail() ==
@@ -145,6 +151,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               onConfirm:
                                                   () => Get
                                                       .back(),
+                                              confirmColor:
+                                                  Colors
+                                                      .green,
+                                              cancelColor:
+                                                  Colors
+                                                      .red,
                                             ));
                                   } else if (controller
                                           .validateNumber() ==
@@ -163,6 +175,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               onConfirm:
                                                   () => Get
                                                       .back(),
+                                              confirmColor:
+                                                  Colors
+                                                      .green,
+                                              cancelColor:
+                                                  Colors
+                                                      .red,
                                             ));
                                   } else {
                                     controller
