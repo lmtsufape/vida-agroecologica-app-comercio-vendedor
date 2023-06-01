@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thunderapp/screens/signin/sign_in_repository.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
+import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
 import '../../shared/components/dialogs/default_alert_dialog.dart';
@@ -23,6 +24,7 @@ class SignUpRepository {
   String formasPagamento = '';
   UserStorage userStorage = UserStorage();
   BairroModel bairroModel = BairroModel();
+
   Future<bool> signUp(
       String name,
       String email,
@@ -53,17 +55,16 @@ class SignUpRepository {
         formasPagamento += '${checkItems[i]},';
       }
 
-      formasPagamento = formasPagamento.substring(
-          0, formasPagamento.length - 1);
+      formasPagamento =
+          formasPagamento.substring(0, formasPagamento.length - 1);
     }
     print(formasPagamento);
     try {
-      Response response =
-          await _dio.post('$kBaseURL/produtores',
-              options: Options(headers: {
-                'Content-Type': 'application/json',
-              }),
-              data: {
+      Response response = await _dio.post('$kBaseURL/produtores',
+          options: Options(headers: {
+            'Content-Type': 'application/json',
+          }),
+          data: {
             "name": name,
             "email": email,
             "password": password,
@@ -78,11 +79,8 @@ class SignUpRepository {
             "distancia_semana": 200.15
           });
       if (response.statusCode == 201) {
-        String emailProdutor =
-            response.data["produtor"]["email"];
-        String idProdutor = response.data["produtor"]
-                ["papel_id"]
-            .toString();
+        String emailProdutor = response.data["produtor"]["email"];
+        String idProdutor = response.data["produtor"]["papel_id"].toString();
         log('idProdutor: $idProdutor');
         try {
           Response login = await _dio.post(
@@ -93,17 +91,14 @@ class SignUpRepository {
             },
           );
           if (login.statusCode == 200) {
-            String userToken =
-                login.data['user']['token'].toString();
+            String userToken = login.data['user']['token'].toString();
             userStorage.saveUserCredentials(
                 nome: login.data['user']['nome'],
                 email: login.data['user']['email'],
                 token: userToken,
                 id: login.data['user']['id'].toString(),
-                papel: login.data['user']['papel_id']
-                    .toString(),
-                papelId: login.data['user']['papel_id']
-                    .toString());
+                papel: login.data['user']['papel_id'].toString(),
+                papelId: login.data['user']['papel_id'].toString());
 
             if (await signUpBanca(
                 idProdutor,
@@ -118,27 +113,28 @@ class SignUpRepository {
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
-                      title: 'Sucesso',
-                      body:
-                          'Cadastro realizado com sucesso',
-                      cancelText: 'Ok',
-                      confirmText: 'Ok',
-                      onConfirm: () =>
-                          Navigator.pushReplacementNamed(
-                              context, Screens.home)));
+                        title: 'Sucesso',
+                        body: 'Cadastro realizado com sucesso',
+                        cancelText: 'Ok',
+                        confirmText: 'Ok',
+                        onConfirm: () => Navigator.pushReplacementNamed(
+                            context, Screens.home),
+                        confirmColor: kSuccessColor,
+                        cancelColor: kErrorColor,
+                      ));
               return true;
             } else {
               formasPagamento = '';
               checkItems = [];
               showDialog(
                   context: context,
-                  builder: (context) => DefaultAlertDialog(
+                  builder: (context) => DefaultAlertDialogOneButton(
                       title: 'Erro',
                       body:
                           'Ocorreu um erro, verifique os campos e tente novamente',
-                      cancelText: 'ok',
                       onConfirm: () {},
-                      confirmText: 'ok'));
+                      confirmText: 'ok',
+                      buttonColor: kAlertColor));
 
               return false;
             }
@@ -163,13 +159,13 @@ class SignUpRepository {
       log('Erro na chamada do cadastro do produtor ${e.toString()}');
       showDialog(
           context: context,
-          builder: (context) => DefaultAlertDialog(
-              title: 'Erro',
-              body:
-                  'Ocorreu um erro, verifique os campos e tente novamente',
-              cancelText: 'ok',
-              onConfirm: () {},
-              confirmText: 'ok'));
+          builder: (context) => DefaultAlertDialogOneButton(
+                title: 'Erro',
+                body: 'Ocorreu um erro, verifique os campos e tente novamente',
+                onConfirm: () {},
+                confirmText: 'ok',
+                buttonColor: kAlertColor,
+              ));
       return false;
     }
   }
@@ -243,11 +239,8 @@ class SignUpRepository {
     UserStorage userStorage = UserStorage();
     userStorage.clearUserCredentials();
     try {
-      Response response = await _dio.delete(
-          '$kBaseURL/produtores/$id',
-          options: Options(headers: {
-            "Authorization": "Bearer $userToken"
-          }));
+      Response response = await _dio.delete('$kBaseURL/produtores/$id',
+          options: Options(headers: {"Authorization": "Bearer $userToken"}));
       if (response.statusCode == 204) {
         log('deletado com sucesso');
       } else {
@@ -261,33 +254,33 @@ class SignUpRepository {
       log('Erro ao deletar ${e.toString()}');
     }
   }
-  // Future<List<BairroModel>> getbairros() async {
-  //   List<dynamic> all;
-  //   List<BairroModel> bairros = [];
-  //   try {
-  //     Response response =
-  //         await _dio.get('$kBaseURL/bairros');
-  //     if (response.statusCode == 200) {
-  //       all = response.data['bairros'];
-  //       if (all.isNotEmpty) {
-  //         for (int i = 0; i < all.length; i++) {
-  //           bairroModel = BairroModel(
-  //               id: all[i]['id'],
-  //               nome: all[i]['nome'],
-  //               taxa: all[i]['taxa']);
-  //           bairros.add(bairroModel);
-  //         }
-  //         return bairros;
-  //       } else {
-  //         return [];
-  //       }
-  //     } else {
-  //       print('erro');
-  //       return [];
-  //     }
-  //   } on DioError catch (e) {
-  //     log(e.toString());
-  //     return [];
-  //   }
-  // }
+// Future<List<BairroModel>> getbairros() async {
+//   List<dynamic> all;
+//   List<BairroModel> bairros = [];
+//   try {
+//     Response response =
+//         await _dio.get('$kBaseURL/bairros');
+//     if (response.statusCode == 200) {
+//       all = response.data['bairros'];
+//       if (all.isNotEmpty) {
+//         for (int i = 0; i < all.length; i++) {
+//           bairroModel = BairroModel(
+//               id: all[i]['id'],
+//               nome: all[i]['nome'],
+//               taxa: all[i]['taxa']);
+//           bairros.add(bairroModel);
+//         }
+//         return bairros;
+//       } else {
+//         return [];
+//       }
+//     } else {
+//       print('erro');
+//       return [];
+//     }
+//   } on DioError catch (e) {
+//     log(e.toString());
+//     return [];
+//   }
+// }
 }
