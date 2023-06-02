@@ -77,26 +77,19 @@ class AddProductsScreen extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 )),
             Divider(
-              height: size.height * 0.01,
+              height: size.height * 0.02,
               color: Colors.transparent,
             ),
             SaleInfos(),
             Divider(
-              height: size.height * 0.01,
+              height: size.height * 0.02,
               color: Colors.transparent,
             ),
             Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: DropDownQtdAddProduct()),
             Divider(
-              height: size.height * 0.01,
-              color: Colors.transparent,
-            ),
-            const Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: StockAddProduct()),
-            Divider(
-              height: size.height * 0.020,
+              height: size.height * 0.03,
               color: Colors.transparent,
             ),
             const ElevatedButtonAddProduct(),
