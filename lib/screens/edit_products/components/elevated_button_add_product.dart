@@ -17,7 +17,7 @@ class ElevatedButtonAddProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SizedBox(
-      width: size.width * 0.85,
+      width: size.width,
       height: size.height * 0.06,
       child: ElevatedButton(
         onPressed: () {},

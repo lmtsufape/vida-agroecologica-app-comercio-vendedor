@@ -43,14 +43,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           children: [
             Container(
                 width: size.width,
-                margin: EdgeInsets.only(
-                    top: size.height * 0.15),
-                padding:
-                    const EdgeInsets.all(kDefaultPadding),
+                margin: EdgeInsets.only(top: size.height * 0.15),
+                padding: const EdgeInsets.all(kDefaultPadding),
                 decoration: BoxDecoration(
                     color: kBackgroundColor,
-                    borderRadius:
-                        BorderRadius.circular(30)),
+                    borderRadius: BorderRadius.circular(30)),
                 child: Column(
                   children: [
                     const Spacer(),
@@ -63,55 +60,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 : controller.infoIndex == 2
                                     ? 'Cadastro da Banca'
                                     : 'Selecione uma foto',
-                        style: kTitle1.copyWith(
-                            fontWeight: FontWeight.bold),
+                        style: kTitle1.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.huge),
+                    const VerticalSpacerBox(size: SpacerSize.huge),
                     Form(
                       child: Column(
-                          children: controller.infoIndex ==
-                                  0
+                          children: controller.infoIndex == 0
                               ? [
-                                  InfoFirstScreen(
-                                      controller),
+                                  InfoFirstScreen(controller),
                                 ]
                               : controller.infoIndex == 1
                                   ? [
-                                      InfoSecondScreen(
-                                          controller),
+                                      InfoSecondScreen(controller),
                                     ]
-                                  : controller.infoIndex ==
-                                          2
+                                  : controller.infoIndex == 2
                                       ? [
-                                          InfoThirdScreen(
-                                              controller),
+                                          InfoThirdScreen(controller),
                                         ]
                                       : [
-                                          InfoFourthScreen(
-                                              controller),
+                                          InfoFourthScreen(controller),
                                         ]),
                     ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.huge),
-                    controller.screenState ==
-                            ScreenState.loading
+                    const VerticalSpacerBox(size: SpacerSize.huge),
+                    controller.screenState == ScreenState.loading
                         ? const CircularProgressIndicator()
                         : controller.infoIndex != 3
                             ? PrimaryButton(
                                 text: 'Próximo',
                                 onPressed: () {
-                                  controller.strength <
-                                          1 / 2
+                                  controller.strength < 1 / 2
                                       ? () => null
                                       : controller.next();
                                 })
                             : PrimaryButton(
                                 text: 'Concluir',
                                 onPressed: () {
-                                  if (controller
-                                          .validateEmptyFields() ==
+                                  if (controller.validateEmptyFields() ==
                                       false) {
                                     showDialog(
                                         context: context,
@@ -120,89 +105,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               title: 'Erro',
                                               body:
                                                   'Preencha todos os campos e adicione uma imagem',
-                                              cancelText:
-                                                  'Ok',
-                                              confirmText:
-                                                  'Ok',
-                                              onConfirm:
-                                                  () => Get
-                                                      .back(),
-                                              confirmColor:
-                                                  Colors
-                                                      .green,
-                                              cancelColor:
-                                                  Colors
-                                                      .red,
+
+                                              cancelText: 'Ok',
+                                              confirmText: 'Ok',
+                                              onConfirm: () => Get.back(),
+                                              cancelColor: kErrorColor,
+                                              confirmColor: kSuccessColor,
                                             ));
-                                  } else if (controller
-                                          .validateEmail() ==
+                                  } else if (controller.validateEmail() ==
                                       false) {
                                     showDialog(
                                         context: context,
                                         builder: (context) =>
-                                            DefaultAlertDialog(
+                                            DefaultAlertDialogOneButton(
                                               title: 'Erro',
-                                              body:
-                                                  'Digite um email válido',
-                                              cancelText:
-                                                  'Ok',
-                                              confirmText:
-                                                  'Ok',
-                                              onConfirm:
-                                                  () => Get
-                                                      .back(),
-                                              confirmColor:
-                                                  Colors
-                                                      .green,
-                                              cancelColor:
-                                                  Colors
-                                                      .red,
+
+                                              body: 'Digite um email válido',
+                                              confirmText: 'Ok',
+                                              onConfirm: () => Get.back(),
+                                              buttonColor: kAlertColor,
+
                                             ));
-                                  } else if (controller
-                                          .validateNumber() ==
+                                  } else if (controller.validateNumber() ==
                                       false) {
                                     showDialog(
                                         context: context,
                                         builder: (context) =>
-                                            DefaultAlertDialog(
+                                            DefaultAlertDialogOneButton(
                                               title: 'Erro',
                                               body:
                                                   'Número de telefone inválido',
-                                              cancelText:
-                                                  'Ok',
-                                              confirmText:
-                                                  'Ok',
-                                              onConfirm:
-                                                  () => Get
-                                                      .back(),
-                                              confirmColor:
-                                                  Colors
-                                                      .green,
-                                              cancelColor:
-                                                  Colors
-                                                      .red,
+
+                                              confirmText: 'Ok',
+                                              onConfirm: () => Get.back(),
+                                              buttonColor: kAlertColor,
+
                                             ));
                                   } else {
-                                    controller
-                                        .signUp(context);
+                                    controller.signUp(context);
                                   }
                                 },
                               ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.medium),
+                    const VerticalSpacerBox(size: SpacerSize.medium),
                     controller.infoIndex != 0
                         ? Center(
                             child: CustomTextButton(
-                                onPressed: () =>
-                                    controller.back(),
+                                onPressed: () => controller.back(),
                                 title: 'Anterior'),
                           )
                         : const SizedBox(),
                     SizedBox(
                       width: size.width,
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           controller.errorMessage != null
                               ? Text(
@@ -210,16 +165,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   style: kCaption1,
                                 )
                               : const SizedBox(),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.small),
+                          const VerticalSpacerBox(size: SpacerSize.small),
                           controller.infoIndex == 0
                               ? CustomTextButton(
                                   title: 'Já tenho conta',
                                   onPressed: () {
-                                    navigatorKey
-                                        .currentState!
-                                        .pushReplacementNamed(
-                                            Screens.signin);
+                                    navigatorKey.currentState!
+                                        .pushReplacementNamed(Screens.signin);
                                   },
                                 )
                               : const SizedBox(),
@@ -237,8 +189,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Text(
                     textAlign: TextAlign.center,
                     'Bem-vindo(a) ao App Bonito Produtor',
-                    style: kTitle1.copyWith(
-                        color: kBackgroundColor),
+                    style: kTitle1.copyWith(color: kBackgroundColor),
                   ),
                 ),
                 SizedBox(

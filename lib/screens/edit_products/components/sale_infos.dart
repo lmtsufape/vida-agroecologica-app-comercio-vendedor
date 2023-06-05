@@ -43,14 +43,15 @@ class _SaleInfosState extends State<SaleInfos> {
                     color: kTextButtonColor,
                     fontSize: size.height * 0.017),
               ),
+              Divider(height: size.height * 0.005,),
               SizedBox(
                 height: size.height * 0.06,
                 width: size.width * 0.25,
                 child: Card(
-                  color: Colors.white,
+                  margin: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(6),
+                      BorderRadius.circular(6),
                       side: const BorderSide(
                           color: kTextButtonColor)),
                   child: Align(
@@ -80,16 +81,21 @@ class _SaleInfosState extends State<SaleInfos> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Preço de venda',
-                style: TextStyle(
-                    color: kTextButtonColor,
-                    fontSize: size.height * 0.017),
+              Align(
+                alignment: AlignmentDirectional.topStart,
+                child: Text(
+                  'Preço de venda',
+                  style: TextStyle(
+                      color: kTextButtonColor,
+                      fontSize: size.height * 0.017),
+                ),
               ),
+              Divider(height: size.height * 0.005,),
               SizedBox(
                 height: size.height * 0.06,
-                width: size.width * 0.25,
+                width: size.width * 0.26,
                 child: Card(
+                  margin: EdgeInsets.zero,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius:
@@ -129,10 +135,12 @@ class _SaleInfosState extends State<SaleInfos> {
                     color: kTextButtonColor,
                     fontSize: size.height * 0.017),
               ),
+              Divider(height: size.height * 0.005),
               SizedBox(
                 height: size.height * 0.06,
                 width: size.width * 0.25,
                 child: Card(
+                  margin: EdgeInsets.zero,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius:
