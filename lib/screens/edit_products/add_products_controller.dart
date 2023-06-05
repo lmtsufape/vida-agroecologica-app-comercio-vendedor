@@ -31,7 +31,14 @@ class AddProductsController extends GetxController {
         .replaceAll(RegExp(r'[^0-9,.]'), '')
         .replaceAll(',', '.');
 
-    return double.parse(salePrice) -
-        double.parse(costPrice);
+    print(salePrice);
+
+    double profit = 0.0;
+    if (salePrice.isNotEmpty && costPrice.isNotEmpty) {
+      profit =
+          double.parse(salePrice) - double.parse(costPrice);
+    }
+
+    return profit;
   }
 }

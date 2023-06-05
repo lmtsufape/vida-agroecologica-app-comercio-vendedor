@@ -113,6 +113,7 @@ class SignUpRepository {
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
+
                         title: 'Sucesso',
                         body: 'Cadastro realizado com sucesso',
                         cancelText: 'Ok',
@@ -126,8 +127,10 @@ class SignUpRepository {
             } else {
               formasPagamento = '';
               checkItems = [];
+              // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
+
                   builder: (context) => DefaultAlertDialogOneButton(
                       title: 'Erro',
                       body:

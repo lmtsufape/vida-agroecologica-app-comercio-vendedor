@@ -36,6 +36,8 @@ class _CustomCurrencyTextFormFieldState
   bool _obscureText = false;
   @override
   void initState() {
+   
+
     super.initState();
   }
 
