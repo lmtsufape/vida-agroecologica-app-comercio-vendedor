@@ -112,6 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               title: 'Erro',
                                               body:
                                                   'Preencha todos os campos e adicione uma imagem',
+
                                               cancelText: 'Ok',
                                               confirmText: 'Ok',
                                               onConfirm: () => Get.back(),
@@ -125,10 +126,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         builder: (context) =>
                                             DefaultAlertDialogOneButton(
                                               title: 'Erro',
+
                                               body: 'Digite um email válido',
                                               confirmText: 'Ok',
                                               onConfirm: () => Get.back(),
                                               buttonColor: kAlertColor,
+
                                             ));
                                   } else if (controller.validateNumber() ==
                                       false) {
@@ -139,9 +142,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               title: 'Erro',
                                               body:
                                                   'Número de telefone inválido',
+
                                               confirmText: 'Ok',
                                               onConfirm: () => Get.back(),
                                               buttonColor: kAlertColor,
+
                                             ));
                                   } else {
                                     controller.signUp(context);
