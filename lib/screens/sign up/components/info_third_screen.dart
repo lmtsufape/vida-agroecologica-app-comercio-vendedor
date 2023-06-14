@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
@@ -7,10 +5,10 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../../components/forms/custom_text_form_field.dart';
 import '../../../components/utils/vertical_spacer_box.dart';
 import '../../../shared/constants/app_enums.dart';
-import '../../../shared/constants/app_number_constants.dart';
-import '../sign_up_controller.dart';
-import 'package:date_time_picker/date_time_picker.dart';
 
+import '../sign_up_controller.dart';
+
+// ignore: must_be_immutable
 class InfoThirdScreen extends StatefulWidget {
   late SignUpController controller;
   InfoThirdScreen(this.controller, {super.key});
@@ -50,43 +48,26 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
         Row(
           children: [
             Expanded(
-              child: DateTimePicker(
-                type: DateTimePickerType.time,
-                timeLabelText: "Abertura",
+              child: CustomTextFormField(
+                hintText: '00:00:00',
+                keyboardType: TextInputType.number,
+                maskFormatter:
+                    widget.controller.timeFormatter,
+                icon: Icons.alarm_on,
                 controller: widget
                     .controller.horarioAberturaController,
-                use24HourFormat: true,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Abertura',
-                  prefixIcon: Icon(Icons.alarm),
-                ),
-                onChanged: (val) => print(val),
-                validator: (val) {
-                  return null;
-                },
-                onSaved: (val) => print(val),
               ),
             ),
             const VerticalSpacerBox(size: SpacerSize.small),
             Expanded(
-              child: DateTimePicker(
-                type: DateTimePickerType.time,
-                timeLabelText: "Fechamento",
-                locale: const Locale('pt', 'BR'),
+              child: CustomTextFormField(
+                hintText: '00:00:00',
+                keyboardType: TextInputType.number,
+                maskFormatter:
+                    widget.controller.timeFormatter,
+                icon: Icons.alarm_off,
                 controller: widget
                     .controller.horarioFechamentoController,
-                use24HourFormat: true,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Fechamento',
-                  prefixIcon: Icon(Icons.alarm_off),
-                ),
-                onChanged: (val) => print(val),
-                validator: (val) {
-                  return null;
-                },
-                onSaved: (val) => print(val),
               ),
             ),
           ],

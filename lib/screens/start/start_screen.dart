@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/buttons/secondary_button.dart';
-import 'package:thunderapp/components/forms/custom_text_form_field.dart';
+
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/signin/sign_in_controller.dart';

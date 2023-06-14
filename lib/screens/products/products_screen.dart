@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thunderapp/screens/products/components/add_button.dart';
 import 'package:thunderapp/screens/products/components/card_products.dart';
-import 'package:thunderapp/screens/products/components/search_bar.dart';
+import 'package:thunderapp/screens/products/components/product_search_bar.dart';
 import 'package:thunderapp/screens/products/products_controller.dart';
 
 import '../../components/utils/vertical_spacer_box.dart';
@@ -47,7 +47,7 @@ class ProductsScreen extends StatelessWidget {
                           const InfoCards(),
                           const VerticalSpacerBox(
                               size: SpacerSize.medium),
-                          SearchBar(
+                          ProductSearchBar(
                               controller: controller
                                   .searchController,
                               onSearch: () {}),

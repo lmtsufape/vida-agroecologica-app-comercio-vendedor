@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
-import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../../assets/index.dart';
 
 class ImageEdit extends StatelessWidget {

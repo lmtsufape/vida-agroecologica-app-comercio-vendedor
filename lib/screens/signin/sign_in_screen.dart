@@ -18,7 +18,6 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /**Declare this variable to get the Media Query of the screen in the current context */
     Size size = MediaQuery.of(context).size;
     return MultiProvider(
         providers: [

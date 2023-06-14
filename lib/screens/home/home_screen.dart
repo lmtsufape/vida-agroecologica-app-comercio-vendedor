@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/screens/edit_profile.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/my%20store/my_store_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
@@ -13,7 +10,6 @@ import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-import 'package:thunderapp/shared/core/navigator.dart';
 import 'components/item_card_holder.dart';
 
 class HomeScreen extends StatelessWidget {

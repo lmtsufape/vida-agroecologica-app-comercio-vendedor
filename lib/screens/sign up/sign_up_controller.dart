@@ -1,11 +1,11 @@
-import 'dart:convert';
+
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:thunderapp/screens/sign%20up/sign_up_repository.dart';
@@ -13,7 +13,7 @@ import 'package:thunderapp/screens/sign%20up/sign_up_repository.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 
 import '../../shared/core/image_picker_controller.dart';
-import '../../shared/core/models/bairro_model.dart';
+
 
 class SignUpController extends GetxController {
   int _infoIndex = 0;
@@ -42,6 +42,12 @@ class SignUpController extends GetxController {
   final SignUpRepository signUpRepository =
       SignUpRepository();
   String? _errorMessage = '';
+
+  MaskTextInputFormatter timeFormatter =
+      MaskTextInputFormatter(
+          mask: '##:##:##',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: MaskAutoCompletionType.lazy); 
 
   MaskTextInputFormatter phoneFormatter =
       MaskTextInputFormatter(

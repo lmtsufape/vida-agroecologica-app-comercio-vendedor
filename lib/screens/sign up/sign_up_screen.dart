@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:provider/provider.dart';
 import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
-import 'package:thunderapp/components/forms/custom_text_form_field.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/sign%20up/sign_up_controller.dart';
-import 'package:thunderapp/screens/signin/sign_in_controller.dart';
 import 'package:thunderapp/shared/components/dialogs/default_alert_dialog.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-
 import '../../shared/constants/app_enums.dart';
 import '../../shared/core/navigator.dart';
-import '../start/start_controller.dart';
 import 'components/info_first_screen.dart';
 import 'components/info_fourth_screen.dart';
 import 'components/info_second_screen.dart';

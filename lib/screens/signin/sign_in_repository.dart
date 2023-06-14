@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 

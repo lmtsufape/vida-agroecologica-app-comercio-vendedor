@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +6,7 @@ import '../../../components/utils/vertical_spacer_box.dart';
 import '../../../shared/constants/app_enums.dart';
 import '../sign_up_controller.dart';
 
+// ignore: must_be_immutable
 class InfoFirstScreen extends StatelessWidget {
   late SignUpController controller;
   InfoFirstScreen(this.controller, {super.key});

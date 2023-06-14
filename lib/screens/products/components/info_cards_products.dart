@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class InfoCards extends StatelessWidget {

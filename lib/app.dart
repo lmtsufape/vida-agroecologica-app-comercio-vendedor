@@ -4,11 +4,9 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
 import 'package:thunderapp/screens/edit_products/add_products_screen.dart';
-import 'package:thunderapp/screens/my%20store/my_store_screen.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
 import 'package:thunderapp/screens/payments/payments_screen.dart';
 import 'package:thunderapp/screens/products/products_screen.dart';
-import 'package:thunderapp/screens/report/report_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/sign%20up/sign_up_screen.dart';
 import 'package:thunderapp/screens/start/start_screen.dart';
@@ -65,15 +63,15 @@ class App extends StatelessWidget {
             const HomeScreen(),
         Screens.signin: (BuildContext context) =>
             const SignInScreen(),
-        Screens.signUp: (context) => SignUpScreen(),
+        Screens.signUp: (context) => const SignUpScreen(),
         //Screens.myStore: (context) => MyStoreScreen(),
-        Screens.orders: (context) => OrdersScreen(),
+        Screens.orders: (context) => const OrdersScreen(),
         Screens.orderDetail: (context) =>
-            OrderDetailScreen(),
-        Screens.payments: (context) => PaymentsScreen(),
-        Screens.products: (context) => ProductsScreen(),
+            const OrderDetailScreen(),
+        Screens.payments: (context) => const PaymentsScreen(),
+        Screens.products: (context) => const ProductsScreen(),
         Screens.editProducts: (context) =>
-            AddProductsScreen(),
+            const AddProductsScreen(),
       },
     );
   }
