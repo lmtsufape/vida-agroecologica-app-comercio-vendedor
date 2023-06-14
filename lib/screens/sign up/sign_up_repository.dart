@@ -130,6 +130,7 @@ class SignUpRepository {
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
+
                         title: 'Sucesso',
                         body:
                             'Cadastro realizado com sucesso',
@@ -145,16 +146,18 @@ class SignUpRepository {
             } else {
               formasPagamento = '';
               checkItems = [];
+              // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
-                  builder: (context) =>
-                      DefaultAlertDialogOneButton(
-                          title: 'Erro',
-                          body:
-                              'Ocorreu um erro, verifique os campos e tente novamente',
-                          onConfirm: () {},
-                          confirmText: 'ok',
-                          buttonColor: kAlertColor));
+
+                  builder: (context) => DefaultAlertDialogOneButton(
+                      title: 'Erro',
+                      body:
+                          'Ocorreu um erro, verifique os campos e tente novamente',
+                      onConfirm: () {},
+                      confirmText: 'ok',
+                      buttonColor: kAlertColor));
+
 
               return false;
             }

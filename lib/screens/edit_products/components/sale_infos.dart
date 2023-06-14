@@ -17,6 +17,14 @@ class _SaleInfosState extends State<SaleInfos> {
   AddProductsController controller =
       AddProductsController();
   double profit = 0.0;
+
+  @override
+  void initState() {
+    controller.costController.text = 'R\$ 2,68';
+    controller.saleController.text = 'R\$ 4,68';
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
