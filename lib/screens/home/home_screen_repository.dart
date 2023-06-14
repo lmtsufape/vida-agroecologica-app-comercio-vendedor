@@ -29,7 +29,8 @@ class HomeScreenRepository {
                 .toString(),
             response.data["Banca"]["horario_fechamento"]
                 .toString(),
-            response.data["Banca"]["preco_min"].toString(),
+            response.data["Banca"]["preco_minimo"]
+                .toString(),
             response.data["Banca"]["tipo_entrega"]
                 .toString(),
             response.data["Banca"]["id"].toString());

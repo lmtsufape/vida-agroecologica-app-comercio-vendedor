@@ -53,6 +53,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const Spacer(),
                     Center(
                       child: Text(
+                        //Esse infoIndex é o index do PageView que está no controller,
+                        // ao clicar no botão próximo ele vai para o próximo index e a partr disso muda o texto
                         controller.infoIndex == 0
                             ? 'Cadastro'
                             : controller.infoIndex == 1
@@ -66,6 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const VerticalSpacerBox(size: SpacerSize.huge),
                     Form(
                       child: Column(
+                        // Essa lista de children é para o PageView, 
+                        //cada index do PageView tem um children diferente que é um componente de cadastro diferente,
+                        // cada um com seus campos
                           children: controller.infoIndex == 0
                               ? [
                                   InfoFirstScreen(controller),
@@ -89,6 +94,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ? PrimaryButton(
                                 text: 'Próximo',
                                 onPressed: () {
+                                  //Ele verifca a força da senha, se for menor que 1/2 ele não deixa ir para o próximo index
+                                  //Importante adicionar depois uma lógica que deixe o botão cinza quando a senha for menor que 1/2
                                   controller.strength < 1 / 2
                                       ? () => null
                                       : controller.next();

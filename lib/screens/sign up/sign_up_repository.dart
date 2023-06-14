@@ -25,6 +25,9 @@ class SignUpRepository {
   UserStorage userStorage = UserStorage();
   BairroModel bairroModel = BairroModel();
 
+  //Essa é a função de cadastro, primeiramente ela faz o cadastro do produtor, depois faz o cadastro da banca,
+  // caso o cadastro da banca dê errado, o cadastro do produtor é deletado para evitar inconsistências no banco
+
   Future<bool> signUp(
       String name,
       String email,
@@ -44,6 +47,11 @@ class SignUpRepository {
       String? imgPath,
       List<bool> isSelected,
       BuildContext context) async {
+    
+    //Verifica se o usuário selecionou alguma forma de pagamento e seta a variável formasPagamento
+    // a partir do checkItems, ele percorre o isSelected e verifica quais estão true,
+    // e adiciona o valor de i + 1 no checkItems o i + 1 é o id da forma de pagamento, em seguida
+    // ele percorre o checkItems e adiciona o valor de cada item no formasPagamento
     if (formasPagamento == '' && checkItems.isEmpty) {
       for (int i = 0; i < isSelected.length; i++) {
         if (isSelected[i] == true) {
@@ -55,16 +63,17 @@ class SignUpRepository {
         formasPagamento += '${checkItems[i]},';
       }
 
-      formasPagamento =
-          formasPagamento.substring(0, formasPagamento.length - 1);
+      formasPagamento = formasPagamento.substring(
+          0, formasPagamento.length - 1);
     }
-    print(formasPagamento);
     try {
-      Response response = await _dio.post('$kBaseURL/produtores',
-          options: Options(headers: {
-            'Content-Type': 'application/json',
-          }),
-          data: {
+      //Efetua a chamada da API para o cadastro do produtor
+      Response response =
+          await _dio.post('$kBaseURL/produtores',
+              options: Options(headers: {
+                'Content-Type': 'application/json',
+              }),
+              data: {
             "name": name,
             "email": email,
             "password": password,
@@ -79,8 +88,13 @@ class SignUpRepository {
             "distancia_semana": 200.15
           });
       if (response.statusCode == 201) {
-        String emailProdutor = response.data["produtor"]["email"];
-        String idProdutor = response.data["produtor"]["papel_id"].toString();
+        //Caso o cadastro do produtor dê certo, ele pega o email do produtor e faz o login para pegar o token,
+        // depois ele faz o cadastro da banca
+        String emailProdutor =
+            response.data["produtor"]["email"];
+        String idProdutor = response.data["produtor"]
+                ["papel_id"]
+            .toString();
         log('idProdutor: $idProdutor');
         try {
           Response login = await _dio.post(
@@ -91,14 +105,17 @@ class SignUpRepository {
             },
           );
           if (login.statusCode == 200) {
-            String userToken = login.data['user']['token'].toString();
+            String userToken =
+                login.data['user']['token'].toString();
             userStorage.saveUserCredentials(
                 nome: login.data['user']['nome'],
                 email: login.data['user']['email'],
                 token: userToken,
                 id: login.data['user']['id'].toString(),
-                papel: login.data['user']['papel_id'].toString(),
-                papelId: login.data['user']['papel_id'].toString());
+                papel: login.data['user']['papel_id']
+                    .toString(),
+                papelId: login.data['user']['papel_id']
+                    .toString());
 
             if (await signUpBanca(
                 idProdutor,
@@ -115,11 +132,13 @@ class SignUpRepository {
                   builder: (context) => DefaultAlertDialog(
 
                         title: 'Sucesso',
-                        body: 'Cadastro realizado com sucesso',
+                        body:
+                            'Cadastro realizado com sucesso',
                         cancelText: 'Ok',
                         confirmText: 'Ok',
-                        onConfirm: () => Navigator.pushReplacementNamed(
-                            context, Screens.home),
+                        onConfirm: () =>
+                            Navigator.pushReplacementNamed(
+                                context, Screens.home),
                         confirmColor: kSuccessColor,
                         cancelColor: kErrorColor,
                       ));
@@ -138,6 +157,7 @@ class SignUpRepository {
                       onConfirm: () {},
                       confirmText: 'ok',
                       buttonColor: kAlertColor));
+
 
               return false;
             }
@@ -164,7 +184,8 @@ class SignUpRepository {
           context: context,
           builder: (context) => DefaultAlertDialogOneButton(
                 title: 'Erro',
-                body: 'Ocorreu um erro, verifique os campos e tente novamente',
+                body:
+                    'Ocorreu um erro, verifique os campos e tente novamente',
                 onConfirm: () {},
                 confirmText: 'ok',
                 buttonColor: kAlertColor,
@@ -182,11 +203,6 @@ class SignUpRepository {
       String precoMin,
       bool entrega,
       String? imgPath) async {
-    print(nomeBanca);
-    print(horarioAbertura);
-    print(horarioFechamento);
-    print(precoMin);
-    print(imgPath!.split("\\").last.toString());
     String tipoEntega = '';
     try {
       if (entrega == true) {
@@ -194,8 +210,7 @@ class SignUpRepository {
       } else {
         tipoEntega = 'RETIRADA';
       }
-      print(tipoEntega);
-      print(formasPagamento);
+      // cria o body para o cadastro da banca, como a imagem é um arquivo, é necessário usar o MultipartFile
       final body = FormData.fromMap({
         "nome": nomeBanca,
         "descricao": "loja",
@@ -206,7 +221,7 @@ class SignUpRepository {
         "tipo_entrega": tipoEntega,
         "imagem": await MultipartFile.fromFile(
           imgPath.toString(),
-          filename: imgPath.split("\\").last,
+          filename: imgPath!.split("\\").last,
         ),
         "formas pagamento": formasPagamento,
       });
@@ -232,8 +247,17 @@ class SignUpRepository {
     } catch (e) {
       formasPagamento = '';
       checkItems = [];
-      log(e.toString());
       deleteUserInfo(idProdutor, userToken);
+      if (e is DioError) {
+        final dioError = e;
+        if (dioError.response != null) {
+          final errorMessage =
+              dioError.response!.data['errors'];
+          print('Erro: $errorMessage');
+          print("Erro ${e.toString()}");
+          return false;
+        }
+      }
       return false;
     }
   }
@@ -242,8 +266,11 @@ class SignUpRepository {
     UserStorage userStorage = UserStorage();
     userStorage.clearUserCredentials();
     try {
-      Response response = await _dio.delete('$kBaseURL/produtores/$id',
-          options: Options(headers: {"Authorization": "Bearer $userToken"}));
+      Response response = await _dio.delete(
+          '$kBaseURL/produtores/$id',
+          options: Options(headers: {
+            "Authorization": "Bearer $userToken"
+          }));
       if (response.statusCode == 204) {
         log('deletado com sucesso');
       } else {
@@ -254,7 +281,15 @@ class SignUpRepository {
     } catch (e) {
       formasPagamento = '';
       checkItems = [];
-      log('Erro ao deletar ${e.toString()}');
+      if (e is DioError) {
+        final dioError = e;
+        if (dioError.response != null) {
+          final errorMessage =
+              dioError.response!.data['errors'];
+          print('Erro: $errorMessage');
+          print("Erro ${e.toString()}");
+        }
+      }
     }
   }
 // Future<List<BairroModel>> getbairros() async {
