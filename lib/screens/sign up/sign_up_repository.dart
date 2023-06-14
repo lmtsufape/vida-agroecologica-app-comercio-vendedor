@@ -25,6 +25,9 @@ class SignUpRepository {
   UserStorage userStorage = UserStorage();
   BairroModel bairroModel = BairroModel();
 
+  //Essa é a função de cadastro, primeiramente ela faz o cadastro do produtor, depois faz o cadastro da banca,
+  // caso o cadastro da banca dê errado, o cadastro do produtor é deletado para evitar inconsistências no banco
+
   Future<bool> signUp(
       String name,
       String email,
@@ -44,6 +47,11 @@ class SignUpRepository {
       String? imgPath,
       List<bool> isSelected,
       BuildContext context) async {
+    
+    //Verifica se o usuário selecionou alguma forma de pagamento e seta a variável formasPagamento
+    // a partir do checkItems, ele percorre o isSelected e verifica quais estão true,
+    // e adiciona o valor de i + 1 no checkItems o i + 1 é o id da forma de pagamento, em seguida
+    // ele percorre o checkItems e adiciona o valor de cada item no formasPagamento
     if (formasPagamento == '' && checkItems.isEmpty) {
       for (int i = 0; i < isSelected.length; i++) {
         if (isSelected[i] == true) {
@@ -58,8 +66,8 @@ class SignUpRepository {
       formasPagamento = formasPagamento.substring(
           0, formasPagamento.length - 1);
     }
-    print(formasPagamento);
     try {
+      //Efetua a chamada da API para o cadastro do produtor
       Response response =
           await _dio.post('$kBaseURL/produtores',
               options: Options(headers: {
@@ -80,6 +88,8 @@ class SignUpRepository {
             "distancia_semana": 200.15
           });
       if (response.statusCode == 201) {
+        //Caso o cadastro do produtor dê certo, ele pega o email do produtor e faz o login para pegar o token,
+        // depois ele faz o cadastro da banca
         String emailProdutor =
             response.data["produtor"]["email"];
         String idProdutor = response.data["produtor"]
@@ -190,11 +200,6 @@ class SignUpRepository {
       String precoMin,
       bool entrega,
       String? imgPath) async {
-    print(nomeBanca);
-    print(horarioAbertura);
-    print(horarioFechamento);
-    print(precoMin);
-    print(imgPath!.split("\\").last.toString());
     String tipoEntega = '';
     try {
       if (entrega == true) {
@@ -202,8 +207,7 @@ class SignUpRepository {
       } else {
         tipoEntega = 'RETIRADA';
       }
-      print(tipoEntega);
-      print(formasPagamento);
+      // cria o body para o cadastro da banca, como a imagem é um arquivo, é necessário usar o MultipartFile
       final body = FormData.fromMap({
         "nome": nomeBanca,
         "descricao": "loja",
@@ -214,7 +218,7 @@ class SignUpRepository {
         "tipo_entrega": tipoEntega,
         "imagem": await MultipartFile.fromFile(
           imgPath.toString(),
-          filename: imgPath.split("\\").last,
+          filename: imgPath!.split("\\").last,
         ),
         "formas pagamento": formasPagamento,
       });

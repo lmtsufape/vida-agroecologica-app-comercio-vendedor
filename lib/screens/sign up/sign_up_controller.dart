@@ -153,11 +153,13 @@ class SignUpController extends GetxController {
 
   File? get selectedImage => _selectedImage;
 
+  //Esse setter é responsável por setar a imagem selecionada e atualizar a tela,
   set selectedImage(File? value) {
     _selectedImage = value;
     update();
   }
 
+  //Essa função é responsável por pegar a imagem da câmera e setar o caminho da imagem,
   Future selectImageCam() async {
     File? file =
         await _imagePickerController.pickImageFromCamera();
@@ -172,6 +174,7 @@ class SignUpController extends GetxController {
     update();
   }
 
+  //Essa função é responsável por pegar a imagem da galeria e setar o caminho da imagem,
   Future selectImage() async {
     File? file =
         await _imagePickerController.pickImageFromGalery();
