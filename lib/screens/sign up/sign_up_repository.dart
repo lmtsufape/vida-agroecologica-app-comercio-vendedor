@@ -55,16 +55,17 @@ class SignUpRepository {
         formasPagamento += '${checkItems[i]},';
       }
 
-      formasPagamento =
-          formasPagamento.substring(0, formasPagamento.length - 1);
+      formasPagamento = formasPagamento.substring(
+          0, formasPagamento.length - 1);
     }
     print(formasPagamento);
     try {
-      Response response = await _dio.post('$kBaseURL/produtores',
-          options: Options(headers: {
-            'Content-Type': 'application/json',
-          }),
-          data: {
+      Response response =
+          await _dio.post('$kBaseURL/produtores',
+              options: Options(headers: {
+                'Content-Type': 'application/json',
+              }),
+              data: {
             "name": name,
             "email": email,
             "password": password,
@@ -79,8 +80,11 @@ class SignUpRepository {
             "distancia_semana": 200.15
           });
       if (response.statusCode == 201) {
-        String emailProdutor = response.data["produtor"]["email"];
-        String idProdutor = response.data["produtor"]["papel_id"].toString();
+        String emailProdutor =
+            response.data["produtor"]["email"];
+        String idProdutor = response.data["produtor"]
+                ["papel_id"]
+            .toString();
         log('idProdutor: $idProdutor');
         try {
           Response login = await _dio.post(
@@ -91,14 +95,17 @@ class SignUpRepository {
             },
           );
           if (login.statusCode == 200) {
-            String userToken = login.data['user']['token'].toString();
+            String userToken =
+                login.data['user']['token'].toString();
             userStorage.saveUserCredentials(
                 nome: login.data['user']['nome'],
                 email: login.data['user']['email'],
                 token: userToken,
                 id: login.data['user']['id'].toString(),
-                papel: login.data['user']['papel_id'].toString(),
-                papelId: login.data['user']['papel_id'].toString());
+                papel: login.data['user']['papel_id']
+                    .toString(),
+                papelId: login.data['user']['papel_id']
+                    .toString());
 
             if (await signUpBanca(
                 idProdutor,
@@ -114,11 +121,13 @@ class SignUpRepository {
                   context: context,
                   builder: (context) => DefaultAlertDialog(
                         title: 'Sucesso',
-                        body: 'Cadastro realizado com sucesso',
+                        body:
+                            'Cadastro realizado com sucesso',
                         cancelText: 'Ok',
                         confirmText: 'Ok',
-                        onConfirm: () => Navigator.pushReplacementNamed(
-                            context, Screens.home),
+                        onConfirm: () =>
+                            Navigator.pushReplacementNamed(
+                                context, Screens.home),
                         confirmColor: kSuccessColor,
                         cancelColor: kErrorColor,
                       ));
@@ -128,13 +137,14 @@ class SignUpRepository {
               checkItems = [];
               showDialog(
                   context: context,
-                  builder: (context) => DefaultAlertDialogOneButton(
-                      title: 'Erro',
-                      body:
-                          'Ocorreu um erro, verifique os campos e tente novamente',
-                      onConfirm: () {},
-                      confirmText: 'ok',
-                      buttonColor: kAlertColor));
+                  builder: (context) =>
+                      DefaultAlertDialogOneButton(
+                          title: 'Erro',
+                          body:
+                              'Ocorreu um erro, verifique os campos e tente novamente',
+                          onConfirm: () {},
+                          confirmText: 'ok',
+                          buttonColor: kAlertColor));
 
               return false;
             }
@@ -161,7 +171,8 @@ class SignUpRepository {
           context: context,
           builder: (context) => DefaultAlertDialogOneButton(
                 title: 'Erro',
-                body: 'Ocorreu um erro, verifique os campos e tente novamente',
+                body:
+                    'Ocorreu um erro, verifique os campos e tente novamente',
                 onConfirm: () {},
                 confirmText: 'ok',
                 buttonColor: kAlertColor,
@@ -229,8 +240,17 @@ class SignUpRepository {
     } catch (e) {
       formasPagamento = '';
       checkItems = [];
-      log(e.toString());
       deleteUserInfo(idProdutor, userToken);
+      if (e is DioError) {
+        final dioError = e;
+        if (dioError.response != null) {
+          final errorMessage =
+              dioError.response!.data['errors'];
+          print('Erro: $errorMessage');
+          print("Erro ${e.toString()}");
+          return false;
+        }
+      }
       return false;
     }
   }
@@ -239,8 +259,11 @@ class SignUpRepository {
     UserStorage userStorage = UserStorage();
     userStorage.clearUserCredentials();
     try {
-      Response response = await _dio.delete('$kBaseURL/produtores/$id',
-          options: Options(headers: {"Authorization": "Bearer $userToken"}));
+      Response response = await _dio.delete(
+          '$kBaseURL/produtores/$id',
+          options: Options(headers: {
+            "Authorization": "Bearer $userToken"
+          }));
       if (response.statusCode == 204) {
         log('deletado com sucesso');
       } else {
@@ -251,7 +274,15 @@ class SignUpRepository {
     } catch (e) {
       formasPagamento = '';
       checkItems = [];
-      log('Erro ao deletar ${e.toString()}');
+      if (e is DioError) {
+        final dioError = e;
+        if (dioError.response != null) {
+          final errorMessage =
+              dioError.response!.data['errors'];
+          print('Erro: $errorMessage');
+          print("Erro ${e.toString()}");
+        }
+      }
     }
   }
 // Future<List<BairroModel>> getbairros() async {
