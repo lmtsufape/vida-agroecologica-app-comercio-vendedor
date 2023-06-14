@@ -7,6 +7,7 @@ import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/edit_profile.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
+import 'package:thunderapp/screens/my%20store/my_store_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
@@ -91,7 +92,9 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(context,
                                     MaterialPageRoute(
                                         builder: (context) {
-                                  return EditProfileScreen();
+                                  return MyStoreScreen(
+                                      controller
+                                          .bancaModel!);
                                 }));
                               },
                               icon: const Icon(Icons.edit,
@@ -137,7 +140,8 @@ class HomeScreen extends StatelessWidget {
                             icon: Icons.bar_chart_rounded,
                             title: 'Relatório',
                             onTap: () {
-                              Navigator.pushNamed(context, Screens.report);
+                              Navigator.pushNamed(
+                                  context, Screens.report);
                             },
                           ),
                         ],

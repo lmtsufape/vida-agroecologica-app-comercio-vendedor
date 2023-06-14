@@ -1,3 +1,4 @@
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -6,79 +7,214 @@ import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
+import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/models/banca_model.dart';
 
-class MyStoreScreen extends StatelessWidget {
-  const MyStoreScreen({Key? key}) : super(key: key);
+import '../../components/forms/custom_text_form_field.dart';
+import '../../shared/components/dialogs/default_alert_dialog.dart';
+import 'components/circle_image_profile.dart';
 
+class MyStoreScreen extends StatefulWidget {
+  BancaModel? bancaModel;
+
+  MyStoreScreen(this.bancaModel, {Key? key})
+      : super(key: key);
+
+  @override
+  State<MyStoreScreen> createState() =>
+      _MyStoreScreenState();
+}
+
+class _MyStoreScreenState extends State<MyStoreScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return GetBuilder<HomeScreenController>(
-        init: HomeScreenController(),
+    return GetBuilder<MyStoreController>(
+        init: MyStoreController(),
         builder: (controller) => Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'Minha loja',
-                  style: kTitle2,
-                ),
+            appBar: AppBar(
+              title: const Text(
+                'Minha Loja',
+                style: kTitle2,
               ),
-              body: Container(
+            ),
+            body: Container(
                 width: size.width,
                 height: size.height,
                 padding:
                     const EdgeInsets.all(kDefaultPadding),
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 28.0, horizontal: 14),
-                      child: Row(
-                        children: <Widget>[
-                          CircleAvatar(
-                            radius: 38,
-                          ),
-                          const HorizontalSpacerBox(
-                              size: SpacerSize.small),
-                          Text(controller.bancaModel!.nome,
-                              style: kBody2),
-                          const Spacer(),
-                          IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.edit,
-                                  color: kBackgroundColor)),
-                        ],
-                      ),
+                  children: [
+                    Center(
+                      child: CircleImageProfile(controller),
                     ),
-                    // Expanded(
-                    //     child: GridView.count(
-                    //   crossAxisCount: 2,
-                    //   children: [
-                    //     ItemCardHolder(
-                    //       icon: Icons.storefront,
-                    //       title: 'Produtos',
-                    //     ),
-                    //     ItemCardHolder(
-                    //       icon: Icons.list_alt_sharp,
-                    //       title: 'Pedidos',
-                    //     ),
-                    //     ItemCardHolder(
-                    //       icon: Icons.credit_card,
-                    //       title: 'Pagamentos',
-                    //     ),
-                    //     ItemCardHolder(
-                    //       icon: Icons.bar_chart_rounded,
-                    //       title: 'Relatório',
-                    //     ),
-                    //   ],
-                    // )),
+                    CustomTextFormField(
+                      hintText: widget.bancaModel!.nome,
+                      icon: Icons.person,
+                      controller:
+                          controller.nomeBancaController,
+                    ),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.small),
+                    SizedBox(
+                      width: size.width * 0.81,
+                      child: Text(
+                          'Horário de Funcionamento',
+                          style: kTitle1.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: kSecondaryColor)),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DateTimePicker(
+                            type: DateTimePickerType.time,
+                            timeLabelText: "Abertura",
+                            controller: controller
+                                .horarioAberturaController,
+                            use24HourFormat: true,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: widget.bancaModel!
+                                  .horarioAbertura,
+                              prefixIcon: Icon(Icons.alarm),
+                            ),
+                            onChanged: (val) => print(val),
+                            validator: (val) {
+                              return null;
+                            },
+                            onSaved: (val) => print(val),
+                          ),
+                        ),
+                        const VerticalSpacerBox(
+                            size: SpacerSize.small),
+                        Expanded(
+                          child: DateTimePicker(
+                            type: DateTimePickerType.time,
+                            timeLabelText: "Fechamento",
+                            locale:
+                                const Locale('pt', 'BR'),
+                            controller: controller
+                                .horarioFechamentoController,
+                            use24HourFormat: true,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: widget.bancaModel!
+                                  .horarioFechamento,
+                              prefixIcon:
+                                  Icon(Icons.alarm_off),
+                            ),
+                            onChanged: (val) => print(val),
+                            validator: (val) {
+                              return null;
+                            },
+                            onSaved: (val) => print(val),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: size.width * 0.81,
+                      child: Text('Formas de Pagamento',
+                          style: kTitle1.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: kSecondaryColor)),
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: CheckboxListTile(
+                            value: controller.isSelected[0],
+                            title: Text(
+                                controller.checkItems[0]),
+                            checkboxShape:
+                                const CircleBorder(),
+                            controlAffinity:
+                                ListTileControlAffinity
+                                    .leading,
+                            onChanged: (value) =>
+                                controller.onItemTapped(0),
+                          ),
+                        ),
+                        Flexible(
+                            child: Padding(
+                                padding: const EdgeInsets
+                                        .symmetric(
+                                    horizontal: 8.0),
+                                child: CheckboxListTile(
+                                  value: controller
+                                      .isSelected[1],
+                                  title: Text(controller
+                                      .checkItems[1]),
+                                  checkboxShape:
+                                      const CircleBorder(),
+                                  controlAffinity:
+                                      ListTileControlAffinity
+                                          .leading,
+                                  onChanged: (value) =>
+                                      controller
+                                          .onItemTapped(1),
+                                ))),
+                      ],
+                    ),
+                    CheckboxListTile(
+                        title: Text('Realiza Entrega?',
+                            style: kTitle1.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: kSecondaryColor)),
+                        value: controller.deliver,
+                        checkboxShape: const CircleBorder(),
+                        onChanged: (bool? value) {
+                          controller.setDeliver(value!);
+                        }),
+                    SizedBox(
+                      width: size.width * 0.81,
+                      child: Text(
+                          'Quantia mínima para entrega',
+                          style: kTitle1.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: kSecondaryColor)),
+                    ),
+                    CustomTextFormField(
+                      hintText: widget.bancaModel!.precoMin
+                          .toString(),
+                      icon: Icons.paid,
+                      controller:
+                          controller.quantiaMinController,
+                    ),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.huge),
+                    PrimaryButton(
+                        text: 'Editar Banca',
+                        onPressed: () {
+                          if (controller
+                              .verifySelectedFields()) {
+                            controller.editBanca(context,
+                                widget.bancaModel!);
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    DefaultAlertDialogOneButton(
+                                      title: 'Erro',
+                                      body:
+                                          'Adicione pelo menos uma forma de pagamento',
+                                      confirmText: 'Ok',
+                                      onConfirm: () =>
+                                          Get.back(),
+                                      buttonColor:
+                                          kAlertColor,
+                                    ));
+                          }
+                        }),
                   ],
-                ),
-              ),
-            ));
+                ))));
   }
 }
