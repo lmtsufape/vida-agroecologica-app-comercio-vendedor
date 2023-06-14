@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
+
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-import '../../../shared/constants/app_enums.dart';
+
 
 class CardProducts extends StatelessWidget {
   const CardProducts({Key? key}) : super(key: key);

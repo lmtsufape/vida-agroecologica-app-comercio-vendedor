@@ -57,10 +57,10 @@ class MyStoreRepository {
           "descricao": "loja",
           "horario_funcionamento": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
-              : '$horarioAbertura:00',
+              : horarioAbertura,
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
-              : '$horarioFechamento:00',
+              : horarioFechamento,
           "funcionamento": "1",
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin.toString()

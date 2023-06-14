@@ -1,8 +1,6 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:thunderapp/screens/edit_products/components/currency_format.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
 
 class CustomCurrencyTextFormField extends StatefulWidget {
   const CustomCurrencyTextFormField(

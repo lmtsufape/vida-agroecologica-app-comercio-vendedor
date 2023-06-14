@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:provider/provider.dart';
-import 'package:thunderapp/assets/index.dart';
 import 'package:thunderapp/screens/edit_products/components/dropdown_add_product.dart';
 import 'package:thunderapp/screens/edit_products/components/dropdown_qtd_add_product.dart';
 import 'package:thunderapp/screens/edit_products/components/elevated_button_add_product.dart';
 import 'package:thunderapp/screens/edit_products/components/image_edit.dart';
 import 'package:thunderapp/screens/edit_products/components/sale_infos.dart';
-import 'package:thunderapp/screens/edit_products/components/stock_add_product.dart';
-import 'package:thunderapp/screens/products/components/add_button.dart';
-import 'package:thunderapp/screens/products/components/card_products.dart';
-import 'package:thunderapp/screens/products/components/search_bar.dart';
-import 'package:thunderapp/screens/products/products_controller.dart';
-import '../../components/utils/vertical_spacer_box.dart';
-import '../../shared/constants/app_enums.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
 

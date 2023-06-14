@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/screens/screens_index.dart';
+
 import 'package:thunderapp/screens/splash/splash_screen_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-import '../../shared/core/assets_index.dart';
-import '../../shared/core/navigator.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:thunderapp/screens/my%20store/my_store_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
@@ -22,6 +23,12 @@ class MyStoreController extends GetxController {
   final List<String> checkItems = ['Dinheiro', 'PIX'];
 
   bool deliver = false;
+
+  MaskTextInputFormatter timeFormatter =
+      MaskTextInputFormatter(
+          mask: '##:##:##',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: MaskAutoCompletionType.lazy);
 
   final TextEditingController _nomeBancaController =
       TextEditingController();

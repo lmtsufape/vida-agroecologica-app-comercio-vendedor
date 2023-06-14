@@ -1,13 +1,13 @@
-import 'dart:convert';
+
 import 'dart:developer';
 
-import 'dart:io';
+
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+
+
 import 'package:thunderapp/screens/signin/sign_in_repository.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
@@ -211,8 +211,8 @@ class SignUpRepository {
       final body = FormData.fromMap({
         "nome": nomeBanca,
         "descricao": "loja",
-        "horario_funcionamento": '$horarioAbertura:00',
-        "horario_fechamento": '$horarioFechamento:00',
+        "horario_funcionamento": horarioAbertura,
+        "horario_fechamento": horarioFechamento,
         "funcionamento": "1",
         "preco_minimo": precoMin,
         "tipo_entrega": tipoEntega,

@@ -5,6 +5,7 @@ import '../../../components/utils/horizontal_spacer_box.dart';
 import '../../../shared/constants/app_enums.dart';
 import '../../../shared/constants/style_constants.dart';
 
+// ignore: must_be_immutable
 class CircleImageProfile extends StatefulWidget {
   late MyStoreController controller;
 

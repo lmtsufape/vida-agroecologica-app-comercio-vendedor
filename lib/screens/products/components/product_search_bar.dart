@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-class SearchBar extends StatelessWidget {
+class ProductSearchBar extends StatelessWidget {
   final TextEditingController controller;
 
   final VoidCallback onSearch;
 
-  const SearchBar({
+  const ProductSearchBar({
     Key? key,
     required this.controller,
     required this.onSearch,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:thunderapp/screens/edit_products/add_products_controller.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'currency_format.dart';
 import '../../../components/forms/custom_currency_form_field.dart';

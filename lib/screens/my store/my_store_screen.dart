@@ -1,22 +1,17 @@
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
-import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
-
 import '../../components/forms/custom_text_form_field.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
 import 'components/circle_image_profile.dart';
 
+// ignore: must_be_immutable
 class MyStoreScreen extends StatefulWidget {
   BancaModel? bancaModel;
 
@@ -71,48 +66,31 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: DateTimePicker(
-                            type: DateTimePickerType.time,
-                            timeLabelText: "Abertura",
+                          child: CustomTextFormField(
+                            hintText: widget.bancaModel!
+                                .horarioAbertura,
+                            keyboardType:
+                                TextInputType.number,
+                            maskFormatter: controller
+                                .timeFormatter,
+                            icon: Icons.alarm_on,
                             controller: controller
                                 .horarioAberturaController,
-                            use24HourFormat: true,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: widget.bancaModel!
-                                  .horarioAbertura,
-                              prefixIcon: Icon(Icons.alarm),
-                            ),
-                            onChanged: (val) => print(val),
-                            validator: (val) {
-                              return null;
-                            },
-                            onSaved: (val) => print(val),
                           ),
                         ),
                         const VerticalSpacerBox(
                             size: SpacerSize.small),
                         Expanded(
-                          child: DateTimePicker(
-                            type: DateTimePickerType.time,
-                            timeLabelText: "Fechamento",
-                            locale:
-                                const Locale('pt', 'BR'),
+                          child: CustomTextFormField(
+                            hintText: widget.bancaModel!
+                                .horarioFechamento,
+                            keyboardType:
+                                TextInputType.number,
+                            maskFormatter: controller
+                                .timeFormatter,
+                            icon: Icons.alarm_off,
                             controller: controller
                                 .horarioFechamentoController,
-                            use24HourFormat: true,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: widget.bancaModel!
-                                  .horarioFechamento,
-                              prefixIcon:
-                                  Icon(Icons.alarm_off),
-                            ),
-                            onChanged: (val) => print(val),
-                            validator: (val) {
-                              return null;
-                            },
-                            onSaved: (val) => print(val),
                           ),
                         ),
                       ],
