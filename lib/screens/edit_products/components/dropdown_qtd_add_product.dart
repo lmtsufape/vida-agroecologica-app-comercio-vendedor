@@ -5,10 +5,10 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 class DropDownQtdAddProduct extends StatelessWidget {
   final dropValue = ValueNotifier('');
   final dropOpcoes = [
-    'Unidade',
+    'Unidade(s)',
+    'Medida',
     'Quilo(s)',
     'Grama(s)',
-    'Litro(s)'
   ];
 
   DropDownQtdAddProduct({Key? key}) : super(key: key);
@@ -36,8 +36,8 @@ class DropDownQtdAddProduct extends StatelessWidget {
               width: size.width * 0.57,
               child: ValueListenableBuilder(
                   valueListenable: dropValue,
-                  builder:
-                      (BuildContext context, String value, _) {
+                  builder: (BuildContext context,
+                      String value, _) {
                     return DropdownButtonFormField<String>(
                       isExpanded: true,
                       decoration: const InputDecoration(
@@ -58,8 +58,8 @@ class DropDownQtdAddProduct extends StatelessWidget {
                       ),
                       hint: Text('Unidade'),
                       value: (value.isEmpty) ? null : value,
-                      onChanged: (escolha) =>
-                          dropValue.value = escolha.toString(),
+                      onChanged: (escolha) => dropValue
+                          .value = escolha.toString(),
                       items: dropOpcoes
                           .map(
                             (op) => DropdownMenuItem(
@@ -73,7 +73,7 @@ class DropDownQtdAddProduct extends StatelessWidget {
             ),
           ],
         ),
-        StockAddProduct(),
+        StockAddProduct(dropValue.value),
       ],
     );
   }

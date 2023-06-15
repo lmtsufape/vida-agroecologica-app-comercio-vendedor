@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+
+import 'package:thunderapp/screens/edit_products/add_products_controller.dart';
+
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
+import '../../../components/forms/custom_text_form_field.dart';
+
 class StockAddProduct extends StatelessWidget {
-  const StockAddProduct({Key? key}) : super(key: key);
+  final String? value;
+
+  const StockAddProduct(this.value, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AddProductsController controller =
+        AddProductsController();
     Size size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -16,7 +26,10 @@ class StockAddProduct extends StatelessWidget {
               color: kPrimaryColor,
               fontSize: size.height * 0.017),
         ),
-        Divider(height: size.height * 0.005, color: Colors.transparent,),
+        Divider(
+          height: size.height * 0.005,
+          color: Colors.transparent,
+        ),
         SizedBox(
           height: size.height * 0.06,
           width: size.width * 0.25,
@@ -25,15 +38,12 @@ class StockAddProduct extends StatelessWidget {
             color: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6),
-                side: const BorderSide(color: kTextButtonColor)),
+                side: const BorderSide(
+                    color: kTextButtonColor)),
             child: Align(
                 alignment: Alignment.center,
-                child: Text(
-                  '25',
-                  style: TextStyle(
-                      fontSize: size.height * 0.017,
-                      fontWeight: FontWeight.w700,
-                      color: kPrimaryColor),
+                child: CustomTextFormField(
+                  controller: controller.stockController,
                 )),
           ),
         ),

@@ -6,6 +6,9 @@ import 'package:thunderapp/shared/constants/app_enums.dart';
 class AddProductsController extends GetxController {
   ScreenState screenState = ScreenState.idle;
 
+  final TextEditingController _stockController =
+      TextEditingController();
+
   CurrencyTextInputFormatter currencyFormatter =
       CurrencyTextInputFormatter(
           locale: 'pt-Br', symbol: 'R\$');
@@ -21,6 +24,9 @@ class AddProductsController extends GetxController {
 
   TextEditingController get costController =>
       _costController;
+
+  TextEditingController get stockController =>
+      _stockController;
 
   double changeProfit(String salePrice, String costPrice) {
     salePrice = salePrice
