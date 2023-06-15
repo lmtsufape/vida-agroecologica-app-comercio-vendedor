@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/edit_products/components/stock_add_product.dart';
+import 'package:thunderapp/screens/add_products/components/stock_add_product.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class DropDownQtdAddProduct extends StatelessWidget {

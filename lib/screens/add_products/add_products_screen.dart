@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/edit_products/components/dropdown_add_product.dart';
-import 'package:thunderapp/screens/edit_products/components/dropdown_qtd_add_product.dart';
-import 'package:thunderapp/screens/edit_products/components/elevated_button_add_product.dart';
-import 'package:thunderapp/screens/edit_products/components/image_edit.dart';
-import 'package:thunderapp/screens/edit_products/components/sale_infos.dart';
+import 'package:thunderapp/screens/add_products/components/dropdown_add_product.dart';
+import 'package:thunderapp/screens/add_products/components/dropdown_qtd_add_product.dart';
+import 'package:thunderapp/screens/add_products/components/elevated_button_add_product.dart';
+import 'package:thunderapp/screens/add_products/components/image_edit.dart';
+import 'package:thunderapp/screens/add_products/components/sale_infos.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
-import 'package:thunderapp/screens/edit_products/add_products_screen.dart';
+import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
 import 'package:thunderapp/screens/payments/payments_screen.dart';
 import 'package:thunderapp/screens/products/products_screen.dart';
