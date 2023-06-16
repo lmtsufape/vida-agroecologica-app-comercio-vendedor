@@ -33,9 +33,9 @@ class TransasoesRepository implements ITransacoesRepository {
 
       return transacoes;
     } else if (response.statusCode == 404){
-      throw NotFundException('A url informada é invalida...')
+      throw NotFundException('A url informada é invalida...');
     }else {
-      throw Exception('Não foi possível carregar suas transaões...')
+      throw Exception('Não foi possível carregar suas transaões...');
     }
   }
 
