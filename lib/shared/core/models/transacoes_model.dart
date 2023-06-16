@@ -40,7 +40,7 @@ class TransacoesModel {
             data_pedido: json['data_pedido'], 
             forma_pagamento_id: json['forma_pagamento_id'], 
             id: json['id'], 
-            itens: json['itens'],
+            itens: List<ItenModel>.from( (json['itens'] as List) ),
             produtor_id: json['produtor_id'], 
             status: json['status'], 
             subtotal: json['subtotal'], 
