@@ -1,11 +1,17 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
+import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
 class AddProductsController extends GetxController {
   ScreenState screenState = ScreenState.idle;
-
+  int productId = 0;
+  AddProductsRepository repository =
+      AddProductsRepository();
+  List<TableProductsModel> products = [];
   final TextEditingController _stockController =
       TextEditingController();
 
@@ -36,8 +42,6 @@ class AddProductsController extends GetxController {
         .replaceAll(RegExp(r'[^0-9,.]'), '')
         .replaceAll(',', '.');
 
-    print(salePrice);
-
     double profit = 0.0;
     if (salePrice.isNotEmpty && costPrice.isNotEmpty) {
       profit =
@@ -45,5 +49,17 @@ class AddProductsController extends GetxController {
     }
 
     return profit;
+  }
+
+  void loadTableProducts() async {
+    products = await repository.getProducts();
+    update();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadTableProducts();
+    update();
   }
 }

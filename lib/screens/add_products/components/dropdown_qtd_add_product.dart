@@ -5,10 +5,9 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 class DropDownQtdAddProduct extends StatelessWidget {
   final dropValue = ValueNotifier('');
   final dropOpcoes = [
-    'Unidade(s)',
-    'Medida',
-    'Quilo(s)',
-    'Grama(s)',
+    'unidade',
+    'fracionario',
+    'peso',
   ];
 
   DropDownQtdAddProduct({Key? key}) : super(key: key);

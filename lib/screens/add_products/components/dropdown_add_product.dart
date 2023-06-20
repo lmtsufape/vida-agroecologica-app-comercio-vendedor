@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
+import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
-class DropDownAddProduct extends StatelessWidget {
+class DropDownAddProduct extends StatefulWidget {
+  late AddProductsController controller;
+
+  DropDownAddProduct(this.controller, {Key? key})
+      : super(key: key);
+
+  @override
+  State<DropDownAddProduct> createState() =>
+      _DropDownAddProductState();
+}
+
+class _DropDownAddProductState
+    extends State<DropDownAddProduct> {
   final dropValue = ValueNotifier('');
-
-  DropDownAddProduct({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,60 +37,41 @@ class DropDownAddProduct extends StatelessWidget {
           ),
         ),
         Container(
-          
-          alignment: Alignment.topCenter,
-          width: size.width,
-          height: size.height * 0.06,
-          child: ValueListenableBuilder(
-              valueListenable: dropValue,
-              builder:
-                  (BuildContext context, String value, _) {
-                return FutureBuilder(
-                  future: repository.getProducts(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      List<String> dropOptions =
-                          snapshot.data as List<String>;
-                      return DropdownButtonFormField<
-                          String>(
-                        isExpanded: true,
-                        decoration: const InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(6),
-                            ),
-                            borderSide: BorderSide(
-                                color: kTextButtonColor),
-                          ),
-                        ),
-                        icon: Icon(
-                          Icons.keyboard_arrow_down,
-                          color: kPrimaryColor,
-                          size: size.width * 0.05,
-                        ),
-                        hint: Text('Selecione'),
-                        value:
-                            (value.isEmpty) ? null : value,
-                        onChanged: (escolha) => dropValue
-                            .value = escolha.toString(),
-                        items: dropOptions
-                            .map(
-                              (op) => DropdownMenuItem(
-                                value: op,
-                                child: Text(op),
-                              ),
-                            )
-                            .toList(),
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
+            alignment: Alignment.topCenter,
+            width: size.width,
+            height: size.height * 0.06,
+            child:
+                DropdownButtonFormField<TableProductsModel>(
+              isExpanded: true,
+              decoration: const InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6),
+                  ),
+                  borderSide:
+                      BorderSide(color: kTextButtonColor),
+                ),
+              ),
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+                color: kPrimaryColor,
+                size: size.width * 0.05,
+              ),
+              hint: Text('Selecione'),
+              value: null,
+              items: widget.controller.products.map((obj) {
+                return DropdownMenuItem<TableProductsModel>(
+                  value: obj,
+                  child: Text(obj.nome.toString()),
                 );
-              }),
-        ),
+              }).toList(),
+              onChanged: (selectedObj) {
+                widget.controller.productId =
+                    selectedObj!.id!;
+              },
+            )),
       ],
     );
   }
