@@ -11,7 +11,7 @@ class AddProductsController extends GetxController {
 
   // Informações para o post de cadastro de produtos.
 
-  String description = '';
+  String? description;
   String measure = 'unidade';
   int stock = 0;
   double salePrice = 0.0;
@@ -63,6 +63,16 @@ class AddProductsController extends GetxController {
 
   void setProductId(int? value) {
     productId = value;
+    update();
+  }
+
+  void setDescription(String? value) {
+    description = value;
+    update();
+  }
+
+  void setMeasure(String value) {
+    measure = value;
     update();
   }
 
