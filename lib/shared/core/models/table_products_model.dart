@@ -23,11 +23,11 @@ class TableProductsModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =
         new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['nome'] = this.nome;
-    data['categoria'] = this.categoria;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['nome'] = nome;
+    data['categoria'] = categoria;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

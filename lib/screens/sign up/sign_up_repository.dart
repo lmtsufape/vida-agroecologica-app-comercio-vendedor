@@ -18,7 +18,7 @@ import '../../shared/core/models/bairro_model.dart';
 import '../screens_index.dart';
 
 class SignUpRepository {
-  Dio _dio = Dio();
+  final Dio _dio = Dio();
   SignInRepository signInRepository = SignInRepository();
   List<String> checkItems = [];
   String formasPagamento = '';

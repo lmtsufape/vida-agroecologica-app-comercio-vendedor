@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';

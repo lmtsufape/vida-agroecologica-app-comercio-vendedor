@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/forms/custom_text_form_field.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
@@ -13,7 +11,7 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Informações do perfil'),
+        title: const Text('Informações do perfil'),
       ),
       body: Container(
         width: double.infinity,
@@ -21,7 +19,7 @@ class EditProfileScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Center(
+            const Center(
               child: CircleAvatar(
                 radius: 60,
               ),
@@ -29,23 +27,23 @@ class EditProfileScreen extends StatelessWidget {
             Center(
               child: TextButton(
                   onPressed: () {},
-                  child: Text('Editar foto')),
+                  child: const Text('Editar foto')),
             ),
-            Text(
+            const Text(
               'Nome',
               style: kBody2,
             ),
-            CustomTextFormField(
+            const CustomTextFormField(
               label: 'João',
             ),
-            Text(
+            const Text(
               'Endereço',
               style: kBody2,
             ),
-            CustomTextFormField(
+            const CustomTextFormField(
               label: 'João',
             ),
-            Text(
+            const Text(
               'Forma de envio',
               style: kBody2,
             ),
@@ -53,17 +51,17 @@ class EditProfileScreen extends StatelessWidget {
               children: [
                 Checkbox(
                     value: false, onChanged: (value) {}),
-                Text('Retirada'),
+                const Text('Retirada'),
               ],
             ),
             Row(
               children: [
                 Checkbox(
                     value: false, onChanged: (value) {}),
-                Text('Entrega'),
+                const Text('Entrega'),
               ],
             ),
-            Text(
+            const Text(
               'Forma de Pagamento',
               style: kBody2,
             ),
@@ -71,24 +69,24 @@ class EditProfileScreen extends StatelessWidget {
               children: [
                 Checkbox(
                     value: false, onChanged: (value) {}),
-                Text('Dinheiro'),
+                const Text('Dinheiro'),
               ],
             ),
             Row(
               children: [
                 Checkbox(
                     value: false, onChanged: (value) {}),
-                Text('PIX'),
+                const Text('PIX'),
               ],
             ),
             Row(
               children: [
                 Checkbox(
                     value: false, onChanged: (value) {}),
-                Text('Cartão'),
+                const Text('Cartão'),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             PrimaryButton(text: 'Salvar', onPressed: () {})
           ],
         ),

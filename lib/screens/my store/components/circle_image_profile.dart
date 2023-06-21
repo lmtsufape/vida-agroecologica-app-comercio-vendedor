@@ -65,7 +65,7 @@ class _CircleImageProfileState
 }
 
 Widget bottomSheet(MyStoreController controller) {
-  MyStoreController _controller = controller;
+  MyStoreController controller0 = controller;
   return Container(
     height: 100.0,
     width: 100,
@@ -90,7 +90,7 @@ Widget bottomSheet(MyStoreController controller) {
               ElevatedButton.icon(
                 icon: const Icon(Icons.camera),
                 onPressed: () {
-                  _controller.selectImageCam();
+                  controller0.selectImageCam();
                 },
                 label: const Text("Camera"),
               ),
@@ -99,7 +99,7 @@ Widget bottomSheet(MyStoreController controller) {
               ElevatedButton.icon(
                 icon: const Icon(Icons.image),
                 onPressed: () {
-                  _controller.selectImage();
+                  controller0.selectImage();
                 },
                 label: const Text("Gallery"),
               ),

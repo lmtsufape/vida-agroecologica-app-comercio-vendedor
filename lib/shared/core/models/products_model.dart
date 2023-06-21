@@ -5,15 +5,15 @@ class ProductsModel {
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
     produto = json['produto'] != null
-        ? new Produto.fromJson(json['produto'])
+        ? Produto.fromJson(json['produto'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =
-        new Map<String, dynamic>();
-    if (this.produto != null) {
-      data['produto'] = this.produto!.toJson();
+        <String, dynamic>{};
+    if (produto != null) {
+      data['produto'] = produto!.toJson();
     }
     return data;
   }
@@ -59,33 +59,33 @@ class Produto {
     createdAt = json['created_at'];
     id = json['id'];
     produtoTabelado = json['produto_tabelado'] != null
-        ? new ProdutoTabelado.fromJson(
+        ? ProdutoTabelado.fromJson(
             json['produto_tabelado'])
         : null;
     banca = json['banca'] != null
-        ? new Banca.fromJson(json['banca'])
+        ? Banca.fromJson(json['banca'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =
-        new Map<String, dynamic>();
-    data['descricao'] = this.descricao;
-    data['tipo_unidade'] = this.tipoUnidade;
-    data['estoque'] = this.estoque;
-    data['preco'] = this.preco;
-    data['custo'] = this.custo;
-    data['banca_id'] = this.bancaId;
-    data['produto_tabelado_id'] = this.produtoTabeladoId;
-    data['updated_at'] = this.updatedAt;
-    data['created_at'] = this.createdAt;
-    data['id'] = this.id;
-    if (this.produtoTabelado != null) {
+        <String, dynamic>{};
+    data['descricao'] = descricao;
+    data['tipo_unidade'] = tipoUnidade;
+    data['estoque'] = estoque;
+    data['preco'] = preco;
+    data['custo'] = custo;
+    data['banca_id'] = bancaId;
+    data['produto_tabelado_id'] = produtoTabeladoId;
+    data['updated_at'] = updatedAt;
+    data['created_at'] = createdAt;
+    data['id'] = id;
+    if (produtoTabelado != null) {
       data['produto_tabelado'] =
-          this.produtoTabelado!.toJson();
+          produtoTabelado!.toJson();
     }
-    if (this.banca != null) {
-      data['banca'] = this.banca!.toJson();
+    if (banca != null) {
+      data['banca'] = banca!.toJson();
     }
     return data;
   }
@@ -94,7 +94,8 @@ class Produto {
 class ProdutoTabelado {
   int? id;
   String? nome;
-  Null? categoria;
+  // ignore: prefer_void_to_null
+  Null categoria;
   String? createdAt;
   String? updatedAt;
 
@@ -115,12 +116,12 @@ class ProdutoTabelado {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =
-        new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['nome'] = this.nome;
-    data['categoria'] = this.categoria;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+        <String, dynamic>{};
+    data['id'] = id;
+    data['nome'] = nome;
+    data['categoria'] = categoria;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -158,16 +159,16 @@ class Banca {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =
-        new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['nome'] = this.nome;
-    data['descricao'] = this.descricao;
+        <String, dynamic>{};
+    data['id'] = id;
+    data['nome'] = nome;
+    data['descricao'] = descricao;
     data['horario_funcionamento'] =
-        this.horarioFuncionamento;
-    data['horario_fechamento'] = this.horarioFechamento;
-    data['funcionamento'] = this.funcionamento;
-    data['preco_minimo'] = this.precoMinimo;
-    data['tipo_entrega'] = this.tipoEntrega;
+        horarioFuncionamento;
+    data['horario_fechamento'] = horarioFechamento;
+    data['funcionamento'] = funcionamento;
+    data['preco_minimo'] = precoMinimo;
+    data['tipo_entrega'] = tipoEntrega;
     return data;
   }
 }

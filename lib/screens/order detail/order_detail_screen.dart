@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:thunderapp/components/buttons/cancel_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
@@ -19,7 +17,7 @@ class OrderDetailScreen extends StatelessWidget {
         SizedBox(
           child: Column(
             children: <Widget>[
-              Text(
+              const Text(
                 'Confirmar pedido?',
                 style: kBody1,
               ),
@@ -89,7 +87,7 @@ class OrderDetailScreen extends StatelessWidget {
                         style: kCaption2.copyWith(
                             color: kTextButtonColor),
                       ),
-                      Text('Nome do Cliente',
+                      const Text('Nome do Cliente',
                           style: kCaption1),
                       const SizedBox()
                     ],
@@ -104,7 +102,7 @@ class OrderDetailScreen extends StatelessWidget {
                         style: kCaption2.copyWith(
                             color: kTextButtonColor),
                       ),
-                      Text(
+                      const Text(
                         'PIX',
                         style: kBody2,
                       ),
@@ -125,15 +123,15 @@ class OrderDetailScreen extends StatelessWidget {
                         style: kCaption2.copyWith(
                             color: kTextButtonColor),
                       ),
-                      Text(
+                      const Text(
                         'Entrega',
                         style: kBody2,
                       ),
                       const SizedBox(),
                     ],
                   ),
-                  InformationHolder(),
-                  InformationHolder(),
+                  const InformationHolder(),
+                  const InformationHolder(),
                   Row(
                     mainAxisAlignment:
                         MainAxisAlignment.spaceBetween,
@@ -143,7 +141,7 @@ class OrderDetailScreen extends StatelessWidget {
                         style: kCaption2.copyWith(
                             color: kTextButtonColor),
                       ),
-                      Text(
+                      const Text(
                         '7,00',
                         style: kBody2,
                       ),
@@ -153,7 +151,7 @@ class OrderDetailScreen extends StatelessWidget {
                     mainAxisAlignment:
                         MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Total do pedido',
+                      const Text('Total do pedido',
                           style: kBody1),
                       Text(
                         '7,00',
@@ -177,7 +175,7 @@ class InformationHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
@@ -185,7 +183,7 @@ class InformationHolder extends StatelessWidget {
           style: kBody3,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: kHugeSize),
+          padding: EdgeInsets.only(left: kHugeSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

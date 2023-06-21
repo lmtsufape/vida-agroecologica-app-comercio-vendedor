@@ -1,72 +1,69 @@
-import 'package:thunderapp/shared/core/models/iten_model.dart';
+import 'package:thunderapp/shared/core/models/item_model.dart';
 
 class TransacoesModel {
-    String comprovante_pagamento;
-    int consumidor_id;
-    String created_at;
-    String data_pedido;
-    int forma_pagamento_id;
-    int id;
-    List<ItenModel> itens;
-    int produtor_id;
-    String status;
-    String subtotal;
-    String taxa_entrega;
-    String total;
-    String updated_at;
+  String comprovantePagamento;
+  int consumidorId;
+  String createdAt;
+  String dataPedido;
+  int formaPagamentoId;
+  int id;
+  List<ItemModel> itens;
+  int produtorId;
+  String status;
+  String subtotal;
+  String taxaEntrega;
+  String total;
+  String updatedAt;
 
-    TransacoesModel(
-        {
-            required this.comprovante_pagamento,
-            required this.consumidor_id,
-            required this.created_at,
-            required this.data_pedido,
-            required this.forma_pagamento_id,
-            required this.id,
-            required this.itens,
-            required this.produtor_id,
-            required this.status,
-            required this.subtotal,
-            required this.taxa_entrega,
-            required this.total,
-            required this.updated_at
-        });
+  TransacoesModel(
+      {required this.comprovantePagamento,
+      required this.consumidorId,
+      required this.createdAt,
+      required this.dataPedido,
+      required this.formaPagamentoId,
+      required this.id,
+      required this.itens,
+      required this.produtorId,
+      required this.status,
+      required this.subtotal,
+      required this.taxaEntrega,
+      required this.total,
+      required this.updatedAt});
 
-    factory TransacoesModel.fromJson(Map<String, dynamic> json) {
-        return TransacoesModel(
-            comprovante_pagamento: json['comprovante_pagamento'],
-            consumidor_id: json['consumidor_id'], 
-            created_at: json['created_at'], 
-            data_pedido: json['data_pedido'], 
-            forma_pagamento_id: json['forma_pagamento_id'], 
-            id: json['id'], 
-            itens: List<ItenModel>.from( (json['itens'] as List) ),
-            produtor_id: json['produtor_id'], 
-            status: json['status'], 
-            subtotal: json['subtotal'], 
-            taxa_entrega: json['taxa_entrega'], 
-            total: json['total'], 
-            updated_at: json['updated_at'], 
-        );
-    }
+  factory TransacoesModel.fromJson(
+      Map<String, dynamic> json) {
+    return TransacoesModel(
+      comprovantePagamento: json['comprovante_pagamento'],
+      consumidorId: json['consumidor_id'],
+      createdAt: json['created_at'],
+      dataPedido: json['data_pedido'],
+      formaPagamentoId: json['forma_pagamento_id'],
+      id: json['id'],
+      itens: List<ItemModel>.from((json['itens'] as List)),
+      produtorId: json['produtor_id'],
+      status: json['status'],
+      subtotal: json['subtotal'],
+      taxaEntrega: json['taxa_entrega'],
+      total: json['total'],
+      updatedAt: json['updated_at'],
+    );
+  }
 
-    Map<String, dynamic> toJson() {
-        final Map<String, dynamic> data = new Map<String, dynamic>();
-        data['consumidor_id'] = this.consumidor_id;
-        data['created_at'] = this.created_at;
-        data['data_pedido'] = this.data_pedido;
-        data['forma_pagamento_id'] = this.forma_pagamento_id;
-        data['id'] = this.id;
-        data['produtor_id'] = this.produtor_id;
-        data['status'] = this.status;
-        data['subtotal'] = this.subtotal;
-        data['taxa_entrega'] = this.taxa_entrega;
-        data['total'] = this.total;
-        data['updated_at'] = this.updated_at;
-        data['comprovante_pagamento'] = this.comprovante_pagamento;
-        if (this.itens != null) {
-            data['itens'] = this.itens.map((v) => v.toJson()).toList();
-        }
-        return data;
-    }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['consumidor_id'] = consumidorId;
+    data['created_at'] = createdAt;
+    data['data_pedido'] = dataPedido;
+    data['forma_pagamento_id'] = formaPagamentoId;
+    data['id'] = id;
+    data['produtor_id'] = produtorId;
+    data['status'] = status;
+    data['subtotal'] = subtotal;
+    data['taxa_entrega'] = taxaEntrega;
+    data['total'] = total;
+    data['updated_at'] = updatedAt;
+    data['comprovante_pagamento'] = comprovantePagamento;
+    data['itens'] = itens.map((v) => v.toJson()).toList();
+    return data;
+  }
 }

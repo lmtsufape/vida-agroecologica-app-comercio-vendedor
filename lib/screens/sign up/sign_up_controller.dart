@@ -41,7 +41,7 @@ class SignUpController extends GetxController {
   ScreenState screenState = ScreenState.idle;
   final SignUpRepository signUpRepository =
       SignUpRepository();
-  String? _errorMessage = '';
+  final String _errorMessage = '';
 
   MaskTextInputFormatter timeFormatter =
       MaskTextInputFormatter(

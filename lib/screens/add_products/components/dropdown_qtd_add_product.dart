@@ -58,7 +58,7 @@ class DropDownQtdAddProduct extends StatelessWidget {
                         color: kPrimaryColor,
                         size: size.width * 0.05,
                       ),
-                      hint: const Text('unidade'),
+                      hint: const Text('Unidade'),
                       value: (value.isEmpty) ? null : value,
                       onChanged: (escolha) {
                         dropValue.value =
@@ -69,8 +69,8 @@ class DropDownQtdAddProduct extends StatelessWidget {
                       items: dropOpcoes
                           .map(
                             (op) => DropdownMenuItem(
-                              child: Text(op),
                               value: op,
+                              child: Text(op),
                             ),
                           )
                           .toList(),
