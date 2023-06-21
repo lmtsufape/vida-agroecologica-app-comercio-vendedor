@@ -7,7 +7,7 @@ import 'package:thunderapp/screens/add_products/components/dropdown_qtd_add_prod
 import 'package:thunderapp/screens/add_products/components/elevated_button_add_product.dart';
 import 'package:thunderapp/screens/add_products/components/image_edit.dart';
 import 'package:thunderapp/screens/add_products/components/sale_infos.dart';
-import 'package:thunderapp/shared/core/models/products_model.dart';
+
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
@@ -70,8 +70,9 @@ class _AddProductsScreenState
                 height: size.height * 0.04,
                 color: Colors.transparent,
               ),
-              ImageEdit(),
+              ImageEdit(controller),
               Divider(
+                
                 height: size.height * 0.025,
                 color: Colors.transparent,
               ),

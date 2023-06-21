@@ -55,7 +55,7 @@ class DropDownQtdAddProduct extends StatelessWidget {
                         color: kPrimaryColor,
                         size: size.width * 0.05,
                       ),
-                      hint: Text('Unidade'),
+                      hint: const Text('unidade'),
                       value: (value.isEmpty) ? null : value,
                       onChanged: (escolha) => dropValue
                           .value = escolha.toString(),

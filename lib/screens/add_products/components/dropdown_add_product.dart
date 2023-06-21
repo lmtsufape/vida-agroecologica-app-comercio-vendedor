@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
-import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-import 'package:thunderapp/shared/core/models/products_model.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
+// ignore: must_be_immutable
 class DropDownAddProduct extends StatefulWidget {
   late AddProductsController controller;
 
@@ -22,8 +21,6 @@ class _DropDownAddProductState
 
   @override
   Widget build(BuildContext context) {
-    AddProductsRepository repository =
-        AddProductsRepository();
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -68,8 +65,10 @@ class _DropDownAddProductState
                 );
               }).toList(),
               onChanged: (selectedObj) {
-                widget.controller.productId =
-                    selectedObj!.id!;
+                setState(() {
+                  widget.controller
+                      .setProductId(selectedObj!.id);
+                });
               },
             )),
       ],

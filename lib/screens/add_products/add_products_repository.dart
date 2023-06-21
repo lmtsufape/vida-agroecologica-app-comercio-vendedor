@@ -3,7 +3,6 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
 import '../../shared/constants/app_text_constants.dart';
-import '../../shared/core/models/products_model.dart';
 import '../../shared/core/user_storage.dart';
 
 class AddProductsRepository extends GetxController {
