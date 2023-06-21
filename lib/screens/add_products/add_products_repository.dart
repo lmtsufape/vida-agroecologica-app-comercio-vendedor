@@ -43,12 +43,12 @@ class AddProductsRepository extends GetxController {
   }
 
   Future<bool> registerProduct(
-      String description,
-      String measure,
-      int stock,
-      double salePrice,
-      double costPrice,
-      int productId) async {
+      String? description,
+      String? measure,
+      int? stock,
+      double? salePrice,
+      double? costPrice,
+      int? productId) async {
     Dio dio = Dio();
 
     UserStorage userStorage = UserStorage();

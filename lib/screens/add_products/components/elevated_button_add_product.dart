@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
+import '../../../shared/components/dialogs/default_alert_dialog.dart';
+
 class ElevatedButtonAddProduct extends StatefulWidget {
-  final VoidCallback onPressed;
-  const ElevatedButtonAddProduct(
-      {required this.onPressed, Key? key})
+  final AddProductsController controller;
+  const ElevatedButtonAddProduct(this.controller,
+      {Key? key})
       : super(key: key);
 
   static ButtonStyle styleEditProduct =
@@ -31,8 +36,24 @@ class _ElevatedButtonAddProductState
       width: size.width,
       height: size.height * 0.06,
       child: ElevatedButton(
-        onPressed:widget.onPressed 
-        ,
+        onPressed: () {
+          if (!widget.controller.validateEmptyFields()) {
+            showDialog(
+                context: context,
+                builder: (context) => DefaultAlertDialog(
+                      title: 'Erro',
+                      body:
+                          'Preencha todos os campos e adicione uma imagem',
+                      cancelText: 'Ok',
+                      confirmText: 'Ok',
+                      onConfirm: () => Get.back(),
+                      cancelColor: kErrorColor,
+                      confirmColor: kSuccessColor,
+                    ));
+          } else {
+            widget.controller.registerProduct(context);
+          }
+        },
         style: ElevatedButtonAddProduct.styleEditProduct,
         child: Text(
           'Adicionar',

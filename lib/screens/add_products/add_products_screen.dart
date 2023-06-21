@@ -72,7 +72,6 @@ class _AddProductsScreenState
               ),
               ImageEdit(controller),
               Divider(
-                
                 height: size.height * 0.025,
                 color: Colors.transparent,
               ),
@@ -95,7 +94,7 @@ class _AddProductsScreenState
                 height: size.height * 0.02,
                 color: Colors.transparent,
               ),
-              SaleInfos(),
+              const SaleInfos(),
               Divider(
                 height: size.height * 0.02,
                 color: Colors.transparent,
@@ -103,12 +102,12 @@ class _AddProductsScreenState
               Align(
                   alignment:
                       AlignmentDirectional.centerStart,
-                  child: DropDownQtdAddProduct()),
+                  child: DropDownQtdAddProduct(controller)),
               Divider(
                 height: size.height * 0.03,
                 color: Colors.transparent,
               ),
-              ElevatedButtonAddProduct(onPressed: () {}),
+              ElevatedButtonAddProduct(controller),
             ],
           ),
         ),

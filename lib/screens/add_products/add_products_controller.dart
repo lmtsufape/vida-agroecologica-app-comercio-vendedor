@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -12,13 +14,14 @@ class AddProductsController extends GetxController {
   // Informações para o post de cadastro de produtos.
 
   String? description;
-  String measure = 'unidade';
-  int stock = 0;
-  double salePrice = 0.0;
-  double costPrice = 0.0;
+  String? measure;
   int? productId;
+  int? stock;
+  double? costPrice;
+  double? salePrice;
 
   // -----------------------
+
   AddProductsRepository repository =
       AddProductsRepository();
   List<TableProductsModel> products = [];
@@ -76,9 +79,44 @@ class AddProductsController extends GetxController {
     update();
   }
 
+  void setStock(int value) {
+    stock = value;
+    update();
+  }
+
+  void setCostPrice(String value) {
+    measure = value;
+    update();
+  }
+
+  void setSalePrice(String value) {
+    measure = value;
+    update();
+  }
+
   void loadTableProducts() async {
     products = await repository.getProducts();
     update();
+  }
+
+  bool validateEmptyFields() {
+    if (description!.isEmpty ||
+        measure!.isEmpty ||
+        _stockController.text.isEmpty ||
+        _saleController.text.isEmpty ||
+        _costController.text.isEmpty ||
+        productId == null) {
+      print(
+          'Error, o user não preencheu todos os campos, retornando falso');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void registerProduct(BuildContext context) async {
+    repository.registerProduct(description, measure, stock,
+        salePrice, costPrice, productId);
   }
 
   @override
