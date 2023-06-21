@@ -64,7 +64,7 @@ Widget bottomSheet(SignUpController controller) {
   SignUpController _controller = controller;
   return Container(
     height: 100.0,
-    width: 100,
+    width: 300.0,
     margin: const EdgeInsets.symmetric(
       horizontal: 20,
       vertical: 20,

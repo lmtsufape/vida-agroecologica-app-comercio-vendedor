@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/edit_products/components/stock_add_product.dart';
+import 'package:thunderapp/screens/add_products/add_products_controller.dart';
+import 'package:thunderapp/screens/add_products/components/stock_add_product.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class DropDownQtdAddProduct extends StatelessWidget {
+  final AddProductsController controller;
   final dropValue = ValueNotifier('');
   final dropOpcoes = [
-    'Unidade(s)',
-    'Medida',
-    'Quilo(s)',
-    'Grama(s)',
+    'unidade',
+    'fracionario',
+    'peso',
   ];
 
-  DropDownQtdAddProduct({Key? key}) : super(key: key);
+  DropDownQtdAddProduct(this.controller, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +58,14 @@ class DropDownQtdAddProduct extends StatelessWidget {
                         color: kPrimaryColor,
                         size: size.width * 0.05,
                       ),
-                      hint: Text('Unidade'),
+                      hint: const Text('unidade'),
                       value: (value.isEmpty) ? null : value,
-                      onChanged: (escolha) => dropValue
-                          .value = escolha.toString(),
+                      onChanged: (escolha) {
+                        dropValue.value =
+                            escolha.toString();
+                        controller
+                            .setMeasure(escolha.toString());
+                      },
                       items: dropOpcoes
                           .map(
                             (op) => DropdownMenuItem(
