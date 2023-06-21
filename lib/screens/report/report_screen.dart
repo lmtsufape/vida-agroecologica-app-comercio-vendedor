@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
-import 'package:thunderapp/shared/constants/app_enums.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/http/http_client.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
+import 'package:thunderapp/shared/core/repositories/transacoes_repository.dart';
+import 'package:thunderapp/shared/core/stotres/transacao_store.dart';
 
-class ReportScreen extends StatelessWidget {
+class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key});
+
+
+  @override
+  State<ReportScreen> createState() => _ReportScreenState();
+
+}
+
+class _ReportScreenState extends State<ReportScreen>{
+  final TransacaoStore store = TransacaoStore(
+    repository: TransasoesRepository(
+      client: new HttpClient(),
+    ),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    store.getTransacoes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,131 +35,96 @@ class ReportScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Pedidos',
+          'Relatórios',
           style: kTitle2.copyWith(color: kPrimaryColor),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(
-            kDefaultPadding - kSmallSize),
-        height: size.height,
-        child: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return OrderCard();
-            }),
-      ),
-    );
-  }
-}
-
-class OrderCard extends StatelessWidget {
-  const OrderCard({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Pedido 010101',
-              style: kBody3.copyWith(
-                  fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Cliente',
-                  style: kCaption2.copyWith(
-                      color: kTextButtonColor),
-                ),
-                Text('Nome do Cliente', style: kCaption1),
-                IconButton(
-                    onPressed: () {
-                      navigatorKey.currentState!
-                          .pushNamed(Screens.orderDetail);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: kTextButtonColor,
-                    ))
-              ],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Itens:',
-                  style: kCaption2.copyWith(
-                      color: kSuccessColor),
-                ),
-                Text('R\$55,62')
-              ],
-            ),
-            const VerticalSpacerBox(size: SpacerSize.small),
-            Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Taxa de entrega:',
-                  style: kCaption2.copyWith(
-                      color: kTextButtonColor),
-                ),
-                Text('R\$7,62')
-              ],
-            ),
-            const VerticalSpacerBox(size: SpacerSize.small),
-            Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Total do pedido:',
-                  style: kBody2,
-                ),
-                Text(
-                  'R\$64,62',
-                  style:
-                  kBody2.copyWith(color: kDetailColor),
-                )
-              ],
-            ),
-            const VerticalSpacerBox(size: SpacerSize.small),
-            Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '10/10/2022',
-                  style: kCaption2.copyWith(
-                      color: kTextButtonColor),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(kTinySize),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(32),
-                      color: kSuccessColor),
-                  child: Text(
-                    'Finalizado',
-                    style: kCaption2.copyWith(
-                        color: kBackgroundColor),
+      body: AnimatedBuilder(
+        animation: Listenable.merge([
+          store.isLoading,
+          store.state,
+          store.erro
+        ]),
+        builder: (context, child) {
+          if (store.isLoading.value){
+            return const Center(
+                child: CircularProgressIndicator()
+            );
+          }
+          if (store.erro.value.isNotEmpty) {
+            return Center(
+              child: SingleChildScrollView(
+                child: Text(
+                  store.erro.value,
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
                   ),
-                )
-              ],
-            ),
-          ],
-        ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
+          if (store.state.value.isEmpty) {
+            return const Center(
+              child: Text(
+                'Nenhum item na lista',
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            );
+          } else {
+            return ListView.separated(
+              separatorBuilder:  (context, index) => const SizedBox(
+                  height: 32,
+                ),
+                padding: const EdgeInsets.all(16),
+                itemCount: store.state.value.length,
+                itemBuilder: (_, index){
+                  final item = store.state.value [index];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Pedido '+item.id.toString(),
+                        style: kBody3.copyWith(
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Cliente',
+                            style: kCaption2.copyWith(
+                                color: kTextButtonColor),
+                          ),
+                          Text('TEMPORARIO: '+item.consumidor_id.toString(), style: kCaption1),
+                          IconButton(
+                              onPressed: () {
+                                navigatorKey.currentState!
+                                    .pushNamed(Screens.orderDetail);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: kTextButtonColor,
+                              ))
+                        ],
+                      ),
+                    ],
+                  );
+                },
+            );
+
+          }
+
+        },
+
       ),
     );
   }

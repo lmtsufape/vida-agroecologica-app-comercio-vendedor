@@ -24,7 +24,7 @@ class TransasoesRepository implements ITransacoesRepository {
     if (response.statusCode == 200){
       final List<TransacoesModel> transacoes = [];
 
-      final body = jsonDecode(response.body);
+      final body = jsonDecode(response.data);
 
       body['transações'].map( (item) {
         final TransacoesModel transacao = TransacoesModel.fromJson(item);
@@ -34,7 +34,9 @@ class TransasoesRepository implements ITransacoesRepository {
       return transacoes;
     } else if (response.statusCode == 404){
       throw NotFundException('A url informada é invalida...');
-    }else {
+    } else if (response.statusCode == 500){
+      throw Exception('Erro 500....');
+    } else {
       throw Exception('Não foi possível carregar suas transaões...');
     }
   }
