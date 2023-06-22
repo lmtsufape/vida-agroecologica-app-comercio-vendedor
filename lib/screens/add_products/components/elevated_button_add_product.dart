@@ -37,7 +37,8 @@ class _ElevatedButtonAddProductState
       height: size.height * 0.06,
       child: ElevatedButton(
         onPressed: () {
-          if (!widget.controller.validateEmptyFields()) {
+          if (widget.controller.validateEmptyFields() ==
+              false) {
             showDialog(
                 context: context,
                 builder: (context) => DefaultAlertDialog(
@@ -50,6 +51,11 @@ class _ElevatedButtonAddProductState
                       cancelColor: kErrorColor,
                       confirmColor: kSuccessColor,
                     ));
+            print(widget.controller.costPrice);
+            print(widget.controller.salePrice);
+            print(widget.controller.stock);
+            print(widget.controller.description);
+            print(widget.controller.productId);
           } else {
             widget.controller.registerProduct(context);
           }

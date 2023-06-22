@@ -14,7 +14,7 @@ class AddProductsController extends GetxController {
   // Informações para o post de cadastro de produtos.
 
   String? description;
-  String? measure;
+  String measure = 'unidade';
   int? productId;
   int? stock;
   double? costPrice;
@@ -79,18 +79,33 @@ class AddProductsController extends GetxController {
     update();
   }
 
-  void setStock(int value) {
-    stock = value;
+  void setStock() {
+    String value = stockController.text
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
+    if (value.isNotEmpty) {
+      stock = int.parse(value);
+    }
     update();
   }
 
-  void setCostPrice(String value) {
-    measure = value;
+  void setCostPrice() {
+    String value = costController.text
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
+    if (value.isNotEmpty) {
+      costPrice = double.parse(value);
+    }
     update();
   }
 
-  void setSalePrice(String value) {
-    measure = value;
+  void setSalePrice() {
+    String value = saleController.text
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
+    if (value.isNotEmpty) {
+      salePrice = double.parse(value);
+    }
     update();
   }
 
@@ -100,8 +115,8 @@ class AddProductsController extends GetxController {
   }
 
   bool validateEmptyFields() {
-    if (description!.isEmpty ||
-        measure!.isEmpty ||
+    if (description == null ||
+        measure == null ||
         _stockController.text.isEmpty ||
         _saleController.text.isEmpty ||
         _costController.text.isEmpty ||
@@ -110,6 +125,7 @@ class AddProductsController extends GetxController {
           'Error, o user não preencheu todos os campos, retornando falso');
       return false;
     } else {
+      print('foi true');
       return true;
     }
   }
@@ -117,6 +133,7 @@ class AddProductsController extends GetxController {
   void registerProduct(BuildContext context) async {
     repository.registerProduct(description, measure, stock,
         salePrice, costPrice, productId);
+    update();
   }
 
   @override
