@@ -1,6 +1,7 @@
-import 'dart:math';
-
+import 'dart:developer';
+import 'dart:io';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
@@ -114,26 +115,28 @@ class AddProductsController extends GetxController {
     update();
   }
 
-  bool validateEmptyFields() {
+  Future<bool> validateEmptyFields() async {
     if (description == null ||
-        measure == null ||
+        measure.isEmpty ||
         _stockController.text.isEmpty ||
         _saleController.text.isEmpty ||
         _costController.text.isEmpty ||
         productId == null) {
-      print(
-          'Error, o user não preencheu todos os campos, retornando falso');
+      log('Error, o user não preencheu todos os campos, retornando falso');
       return false;
     } else {
-      print('foi true');
-      return true;
+      var response = await repository.registerProduct(
+          description,
+          measure,
+          stock,
+          salePrice,
+          costPrice,
+          productId);
+      if (response) {
+        return true;
+      }
+      return false;
     }
-  }
-
-  void registerProduct(BuildContext context) async {
-    repository.registerProduct(description, measure, stock,
-        salePrice, costPrice, productId);
-    update();
   }
 
   @override
