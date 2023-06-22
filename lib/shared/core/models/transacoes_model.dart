@@ -1,4 +1,4 @@
-import 'package:thunderapp/shared/core/models/iten_model.dart';
+import 'package:thunderapp/shared/core/models/item_model.dart';
 
 class TransacoesModel {
     String comprovante_pagamento;
@@ -7,7 +7,7 @@ class TransacoesModel {
     String data_pedido;
     int forma_pagamento_id;
     int id;
-    List<ItenModel> itens;
+    List<ItemModel> itens;
     int produtor_id;
     String status;
     String subtotal;
@@ -40,7 +40,7 @@ class TransacoesModel {
             data_pedido: json['data_pedido'], 
             forma_pagamento_id: json['forma_pagamento_id'], 
             id: json['id'], 
-            itens: List<ItenModel>.from( (json['itens'] as List) ),
+            itens: List<ItemModel>.from( (json['itens'] as List) ),
             produtor_id: json['produtor_id'], 
             status: json['status'], 
             subtotal: json['subtotal'], 
