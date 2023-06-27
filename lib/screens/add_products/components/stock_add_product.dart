@@ -6,16 +6,20 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../components/forms/custom_text_form_field.dart';
 
-class StockAddProduct extends StatelessWidget {
-  final String? value;
+class StockAddProduct extends StatefulWidget {
+  final AddProductsController controller;
 
-  const StockAddProduct(this.value, {Key? key})
+  const StockAddProduct(this.controller, {Key? key})
       : super(key: key);
 
   @override
+  State<StockAddProduct> createState() =>
+      _StockAddProductState();
+}
+
+class _StockAddProductState extends State<StockAddProduct> {
+  @override
   Widget build(BuildContext context) {
-    AddProductsController controller =
-        AddProductsController();
     Size size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,8 +47,13 @@ class StockAddProduct extends StatelessWidget {
             child: Align(
                 alignment: Alignment.center,
                 child: CustomTextFormField(
-                  controller: controller.stockController,
-                )),
+                    controller:
+                        widget.controller.stockController,
+                    onChanged: (value) {
+                      setState(() {
+                        widget.controller.setStock();
+                      });
+                    })),
           ),
         ),
       ],

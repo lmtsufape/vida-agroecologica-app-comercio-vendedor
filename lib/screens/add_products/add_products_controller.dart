@@ -1,6 +1,7 @@
-import 'dart:math';
-
+import 'dart:developer';
+import 'dart:io';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
@@ -14,7 +15,7 @@ class AddProductsController extends GetxController {
   // Informações para o post de cadastro de produtos.
 
   String? description;
-  String? measure;
+  String measure = 'unidade';
   int? productId;
   int? stock;
   double? costPrice;
@@ -79,18 +80,33 @@ class AddProductsController extends GetxController {
     update();
   }
 
-  void setStock(int value) {
-    stock = value;
+  void setStock() {
+    String value = stockController.text
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
+    if (value.isNotEmpty) {
+      stock = int.parse(value);
+    }
     update();
   }
 
-  void setCostPrice(String value) {
-    measure = value;
+  void setCostPrice() {
+    String value = costController.text
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
+    if (value.isNotEmpty) {
+      costPrice = double.parse(value);
+    }
     update();
   }
 
-  void setSalePrice(String value) {
-    measure = value;
+  void setSalePrice() {
+    String value = saleController.text
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
+    if (value.isNotEmpty) {
+      salePrice = double.parse(value);
+    }
     update();
   }
 
@@ -99,24 +115,28 @@ class AddProductsController extends GetxController {
     update();
   }
 
-  bool validateEmptyFields() {
-    if (description!.isEmpty ||
-        measure!.isEmpty ||
+  Future<bool> validateEmptyFields() async {
+    if (description == null ||
+        measure.isEmpty ||
         _stockController.text.isEmpty ||
         _saleController.text.isEmpty ||
         _costController.text.isEmpty ||
         productId == null) {
-      print(
-          'Error, o user não preencheu todos os campos, retornando falso');
+      log('Error, o user não preencheu todos os campos, retornando falso');
       return false;
     } else {
-      return true;
+      var response = await repository.registerProduct(
+          description,
+          measure,
+          stock,
+          salePrice,
+          costPrice,
+          productId);
+      if (response) {
+        return true;
+      }
+      return false;
     }
-  }
-
-  void registerProduct(BuildContext context) async {
-    repository.registerProduct(description, measure, stock,
-        salePrice, costPrice, productId);
   }
 
   @override

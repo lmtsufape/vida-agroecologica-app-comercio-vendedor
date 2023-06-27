@@ -94,7 +94,7 @@ class _AddProductsScreenState
                 height: size.height * 0.02,
                 color: Colors.transparent,
               ),
-              const SaleInfos(),
+              SaleInfos(controller),
               Divider(
                 height: size.height * 0.02,
                 color: Colors.transparent,

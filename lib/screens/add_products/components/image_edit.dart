@@ -13,8 +13,6 @@ class ImageEdit extends StatefulWidget {
 }
 
 class _ImageEditState extends State<ImageEdit> {
-  
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,17 +26,17 @@ class _ImageEditState extends State<ImageEdit> {
           shadowColor: Colors.black,
           child: FutureBuilder(
             builder: (context, snapshot) {
-              if (widget.controller!.productId != 0) {
-                return Image(
-                    image: NetworkImage(
-                  '$kBaseURL/imagens/produtos/${widget.controller!.productId}',
-                ));
-              } else {
+              if (widget.controller!.productId == null) {
                 return const Icon(
                   Icons.shopping_bag,
                   size: 100,
                   color: kPrimaryColor,
                 );
+              } else {
+                return Image(
+                    image: NetworkImage(
+                  '$kBaseURL/imagens/produtos/${widget.controller!.productId}',
+                ));
               }
             },
           ),
