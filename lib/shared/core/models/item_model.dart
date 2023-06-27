@@ -1,4 +1,4 @@
-class ItenModel {
+class ItemModel {
     String created_at;
     int id;
     String preco;
@@ -8,7 +8,7 @@ class ItenModel {
     String updated_at;
     int venda_id;
 
-    ItenModel(
+    ItemModel(
         {
             required this.created_at,
             required this.id,
@@ -20,8 +20,8 @@ class ItenModel {
             required this.venda_id
         });
 
-    factory ItenModel.fromJson(Map<String, dynamic> json) {
-        return ItenModel(
+    factory ItemModel.fromJson(Map<String, dynamic> json) {
+        return ItemModel(
             created_at: json['created_at'], 
             id: json['id'], 
             preco: json['preco'], 
