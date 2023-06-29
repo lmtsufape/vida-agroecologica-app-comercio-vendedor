@@ -53,6 +53,7 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Align(
                       alignment: Alignment.center,
                       child: CustomCurrencyTextFormField(
+                        label: 'R\$ 2,62',
                         onChanged: (value) {
                           setState(() {
                             profit = widget.controller
@@ -107,6 +108,7 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Align(
                       alignment: Alignment.center,
                       child: CustomCurrencyTextFormField(
+                        label: 'R\$ 4,62',
                         onChanged: (value) {
                           setState(() {
                             profit = widget.controller
