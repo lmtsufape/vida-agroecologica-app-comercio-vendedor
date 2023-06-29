@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
 import 'package:thunderapp/screens/products/components/add_button.dart';
@@ -19,55 +20,47 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-              create: (_) => ProductsController()),
-        ],
-        builder: (context, child) {
-          return Consumer<ProductsController>(
-              builder: (context, controller, child) =>
-                  Scaffold(
-                    appBar: AppBar(
-                      title: Text(
-                        'Produtos',
-                        style: kTitle2.copyWith(
-                            color: kPrimaryColor),
-                      ),
-                      iconTheme: const IconThemeData(
-                          color: kPrimaryColor),
-                    ),
-                    body: Container(
-                      width: size.width,
-                      height: size.height,
-                      padding: const EdgeInsets.all(
-                          kDefaultPadding),
-                      child: Column(
-                        children: <Widget>[
-                          const InfoCards(),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.medium),
-                          ProductSearchBar(
-                              controller: controller
-                                  .searchController,
-                              onSearch: () {}),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.tiny),
-                          AddButton(
-                              onPressed: () =>
-                                  Navigator.pushNamed(
-                                      context,
-                                      Screens
-                                          .editProducts)),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.large),
-                          const CardProducts(),
-                          const CardProducts(),
-                          const CardProducts(),
-                        ],
-                      ),
-                    ),
-                  ));
-        });
+
+    return GetBuilder<ProductsController>(
+        init: ProductsController(),
+        builder: (controller) => Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  'Produtos',
+                  style: kTitle2.copyWith(
+                      color: kPrimaryColor),
+                ),
+                iconTheme: const IconThemeData(
+                    color: kPrimaryColor),
+              ),
+              body: Container(
+                width: size.width,
+                height: size.height,
+                padding:
+                    const EdgeInsets.all(kDefaultPadding),
+                child: Column(
+                  children: <Widget>[
+                     InfoCards(controller),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.medium),
+                    ProductSearchBar(
+                        controller:
+                            controller.searchController,
+                        onSearch: () {}),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.tiny),
+                    AddButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context,
+                                Screens.editProducts)),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.large),
+                    Column(
+                      children: controller.products,
+                    )
+                  ],
+                ),
+              ),
+            ));
   }
 }
