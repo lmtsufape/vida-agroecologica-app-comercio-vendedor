@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/http/http_client.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 import 'package:thunderapp/shared/core/repositories/transacoes_repository.dart';
-import 'package:thunderapp/shared/core/stores/transacao_store.dart';
+
+import 'package:thunderapp/shared/core/store/transacao_store.dart';
+
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key});
 
-
   @override
   State<ReportScreen> createState() => _ReportScreenState();
-
 }
 
-class _ReportScreenState extends State<ReportScreen>{
+class _ReportScreenState extends State<ReportScreen> {
   final TransacaoStore store = TransacaoStore(
     repository: TransasoesRepository(
-      client: new HttpClient(),
+      client: HttpClient(),
     ),
   );
 
@@ -31,7 +30,6 @@ class _ReportScreenState extends State<ReportScreen>{
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -40,16 +38,12 @@ class _ReportScreenState extends State<ReportScreen>{
         ),
       ),
       body: AnimatedBuilder(
-        animation: Listenable.merge([
-          store.isLoading,
-          store.state,
-          store.erro
-        ]),
+        animation: Listenable.merge(
+            [store.isLoading, store.state, store.erro]),
         builder: (context, child) {
-          if (store.isLoading.value){
+          if (store.isLoading.value) {
             return const Center(
-                child: CircularProgressIndicator()
-            );
+                child: CircularProgressIndicator());
           }
           if (store.erro.value.isNotEmpty) {
             return Center(
@@ -80,51 +74,53 @@ class _ReportScreenState extends State<ReportScreen>{
             );
           } else {
             return ListView.separated(
-              separatorBuilder:  (context, index) => const SizedBox(
-                  height: 32,
-                ),
-                padding: const EdgeInsets.all(16),
-                itemCount: store.state.value.length,
-                itemBuilder: (_, index){
-                  final item = store.state.value [index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Pedido '+item.id.toString(),
-                        style: kBody3.copyWith(
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Cliente',
-                            style: kCaption2.copyWith(
-                                color: kTextButtonColor),
-                          ),
-                          Text('TEMPORARIO: '+item.consumidor_id.toString(), style: kCaption1),
-                          IconButton(
-                              onPressed: () {
-                                navigatorKey.currentState!
-                                    .pushNamed(Screens.orderDetail);
-                              },
-                              icon: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: kTextButtonColor,
-                              ))
-                        ],
-                      ),
-                    ],
-                  );
-                },
+              separatorBuilder: (context, index) =>
+                  const SizedBox(
+                height: 32,
+              ),
+              padding: const EdgeInsets.all(16),
+              itemCount: store.state.value.length,
+              itemBuilder: (_, index) {
+                final item = store.state.value[index];
+                return Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Pedido ${item.id}',
+                      style: kBody3.copyWith(
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Cliente',
+                          style: kCaption2.copyWith(
+                              color: kTextButtonColor),
+                        ),
+                        Text(
+                            'TEMPORARIO: ${item.consumidorId}',
+                            style: kCaption1),
+                        IconButton(
+                            onPressed: () {
+                              navigatorKey.currentState!
+                                  .pushNamed(
+                                      Screens.orderDetail);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: kTextButtonColor,
+                            ))
+                      ],
+                    ),
+                  ],
+                );
+              },
             );
-
           }
-
         },
-
       ),
     );
   }

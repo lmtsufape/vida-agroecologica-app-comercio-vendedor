@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/forms/custom_text_form_field.dart';
 import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
@@ -32,15 +31,15 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
+            const Text(
               'Cadastrar Pagamento PIX',
               style: kTitle2,
             ),
-            VerticalSpacerBox(size: SpacerSize.medium),
+            const VerticalSpacerBox(size: SpacerSize.medium),
             Form(
                 child: Column(
               children: <Widget>[
-                CustomTextFormField(
+                const CustomTextFormField(
                   label: 'Nome',
                   isBordered: true,
                 ),
@@ -52,9 +51,9 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                   children: <Widget>[
                     Expanded(
                         child: DropdownButton<String>(
-                            hint: Text('Banco'),
+                            hint: const Text('Banco'),
                             isExpanded: true,
-                            items: [
+                            items: const [
                               DropdownMenuItem(
                                   value: 'bb',
                                   child: Text(
@@ -69,18 +68,18 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                             onChanged: (value) {})),
                     const HorizontalSpacerBox(
                         size: SpacerSize.huge),
-                    Icon(Icons.qr_code)
+                    const Icon(Icons.qr_code)
                   ],
                 )
               ],
             )),
-            VerticalSpacerBox(size: SpacerSize.medium),
-            Text('Cadastrar chave', style: kCaption1),
-            VerticalSpacerBox(size: SpacerSize.medium),
+            const VerticalSpacerBox(size: SpacerSize.medium),
+            const Text('Cadastrar chave', style: kCaption1),
+            const VerticalSpacerBox(size: SpacerSize.medium),
             DropdownButton<String>(
-                hint: Text('Tipo de chave'),
+                hint: const Text('Tipo de chave'),
                 isExpanded: true,
-                items: [
+                items: const [
                   DropdownMenuItem(
                       value: 'bb', child: Text('PIX')),
                   DropdownMenuItem(

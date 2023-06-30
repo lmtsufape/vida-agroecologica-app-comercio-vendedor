@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:thunderapp/screens/sign%20up/components/image_profile.dart';
 
 import '../sign_up_controller.dart';

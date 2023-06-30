@@ -15,7 +15,7 @@ class _CardProductsState extends State<CardProducts> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return SizedBox(
       width: size.width,
       height: size.height * 0.066,
       child: Card(

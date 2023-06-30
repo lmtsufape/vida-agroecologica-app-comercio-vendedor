@@ -61,13 +61,13 @@ class _ImageProfileState extends State<ImageProfile> {
 }
 
 Widget bottomSheet(SignUpController controller) {
-  SignUpController _controller = controller;
+  SignUpController controller0 = controller;
   return Container(
     height: 100.0,
     width: 300.0,
     margin: const EdgeInsets.symmetric(
-      horizontal: 20,
-      vertical: 20,
+      horizontal: 50,
+      vertical: 30,
     ),
     child: Column(
       children: <Widget>[
@@ -86,7 +86,7 @@ Widget bottomSheet(SignUpController controller) {
               ElevatedButton.icon(
                 icon: const Icon(Icons.camera),
                 onPressed: () {
-                  _controller.selectImageCam();
+                  controller0.selectImageCam();
                 },
                 label: const Text("Camera"),
               ),
@@ -95,7 +95,7 @@ Widget bottomSheet(SignUpController controller) {
               ElevatedButton.icon(
                 icon: const Icon(Icons.image),
                 onPressed: () {
-                  _controller.selectImage();
+                  controller0.selectImage();
                 },
                 label: const Text("Galeria"),
               ),

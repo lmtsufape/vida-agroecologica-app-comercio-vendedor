@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
@@ -28,7 +26,7 @@ class OrdersScreen extends StatelessWidget {
         child: ListView.builder(
             itemCount: 20,
             itemBuilder: (context, index) {
-              return OrderCard();
+              return const OrderCard();
             }),
       ),
     );
@@ -62,7 +60,7 @@ class OrderCard extends StatelessWidget {
                   style: kCaption2.copyWith(
                       color: kTextButtonColor),
                 ),
-                Text('Nome do Cliente', style: kCaption1),
+                const Text('Nome do Cliente', style: kCaption1),
                 IconButton(
                     onPressed: () {
                       navigatorKey.currentState!
@@ -84,7 +82,7 @@ class OrderCard extends StatelessWidget {
                   style: kCaption2.copyWith(
                       color: kTextButtonColor),
                 ),
-                Text('R\$55,62')
+                const Text('R\$55,62')
               ],
             ),
             const VerticalSpacerBox(size: SpacerSize.small),
@@ -97,7 +95,7 @@ class OrderCard extends StatelessWidget {
                   style: kCaption2.copyWith(
                       color: kTextButtonColor),
                 ),
-                Text('R\$7,62')
+                const Text('R\$7,62')
               ],
             ),
             const VerticalSpacerBox(size: SpacerSize.small),
@@ -105,7 +103,7 @@ class OrderCard extends StatelessWidget {
               mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
+                const Text(
                   'Total do pedido:',
                   style: kBody2,
                 ),

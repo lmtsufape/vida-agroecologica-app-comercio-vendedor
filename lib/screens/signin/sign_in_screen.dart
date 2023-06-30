@@ -77,7 +77,7 @@ class SignInScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                               onPressed: () {},
-                              child: Text(
+                              child: const Text(
                                   'Esqueceu a senha?')),
                         ),
                         const VerticalSpacerBox(
@@ -120,13 +120,13 @@ class SignInScreen extends StatelessWidget {
                                 children: <Widget>[
                                   IconButton(
                                       onPressed: () {},
-                                      icon: Icon(
+                                      icon: const Icon(
                                           FontAwesomeIcons
                                               .google),
                                       iconSize: 38),
                                   IconButton(
                                       onPressed: () {},
-                                      icon: Icon(
+                                      icon: const Icon(
                                           FontAwesomeIcons
                                               .facebook),
                                       iconSize: 38)

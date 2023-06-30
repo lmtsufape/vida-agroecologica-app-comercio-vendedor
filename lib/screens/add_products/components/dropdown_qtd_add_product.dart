@@ -67,7 +67,7 @@ class _DropDownQtdAddProductState
                         color: kPrimaryColor,
                         size: size.width * 0.05,
                       ),
-                      hint: const Text('unidade'),
+                      hint: const Text('Unidade'),
                       value: (value.isEmpty) ? null : value,
                       onChanged: (escolha) {
                         setState(() {
@@ -80,8 +80,8 @@ class _DropDownQtdAddProductState
                       items: dropOpcoes
                           .map(
                             (op) => DropdownMenuItem(
-                              child: Text(op),
                               value: op,
+                              child: Text(op),
                             ),
                           )
                           .toList(),
