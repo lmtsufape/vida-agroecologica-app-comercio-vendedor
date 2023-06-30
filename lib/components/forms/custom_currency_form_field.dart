@@ -34,8 +34,6 @@ class _CustomCurrencyTextFormFieldState
   bool _obscureText = false;
   @override
   void initState() {
-   
-
     super.initState();
   }
 
@@ -49,6 +47,7 @@ class _CustomCurrencyTextFormFieldState
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
+        textAlign: TextAlign.center,
         onChanged: widget.onChanged,
         inputFormatters: widget.inputFormatter == null
             ? null

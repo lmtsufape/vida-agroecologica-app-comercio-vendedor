@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:thunderapp/screens/products/products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-class InfoCards extends StatelessWidget {
-  const InfoCards({Key? key}) : super(key: key);
+class InfoCards extends StatefulWidget {
+  ProductsController controller;
+  InfoCards(this.controller, {Key? key}) : super(key: key);
 
+  @override
+  State<InfoCards> createState() => _InfoCardsState();
+}
+
+class _InfoCardsState extends State<InfoCards> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -15,8 +22,8 @@ class InfoCards extends StatelessWidget {
           width: size.width * 0.40,
           child: Card(
             color: Colors.white,
-            shape:
-                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero),
             elevation: 3,
             child: Align(
               alignment: Alignment.center,
@@ -34,7 +41,8 @@ class InfoCards extends StatelessWidget {
                         fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    '1',
+                    widget.controller.quantProducts
+                        .toString(),
                     style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: size.height * 0.024,
@@ -52,8 +60,8 @@ class InfoCards extends StatelessWidget {
             width: size.width * 0.40,
             child: Card(
               color: Colors.white,
-              shape:
-              const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero),
               elevation: 3,
               child: Column(
                 children: [
@@ -69,7 +77,7 @@ class InfoCards extends StatelessWidget {
                         fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    '12',
+                    widget.controller.quantStock.toString(),
                     style: TextStyle(
                         color: kPrimaryColor,
                         fontSize: size.height * 0.024,

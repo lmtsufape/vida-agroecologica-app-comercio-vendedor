@@ -1,46 +1,49 @@
 class ItemModel {
-  String createdAt;
-  int id;
-  String preco;
-  int produtoId;
-  int quantidade;
-  String tipoUnidade;
-  String updatedAt;
-  int vendaId;
+    String created_at;
+    int id;
+    String preco;
+    int produto_id;
+    int quantidade;
+    String tipo_unidade;
+    String updated_at;
+    int venda_id;
 
-  ItemModel(
-      {required this.createdAt,
-      required this.id,
-      required this.preco,
-      required this.produtoId,
-      required this.quantidade,
-      required this.tipoUnidade,
-      required this.updatedAt,
-      required this.vendaId});
+    ItemModel(
+        {
+            required this.created_at,
+            required this.id,
+            required this.preco,
+            required this.produto_id,
+            required this.quantidade,
+            required this.tipo_unidade,
+            required this.updated_at,
+            required this.venda_id
+        });
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) {
-    return ItemModel(
-      createdAt: json['created_at'],
-      id: json['id'],
-      preco: json['preco'],
-      produtoId: json['produto_id'],
-      quantidade: json['quantidade'],
-      tipoUnidade: json['tipo_unidade'],
-      updatedAt: json['updated_at'],
-      vendaId: json['venda_id'],
-    );
-  }
+    factory ItemModel.fromJson(Map<String, dynamic> json) {
+        return ItemModel(
+            created_at: json['created_at'], 
+            id: json['id'], 
+            preco: json['preco'], 
+            produto_id: json['produto_id'], 
+            quantidade: json['quantidade'], 
+            tipo_unidade: json['tipo_unidade'], 
+            updated_at: json['updated_at'], 
+            venda_id: json['venda_id'], 
+        );
+    }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['created_at'] = createdAt;
-    data['id'] = id;
-    data['preco'] = preco;
-    data['produto_id'] = produtoId;
-    data['quantidade'] = quantidade;
-    data['tipo_unidade'] = tipoUnidade;
-    data['updated_at'] = updatedAt;
-    data['venda_id'] = vendaId;
-    return data;
-  }
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['created_at'] = this.created_at;
+        data['id'] = this.id;
+        data['preco'] = this.preco;
+        data['produto_id'] = this.produto_id;
+        data['quantidade'] = this.quantidade;
+        data['tipo_unidade'] = this.tipo_unidade;
+        data['updated_at'] = this.updated_at;
+        data['venda_id'] = this.venda_id;
+        return data;
+    }
 }
+

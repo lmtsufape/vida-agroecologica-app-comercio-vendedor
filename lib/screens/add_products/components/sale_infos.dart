@@ -5,23 +5,19 @@ import 'currency_format.dart';
 import '../../../components/forms/custom_currency_form_field.dart';
 
 class SaleInfos extends StatefulWidget {
-  const SaleInfos({Key? key}) : super(key: key);
+  final AddProductsController controller;
+  const SaleInfos(this.controller, {Key? key})
+      : super(key: key);
 
   @override
   State<SaleInfos> createState() => _SaleInfosState();
 }
 
 class _SaleInfosState extends State<SaleInfos> {
-  CurrencyInputFormatter currency =
-      CurrencyInputFormatter();
-  AddProductsController controller =
-      AddProductsController();
   double profit = 0.0;
 
   @override
   void initState() {
-    controller.costController.text = 'R\$ 2,68';
-    controller.saleController.text = 'R\$ 4,68';
     super.initState();
   }
 
@@ -41,7 +37,9 @@ class _SaleInfosState extends State<SaleInfos> {
                     color: kTextButtonColor,
                     fontSize: size.height * 0.017),
               ),
-              Divider(height: size.height * 0.005,),
+              Divider(
+                height: size.height * 0.005,
+              ),
               SizedBox(
                 height: size.height * 0.06,
                 width: size.width * 0.25,
@@ -49,28 +47,33 @@ class _SaleInfosState extends State<SaleInfos> {
                   margin: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
                       borderRadius:
-                      BorderRadius.circular(6),
+                          BorderRadius.circular(6),
                       side: const BorderSide(
                           color: kTextButtonColor)),
                   child: Align(
                       alignment: Alignment.center,
                       child: CustomCurrencyTextFormField(
+                        label: 'R\$ 2,62',
                         onChanged: (value) {
                           setState(() {
-                            profit =
-                                controller.changeProfit(
-                                    controller
+                            profit = widget.controller
+                                .changeProfit(
+                                    widget
+                                        .controller
                                         .saleController
                                         .text,
-                                    controller
+                                    widget
+                                        .controller
                                         .costController
                                         .text);
+                            widget.controller
+                                .setCostPrice();
                           });
                         },
-                        inputFormatter:
-                            controller.currencyFormatter,
-                        controller:
-                            controller.costController,
+                        inputFormatter: widget
+                            .controller.currencyFormatter,
+                        controller: widget
+                            .controller.costController,
                       )),
                 ),
               )
@@ -88,7 +91,9 @@ class _SaleInfosState extends State<SaleInfos> {
                       fontSize: size.height * 0.017),
                 ),
               ),
-              Divider(height: size.height * 0.005,),
+              Divider(
+                height: size.height * 0.005,
+              ),
               SizedBox(
                 height: size.height * 0.06,
                 width: size.width * 0.26,
@@ -103,22 +108,27 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Align(
                       alignment: Alignment.center,
                       child: CustomCurrencyTextFormField(
+                        label: 'R\$ 4,62',
                         onChanged: (value) {
                           setState(() {
-                            profit =
-                                controller.changeProfit(
-                                    controller
+                            profit = widget.controller
+                                .changeProfit(
+                                    widget
+                                        .controller
                                         .saleController
                                         .text,
-                                    controller
+                                    widget
+                                        .controller
                                         .costController
                                         .text);
+                            widget.controller
+                                .setSalePrice();
                           });
                         },
-                        inputFormatter:
-                            controller.currencyFormatter,
-                        controller:
-                            controller.saleController,
+                        inputFormatter: widget
+                            .controller.currencyFormatter,
+                        controller: widget
+                            .controller.saleController,
                       )),
                 ),
               ),

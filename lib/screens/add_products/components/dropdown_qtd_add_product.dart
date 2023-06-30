@@ -3,17 +3,26 @@ import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/screens/add_products/components/stock_add_product.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
-class DropDownQtdAddProduct extends StatelessWidget {
+class DropDownQtdAddProduct extends StatefulWidget {
   final AddProductsController controller;
+
+  DropDownQtdAddProduct(this.controller, {Key? key})
+      : super(key: key);
+
+  @override
+  State<DropDownQtdAddProduct> createState() =>
+      _DropDownQtdAddProductState();
+}
+
+class _DropDownQtdAddProductState
+    extends State<DropDownQtdAddProduct> {
   final dropValue = ValueNotifier('');
+
   final dropOpcoes = [
     'unidade',
     'fracionario',
     'peso',
   ];
-
-  DropDownQtdAddProduct(this.controller, {Key? key})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +70,12 @@ class DropDownQtdAddProduct extends StatelessWidget {
                       hint: const Text('Unidade'),
                       value: (value.isEmpty) ? null : value,
                       onChanged: (escolha) {
-                        dropValue.value =
-                            escolha.toString();
-                        controller
-                            .setMeasure(escolha.toString());
+                        setState(() {
+                          dropValue.value =
+                              escolha.toString();
+                          widget.controller.setMeasure(
+                              escolha.toString());
+                        });
                       },
                       items: dropOpcoes
                           .map(
@@ -79,7 +90,7 @@ class DropDownQtdAddProduct extends StatelessWidget {
             ),
           ],
         ),
-        StockAddProduct(dropValue.value),
+        StockAddProduct(widget.controller),
       ],
     );
   }
