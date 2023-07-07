@@ -101,7 +101,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               color: kTextButtonColor),
                         ),
                         Text(
-                            'TEMPORARIO: ${item.consumidorId}',
+                            'TEMPORARIO: ${item.consumidor_id}',
                             style: kCaption1),
                         IconButton(
                             onPressed: () {
