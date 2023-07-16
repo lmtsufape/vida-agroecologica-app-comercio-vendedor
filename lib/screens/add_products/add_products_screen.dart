@@ -16,16 +16,14 @@ class AddProductsScreen extends StatefulWidget {
   const AddProductsScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddProductsScreen> createState() =>
-      _AddProductsScreenState();
+  State<AddProductsScreen> createState() => _AddProductsScreenState();
 }
 
-class _AddProductsScreenState
-    extends State<AddProductsScreen> {
-  AddProductsRepository repository =
-      AddProductsRepository();
+class _AddProductsScreenState extends State<AddProductsScreen> {
+  AddProductsRepository repository = AddProductsRepository();
 
   Future<List<TableProductsModel>>? products;
+
   @override
   void initState() {
     products = repository.getProducts();
@@ -43,8 +41,7 @@ class _AddProductsScreenState
             'Editar produto',
             style: kTitle2.copyWith(color: kPrimaryColor),
           ),
-          iconTheme:
-              const IconThemeData(color: kPrimaryColor),
+          iconTheme: const IconThemeData(color: kPrimaryColor),
         ),
         /*drawer: Drawer(
             child: ListView(
@@ -81,8 +78,7 @@ class _AddProductsScreenState
                 color: Colors.transparent,
               ),
               Align(
-                  alignment:
-                      AlignmentDirectional.centerStart,
+                  alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     'Informações de venda',
                     style: TextStyle(
@@ -100,8 +96,7 @@ class _AddProductsScreenState
                 color: Colors.transparent,
               ),
               Align(
-                  alignment:
-                      AlignmentDirectional.centerStart,
+                  alignment: AlignmentDirectional.centerStart,
                   child: DropDownQtdAddProduct(controller)),
               Divider(
                 height: size.height * 0.03,

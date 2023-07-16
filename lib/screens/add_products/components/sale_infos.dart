@@ -6,8 +6,8 @@ import '../../../components/forms/custom_currency_form_field.dart';
 
 class SaleInfos extends StatefulWidget {
   final AddProductsController controller;
-  const SaleInfos(this.controller, {Key? key})
-      : super(key: key);
+
+  const SaleInfos(this.controller, {Key? key}) : super(key: key);
 
   @override
   State<SaleInfos> createState() => _SaleInfosState();
@@ -34,8 +34,7 @@ class _SaleInfosState extends State<SaleInfos> {
               Text(
                 'Preço de custo',
                 style: TextStyle(
-                    color: kTextButtonColor,
-                    fontSize: size.height * 0.017),
+                    color: kTextButtonColor, fontSize: size.height * 0.017),
               ),
               Divider(
                 height: size.height * 0.005,
@@ -46,34 +45,22 @@ class _SaleInfosState extends State<SaleInfos> {
                 child: Card(
                   margin: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(6),
-                      side: const BorderSide(
-                          color: kTextButtonColor)),
+                      borderRadius: BorderRadius.circular(6),
+                      side: const BorderSide(color: kTextButtonColor)),
                   child: Align(
                       alignment: Alignment.center,
                       child: CustomCurrencyTextFormField(
                         label: 'R\$ 2,62',
                         onChanged: (value) {
                           setState(() {
-                            profit = widget.controller
-                                .changeProfit(
-                                    widget
-                                        .controller
-                                        .saleController
-                                        .text,
-                                    widget
-                                        .controller
-                                        .costController
-                                        .text);
-                            widget.controller
-                                .setCostPrice();
+                            profit = widget.controller.changeProfit(
+                                widget.controller.saleController.text,
+                                widget.controller.costController.text);
+                            widget.controller.setCostPrice();
                           });
                         },
-                        inputFormatter: widget
-                            .controller.currencyFormatter,
-                        controller: widget
-                            .controller.costController,
+                        inputFormatter: widget.controller.currencyFormatter,
+                        controller: widget.controller.costController,
                       )),
                 ),
               )
@@ -87,8 +74,7 @@ class _SaleInfosState extends State<SaleInfos> {
                 child: Text(
                   'Preço de venda',
                   style: TextStyle(
-                      color: kTextButtonColor,
-                      fontSize: size.height * 0.017),
+                      color: kTextButtonColor, fontSize: size.height * 0.017),
                 ),
               ),
               Divider(
@@ -101,34 +87,22 @@ class _SaleInfosState extends State<SaleInfos> {
                   margin: EdgeInsets.zero,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(6),
-                      side: const BorderSide(
-                          color: kTextButtonColor)),
+                      borderRadius: BorderRadius.circular(6),
+                      side: const BorderSide(color: kTextButtonColor)),
                   child: Align(
                       alignment: Alignment.center,
                       child: CustomCurrencyTextFormField(
                         label: 'R\$ 4,62',
                         onChanged: (value) {
                           setState(() {
-                            profit = widget.controller
-                                .changeProfit(
-                                    widget
-                                        .controller
-                                        .saleController
-                                        .text,
-                                    widget
-                                        .controller
-                                        .costController
-                                        .text);
-                            widget.controller
-                                .setSalePrice();
+                            profit = widget.controller.changeProfit(
+                                widget.controller.saleController.text,
+                                widget.controller.costController.text);
+                            widget.controller.setSalePrice();
                           });
                         },
-                        inputFormatter: widget
-                            .controller.currencyFormatter,
-                        controller: widget
-                            .controller.saleController,
+                        inputFormatter: widget.controller.currencyFormatter,
+                        controller: widget.controller.saleController,
                       )),
                 ),
               ),
@@ -140,8 +114,7 @@ class _SaleInfosState extends State<SaleInfos> {
               Text(
                 'Lucro R\$',
                 style: TextStyle(
-                    color: kTextButtonColor,
-                    fontSize: size.height * 0.017),
+                    color: kTextButtonColor, fontSize: size.height * 0.017),
               ),
               Divider(height: size.height * 0.005),
               SizedBox(
@@ -151,10 +124,8 @@ class _SaleInfosState extends State<SaleInfos> {
                   margin: EdgeInsets.zero,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(6),
-                      side: const BorderSide(
-                          color: kTextButtonColor)),
+                      borderRadius: BorderRadius.circular(6),
+                      side: const BorderSide(color: kTextButtonColor)),
                   child: Align(
                       alignment: Alignment.center,
                       child: Text(
