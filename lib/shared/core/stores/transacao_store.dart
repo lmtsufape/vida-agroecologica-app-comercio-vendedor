@@ -28,7 +28,7 @@ class TransacaoStore {
     }on NotFundException catch (e){
       erro.value = e.menssage;
     } catch (e){
-      erro.value = 'Não foi possível carregar suas transaões...';
+      erro.value = e.toString();
     }
 
     isLoading.value = false;

@@ -34,14 +34,14 @@ class TransacoesModel {
 
     factory TransacoesModel.fromJson(Map<String, dynamic> json) {
         return TransacoesModel(
-            comprovante_pagamento: json['comprovante_pagamento'],
+            comprovante_pagamento: json['comprovante_pagamento'] ?? '',
             consumidor_id: json['consumidor_id'], 
             created_at: json['created_at'], 
             data_pedido: json['data_pedido'], 
             forma_pagamento_id: json['forma_pagamento_id'], 
-            id: json['id'], 
-            itens: List<ItemModel>.from( (json['itens'] as List) ),
-            produtor_id: json['produtor_id'], 
+            id: json['id'],
+            itens: (json['itens'] as List).map((i) => ItemModel.fromJson(i)).toList(),
+          produtor_id: json['produtor_id'],
             status: json['status'], 
             subtotal: json['subtotal'], 
             taxa_entrega: json['taxa_entrega'], 
