@@ -71,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               : controller.infoIndex == 1
                                   ? [
                                       InfoSecondScreen(controller),
-                                    ]
+                                    ] 
                                   : controller.infoIndex == 2
                                       ? [
                                           InfoThirdScreen(controller),
@@ -141,7 +141,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               buttonColor: kAlertColor,
 
                                             ));
-                                  } else {
+                                  } 
+                                  
+
+                                  else {
                                     controller.signUp(context);
                                   }
                                 },

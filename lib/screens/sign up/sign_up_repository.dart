@@ -1,12 +1,8 @@
-
 import 'dart:developer';
-
-
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:thunderapp/screens/sign%20up/sign_up_controller.dart';
 
 import 'package:thunderapp/screens/signin/sign_in_repository.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
@@ -47,7 +43,6 @@ class SignUpRepository {
       String? imgPath,
       List<bool> isSelected,
       BuildContext context) async {
-    
     //Verifica se o usuário selecionou alguma forma de pagamento e seta a variável formasPagamento
     // a partir do checkItems, ele percorre o isSelected e verifica quais estão true,
     // e adiciona o valor de i + 1 no checkItems o i + 1 é o id da forma de pagamento, em seguida
@@ -130,7 +125,6 @@ class SignUpRepository {
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
-
                         title: 'Sucesso',
                         body:
                             'Cadastro realizado com sucesso',
@@ -149,15 +143,14 @@ class SignUpRepository {
               // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
-
-                  builder: (context) => DefaultAlertDialogOneButton(
-                      title: 'Erro',
-                      body:
-                          'Ocorreu um erro, verifique os campos e tente novamente',
-                      onConfirm: () {},
-                      confirmText: 'ok',
-                      buttonColor: kAlertColor));
-
+                  builder: (context) =>
+                      DefaultAlertDialogOneButton(
+                          title: 'Erro',
+                          body:
+                              'Ocorreu um erro, verifique os campos e tente novamente',
+                          onConfirm: () {},
+                          confirmText: 'ok',
+                          buttonColor: kAlertColor));
 
               return false;
             }
@@ -292,6 +285,35 @@ class SignUpRepository {
       }
     }
   }
+
+  verificar(SignUpController controller) async {
+    String cpf = controller.cpfController.text;
+
+    // Verificar os cpfs cadastrados
+    try {
+      Response response = await _dio.post(
+        '$kBaseURL/verifica',
+        options: Options(headers: {
+          'Content-Type': 'application/json',
+        }),
+
+        data: {'cpf': cpf},
+      );
+      //print para debugar
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        log("CPF Cadastrado");
+        return true;
+      }
+    } 
+    // apenas irá retornar falso caso falhe no try
+    catch (e) {
+      return false;
+    }
+    // Retornando true para caso o cpf não tenha cadastrado 
+    return false;
+  }
+
 // Future<List<BairroModel>> getbairros() async {
 //   List<dynamic> all;
 //   List<BairroModel> bairros = [];
