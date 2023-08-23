@@ -33,7 +33,8 @@ class ProductsScreen extends StatelessWidget {
                 iconTheme: const IconThemeData(
                     color: kPrimaryColor),
               ),
-              body: Container(
+              body: ListView(children: [
+                Container(
                 width: size.width,
                 height: size.height,
                 padding:
@@ -61,6 +62,7 @@ class ProductsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              ],)
             ));
   }
 }
