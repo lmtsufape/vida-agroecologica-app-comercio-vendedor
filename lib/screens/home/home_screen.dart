@@ -58,12 +58,10 @@ class HomeScreen extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           CircleAvatar(
-                            backgroundImage: controller
-                                        .userToken ==
-                                    null
+                            backgroundImage: controller.bancaModel?.id == null
                                 ? null
                                 : NetworkImage(
-                                    '$kBaseURL/imagens/bancas/${controller.bancaModel!.id}',
+                                    '$kBaseURL/bancas/${controller.bancaModel!.id}/imagem',
                                     headers: {
                                         "Authorization":
                                             "Bearer ${controller.userToken}"

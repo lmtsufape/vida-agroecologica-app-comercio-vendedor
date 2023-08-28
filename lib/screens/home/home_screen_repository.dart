@@ -2,38 +2,40 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
-import 'package:thunderapp/shared/core/user_storage.dart';
+
 
 import '../../shared/constants/app_text_constants.dart';
 
 class HomeScreenRepository {
   final Dio _dio = Dio();
-  UserStorage userStorage = UserStorage();
+
 
   Future<BancaModel?> getBancaPrefs(
-      String? userToken, String? userPapelId) async {
-    print('userId: $userPapelId');
+      String? userToken, String? userId) async {
+    print('userId: $userId');
     log('chegou aqui');
     try {
       Response response = await _dio.get(
-          '$kBaseURL/produtores/$userPapelId/bancas',
+          '$kBaseURL/bancas/agricultores/$userId',
           options: Options(headers: {
             "Authorization": "Bearer $userToken"
           }));
       if (response.statusCode == 200) {
-        print(response.data["Banca"]["nome"].toString());
+       
         BancaModel bancaModel = BancaModel(
-            response.data["Banca"]["nome"].toString(),
-            response.data["Banca"]["descricao"].toString(),
-            response.data["Banca"]["horario_funcionamento"]
+            response.data["bancas"]["nome"].toString(),
+            response.data["bancas"]["descricao"].toString(),
+            response.data["bancas"]["horario_funcionamento"]
                 .toString(),
-            response.data["Banca"]["horario_fechamento"]
+            response.data["bancas"]["horario_fechamento"]
                 .toString(),
-            response.data["Banca"]["preco_minimo"]
+            response.data["bancas"]["preco_minimo"]
+                ,
+            response.data["bancas"]["tipo_entrega"]
                 .toString(),
-            response.data["Banca"]["tipo_entrega"]
-                .toString(),
-            response.data["Banca"]["id"].toString());
+            response.data["bancas"]["id"],
+            response.data["bancas"]["feira_id"],
+            response.data["bancas"]["agricultor_id"]);
         log('bancaModel: ${bancaModel.getNome}');
         return bancaModel;
       } else {
