@@ -65,8 +65,6 @@ class MyStoreRepository {
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin.toString()
               : precoMin,
-          "tipo_entrega":
-              entrega ?? banca.getTipoEntrega.toString(),
           "formas_pagamento": formasPagamento,
         });
       } else {
@@ -85,8 +83,6 @@ class MyStoreRepository {
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin
               : precoMin,
-          "tipo_entrega":
-              entrega ?? banca.getTipoEntrega.toString(),
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath.split("\\").last,

@@ -9,13 +9,11 @@ class UserStorage {
     required String nome,
     required String token,
     required String email,
-
   }) async {
     await storage.write(key: 'id', value: id);
     await storage.write(key: 'nome', value: nome);
     await storage.write(key: 'token', value: token);
     await storage.write(key: 'email', value: email);
-
   }
 
   Future<String> getUserName() async {
@@ -37,8 +35,6 @@ class UserStorage {
     String? email = await storage.read(key: 'email');
     return email ?? '';
   }
-
-
 
   Future<bool> userHasCredentials() async {
     log('Checking if user has credentials');
