@@ -106,20 +106,7 @@ class StartScreen extends StatelessWidget {
                               }),
                           const VerticalSpacerBox(
                               size: SpacerSize.small),
-                          Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
-                            children: <Widget>[
-                              const Text(
-                                  'Não possui conta?'),
-                              CustomTextButton(
-                                  title: 'Crie aqui',
-                                  onPressed: () => navigatorKey
-                                      .currentState!
-                                      .pushReplacementNamed(
-                                          Screens.signUp)),
-                            ],
-                          )
+                        
                         ],
                       ),
                     ),
