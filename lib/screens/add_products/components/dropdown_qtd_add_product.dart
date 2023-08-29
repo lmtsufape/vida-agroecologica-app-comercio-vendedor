@@ -43,7 +43,7 @@ class _DropDownQtdAddProductState
             ),
             Container(
               alignment: AlignmentDirectional.centerStart,
-              height: size.height * 0.06,
+              height: size.height * 0.05,
               width: size.width * 0.57,
               child: ValueListenableBuilder(
                   valueListenable: dropValue,
@@ -51,20 +51,9 @@ class _DropDownQtdAddProductState
                       String value, _) {
                     return DropdownButtonFormField<String>(
                       isExpanded: true,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(6),
-                          ),
-                          borderSide: BorderSide(
-                              color: kTextButtonColor),
-                        ),
-                      ),
                       icon: Icon(
                         Icons.keyboard_arrow_down,
-                        color: kPrimaryColor,
+                        color: Colors.orange,
                         size: size.width * 0.05,
                       ),
                       hint: const Text('Unidade'),

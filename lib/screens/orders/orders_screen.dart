@@ -1,146 +1,198 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
+import 'package:thunderapp/screens/order_detail/order_detail_screen.dart';
+import 'package:thunderapp/screens/orders/orders_controller.dart';
+import 'package:thunderapp/screens/orders/orders_repository.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/models/pedido_model.dart';
+import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 
-class OrdersScreen extends StatelessWidget {
-  const OrdersScreen({super.key});
+class OrdersScreen extends StatefulWidget {
+  const OrdersScreen({Key? key}) : super(key: key);
+
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  OrdersRepository repository = OrdersRepository();
+
+  Future<List<PedidoModel>>? orders;
+
+  @override
+  void initState() {
+    orders = repository.getOrders();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Pedidos',
-          style: kTitle2.copyWith(color: kPrimaryColor),
+    return GetBuilder<OrdersController>(
+      init: OrdersController(),
+      builder: (controller) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Pedidos',
+            style: kTitle2.copyWith(color: kPrimaryColor),
+          ),
         ),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(
-            kDefaultPadding - kSmallSize),
-        height: size.height,
-        child: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return const OrderCard();
-            }),
+        body: Container(
+          padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
+          height: size.height,
+          child: ListView(
+            children: controller.pedidos,
+          ),
+        ),
       ),
     );
   }
 }
 
-class OrderCard extends StatelessWidget {
-  const OrderCard({
+class OrderCard extends StatefulWidget {
+  PedidoModel model;
+
+  OrderCard(
+    this.model, {
     Key? key,
   }) : super(key: key);
 
   @override
+  State<OrderCard> createState() => _OrderCardState();
+}
+
+class _OrderCardState extends State<OrderCard> {
+  @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Pedido 010101',
-              style: kBody3.copyWith(
-                  fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Cliente',
-                  style: kCaption2.copyWith(
-                      color: kTextButtonColor),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: size.width * 0.4,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Pedido #${widget.model.id.toString()}',
+                                    style: kBody3.copyWith(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Divider(
+                                    height: size.height * 0.006,
+                                    color: Colors.transparent,
+                                  ),
+                                  Text(
+                                    'Cliente',
+                                    style:
+                                        kCaption2.copyWith(color: kTextButtonColor),
+                                  ),
+                                ],
+                              ),
+                              Text(widget.model.consumidorId.toString(),
+                                  style: kCaption1),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return OrderDetailScreen(widget.model);
+                          }),);
+                        },
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: kPrimaryColor,
+                          size: size.height * 0.05,
+                        )),
+                  ],
                 ),
-                const Text('Nome do Cliente', style: kCaption1),
-                IconButton(
-                    onPressed: () {
-                      navigatorKey.currentState!
-                          .pushNamed(Screens.orderDetail);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: kTextButtonColor,
-                    ))
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Itens:',
+                      style: kCaption2.copyWith(color: kTextButtonColor),
+                    ),
+                    Text('R\$ ${widget.model.total}')
+                  ],
+                ),
+                const VerticalSpacerBox(size: SpacerSize.medium),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Taxa de entrega:',
+                      style: kCaption2.copyWith(color: kTextButtonColor),
+                    ),
+                    Text('R\$ ${widget.model.taxaEntrega}')
+                  ],
+                ),
+                const VerticalSpacerBox(size: SpacerSize.medium),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text(
+                      'Total do pedido:',
+                      style: kBody2,
+                    ),
+                    Text(
+                      'R\$ ${widget.model.subtotal}',
+                      style: kBody2.copyWith(color: kDetailColor),
+                    )
+                  ],
+                ),
+                const VerticalSpacerBox(size: SpacerSize.large),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      widget.model.dataPedido.toString(),
+                      style: kCaption2.copyWith(color: kTextButtonColor),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(kTinySize),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: kAlertColor),
+                      child: Text(
+                        widget.model.status.toString(),
+                        style: kCaption2.copyWith(color: kBackgroundColor),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
-            const Divider(),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Itens:',
-                  style: kCaption2.copyWith(
-                      color: kTextButtonColor),
-                ),
-                const Text('R\$55,62')
-              ],
-            ),
-            const VerticalSpacerBox(size: SpacerSize.small),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Taxa de entrega:',
-                  style: kCaption2.copyWith(
-                      color: kTextButtonColor),
-                ),
-                const Text('R\$7,62')
-              ],
-            ),
-            const VerticalSpacerBox(size: SpacerSize.small),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text(
-                  'Total do pedido:',
-                  style: kBody2,
-                ),
-                Text(
-                  'R\$64,62',
-                  style:
-                      kBody2.copyWith(color: kDetailColor),
-                )
-              ],
-            ),
-            const VerticalSpacerBox(size: SpacerSize.small),
-            Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '10/10/2022',
-                  style: kCaption2.copyWith(
-                      color: kTextButtonColor),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(kTinySize),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(32),
-                      color: kAlertColor),
-                  child: Text(
-                    'Em andamento',
-                    style: kCaption2.copyWith(
-                        color: kBackgroundColor),
-                  ),
-                )
-              ],
-            ),
-          ],
+          ),
         ),
-      ),
+        Divider(height: size.height * 0.01, color: Colors.transparent,),
+      ],
     );
   }
 }

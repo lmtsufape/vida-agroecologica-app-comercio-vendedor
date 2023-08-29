@@ -13,10 +13,10 @@ final kSecondaryFontFamily =
 final kDescriptionFontFamily =
     GoogleFonts.firaSans().fontFamily;
 //**LIGHT COLORS */
-const Color kPrimaryColor = Color(0xFF70BF4C);
+const Color kPrimaryColor = Color(0xFFF5821F);
 const Color kBackgroundColor = Colors.white;
 const Color kSecondaryColor = Color(0xFF435969);
-const Color kDetailColor = Color(0xFFF87F01);
+const Color kDetailColor = Color(0xFFF5821F);
 const Color kOnBackgroundColor = Color(0xFF212931);
 const Color kTextColor = Colors.white;
 const Color kOnSurfaceColor = Colors.white;
@@ -38,24 +38,24 @@ const Color kAlertColor = Colors.orangeAccent;
 //**TEXT STYLES */
 const TextStyle kTitle1 = TextStyle(
     fontSize: 38,
-    fontWeight: FontWeight.w900,
+    fontWeight: FontWeight.w500,
     color: kSecondaryColor);
 const TextStyle kTitle2 = TextStyle(
   fontSize: 26,
-  fontWeight: FontWeight.w900,
+  fontWeight: FontWeight.w500,
 );
 const TextStyle kBody1 = TextStyle(
   fontSize: 24,
-  fontWeight: FontWeight.w900,
+  fontWeight: FontWeight.w500,
 );
 const TextStyle kBody2 =
-    TextStyle(fontSize: 22, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 22, fontWeight: FontWeight.w500);
 const TextStyle kBody3 = TextStyle(
   fontSize: 20,
 );
 const TextStyle kCaption1 = TextStyle(
   fontSize: 18,
-  fontWeight: FontWeight.w900,
+  fontWeight: FontWeight.w500,
 );
 const TextStyle kCaption2 = TextStyle(
   fontSize: 18,

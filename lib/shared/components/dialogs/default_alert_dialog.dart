@@ -134,8 +134,7 @@ class DefaultAlertDialogOneButton extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Padding(
-              padding: const EdgeInsets.only(
-                  right: 28, bottom: 4),
+              padding: const EdgeInsets.only(bottom: 4),
               child: SizedBox(
                 width: size.width * 0.3,
                 height: size.height * 0.040,

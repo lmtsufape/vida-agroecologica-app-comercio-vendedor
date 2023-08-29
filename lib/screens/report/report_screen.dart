@@ -118,6 +118,7 @@ class TransactionListWidget extends StatelessWidget {
                       style: kCaption2.copyWith(
                           color: kTextButtonColor),
                     ),
+
                     Text('${item.consumidor_id}', style: kCaption1),
                     IconButton(
                         onPressed: () {

@@ -2,31 +2,31 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:thunderapp/screens/products/components/card_products.dart';
 import 'package:thunderapp/screens/products/products_repository.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
 
 import '../list_products/components/card_products_list.dart';
 
-class ProductsController extends GetxController {
-  List<CardProducts> products = [];
+class ListProductsController extends GetxController {
+  List<CardProductsList> products = [];
   int quantProducts = 0;
   int quantStock = 0;
   ProductsRepository repository = ProductsRepository();
   final TextEditingController _searchController =
-      TextEditingController();
+  TextEditingController();
 
   TextEditingController get searchController =>
       _searchController;
 
-  Future<List<CardProducts>> populateCardsProducts() async {
-    List<CardProducts> list = [];
+  Future<List<CardProductsList>> populateCardsProductsList() async {
+    List<CardProductsList> list = [];
 
     var products = await repository.getProducts();
 
     quantProducts = products.length;
 
     for (int i = 0; i < products.length; i++) {
-      CardProducts card = CardProducts(products[i]);
+      CardProductsList card = CardProductsList(products[i]);
       list.add(card);
       if (products.isNotEmpty) {
         quantStock = products[i].estoque!;
@@ -44,7 +44,7 @@ class ProductsController extends GetxController {
 
   @override
   void onInit() async {
-    products = await populateCardsProducts();
+    products = await populateCardsProductsList();
     super.onInit();
     update();
   }

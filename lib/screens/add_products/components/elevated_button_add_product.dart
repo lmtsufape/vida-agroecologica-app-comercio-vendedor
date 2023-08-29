@@ -14,7 +14,7 @@ class ElevatedButtonAddProduct extends StatefulWidget {
 
   static ButtonStyle styleEditProduct =
       ElevatedButton.styleFrom(
-    backgroundColor: kPrimaryColor,
+    backgroundColor: Colors.orange,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5)),
   );
@@ -55,24 +55,22 @@ class _ElevatedButtonAddProductState
             } else {
               showDialog(
                   context: context,
-                  builder: ((context) => DefaultAlertDialog(
-                        title: 'Success',
+                  builder: ((context) => DefaultAlertDialogOneButton(
+                        title: 'Sucesso',
                         body:
                             'Produto cadastrado com sucesso',
-                        cancelText: 'Ok',
                         confirmText: 'Ok',
                         onConfirm: () =>
                             Navigator.pushNamed(
                                 context, Screens.products),
-                        cancelColor: kErrorColor,
-                        confirmColor: kSuccessColor,
+                        buttonColor: kSuccessColor,
                       )));
             }
           });
         },
         style: ElevatedButtonAddProduct.styleEditProduct,
         child: Text(
-          'Adicionar',
+          'Salvar',
           style: TextStyle(
               color: kTextColor,
               fontSize: size.height * 0.024,

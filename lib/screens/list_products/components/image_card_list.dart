@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
+import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../../shared/constants/app_text_constants.dart';
+import '../../../shared/core/models/products_model.dart';
 
 // ignore: must_be_immutable
-class ImageEdit extends StatefulWidget {
-  AddProductsController? controller;
-  ImageEdit(this.controller, {Key? key}) : super(key: key);
+class ImageCardList extends StatefulWidget {
+  ProductsModel model;
+  ImageCardList(this.model ,{Key? key}) : super(key: key);
 
   @override
-  State<ImageEdit> createState() => _ImageEditState();
+  State<ImageCardList> createState() => _ImageCardListState();
 }
 
-class _ImageEditState extends State<ImageEdit> {
+class _ImageCardListState extends State<ImageCardList> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -22,23 +24,23 @@ class _ImageEditState extends State<ImageEdit> {
       child: AspectRatio(
         aspectRatio: 12/9,
         child: Material(
-          elevation: 3,
+          elevation: 2,
           shadowColor: Colors.black,
           child: FutureBuilder(
             builder: (context, snapshot) {
-              if (widget.controller!.productId == null) {
+              if (widget.model.id == null) {
                 return const Icon(
                   Icons.shopping_bag,
                   size: 100,
-                  color: Colors.orange,
+                  color: kPrimaryColor,
                 );
               } else {
                 return Image(
                     image: NetworkImage(
-                  '$kBaseURL/imagens/produtos/${widget.controller!.productId}',
-                ));
+                      '$kBaseURL/imagens/produtos/${widget.model.id}',
+                    ));
               }
-            }, future: null,
+            },
           ),
         ),
       ),

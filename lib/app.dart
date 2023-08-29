@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
 import 'package:thunderapp/screens/add_products/add_products_screen.dart';
+import 'package:thunderapp/screens/list_products/list_products_screen.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
 import 'package:thunderapp/screens/payments/payments_screen.dart';
 import 'package:thunderapp/screens/products/products_screen.dart';
@@ -14,7 +15,7 @@ import 'package:thunderapp/screens/start/start_screen.dart';
 import 'package:thunderapp/shared/constants/app_theme.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 import 'screens/home/home_screen.dart';
-import 'screens/order detail/order_detail_screen.dart';
+import 'screens/order_detail/order_detail_screen.dart';
 import 'screens/signin/sign_in_screen.dart';
 import 'screens/splash/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -66,14 +67,13 @@ class App extends StatelessWidget {
             const SignInScreen(),
         Screens.signUp: (context) => const SignUpScreen(),
         //Screens.myStore: (context) => MyStoreScreen(),
-        Screens.orders: (context) => const OrdersScreen(),
-        Screens.orderDetail: (context) =>
-            const OrderDetailScreen(),
+        Screens.orders: (BuildContext context) => OrdersScreen(),
+        //Screens.orderDetail: (BuildContext context) =>
+           // OrderDetailScreen(),
         Screens.payments: (context) => const PaymentsScreen(),
         Screens.products: (context) => const ProductsScreen(),
-        Screens.editProducts: (context) =>
-            const AddProductsScreen(),
         Screens.report: (context) => const ReportScreen(),
+        Screens.listProducts: (context) => const ListProductsScreen(),
       },
     );
   }
