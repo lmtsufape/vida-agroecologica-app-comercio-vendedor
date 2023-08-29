@@ -26,7 +26,7 @@ class ProductsScreen extends StatelessWidget {
         builder: (controller) => Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'Produtos',
+                  'Adicionar produto',
                   style: kTitle2.copyWith(
                       color: kPrimaryColor),
                 ),
@@ -38,26 +38,24 @@ class ProductsScreen extends StatelessWidget {
                 height: size.height,
                 padding:
                     const EdgeInsets.all(kDefaultPadding),
-                child: Column(
-                  children: <Widget>[
-                     InfoCards(controller),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.medium),
-                    ProductSearchBar(
-                        controller:
-                            controller.searchController,
-                        onSearch: () {}),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.tiny),
-                    AddButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context,
-                                Screens.editProducts)),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.large),
+                child: ListView(
+                  children: [
                     Column(
-                      children: controller.products,
-                    )
+                      children: <Widget>[
+                        ProductSearchBar(
+                            controller:
+                                controller.searchController,
+                            onSearch: () {}),
+                        const VerticalSpacerBox(
+                            size: SpacerSize.tiny),
+                        const VerticalSpacerBox(
+                            size: SpacerSize.large),
+                        Divider(height: size.height * 0.1, color: Colors.transparent,),
+                        Column(
+                          children: controller.products,
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),
