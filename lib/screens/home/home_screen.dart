@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/horizontal_spacer_box.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
+import 'package:thunderapp/screens/home/NetworkImageWithFallback.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/my%20store/my_store_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
@@ -57,16 +58,24 @@ class HomeScreen extends StatelessWidget {
                           vertical: 28.0, horizontal: 14),
                       child: Row(
                         children: <Widget>[
-                          CircleAvatar(
-                            backgroundImage: controller.bancaModel?.id == null
-                                ? null
-                                : NetworkImage(
-                                    '$kBaseURL/bancas/${controller.bancaModel!.id}/imagem',
-                                    headers: {
-                                        "Authorization":
-                                            "Bearer ${controller.userToken}"
-                                      }),
-                            radius: 38,
+
+                          Container(
+                            width: 76,
+                            height: 76,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: NetworkImageWithFallback(
+                              url:
+                                  '$kBaseURL/imagens/bancas/${controller.bancaModel!.id}',
+                              headers: {
+                                "Authorization":
+                                    "Bearer ${controller.userToken}"
+                              },
+                              fallbackUrl:
+                                  'https://cdn-icons-png.flaticon.com/512/1077/1077114.png',
+                            ),
+
                           ),
                           const HorizontalSpacerBox(
                               size: SpacerSize.small),
