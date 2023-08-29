@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:thunderapp/screens/products/components/card_products.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../../shared/core/user_storage.dart';
-import 'components/info_cards_products.dart';
 
 class ProductsRepository {
   Future<List<ProductsModel>> getProducts() async {

@@ -56,7 +56,7 @@ class _DropDownAddProductState
                 color: kPrimaryColor,
                 size: size.width * 0.05,
               ),
-              hint: Text('Selecione'),
+              hint: const Text('Selecione'),
               value: null,
               items: widget.controller.products.map((obj) {
                 return DropdownMenuItem<TableProductsModel>(

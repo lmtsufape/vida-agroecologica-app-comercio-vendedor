@@ -41,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void stopController() async {
     Future.delayed(const Duration(milliseconds: 200), () {
+     
       setState(() {
         opacity = 1;
       });

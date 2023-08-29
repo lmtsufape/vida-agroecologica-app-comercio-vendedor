@@ -22,7 +22,7 @@ class TableProductsModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =
-        new Map<String, dynamic>();
+        <String, dynamic>{};
     data['id'] = id;
     data['nome'] = nome;
     data['categoria'] = categoria;

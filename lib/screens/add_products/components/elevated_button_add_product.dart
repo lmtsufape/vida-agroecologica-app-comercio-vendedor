@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
-import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 

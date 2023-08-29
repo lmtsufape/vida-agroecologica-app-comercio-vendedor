@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/http/exceptions.dart';

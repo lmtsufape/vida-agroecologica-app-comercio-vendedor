@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:provider/provider.dart';
 import 'package:thunderapp/screens/products/components/add_button.dart';
-import 'package:thunderapp/screens/products/components/card_products.dart';
 import 'package:thunderapp/screens/products/components/product_search_bar.dart';
 import 'package:thunderapp/screens/products/products_controller.dart';
 
