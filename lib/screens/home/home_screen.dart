@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
         builder: (controller) => Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'Gestão Agroecológica',
+                  'Início',
                   style: kTitle2.copyWith(
                       color: kPrimaryColor),
                 ),
@@ -52,49 +52,57 @@ class HomeScreen extends StatelessWidget {
                       CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      color: kPrimaryColor,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 28.0, horizontal: 14),
+                      padding: const EdgeInsets.all(kDefaultPadding),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          CircleAvatar(
-                            backgroundImage: controller
-                                        .userToken ==
-                                    null
-                                ? null
-                                : NetworkImage(
-                                    '$kBaseURL/imagens/bancas/${controller.bancaModel!.id}',
-                                    headers: {
-                                        "Authorization":
-                                            "Bearer ${controller.userToken}"
-                                      }),
-                            radius: 38,
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: controller
+                                            .userToken ==
+                                        null
+                                    ? null
+                                    : NetworkImage(
+                                        '$kBaseURL/imagens/bancas/${controller.bancaModel!.id}',
+                                        headers: {
+                                            "Authorization":
+                                                "Bearer ${controller.userToken}"
+                                          }),
+                                radius: 38,
+                              ),
+                              const HorizontalSpacerBox(
+                                  size: SpacerSize.small),
+                              controller.bancaModel == null
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : Text(
+                                      "Olá, ${controller.bancaModel!.getNome}",
+                                      style: TextStyle(fontSize: size.height * 0.016, fontWeight: FontWeight.w500, color: kSecondaryColor),
+                                    ),
+                            ],
                           ),
-                          const HorizontalSpacerBox(
-                              size: SpacerSize.small),
-                          controller.bancaModel == null
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
-                                )
-                              : Text(
-                                  controller
-                                      .bancaModel!.getNome,
-                                  style: kBody2.copyWith(
-                                      color:
-                                          kBackgroundColor),
-                                ),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(
-                                        builder: (context) {
-                                  return MyStoreScreen(
-                                      controller
-                                          .bancaModel!);
-                                }));
-                              },
-                              icon: const Icon(Icons.edit,
-                                  color: kBackgroundColor)),
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(
+                                            builder: (context) {
+                                      return MyStoreScreen(
+                                          controller
+                                              .bancaModel!);
+                                    }));
+                                  },
+                                  icon: Icon(Icons.mode_edit_outline_outlined,
+                                      color: kPrimaryColor, size: size.height * 0.04,)),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.notifications_none,
+                                      color: kPrimaryColor, size: size.height * 0.04,)),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -133,8 +141,8 @@ class HomeScreen extends StatelessWidget {
                             },
                           ),
                           ItemCardHolder(
-                            icon: Icons.bar_chart_rounded,
-                            title: 'Relatório',
+                            icon: Icons.history_outlined,
+                            title: 'Histórico',
                             onTap: () {
                               Navigator.pushNamed(
                                   context, Screens.report);
