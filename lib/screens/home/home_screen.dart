@@ -11,7 +11,7 @@ import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../components/utils/horizontal_spacer_box.dart';
-import '../my store/my_store_screen.dart';
+import '../my store/edit_store_screen.dart';
 import 'components/item_card_holder.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                         children: <Widget>[
                           CircleAvatar(
                             backgroundImage: controller
-                                        .bancaModel?.id !=
+                                        .bancaModel?.id ==
                                     null
                                 ? null
                                 : NetworkImage(
@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (_) =>
-                                                MyStoreScreen(
+                                                EditStoreScreen(
                                                     controller
                                                         .bancaModel)));
                                   },

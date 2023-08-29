@@ -112,36 +112,7 @@ class SignInScreen extends StatelessWidget {
                                                   kErrorColor),
                                     )
                                   : const SizedBox(),
-                              const Text('ou'),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .center,
-                                children: <Widget>[
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                          FontAwesomeIcons
-                                              .google),
-                                      iconSize: 38),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                          FontAwesomeIcons
-                                              .facebook),
-                                      iconSize: 38)
-                                ],
-                              ),
-                              const VerticalSpacerBox(
-                                  size: SpacerSize.small),
-                              CustomTextButton(
-                                title: 'Cadastre-se',
-                                onPressed: () =>
-                                    navigatorKey
-                                        .currentState!
-                                        .pushNamed(
-                                            Screens.signUp),
-                              ),
+                          
                             ],
                           ),
                         ),

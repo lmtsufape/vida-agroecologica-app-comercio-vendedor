@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:thunderapp/screens/my%20store/add_store_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 
 import 'sign_in_repository.dart';
@@ -36,14 +37,26 @@ class SignInController with ChangeNotifier {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      if (succ == true) {
+      if (succ == 1) {
         status = SignInStatus.done;
+        
         notifyListeners();
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacementNamed(
+        
+      
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacementNamed(
             context, Screens.home);
+       
+        
       }
-      if (!succ) {
+      else if (succ == 2) {
+      
+
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacementNamed(context, Screens.addStore);
+      }
+      else{
+        
         status = SignInStatus.error;
         setErrorMessage(
             'Credenciais inválidas, verifique seus dados');
@@ -51,6 +64,8 @@ class SignInController with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
+      
+     
       status = SignInStatus.error;
       setErrorMessage(
           'Credenciais inválidas verifique seus dados');

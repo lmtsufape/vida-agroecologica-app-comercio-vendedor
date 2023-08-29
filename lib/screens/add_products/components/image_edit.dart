@@ -5,6 +5,7 @@ import '../../../shared/constants/app_text_constants.dart';
 // ignore: must_be_immutable
 class ImageEdit extends StatefulWidget {
   AddProductsController? controller;
+
   ImageEdit(this.controller, {Key? key}) : super(key: key);
 
   @override

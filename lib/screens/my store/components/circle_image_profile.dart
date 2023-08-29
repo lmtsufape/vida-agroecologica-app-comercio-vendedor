@@ -63,8 +63,8 @@ class _CircleImageProfileState
 Widget bottomSheet(MyStoreController controller) {
   MyStoreController controller0 = controller;
   return Container(
-    height: 100.0,
-    width: 300,
+    height: 130.0,
+    width: 500,
 
     margin: const EdgeInsets.symmetric(
       horizontal: 20,

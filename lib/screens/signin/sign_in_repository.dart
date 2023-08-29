@@ -6,9 +6,12 @@ import 'package:thunderapp/shared/core/user_storage.dart';
 
 class SignInRepository {
   final userStorage = UserStorage();
+  String userId = "0";
+  String userToken = "0";
+  
 
   final _dio = Dio();
-  Future<bool> signIn({
+  Future<int> signIn({
     required String email,
     required String password,
   }) async {
@@ -25,22 +28,42 @@ class SignInRepository {
           if (await userStorage.userHasCredentials()) {
             await userStorage.clearUserCredentials();
           }
+          userId = response.data['user']['id'].toString();
+          userToken = response.data['token'].toString();
           await userStorage.saveUserCredentials(
-              id: response.data['user']['id'].toString(),
+              id: userId,
               nome:
                   response.data['user']['name'].toString(),
               token:
-                  response.data['token'].toString(),
+                  userToken,
               email:
                   response.data['user']['email'].toString(),
               );
-          return true;
+          try{
+            Response response = await _dio.get(
+          '$kBaseURL/bancas/agricultores/$userId',
+          options: Options(headers: {
+            "Authorization": "Bearer $userToken"
+          }));
+      if (response.statusCode == 200) {
+        if(response.data["bancas"].isEmpty){
+          return 2;
+        }else{
+          print("deu false");
+          return 1;}
+      }
+          }catch(e){
+            print(e);
+            return 0;
+          }
+      return 1;
         
       }
     } catch (e) {
       log(e.toString());
-      return false;
+      return 0;
     }
-    return false;
+    return 0;
   }
+
 }

@@ -6,22 +6,21 @@ import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-import 'package:thunderapp/shared/core/models/banca_model.dart';
 import '../../components/forms/custom_text_form_field.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
 import 'components/circle_image_profile.dart';
 
 // ignore: must_be_immutable
-class MyStoreScreen extends StatefulWidget {
-  BancaModel? bancaModel;
+class AddStoreScreen extends StatefulWidget {
+ 
 
-  MyStoreScreen(this.bancaModel, {Key? key}) : super(key: key);
+  const AddStoreScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyStoreScreen> createState() => _MyStoreScreenState();
+  State<AddStoreScreen> createState() => _AddStoreScreenState();
 }
 
-class _MyStoreScreenState extends State<MyStoreScreen> {
+class _AddStoreScreenState extends State<AddStoreScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,7 +29,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
         builder: (controller) => Scaffold(
             appBar: AppBar(
               title: Text(
-                'Editar perfil',
+                'Criar Banca',
                 style: TextStyle(
                     color: kPrimaryColor,
                     fontWeight: FontWeight.w500,
@@ -51,7 +50,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                       child: TextButton(
                         onPressed: () {},
                         child: Text(
-                          'Editar foto',
+                          'Adicionar foto',
                           style: TextStyle(
                             color: kSecondaryColor,
                             fontSize: size.height * 0.014,
@@ -100,7 +99,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                                 alignment: Alignment.center,
                                 child: Expanded(
                                   child: CustomTextFormField(
-                                    hintText: widget.bancaModel!.nome,
+                                    hintText: "nome",
                                     controller: controller.nomeBancaController,
                                   ),
                                 ),
@@ -164,8 +163,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                                       alignment: Alignment.center,
                                       child: Expanded(
                                         child: CustomTextFormField(
-                                          hintText: widget
-                                              .bancaModel!.horarioAbertura,
+                                          hintText: "00:00",
                                           keyboardType: TextInputType.number,
                                           maskFormatter:
                                               controller.timeFormatter,
@@ -223,8 +221,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                                       alignment: Alignment.center,
                                       child: Expanded(
                                         child: CustomTextFormField(
-                                          hintText: widget
-                                              .bancaModel!.horarioFechamento,
+                                          hintText: "00:00",
                                           keyboardType: TextInputType.number,
                                           maskFormatter:
                                               controller.timeFormatter,
@@ -299,19 +296,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                         ],
                       ),
                     ),
-                    CheckboxListTile(
-                        contentPadding:
-                            const EdgeInsetsDirectional.only(start: 0),
-                        title: Text('Realiza Entrega?',
-                            style: kTitle1.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: kSecondaryColor)),
-                        value: controller.deliver,
-                        checkboxShape: const CircleBorder(),
-                        onChanged: (bool? value) {
-                          controller.setDeliver(value!);
-                        }),
+                   
                     SizedBox(
                       width: size.width * 0.81,
                       child: Text('Preço mínimo pra frete',
@@ -349,7 +334,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                                 child: Expanded(
                                   child: CustomTextFormField(
                                     hintText:
-                                        widget.bancaModel!.precoMin.toString(),
+                                        "7.00",
                                     controller: controller.quantiaMinController,
                                   ),
                                 ),
@@ -368,45 +353,24 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                     PrimaryButton(
                         text: 'Salvar',
                         onPressed: () {
-                          if (controller.verifySelectedFields()) {
-                            controller.editBanca(context, widget.bancaModel!);
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (context) =>
-                                    DefaultAlertDialogOneButton(
-                                      title: 'Erro',
-                                      body:
-                                          'Adicione pelo menos uma forma de pagamento',
-                                      confirmText: 'Ok',
-                                      onConfirm: () => Get.back(),
-                                      buttonColor: kAlertColor,
-                                    ));
-                          }
+                           if (controller.verifyFields()) {
+                             controller.adicionarBanca(context);
+                           } else {
+                             showDialog(
+                                 context: context,
+                                 builder: (context) =>
+                                     DefaultAlertDialogOneButton(
+                                       title: 'Erro',
+                                       body:
+                                           'Preencha todos os campos',
+                                       confirmText: 'Ok',
+                                       onConfirm: () => Get.back(),
+                                       buttonColor: kAlertColor,
+                                     ));
+                           }
                         }),
                     Divider(height: size.height * 0.015, color: Colors.transparent),
-                    SizedBox(
-                      width: size.width,
-                      height: size.height * 0.06,
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(
-                              color: Colors.orange, width: 1.5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: Text(
-                          'Voltar',
-                          style: TextStyle(
-                              color: Colors.orange,
-                              fontSize: size.height * 0.020,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
+                  
                   ],
                 ))));
   }
