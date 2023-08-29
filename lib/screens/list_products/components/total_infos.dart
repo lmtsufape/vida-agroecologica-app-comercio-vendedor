@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 
 class TotalInfos extends StatelessWidget {
-  const TotalInfos({super.key});
+  ListProductsController controller;
+  TotalInfos(this.controller, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +29,15 @@ class TotalInfos extends StatelessWidget {
                       fontSize: size.height * 0.020,
                       fontWeight: FontWeight.w500),
                 ),
-                Divider(height: size.height * 0.006, color: Colors.transparent,),
+                Divider(
+                  height: size.height * 0.006,
+                  color: Colors.transparent,
+                ),
                 Text(
-                  '0',
-                  style: TextStyle(fontSize: size.height * 0.020, fontWeight: FontWeight.w500),
+                  controller.quantProducts.toString(),
+                  style: TextStyle(
+                      fontSize: size.height * 0.020,
+                      fontWeight: FontWeight.w500),
                 )
               ],
             ),
@@ -50,15 +56,20 @@ class TotalInfos extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Total de produtos',
+                  'Total em Estoque',
                   style: TextStyle(
                       fontSize: size.height * 0.020,
                       fontWeight: FontWeight.w500),
                 ),
-                Divider(height: size.height * 0.006, color: Colors.transparent,),
+                Divider(
+                  height: size.height * 0.006,
+                  color: Colors.transparent,
+                ),
                 Text(
-                  '0',
-                  style: TextStyle(fontSize: size.height * 0.020, fontWeight: FontWeight.w500),
+                  controller.quantStock.toString(),
+                  style: TextStyle(
+                      fontSize: size.height * 0.020,
+                      fontWeight: FontWeight.w500),
                 )
               ],
             ),

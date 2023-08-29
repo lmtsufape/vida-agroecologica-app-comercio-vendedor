@@ -66,7 +66,7 @@ class ListProductsScreen extends StatelessWidget {
                     ),
                   ),
                   Divider(height: size.height * 0.014, color: Colors.transparent,),
-                  const TotalInfos(),
+                   TotalInfos(controller),
                   Divider(height: size.height * 0.04, color: Colors.transparent,),
                   Text(
                     'Produtos',

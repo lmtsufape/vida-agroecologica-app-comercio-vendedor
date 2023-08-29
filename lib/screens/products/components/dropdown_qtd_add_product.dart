@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
-import 'package:thunderapp/screens/add_products/components/stock_add_product.dart';
+import 'package:thunderapp/screens/products/products_controller.dart';
+import 'package:thunderapp/screens/products/components/stock_add_product.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class DropDownQtdAddProduct extends StatefulWidget {
-  final AddProductsController controller;
+  final ProductsController controller;
 
   const DropDownQtdAddProduct(this.controller, {Key? key})
       : super(key: key);

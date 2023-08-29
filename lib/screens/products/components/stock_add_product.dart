@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
+import 'package:thunderapp/screens/products/products_controller.dart';
 
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../components/forms/custom_text_form_field.dart';
 
 class StockAddProduct extends StatefulWidget {
-  final AddProductsController controller;
+  final ProductsController controller;
 
   const StockAddProduct(this.controller, {Key? key})
       : super(key: key);
@@ -27,8 +27,8 @@ class _StockAddProductState extends State<StockAddProduct> {
         Text(
           'Estoque atual',
           style: TextStyle(
-              fontSize: size.height * 0.017,
-              color: kTextButtonColor,
+            fontSize: size.height * 0.017,
+            color: kTextButtonColor,
           ),
         ),
         Divider(
@@ -45,8 +45,8 @@ class _StockAddProductState extends State<StockAddProduct> {
               child: Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(color: Colors.black, width: 1)
-                  ),
+                      bottom: BorderSide(
+                          color: Colors.black, width: 1)),
                 ),
                 alignment: Alignment.center,
                 child: CustomTextFormField(
