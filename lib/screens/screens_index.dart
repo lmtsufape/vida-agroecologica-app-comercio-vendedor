@@ -17,4 +17,5 @@ class Screens {
   static const String products = '/products';
   static const String editProducts = '/edit_products';
   static const String report = '/report';
+  static const String listProducts = '/list_products';
 }
