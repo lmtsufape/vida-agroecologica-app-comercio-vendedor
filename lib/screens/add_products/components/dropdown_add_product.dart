@@ -26,13 +26,6 @@ class _DropDownAddProductState
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(bottom: 4),
-          child: Text(
-            'Nome do produto',
-            style: TextStyle(color: kTextButtonColor),
-          ),
-        ),
         Container(
             alignment: Alignment.topCenter,
             width: size.width,
@@ -40,23 +33,12 @@ class _DropDownAddProductState
             child:
                 DropdownButtonFormField<TableProductsModel>(
               isExpanded: true,
-              decoration: const InputDecoration(
-                fillColor: Colors.white,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(6),
-                  ),
-                  borderSide:
-                      BorderSide(color: kTextButtonColor),
-                ),
-              ),
               icon: Icon(
                 Icons.keyboard_arrow_down,
                 color: kPrimaryColor,
                 size: size.width * 0.05,
               ),
-              hint: Text('Selecione'),
+              hint: const Text('Nome do produto'),
               value: null,
               items: widget.controller.products.map((obj) {
                 return DropdownMenuItem<TableProductsModel>(
