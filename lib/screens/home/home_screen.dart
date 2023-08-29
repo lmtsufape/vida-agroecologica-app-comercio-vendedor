@@ -14,9 +14,14 @@ import '../../components/utils/horizontal_spacer_box.dart';
 import '../my store/edit_store_screen.dart';
 import 'components/item_card_holder.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -32,20 +37,7 @@ class HomeScreen extends StatelessWidget {
                 iconTheme: const IconThemeData(
                     color: kPrimaryColor),
               ),
-              drawer: Drawer(
-                  child: ListView(
-                children: [
-                  ListTile(
-                    title: const Text('Sair'),
-                    trailing: const Icon(
-                      Icons.exit_to_app,
-                      size: 20,
-                      color: kPrimaryColor,
-                    ),
-                    onTap: () {},
-                  )
-                ],
-              )),
+             
               body: SizedBox(
                 width: size.width,
                 height: size.height,
