@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
 import '../../shared/core/image_picker_controller.dart';
+import '../screens_index.dart';
 
 class MyStoreController extends GetxController {
   UserStorage userStorage = UserStorage();
@@ -17,16 +19,21 @@ class MyStoreController extends GetxController {
   String? _imagePath;
   bool hasImg = false;
   bool editSucess = false;
+  bool adcSucess = false;
   String userToken = '';
 
   final List<bool> isSelected = [false, false, false];
-  final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
+  final List<String> checkItems = [
+    'Dinheiro',
+    'PIX',
+    'Cartão'
+  ];
 
   bool deliver = false;
 
   MaskTextInputFormatter timeFormatter =
       MaskTextInputFormatter(
-          mask: '##:##:##',
+          mask: '##:##',
           filter: {"#": RegExp(r'[0-9]')},
           type: MaskAutoCompletionType.lazy);
 
@@ -113,17 +120,56 @@ class MyStoreController extends GetxController {
         _horarioAberturaController.text,
         _horarioFechamentoController.text,
         _quantiaMinController.text,
-        deliver,
         _imagePath,
         isSelected,
         banca);
   }
 
-  bool verifySelectedFields(){
-    for(int i = 0; i < isSelected.length; i++){
-      if(isSelected[i] == true){
-        return true;
+  void adicionarBanca(BuildContext context) async {
+    try{
+       adcSucess = await myStoreRepository.adicionarBanca(
+        _nomeBancaController.text,
+        _horarioAberturaController.text,
+        _horarioFechamentoController.text,
+        _quantiaMinController.text,
+        _imagePath,
+        isSelected);
+        if(adcSucess){
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacementNamed(
+            context, Screens.home);
+        }else{
+          log("ocorreu um erro, verifique os campos e tente novamente");
+        }
+    }catch(e){
+      print(e);
+    }
+   
+      
+  }
+
+  bool verifySelectedFields() {
+   
+      for (int i = 0; i < isSelected.length; i++) {
+        if (isSelected[i] == true) {
+          return true;
+        }
+     
+    }
+    return false;
+  }
+   bool verifyFields() {
+    if (_nomeBancaController.text.isNotEmpty &&
+        _horarioAberturaController.text.isNotEmpty &&
+        _horarioFechamentoController.text.isNotEmpty &&
+        _quantiaMinController.text.isNotEmpty &&
+        _imagePath != null) {
+      for (int i = 0; i < isSelected.length; i++) {
+        if (isSelected[i] == true) {
+          return true;
+        }
       }
+      return false;
     }
     return false;
   }

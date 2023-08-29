@@ -15,7 +15,7 @@ import 'package:thunderapp/shared/constants/app_theme.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/my store/add_store_screen.dart';
-import 'screens/my store/my_store_screen.dart';
+import 'screens/my store/edit_store_screen.dart';
 import 'screens/signin/sign_in_screen.dart';
 import 'screens/splash/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

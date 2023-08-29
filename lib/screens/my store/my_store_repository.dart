@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
@@ -17,18 +19,11 @@ class MyStoreRepository {
       String horarioAbertura,
       String horarioFechamento,
       String precoMin,
-      bool? deliver,
       String? imgPath,
       List<bool> isSelected,
       BancaModel banca) async {
     //Verifica se o usuário quer entrega ou retirada na banca e seta a variável entrega
-    if (deliver != null) {
-      if (deliver == true) {
-        entrega = 'ENTREGA';
-      } else {
-        entrega = 'RETIRADA';
-      }
-    }
+
     //Verifica se o usuário selecionou alguma forma de pagamento e seta a variável formasPagamento
     // a partir do checkItems, ele percorre o isSelected e verifica quais estão true,
     // e adiciona o valor de i + 1 no checkItems o i + 1 é o id da forma de pagamento, em seguida
@@ -47,7 +42,9 @@ class MyStoreRepository {
           0, formasPagamento.length - 1);
     }
     String? userToken = await userStorage.getUserToken();
-    try {
+    print(banca.getPrecoMin);
+    
+      try {
       //Se o usuário não selecionou uma imagem, ele envia o body sem a imagem para a API
       if (imgPath == null) {
         body = FormData.fromMap({
@@ -55,17 +52,17 @@ class MyStoreRepository {
               ? banca.getNome.toString()
               : nome,
           "descricao": "loja",
-          "horario_funcionamento": horarioAbertura.isEmpty
+          "horario_abertura": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
               : horarioAbertura,
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
               : horarioFechamento,
-          "funcionamento": "1",
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin.toString()
               : precoMin,
           "formas_pagamento": formasPagamento,
+          "bairro entrega": "1=>4.50"
         });
       } else {
         body = FormData.fromMap({
@@ -73,13 +70,12 @@ class MyStoreRepository {
               ? banca.getNome.toString()
               : nome,
           "descricao": "loja",
-          "horario_funcionamento": horarioAbertura.isEmpty
+          "horario_abertura": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
               : '$horarioAbertura:00',
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
               : '$horarioFechamento:00',
-          "funcionamento": "1",
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin
               : precoMin,
@@ -91,12 +87,12 @@ class MyStoreRepository {
         });
       }
       Response response =
-          await _dio.post('$kBaseURL/bancas',
+          await _dio.post('$kBaseURL/bancas/${banca.getId}',
               options: Options(
                 headers: {
                   "Authorization": "Bearer $userToken",
                   "Content-Type": "multipart/form-data",
-                  "X-HTTP-Method-Override": "PUT"
+                  "X-HTTP-Method-Override": "PATCH"
                 },
               ),
               data: body);
@@ -124,4 +120,76 @@ class MyStoreRepository {
     }
     return false;
   }
-}
+
+  Future<bool> adicionarBanca(String nome, String horarioAbertura, String horarioFechamento, String precoMin,String? imgPath, List<bool> isSelected) async{
+     if (formasPagamento == '' && checkItems.isEmpty) {
+      for (int i = 0; i < isSelected.length; i++) {
+        if (isSelected[i] == true) {
+          checkItems.add((i + 1).toString());
+        }
+      }
+      for (int i = 0; i < checkItems.length; i++) {
+        formasPagamento += '${checkItems[i]},';
+      }
+      //Remove a última vírgula da string
+      formasPagamento = formasPagamento.substring(
+          0, formasPagamento.length - 1);
+    }
+    String? userToken = await userStorage.getUserToken();
+    String? userId = await userStorage.getUserId();
+     try {
+      print(horarioAbertura);
+      print(horarioFechamento);
+      body = FormData.fromMap({
+          "nome": nome,
+          "descricao": "loja",
+          "horario_abertura":horarioAbertura,
+          "horario_fechamento":horarioFechamento,
+          "preco_minimo": precoMin,
+          "imagem": await MultipartFile.fromFile(
+            imgPath.toString(),
+            filename: imgPath!.split("\\").last,
+          ),
+          "formas_pagamento": formasPagamento,
+          "agricultor_id" : userId,
+          "feira_id" : '1',
+          "bairro_entrega" : '1=>3.50'
+        });
+      
+      Response response = await _dio.post(
+        '$kBaseURL/bancas',
+        options: Options(headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": "Bearer $userToken"
+        }),
+        data: body,
+      );
+      if (response.statusCode == 201) {
+        log('cadastro da banca bem sucedida');
+        return true;
+      } else {
+        formasPagamento = '';
+        checkItems = [];
+      
+   
+        return false;
+      }
+    } catch (e) {
+      formasPagamento = '';
+      checkItems = [];
+    
+      if (e is DioError) {
+        final dioError = e;
+        if (dioError.response != null) {
+          final errorMessage =
+              dioError.response!.data['errors'];
+          print('Erro: $errorMessage');
+          print("Erro ${e.toString()}");
+          return false;
+        }
+      }
+      return false;
+    }
+  }
+  }
+

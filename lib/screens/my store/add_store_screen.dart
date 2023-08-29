@@ -163,7 +163,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                       alignment: Alignment.center,
                                       child: Expanded(
                                         child: CustomTextFormField(
-                                          hintText: "00:00:00",
+                                          hintText: "00:00",
                                           keyboardType: TextInputType.number,
                                           maskFormatter:
                                               controller.timeFormatter,
@@ -221,7 +221,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                       alignment: Alignment.center,
                                       child: Expanded(
                                         child: CustomTextFormField(
-                                          hintText: "00:00:00",
+                                          hintText: "00:00",
                                           keyboardType: TextInputType.number,
                                           maskFormatter:
                                               controller.timeFormatter,
@@ -296,19 +296,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                         ],
                       ),
                     ),
-                    CheckboxListTile(
-                        contentPadding:
-                            const EdgeInsetsDirectional.only(start: 0),
-                        title: Text('Realiza Entrega?',
-                            style: kTitle1.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: kSecondaryColor)),
-                        value: controller.deliver,
-                        checkboxShape: const CircleBorder(),
-                        onChanged: (bool? value) {
-                          controller.setDeliver(value!);
-                        }),
+                   
                     SizedBox(
                       width: size.width * 0.81,
                       child: Text('Preço mínimo pra frete',
@@ -365,45 +353,24 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                     PrimaryButton(
                         text: 'Salvar',
                         onPressed: () {
-                          // if (controller.verifySelectedFields()) {
-                          //   controller.editBanca(context, widget.bancaModel!);
-                          // } else {
-                          //   showDialog(
-                          //       context: context,
-                          //       builder: (context) =>
-                          //           DefaultAlertDialogOneButton(
-                          //             title: 'Erro',
-                          //             body:
-                          //                 'Adicione pelo menos uma forma de pagamento',
-                          //             confirmText: 'Ok',
-                          //             onConfirm: () => Get.back(),
-                          //             buttonColor: kAlertColor,
-                          //           ));
-                          // }
+                           if (controller.verifyFields()) {
+                             controller.adicionarBanca(context);
+                           } else {
+                             showDialog(
+                                 context: context,
+                                 builder: (context) =>
+                                     DefaultAlertDialogOneButton(
+                                       title: 'Erro',
+                                       body:
+                                           'Preencha todos os campos',
+                                       confirmText: 'Ok',
+                                       onConfirm: () => Get.back(),
+                                       buttonColor: kAlertColor,
+                                     ));
+                           }
                         }),
                     Divider(height: size.height * 0.015, color: Colors.transparent),
-                    SizedBox(
-                      width: size.width,
-                      height: size.height * 0.06,
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(
-                              color: Colors.orange, width: 1.5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: Text(
-                          'Voltar',
-                          style: TextStyle(
-                              color: Colors.orange,
-                              fontSize: size.height * 0.020,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
+                  
                   ],
                 ))));
   }

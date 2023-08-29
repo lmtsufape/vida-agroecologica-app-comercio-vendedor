@@ -12,16 +12,16 @@ import '../../shared/components/dialogs/default_alert_dialog.dart';
 import 'components/circle_image_profile.dart';
 
 // ignore: must_be_immutable
-class MyStoreScreen extends StatefulWidget {
+class EditStoreScreen extends StatefulWidget {
   BancaModel? bancaModel;
 
-  MyStoreScreen(this.bancaModel, {Key? key}) : super(key: key);
+  EditStoreScreen(this.bancaModel, {Key? key}) : super(key: key);
 
   @override
-  State<MyStoreScreen> createState() => _MyStoreScreenState();
+  State<EditStoreScreen> createState() => _EditStoreScreenState();
 }
 
-class _MyStoreScreenState extends State<MyStoreScreen> {
+class _EditStoreScreenState extends State<EditStoreScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -299,19 +299,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                         ],
                       ),
                     ),
-                    CheckboxListTile(
-                        contentPadding:
-                            const EdgeInsetsDirectional.only(start: 0),
-                        title: Text('Realiza Entrega?',
-                            style: kTitle1.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: kSecondaryColor)),
-                        value: controller.deliver,
-                        checkboxShape: const CircleBorder(),
-                        onChanged: (bool? value) {
-                          controller.setDeliver(value!);
-                        }),
+                  
                     SizedBox(
                       width: size.width * 0.81,
                       child: Text('Preço mínimo pra frete',
