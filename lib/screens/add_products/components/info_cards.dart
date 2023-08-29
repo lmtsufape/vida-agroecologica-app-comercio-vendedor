@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/products/products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
+import '../add_products_controller.dart';
+
 class InfoCards extends StatefulWidget {
-  ProductsController controller;
+  AddProductsController controller;
   InfoCards(this.controller, {Key? key}) : super(key: key);
 
   @override

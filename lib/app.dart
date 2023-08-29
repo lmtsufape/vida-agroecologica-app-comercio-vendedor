@@ -71,7 +71,6 @@ class App extends StatelessWidget {
         //Screens.orderDetail: (BuildContext context) =>
            // OrderDetailScreen(),
         Screens.payments: (context) => const PaymentsScreen(),
-        Screens.products: (context) => const ProductsScreen(),
         Screens.report: (context) => const ReportScreen(),
         Screens.listProducts: (context) => const ListProductsScreen(),
       },

@@ -1,89 +1,57 @@
 import 'package:dio/dio.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:thunderapp/shared/core/models/table_products_model.dart';
-
-import '../../shared/constants/app_text_constants.dart';
+import 'package:thunderapp/shared/constants/app_text_constants.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../../shared/core/user_storage.dart';
 
-class AddProductsRepository extends GetxController {
-  late String userToken;
-  List<TableProductsModel> products = [];
-  TableProductsModel product = TableProductsModel();
-
-  Future<List<TableProductsModel>> getProducts() async {
+class AddProductsRepository {
+  Future<List<ProductsModel>> getProducts() async {
     Dio dio = Dio();
+    List<ProductsModel> stockProduct = [];
+    ProductsModel product = ProductsModel();
     UserStorage userStorage = UserStorage();
+    String nome;
+    var userToken = await userStorage.getUserToken();
 
-    userToken = await userStorage.getUserToken();
+    var response = await dio.get(
+      '$kBaseURL/produtos',
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer $userToken"
+        },
+      ),
+    );
 
-    var response = await dio.get('$kBaseURL/produtos',
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": "Bearer $userToken"
-          },
-        ));
+    List<dynamic> data = response.data['produtos'];
 
-    List<dynamic> responseData = response.data['produtos'];
+    print(data[0]['preco']);
 
-    for (int i = 0; i < responseData.length; i++) {
-      product = TableProductsModel(
-          id: responseData[i]["id"],
-          nome: responseData[i]["nome"],
-          categoria: responseData[i]["categoria"]);
-      products.add(product);
+    for (int i = 0; i < data.length; i++) {
+      List<String> palavras =
+          data[i]['descricao'].toString().split(' ');
+      List<String> firstThreeWords = palavras.sublist(0, 3);
+      String result = firstThreeWords.join(' ');
+      product = ProductsModel(
+        nome: data[i]['nome'],
+        id: data[i]['id'],
+        descricao: result,
+        tipoUnidade: data[i]['tipo_unidade'],
+        estoque: data[i]['estoque'],
+        preco: double.parse(data[i]['preco'].toString()),
+        custo: double.parse(data[i]['custo'].toString()),
+        disponivel: data[i]['disponivel'],
+        bancaId: data[i]['banca_id'],
+        produtoTabeladoId: data[i]['produto_tabelado_id'],
+      );
+      stockProduct.add(product);
     }
 
     if (response.statusCode == 200 ||
         response.statusCode == 201) {
-      return products;
-    }
-    return [];
-  }
-
-  Future<bool> registerProduct(
-      String? description,
-      String? measure,
-      int? stock,
-      double? salePrice,
-      double? costPrice,
-      int? productId) async {
-    Dio dio = Dio();
-
-    UserStorage userStorage = UserStorage();
-
-    userToken = await userStorage.getUserToken();
-
-    var body = {
-      "descricao": description.toString(),
-      "tipo_unidade": measure
-          .toString() /**Alterar para "measure" quando tiver a validação*/,
-      "estoque": stock,
-      "preco": salePrice.toString(),
-      "custo": costPrice.toString(),
-      "produto_id": productId,
-    };
-
-    print(body);
-
-    var response =
-        await dio.post("$kBaseURL/banca/produtos",
-            options: Options(
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Authorization": "Bearer $userToken"
-              },
-            ),
-            data: body);
-
-    print(response.statusCode);
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
-      return true;
+      return stockProduct;
     } else {
-      return false;
+      return stockProduct;
     }
   }
 }

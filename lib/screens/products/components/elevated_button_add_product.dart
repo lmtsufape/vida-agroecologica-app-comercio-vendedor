@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
+import 'package:thunderapp/screens/products/products_controller.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../shared/components/dialogs/default_alert_dialog.dart';
 
 class ElevatedButtonAddProduct extends StatefulWidget {
-  final AddProductsController controller;
+  final ProductsController controller;
   const ElevatedButtonAddProduct(this.controller,
       {Key? key})
       : super(key: key);
@@ -55,7 +55,8 @@ class _ElevatedButtonAddProductState
             } else {
               showDialog(
                   context: context,
-                  builder: ((context) => DefaultAlertDialogOneButton(
+                  builder: ((context) =>
+                      DefaultAlertDialogOneButton(
                         title: 'Sucesso',
                         body:
                             'Produto cadastrado com sucesso',
