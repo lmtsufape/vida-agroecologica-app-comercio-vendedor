@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/products/products_controller.dart';
+import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import '../../../shared/constants/app_text_constants.dart';
 
 // ignore: must_be_immutable
 class ImageEdit extends StatefulWidget {
-  ProductsController? controller;
+  AddProductsController? controller;
+
   ImageEdit(this.controller, {Key? key}) : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class _ImageEditState extends State<ImageEdit> {
       alignment: Alignment.center,
       height: size.width * 0.4,
       child: AspectRatio(
-        aspectRatio: 12/9,
+        aspectRatio: 12 / 9,
         child: Material(
           elevation: 3,
           shadowColor: Colors.black,
@@ -34,10 +35,16 @@ class _ImageEditState extends State<ImageEdit> {
               } else {
                 return Image(
                     image: NetworkImage(
-                  '$kBaseURL/imagens/produtos/${widget.controller!.productId}',
-                ));
+                        '$kBaseURL/produtos/${widget.controller?.productId}/imagem',
+                        headers: {
+                      "Content-Type": "application/json",
+                      "Accept": "application/json",
+                      "Authorization":
+                          "Bearer ${widget.controller?.token}"
+                    }));
               }
-            }, future: null,
+            },
+            future: null,
           ),
         ),
       ),

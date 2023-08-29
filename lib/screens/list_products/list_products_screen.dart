@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/home/home_screen.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/list_products/components/total_infos.dart';
@@ -42,7 +43,12 @@ class ListProductsScreen extends StatelessWidget {
           height: size.height * 0.08,
           width: size.width * 0.18,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => AddProductsScreen()));
+            },
             backgroundColor: kPrimaryColor,
             heroTag: 'AddListProduct',
             shape: const RoundedRectangleBorder(
