@@ -27,24 +27,27 @@ class _StockAddProductState extends State<StockAddProduct> {
         Text(
           'Estoque atual',
           style: TextStyle(
-              color: kPrimaryColor,
-              fontSize: size.height * 0.017),
+              fontSize: size.height * 0.017,
+              color: kTextButtonColor,
+          ),
         ),
         Divider(
           height: size.height * 0.005,
           color: Colors.transparent,
         ),
         SizedBox(
-          height: size.height * 0.06,
+          height: size.height * 0.05,
           width: size.width * 0.25,
           child: Card(
             margin: EdgeInsets.zero,
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-                side: const BorderSide(
-                    color: kTextButtonColor)),
-            child: Align(
+            elevation: 0,
+            child: ClipPath(
+              child: Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.black, width: 1)
+                  ),
+                ),
                 alignment: Alignment.center,
                 child: CustomTextFormField(
                     controller:
@@ -53,7 +56,9 @@ class _StockAddProductState extends State<StockAddProduct> {
                       setState(() {
                         widget.controller.setStock();
                       });
-                    })),
+                    }),
+              ),
+            ),
           ),
         ),
       ],
