@@ -77,7 +77,7 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
                 fontWeight: FontWeight.w500,
                 fontSize: size.height * 0.014,
                 color: kTextButtonColor)),
-        Container(
+        SizedBox(
           width: size.width * 0.65,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,7 +223,7 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
                     widget.controller.checkItems[0],
                     style: TextStyle(fontSize: size.height * 0.018),
                   ),
-                  checkboxShape: CircleBorder(),
+                  checkboxShape: const CircleBorder(),
                   controlAffinity: ListTileControlAffinity.leading,
                   onChanged: (value) => widget.controller.onItemTapped(0),
                 ),

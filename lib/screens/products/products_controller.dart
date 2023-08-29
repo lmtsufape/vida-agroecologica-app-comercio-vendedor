@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:thunderapp/screens/products/components/card_products.dart';
 import 'package:thunderapp/screens/products/products_repository.dart';
 
-import '../list_products/components/card_products_list.dart';
 
 class ProductsController extends GetxController {
   List<CardProducts> products = [];

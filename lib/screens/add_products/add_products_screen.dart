@@ -5,7 +5,6 @@ import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/screens/add_products/components/dropdown_add_product.dart';
 import 'package:thunderapp/screens/add_products/components/dropdown_qtd_add_product.dart';
 import 'package:thunderapp/screens/add_products/components/elevated_button_add_product.dart';
-import 'package:thunderapp/screens/add_products/components/elevated_button_back_add_product.dart';
 import 'package:thunderapp/screens/add_products/components/image_edit.dart';
 import 'package:thunderapp/screens/add_products/components/sale_infos.dart';
 

@@ -4,13 +4,10 @@ import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/order_detail/order_detail_screen.dart';
 import 'package:thunderapp/screens/orders/orders_controller.dart';
 import 'package:thunderapp/screens/orders/orders_repository.dart';
-import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
-import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
-import 'package:thunderapp/shared/core/navigator.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);

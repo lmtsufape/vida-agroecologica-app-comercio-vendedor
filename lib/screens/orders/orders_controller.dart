@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/screens/orders/orders_repository.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
-import 'package:thunderapp/shared/constants/app_enums.dart';
 
 
 

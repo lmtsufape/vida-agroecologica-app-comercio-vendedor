@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/list_products/components/image_card_list.dart';
-import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
-import '../../../shared/constants/app_text_constants.dart';
-import '../../../shared/core/navigator.dart';
-import '../../screens_index.dart';
-import '../list_products_controller.dart';
 
 class CardProductsList extends StatefulWidget {
   ProductsModel model;

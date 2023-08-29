@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:thunderapp/shared/core/models/cliente_pedido_model.dart';
-import 'package:thunderapp/shared/core/models/consumidor_pedido_model.dart';
+
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
 import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 import '../../shared/constants/app_text_constants.dart';

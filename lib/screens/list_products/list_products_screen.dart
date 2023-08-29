@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
-import 'package:thunderapp/screens/add_products/add_products_repository.dart';
-import 'package:thunderapp/screens/list_products/components/card_products_list.dart';
 import 'package:thunderapp/screens/list_products/components/total_infos.dart';
-import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
-import '../products/products_controller.dart';
 import 'list_products_controller.dart';
 
 class ListProductsScreen extends StatelessWidget {
@@ -71,7 +66,7 @@ class ListProductsScreen extends StatelessWidget {
                     ),
                   ),
                   Divider(height: size.height * 0.014, color: Colors.transparent,),
-                  TotalInfos(),
+                  const TotalInfos(),
                   Divider(height: size.height * 0.04, color: Colors.transparent,),
                   Text(
                     'Produtos',

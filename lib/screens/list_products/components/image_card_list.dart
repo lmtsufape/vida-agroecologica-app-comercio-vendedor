@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
-import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../../shared/constants/app_text_constants.dart';
 import '../../../shared/core/models/products_model.dart';
@@ -40,7 +38,7 @@ class _ImageCardListState extends State<ImageCardList> {
                       '$kBaseURL/imagens/produtos/${widget.model.id}',
                     ));
               }
-            },
+            }, future: null,
           ),
         ),
       ),

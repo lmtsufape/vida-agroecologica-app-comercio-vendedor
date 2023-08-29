@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/shared/core/models/products_model.dart';
+
 import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 
-import 'cliente_pedido_model.dart';
-import 'consumidor_pedido_model.dart';
+
 
 class PedidoModel extends ChangeNotifier{
 

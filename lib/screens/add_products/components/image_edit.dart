@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
-import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../../shared/constants/app_text_constants.dart';
 
 // ignore: must_be_immutable

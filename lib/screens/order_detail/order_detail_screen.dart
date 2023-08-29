@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/components/buttons/cancel_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
-import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
@@ -134,7 +132,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   Divider(height: size.height * 0.02, color: Colors.transparent,),
                   const InformationHolder(),
                   Divider(height: size.height * 0.02, color: Colors.transparent,),
-                  ItensOrder(),
+                  const ItensOrder(),
                   Divider(height: size.height * 0.03, color: Colors.transparent,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -188,7 +186,7 @@ class _InformationHolderState extends State<InformationHolder> {
           'Endereço:',
           style: TextStyle(fontSize: size.height * 0.018),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.only(left: kHugeSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,7 +219,7 @@ class _ItensOrderState extends State<ItensOrder> {
       children: [
         Text('Itens:', style: TextStyle(fontSize: size.height * 0.018),),
         Divider(height: size.height * 0.02, color: Colors.transparent,),
-        Column(
+        const Column(
           children: [
             ListItens(),
             ListItens(),

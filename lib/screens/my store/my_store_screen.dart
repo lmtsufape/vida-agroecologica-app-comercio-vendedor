@@ -116,7 +116,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                             fontWeight: FontWeight.w500,
                             fontSize: size.height * 0.014,
                             color: kTextButtonColor)),
-                    Container(
+                    SizedBox(
                       width: size.width * 0.65,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,7 +264,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                                 controller.checkItems[0],
                                 style: TextStyle(fontSize: size.height * 0.018),
                               ),
-                              checkboxShape: CircleBorder(),
+                              checkboxShape: const CircleBorder(),
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (value) => controller.onItemTapped(0),
                             ),
