@@ -17,15 +17,10 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  OrdersRepository repository = OrdersRepository();
 
-  Future<List<PedidoModel>>? orders;
 
-  @override
-  void initState() {
-    orders = repository.getOrders();
-    super.initState();
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,8 +103,8 @@ class _OrderCardState extends State<OrderCard> {
                                   ),
                                 ],
                               ),
-                              Text(widget.model.consumidorId.toString(),
-                                  style: kCaption1),
+                              // Text(widget.model.consumidorId.toString(),
+                              //     style: kCaption1),
                             ],
                           ),
                         ),

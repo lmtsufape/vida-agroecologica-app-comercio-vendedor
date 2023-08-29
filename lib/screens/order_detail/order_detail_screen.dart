@@ -88,8 +88,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 10),
-                        child: Text(widget.model.consumidorId.toString(),
-                            style: TextStyle(fontSize: size.height * 0.018, fontWeight: FontWeight.w700),),
+                        // child: Text(widget.model.consumidorId.toString(),
+                        //     style: TextStyle(fontSize: size.height * 0.018, fontWeight: FontWeight.w700),),
                       ),
                       const SizedBox()
                     ],
@@ -102,10 +102,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         'Forma de pagamento:',
                         style: kCaption2.copyWith(color: kTextButtonColor),
                       ),
-                      Text(
-                        widget.model.tipoPagamentoId.toString(),
-                        style: TextStyle(fontSize: size.height * 0.018),
-                      ),
+                      // Text(
+                      //   widget.model.tipoPagamentoId.toString(),
+                      //   style: TextStyle(fontSize: size.height * 0.018),
+                      // ),
                       IconButton(
                           onPressed: () {},
                           icon: const Icon(

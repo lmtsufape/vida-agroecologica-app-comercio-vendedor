@@ -1,197 +1,170 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/screens/screens_index.dart';
+
+import 'package:thunderapp/screens/orders/orders_controller.dart';
+
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-import 'package:thunderapp/shared/core/http/http_client.dart';
-import 'package:thunderapp/shared/core/navigator.dart';
-import 'package:thunderapp/shared/core/repositories/transacoes_repository.dart';
-
-import 'package:thunderapp/shared/core/store/transacao_store.dart';
-
+import 'package:thunderapp/shared/core/models/pedido_model.dart';
 
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({super.key});
+  const ReportScreen({Key? key}) : super(key: key);
 
   @override
-  State<ReportScreen> createState() => _ReportScreenState();
+  State<ReportScreen> createState() => _OrdersScreenState();
 }
 
-class _ReportScreenState extends State<ReportScreen> {
-  final TransacaoStore store = TransacaoStore(
-    repository: TransasoesRepository(
-      client: HttpClient(),
-    ),
-  );
+class _OrdersScreenState extends State<ReportScreen> {
 
-  @override
-  void initState() {
-    super.initState();
-    store.getTransacoes();
-  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Relatórios',
-          style: kTitle2.copyWith(color: kPrimaryColor),
+    Size size = MediaQuery.of(context).size;
+    return GetBuilder<OrdersController>(
+      init: OrdersController(),
+      builder: (controller) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Histórico',
+            style: kTitle2.copyWith(color: kPrimaryColor),
+          ),
         ),
-      ),
-      body: AnimatedBuilder(
-        animation: Listenable.merge(
-            [store.isLoading, store.state, store.erro]),
-        builder: (context, child) {
-          if (store.isLoading.value) {
-            return const Center(
-                child: CircularProgressIndicator());
-          }
-          if (store.erro.value.isNotEmpty) {
-            return Center(
-              child: SingleChildScrollView(
-                child: Text(
-                  store.erro.value,
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
-          }
-          if (store.state.value.isEmpty) {
-            return const Center(
-              child: Text(
-                'Nenhum item na lista',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            );
-          } else {
-            return TransactionListWidget(store: store);
-          }
-        },
+        body: Container(
+          padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
+          height: size.height,
+          child: ListView(
+            children: controller.pedidos,
+          ),
+        ),
       ),
     );
   }
 }
 
-class TransactionListWidget extends StatelessWidget {
-  final TransacaoStore store;
+class ReportCard extends StatefulWidget {
+  PedidoModel model;
 
-  const TransactionListWidget({super.key, required this.store});
+  ReportCard(
+    this.model, {
+    Key? key,
+  }) : super(key: key);
 
   @override
+  State<ReportCard> createState() => _ReportCardState();
+}
+
+class _ReportCardState extends State<ReportCard> {
+  @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      separatorBuilder: (context, index) => const SizedBox(height: 32),
-      padding: const EdgeInsets.all(16),
-      itemCount: store.state.value.length,
-      itemBuilder: (_, index) {
-        final item = store.state.value[index];
-        return Card(
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(kDefaultPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Pedido ${item.id}',
-                  style: kBody3.copyWith(
-                      fontWeight: FontWeight.bold),
-                ),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Cliente',
-                      style: kCaption2.copyWith(
-                          color: kTextButtonColor),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: size.width * 0.4,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Pedido #${widget.model.id.toString()}',
+                                    style: kBody3.copyWith(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Divider(
+                                    height: size.height * 0.006,
+                                    color: Colors.transparent,
+                                  ),
+                                  Text(
+                                    'Cliente',
+                                    style:
+                                        kCaption2.copyWith(color: kTextButtonColor),
+                                  ),
+                                ],
+                              ),
+                              // Text(widget.model.consumidorId.toString(),
+                              //     style: kCaption1),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-
-                    Text('${item.consumidor_id}', style: kCaption1),
-                    IconButton(
-                        onPressed: () {
-                          navigatorKey.currentState!
-                              .pushNamed(Screens.orderDetail);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_forward_ios,
-                          color: kTextButtonColor,
-                        ))
+                   
                   ],
                 ),
                 const Divider(),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
                       'Itens:',
-                      style: kCaption2.copyWith(
-                          color: kTextButtonColor),
+                      style: kCaption2.copyWith(color: kTextButtonColor),
                     ),
-                    Text('R\$${item.subtotal}')
+                    Text('R\$ ${widget.model.total}')
                   ],
                 ),
-                const VerticalSpacerBox(size: SpacerSize.small),
+                const VerticalSpacerBox(size: SpacerSize.medium),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
                       'Taxa de entrega:',
-                      style: kCaption2.copyWith(
-                          color: kTextButtonColor),
+                      style: kCaption2.copyWith(color: kTextButtonColor),
                     ),
-                    Text('R\$${item.taxa_entrega}')
+                    Text('R\$ ${widget.model.taxaEntrega}')
                   ],
                 ),
-                const VerticalSpacerBox(size: SpacerSize.small),
+                const VerticalSpacerBox(size: SpacerSize.medium),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     const Text(
                       'Total do pedido:',
                       style: kBody2,
                     ),
                     Text(
-                      'R\$${item.total}',
+                      'R\$ ${widget.model.subtotal}',
                       style: kBody2.copyWith(color: kDetailColor),
                     )
                   ],
                 ),
-                const VerticalSpacerBox(size: SpacerSize.small),
+                const VerticalSpacerBox(size: SpacerSize.large),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      DateFormat('dd/MM/yyyy').format(DateFormat('yyyy-MM-dd HH:mm:ss').parse(item.data_pedido)),
-                      style: kCaption2.copyWith(
-                          color: kTextButtonColor),
+                      widget.model.dataPedido.toString(),
+                      style: kCaption2.copyWith(color: kTextButtonColor),
                     ),
                     Container(
                       padding: const EdgeInsets.all(kTinySize),
                       decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(32),
+                          borderRadius: BorderRadius.circular(5),
                           color: kAlertColor),
                       child: Text(
-                        item.status,
-                        style: kCaption2.copyWith(
-                            color: kBackgroundColor),
+                        widget.model.status.toString(),
+                        style: kCaption2.copyWith(color: kBackgroundColor),
                       ),
                     )
                   ],
@@ -199,9 +172,9 @@ class TransactionListWidget extends StatelessWidget {
               ],
             ),
           ),
-        );
-      },
+        ),
+        Divider(height: size.height * 0.01, color: Colors.transparent,),
+      ],
     );
   }
 }
-

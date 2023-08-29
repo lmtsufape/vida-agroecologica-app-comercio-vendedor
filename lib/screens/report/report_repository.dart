@@ -3,14 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
-import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
+
 import '../../shared/constants/app_text_constants.dart';
 import '../../shared/core/user_storage.dart';
 
-class OrdersRepository extends GetxController {
+class ReportRepository extends GetxController {
   late String userToken;
 
-  Future<List<PedidoModel>> getOrders(int? id) async {
+  Future<List<PedidoModel>> getReports(int? id) async {
     Dio dio = Dio();
     PedidoModel pedido = PedidoModel();
     UserStorage userStorage = UserStorage();
@@ -28,7 +28,7 @@ class OrdersRepository extends GetxController {
       List<dynamic> all = response.data['vendas'];
       if (all.isNotEmpty) {
         for (int i = 0; i < all.length; i++) {
-          if (all[i]["status"] == "pedido realizado" || all[i]["status"] == "pagamento pendente") {
+          if (all[i]["status"] != "pedido realizado" && all[i]["status"] != "pagamento pendente") {
           
             pedido = PedidoModel(
                 id: all[i]["id"],

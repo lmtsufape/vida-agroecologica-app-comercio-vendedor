@@ -4,33 +4,28 @@ import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 
 
 
-class PedidoModel extends ChangeNotifier{
+class PedidoModel{
 
-  String? id;
+  int? id;
   String? status;
-  String? dataPedido;
+  String? tipoEntrega;
   double? subtotal;
   double? taxaEntrega;
   double? total;
-  String? consumidorId;
-  String? produtorId;
-  String? tipoPagamentoId;
-  String? tipoEntrega;
-  List<ProdutoPedidoModel>? itens;
+  String? dataPedido;
+ 
+  
 
-  PedidoModel(
+
+  PedidoModel({
       this.id,
       this.status,
-      this.dataPedido,
+      this.tipoEntrega,
       this.subtotal,
       this.taxaEntrega,
       this.total,
-      this.consumidorId,
-      this.produtorId,
-      this.tipoPagamentoId,
-      this.tipoEntrega,
-      this.itens,
-  );
+      this.dataPedido,
+});
 
   get getId => id;
   get getStatus => status;
@@ -38,9 +33,7 @@ class PedidoModel extends ChangeNotifier{
   get getSubtotal => subtotal;
   get getTaxaEntrega => taxaEntrega;
   get getTotal => total;
-  get getConsumidorId => consumidorId;
-  get getProdutorId => produtorId;
-  get getTipoPagamentoId => tipoPagamentoId;
+
   get getTipoEntrega => tipoEntrega;
-  get getItens => itens;
+
 }

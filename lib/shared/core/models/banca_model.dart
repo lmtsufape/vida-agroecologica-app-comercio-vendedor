@@ -4,7 +4,7 @@ class BancaModel {
   String descricao;
   String horarioAbertura;
   String horarioFechamento;
-  int precoMin;
+  double precoMin;
   int feiraId;
   int agricultorId;
 
