@@ -25,8 +25,8 @@ class SignUpController extends GetxController {
   String displayText = 'Digite sua Senha';
   final _imagePickerController = ImagePickerController();
   File? _selectedImage;
-  final List<bool> isSelected = [false, false];
-  final List<String> checkItems = ['Dinheiro', 'PIX'];
+  final List<bool> isSelected = [false, false, false];
+  final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
   bool deliver = false;
 
   String? _imagePath;
@@ -34,6 +34,11 @@ class SignUpController extends GetxController {
 
   void setDeliver(bool value) {
     deliver = value;
+    update();
+  }
+
+  void onItemTapped(int index) {
+    isSelected[index] = !isSelected[index];
     update();
   }
 
