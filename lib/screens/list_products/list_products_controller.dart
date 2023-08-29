@@ -2,48 +2,44 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:thunderapp/screens/home/home_screen_controller.dart';
+import 'package:thunderapp/screens/home/home_screen_repository.dart';
 import 'package:thunderapp/screens/products/products_repository.dart';
+import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
 import '../../shared/constants/app_text_constants.dart';
 import '../add_products/add_products_repository.dart';
 import '../list_products/components/card_products_list.dart';
+import 'list_products_repository.dart';
 
 class ListProductsController extends GetxController {
   List<CardProductsList> products = [];
+  BancaModel? bancaModel;
   int quantProducts = 0;
   int quantStock = 0;
-  AddProductsRepository repository =
-      AddProductsRepository();
+  HomeScreenRepository homeRepository =
+      HomeScreenRepository();
+
+  ListProductsRepository repository =
+      ListProductsRepository();
   final TextEditingController _searchController =
       TextEditingController();
 
   TextEditingController get searchController =>
       _searchController;
 
-  bool getImage(id, token) {
-    NetworkImage response = NetworkImage(
-        '$kBaseURL/produtos/$id/imagem',
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $token}"
-        });
-
-    if (response.isBlank == false) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   Future<List<CardProductsList>>
       populateCardsProductsList() async {
     List<CardProductsList> list = [];
     UserStorage userStorage = UserStorage();
-
     var token = await userStorage.getUserToken();
-    var products = await repository.getProducts();
+    var userId = await userStorage.getUserId();
+    bancaModel =
+        await homeRepository.getBancaPrefs(token, userId);
+
+    var products =
+        await repository.getProducts(bancaModel?.id);
 
     quantProducts = products.length;
 
@@ -53,7 +49,7 @@ class ListProductsController extends GetxController {
           CardProductsList(token, products[i]);
       list.add(card);
       if (products.isNotEmpty) {
-        quantStock = products[i].estoque!;
+        quantStock += products[i].estoque!;
       }
     }
 
