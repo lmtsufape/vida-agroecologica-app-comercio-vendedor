@@ -141,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) =>
-                                          ListProductsScreen()));
+                                          ListProductsScreen(controller)));
                             },
                           ),
                           ItemCardHolder(
