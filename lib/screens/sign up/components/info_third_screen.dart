@@ -29,87 +29,238 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomTextFormField(
-          hintText: 'Nome da Banca',
-          icon: Icons.person,
-          controller: widget.controller.nomeBancaController,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Nome',
+              style: TextStyle(
+                  color: kTextButtonColor,
+                  fontWeight: FontWeight.w500,
+                  fontSize: size.height * 0.014),
+            ),
+            /*CustomTextFormField(
+                          hintText: widget.bancaModel!.nome,
+                          icon: Icons.person,
+                          controller: controller.nomeBancaController,
+                        ),*/
+            SizedBox(
+              width: size.width,
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: ClipPath(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Colors.black, width: 1)),
+                    ),
+                    alignment: Alignment.center,
+                    child: Expanded(
+                      child: CustomTextFormField(
+                        hintText: 'nome',
+                        controller: widget.controller.nomeBancaController,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         const VerticalSpacerBox(size: SpacerSize.small),
+        Text('Horário de Funcionamento',
+            style: kTitle1.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: size.height * 0.014,
+                color: kTextButtonColor)),
+        Container(
+          width: size.width * 0.65,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Início',
+                    style: TextStyle(
+                        color: kSecondaryColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: size.height * 0.016),
+                  ),
+                  /*Expanded(
+                                child: CustomTextFormField(
+                                  hintText: widget.bancaModel!
+                                      .horarioAbertura,
+                                  keyboardType:
+                                      TextInputType.number,
+                                  maskFormatter: controller
+                                      .timeFormatter,
+                                  icon: Icons.alarm_on,
+                                  controller: controller
+                                      .horarioAberturaController,
+                                ),
+                              ),*/
+                  Divider(
+                    height: size.height * 0.006,
+                    color: Colors.transparent,
+                  ),
+                  SizedBox(
+                    height: size.height * 0.05,
+                    width: size.width * 0.25,
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      elevation: 0,
+                      child: ClipPath(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.black, width: 1)),
+                          ),
+                          alignment: Alignment.center,
+                          child: Expanded(
+                            child: CustomTextFormField(
+                              hintText: '06:35',
+                              keyboardType: TextInputType.number,
+                              maskFormatter:
+                              widget.controller.timeFormatter,
+                              controller: widget.controller
+                                  .horarioAberturaController,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              const VerticalSpacerBox(size: SpacerSize.small),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Fechamento',
+                    style: TextStyle(
+                        color: kSecondaryColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: size.height * 0.016),
+                  ),
+                  /*Expanded(
+                                child: CustomTextFormField(
+                                  hintText: widget.bancaModel!
+                                      .horarioAbertura,
+                                  keyboardType:
+                                      TextInputType.number,
+                                  maskFormatter: controller
+                                      .timeFormatter,
+                                  icon: Icons.alarm_on,
+                                  controller: controller
+                                      .horarioAberturaController,
+                                ),
+                              ),*/
+                  Divider(
+                    height: size.height * 0.006,
+                    color: Colors.transparent,
+                  ),
+                  SizedBox(
+                    height: size.height * 0.05,
+                    width: size.width * 0.25,
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      elevation: 0,
+                      child: ClipPath(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.black, width: 1)),
+                          ),
+                          alignment: Alignment.center,
+                          child: Expanded(
+                            child: CustomTextFormField(
+                              hintText: '23:59',
+                              keyboardType: TextInputType.number,
+                              maskFormatter:
+                              widget.controller.timeFormatter,
+                              controller: widget.controller
+                                  .horarioFechamentoController,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          height: size.height * 0.018,
+          color: Colors.transparent,
+        ),
+        Text('Formas de Pagamento',
+            style: kTitle1.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: size.height * 0.018,
+                color: kSecondaryColor)),
         SizedBox(
-          width: size.width * 0.81,
-          child: Text('Horário de Funcionamento',
-              style: kTitle1.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: kSecondaryColor)),
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: CustomTextFormField(
-                hintText: '00:00:00',
-                keyboardType: TextInputType.number,
-                maskFormatter:
-                    widget.controller.timeFormatter,
-                icon: Icons.alarm_on,
-                controller: widget
-                    .controller.horarioAberturaController,
+          width: size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: CheckboxListTile(
+                  contentPadding: EdgeInsetsDirectional.zero,
+                  activeColor: kPrimaryColor,
+                  value: widget.controller.isSelected[0],
+                  title: Text(
+                    widget.controller.checkItems[0],
+                    style: TextStyle(fontSize: size.height * 0.018),
+                  ),
+                  checkboxShape: CircleBorder(),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (value) => widget.controller.onItemTapped(0),
+                ),
               ),
-            ),
-            const VerticalSpacerBox(size: SpacerSize.small),
-            Expanded(
-              child: CustomTextFormField(
-                hintText: '00:00:00',
-                keyboardType: TextInputType.number,
-                maskFormatter:
-                    widget.controller.timeFormatter,
-                icon: Icons.alarm_off,
-                controller: widget
-                    .controller.horarioFechamentoController,
+              Flexible(
+                child: CheckboxListTile(
+                  activeColor: kPrimaryColor,
+                  value: widget.controller.isSelected[1],
+                  title: Text(
+                    widget.controller.checkItems[1],
+                    style: TextStyle(fontSize: size.height * 0.018),
+                  ),
+                  checkboxShape: const CircleBorder(),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (value) => widget.controller.onItemTapped(1),
+                ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(
-          width: size.width * 0.81,
-          child: Text('Formas de Pagamento',
-              style: kTitle1.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: kSecondaryColor)),
-        ),
-        Row(
-          children: [
-            Flexible(
-              child: CheckboxListTile(
-                value: widget.controller.isSelected[0],
-                title:
-                    Text(widget.controller.checkItems[0]),
-                checkboxShape: const CircleBorder(),
-                controlAffinity:
-                    ListTileControlAffinity.leading,
-                onChanged: (value) => _onItemTapped(0),
+              Flexible(
+                child: CheckboxListTile(
+                  contentPadding: EdgeInsetsDirectional.zero,
+                  activeColor: kPrimaryColor,
+                  value: widget.controller.isSelected[2],
+                  title: Text(
+                    widget.controller.checkItems[2],
+                    style: TextStyle(fontSize: size.height * 0.018),
+                  ),
+                  checkboxShape: const CircleBorder(),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (value) => widget.controller.onItemTapped(2),
+                ),
               ),
-            ),
-            Flexible(
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0),
-                    child: CheckboxListTile(
-                      value:
-                          widget.controller.isSelected[1],
-                      title: Text(
-                          widget.controller.checkItems[1]),
-                      checkboxShape: const CircleBorder(),
-                      controlAffinity:
-                          ListTileControlAffinity.leading,
-                      onChanged: (value) =>
-                          _onItemTapped(1),
-                    ))),
-          ],
+            ],
+          ),
         ),
         CheckboxListTile(
+            contentPadding:
+            const EdgeInsetsDirectional.only(start: 0),
             title: Text('Realiza Entrega?',
                 style: kTitle1.copyWith(
                     fontWeight: FontWeight.bold,
@@ -120,19 +271,44 @@ class _InfoThirdScreenState extends State<InfoThirdScreen> {
             onChanged: (bool? value) {
               widget.controller.setDeliver(value!);
             }),
-        SizedBox(
-          width: size.width * 0.81,
-          child: Text('Quantia mínima para entrega',
-              style: kTitle1.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: kSecondaryColor)),
+        Divider(
+          height: size.height * 0.005,
+          color: Colors.transparent,
         ),
-        CustomTextFormField(
-          hintText: 'R\$ 0,00',
-          icon: Icons.paid,
-          controller:
-              widget.controller.quantiaMinController,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Valor',
+                style: kTitle1.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: size.height * 0.014,
+                    color: kTextButtonColor)),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.25,
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: ClipPath(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Colors.black, width: 1)),
+                    ),
+                    alignment: Alignment.center,
+                    child: Expanded(
+                      child: CustomTextFormField(
+                        hintText:
+                        'R\$ 0,00',
+                        controller: widget.controller.quantiaMinController,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
