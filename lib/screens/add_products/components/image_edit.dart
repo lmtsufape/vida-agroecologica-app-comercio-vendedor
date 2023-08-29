@@ -20,7 +20,7 @@ class _ImageEditState extends State<ImageEdit> {
       alignment: Alignment.center,
       height: size.width * 0.4,
       child: AspectRatio(
-        aspectRatio: 1,
+        aspectRatio: 12/9,
         child: Material(
           elevation: 3,
           shadowColor: Colors.black,
@@ -30,7 +30,7 @@ class _ImageEditState extends State<ImageEdit> {
                 return const Icon(
                   Icons.shopping_bag,
                   size: 100,
-                  color: kPrimaryColor,
+                  color: Colors.orange,
                 );
               } else {
                 return Image(
