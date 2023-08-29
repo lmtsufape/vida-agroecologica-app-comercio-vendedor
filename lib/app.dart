@@ -65,12 +65,15 @@ class App extends StatelessWidget {
             const SignInScreen(),
         Screens.signUp: (context) => const SignUpScreen(),
         //Screens.myStore: (context) => MyStoreScreen(),
-        Screens.orders: (BuildContext context) => const OrdersScreen(),
+        Screens.orders: (BuildContext context) =>
+            const OrdersScreen(),
         //Screens.orderDetail: (BuildContext context) =>
-           // OrderDetailScreen(),
-        Screens.payments: (context) => const PaymentsScreen(),
+        // OrderDetailScreen(),
+        Screens.payments: (context) =>
+            const PaymentsScreen(),
         Screens.report: (context) => const ReportScreen(),
-        Screens.listProducts: (context) => const ListProductsScreen(),
+        Screens.listProducts: (context) =>
+            ListProductsScreen(),
       },
     );
   }

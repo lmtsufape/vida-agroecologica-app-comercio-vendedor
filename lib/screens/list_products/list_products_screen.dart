@@ -8,8 +8,7 @@ import '../../shared/constants/style_constants.dart';
 import 'list_products_controller.dart';
 
 class ListProductsScreen extends StatelessWidget {
-  HomeScreenController homeController;
-  ListProductsScreen(this.homeController, {super.key});
+  ListProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

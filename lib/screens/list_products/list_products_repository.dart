@@ -12,9 +12,9 @@ class ListProductsRepository {
     UserStorage userStorage = UserStorage();
     String nome;
     var userToken = await userStorage.getUserToken();
-
+    print(id);
     var response = await dio.get(
-      '$kBaseURL/$id/produtos',
+      '$kBaseURL/bancas/$id/produtos',
       options: Options(
         headers: {
           "Content-Type": "application/json",
