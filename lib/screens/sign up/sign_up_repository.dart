@@ -93,7 +93,7 @@ class SignUpRepository {
         log('idProdutor: $idProdutor');
         try {
           Response login = await _dio.post(
-            '$kBaseURL/login',
+            '$kBaseURL/',
             data: {
               'email': emailProdutor,
               'password': password,
@@ -101,16 +101,13 @@ class SignUpRepository {
           );
           if (login.statusCode == 200) {
             String userToken =
-                login.data['user']['token'].toString();
+                login.data['token'].toString();
             userStorage.saveUserCredentials(
                 nome: login.data['user']['nome'],
                 email: login.data['user']['email'],
                 token: userToken,
                 id: login.data['user']['id'].toString(),
-                papel: login.data['user']['papel_id']
-                    .toString(),
-                papelId: login.data['user']['papel_id']
-                    .toString());
+                );
 
             if (await signUpBanca(
                 idProdutor,

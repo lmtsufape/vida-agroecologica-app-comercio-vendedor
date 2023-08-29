@@ -58,6 +58,7 @@ class HomeScreen extends StatelessWidget {
                           vertical: 28.0, horizontal: 14),
                       child: Row(
                         children: <Widget>[
+
                           Container(
                             width: 76,
                             height: 76,
@@ -74,6 +75,7 @@ class HomeScreen extends StatelessWidget {
                               fallbackUrl:
                                   'https://cdn-icons-png.flaticon.com/512/1077/1077114.png',
                             ),
+
                           ),
                           const HorizontalSpacerBox(
                               size: SpacerSize.small),

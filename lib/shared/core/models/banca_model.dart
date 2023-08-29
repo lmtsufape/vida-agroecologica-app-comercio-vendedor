@@ -1,11 +1,13 @@
 class BancaModel {
-  String id;
+  int id;
   String nome;
   String descricao;
   String horarioAbertura;
   String horarioFechamento;
-  String precoMin;
+  int precoMin;
   String tipoEntrega;
+  int feiraId;
+  int agricultorId;
 
   BancaModel(
       this.nome,
@@ -14,7 +16,9 @@ class BancaModel {
       this.horarioFechamento,
       this.precoMin,
       this.tipoEntrega,
-      this.id);
+      this.id,
+      this.feiraId,
+      this.agricultorId);
 
   get getNome => nome;
   get getDescricao => descricao;
@@ -22,4 +26,6 @@ class BancaModel {
   get getHorarioFechamento => horarioFechamento;
   get getPrecoMin => precoMin;
   get getTipoEntrega => tipoEntrega;
+  get getFeiraId => feiraId;
+  get getAgricultorId => agricultorId;
 }
