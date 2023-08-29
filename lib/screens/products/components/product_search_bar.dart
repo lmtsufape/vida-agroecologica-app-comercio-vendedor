@@ -16,9 +16,7 @@ class ProductSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Material(
-      elevation: 6,
-      shadowColor: Colors.black,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      elevation: 0,
       child: TextField(
         keyboardType: TextInputType.text,
         onSubmitted: (value) {
@@ -26,22 +24,15 @@ class ProductSearchBar extends StatelessWidget {
         },
         controller: controller,
         decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            borderSide: BorderSide(color: Colors.transparent, width: 0.0),
-          ),
-          hintStyle: TextStyle(fontSize: size.height * 0.02),
-          hintText: 'Buscar',
+          hintStyle: TextStyle(fontSize: size.height * 0.015),
+          hintText: 'Buscar por produto',
           contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           isDense: true,
           prefixIcon: Padding(
             padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
             child: Icon(
               Icons.search,
-              color: kPrimaryColor,
-              size: size.height * 0.04,
+              size: size.height * 0.03,
             ),
           ),
         ),
