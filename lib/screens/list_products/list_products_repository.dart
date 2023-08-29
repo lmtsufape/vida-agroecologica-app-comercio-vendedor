@@ -29,14 +29,10 @@ class ListProductsRepository {
     print(data[0]['preco']);
 
     for (int i = 0; i < data.length; i++) {
-      List<String> palavras =
-          data[i]['descricao'].toString().split(' ');
-      List<String> firstThreeWords = palavras.sublist(0, 3);
-      String result = firstThreeWords.join(' ');
       product = ProductsModel(
         nome: data[i]['nome'],
         id: data[i]['id'],
-        descricao: result,
+        descricao: data[i]['descricao'],
         tipoUnidade: data[i]['tipo_unidade'],
         estoque: data[i]['estoque'],
         preco: double.parse(data[i]['preco'].toString()),

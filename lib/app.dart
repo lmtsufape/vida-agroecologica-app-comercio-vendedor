@@ -6,7 +6,7 @@ import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
 import 'package:thunderapp/screens/list_products/list_products_screen.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
 import 'package:thunderapp/screens/payments/payments_screen.dart';
-import 'package:thunderapp/screens/products/products_screen.dart';
+import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/report/report_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 

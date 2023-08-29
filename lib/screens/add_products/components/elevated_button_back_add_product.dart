@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:thunderapp/screens/products/products_controller.dart';
+import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../shared/components/dialogs/default_alert_dialog.dart';
 
-class ElevatedButtonAddProduct extends StatefulWidget {
-  final ProductsController controller;
-  const ElevatedButtonAddProduct(this.controller,
+class ElevatedButtonBackAddProduct extends StatefulWidget {
+  final AddProductsController controller;
+  const ElevatedButtonBackAddProduct(this.controller,
       {Key? key})
       : super(key: key);
 
   static ButtonStyle styleEditProduct =
       ElevatedButton.styleFrom(
-    backgroundColor: Colors.orange,
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5)),
+      borderRadius: BorderRadius.circular(5),
+    ),
   );
 
   @override
-  State<ElevatedButtonAddProduct> createState() =>
-      _ElevatedButtonAddProductState();
+  State<ElevatedButtonBackAddProduct> createState() =>
+      _ElevatedButtonBackAddProductState();
 }
 
-class _ElevatedButtonAddProductState
-    extends State<ElevatedButtonAddProduct> {
+class _ElevatedButtonBackAddProductState
+    extends State<ElevatedButtonBackAddProduct> {
   bool response = false;
 
   @override
@@ -34,13 +34,14 @@ class _ElevatedButtonAddProductState
     return SizedBox(
       width: size.width,
       height: size.height * 0.06,
-      child: ElevatedButton(
+      child: OutlinedButton(
         onPressed: () {
           setState(() async {
-            var response =
-                widget.controller.validateEmptyFields();
-            // ignore: unrelated_type_equality_checks
+            var response = await widget.controller
+                .validateEmptyFields();
+
             if (response == false) {
+              // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
@@ -53,27 +54,36 @@ class _ElevatedButtonAddProductState
                         confirmColor: kSuccessColor,
                       ));
             } else {
+              // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
-                  builder: ((context) =>
-                      DefaultAlertDialogOneButton(
-                        title: 'Sucesso',
+                  builder: ((context) => DefaultAlertDialog(
+                        title: 'Success',
                         body:
                             'Produto cadastrado com sucesso',
+                        cancelText: 'Ok',
                         confirmText: 'Ok',
                         onConfirm: () =>
                             Navigator.pushNamed(
                                 context, Screens.products),
-                        buttonColor: kSuccessColor,
+                        cancelColor: kErrorColor,
+                        confirmColor: kSuccessColor,
                       )));
             }
           });
         },
-        style: ElevatedButtonAddProduct.styleEditProduct,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.white,
+          side: const BorderSide(
+              color: Colors.orange, width: 1.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
         child: Text(
-          'Salvar',
+          'Voltar',
           style: TextStyle(
-              color: kTextColor,
+              color: Colors.orange,
               fontSize: size.height * 0.024,
               fontWeight: FontWeight.bold),
         ),
