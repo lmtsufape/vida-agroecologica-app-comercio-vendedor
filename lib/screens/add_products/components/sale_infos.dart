@@ -24,123 +24,137 @@ class _SaleInfosState extends State<SaleInfos> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Preço de custo',
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Preço de custo',
+              style: TextStyle(
+                  color: kTextButtonColor, fontSize: size.height * 0.017),
+            ),
+            Divider(
+              height: size.height * 0.005,
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.25,
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: ClipPath(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.black, width: 1)),
+                    ),
+                    alignment: Alignment.center,
+                    child: CustomCurrencyTextFormField(
+                      label: 'R\$ 2,62',
+                      onChanged: (value) {
+                        setState(() {
+                          profit = widget.controller.changeProfit(
+                              widget.controller.saleController.text,
+                              widget.controller.costController.text);
+                          widget.controller.setCostPrice();
+                        });
+                      },
+                      inputFormatter: widget.controller.currencyFormatter,
+                      controller: widget.controller.costController,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text(
+                'Preço de venda',
                 style: TextStyle(
                     color: kTextButtonColor, fontSize: size.height * 0.017),
               ),
-              Divider(
-                height: size.height * 0.005,
-              ),
-              SizedBox(
-                height: size.height * 0.06,
-                width: size.width * 0.25,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: const BorderSide(color: kTextButtonColor)),
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: CustomCurrencyTextFormField(
-                        label: 'R\$ 2,62',
-                        onChanged: (value) {
-                          setState(() {
-                            profit = widget.controller.changeProfit(
-                                widget.controller.saleController.text,
-                                widget.controller.costController.text);
-                            widget.controller.setCostPrice();
-                          });
-                        },
-                        inputFormatter: widget.controller.currencyFormatter,
-                        controller: widget.controller.costController,
-                      )),
-                ),
-              )
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(
-                alignment: AlignmentDirectional.topStart,
-                child: Text(
-                  'Preço de venda',
-                  style: TextStyle(
-                      color: kTextButtonColor, fontSize: size.height * 0.017),
+            ),
+            Divider(
+              height: size.height * 0.005,
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.26,
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: ClipPath(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    child: CustomCurrencyTextFormField(
+                      label: 'R\$ 4,62',
+                      onChanged: (value) {
+                        setState(() {
+                          profit = widget.controller.changeProfit(
+                              widget.controller.saleController.text,
+                              widget.controller.costController.text);
+                          widget.controller.setSalePrice();
+                        });
+                      },
+                      inputFormatter: widget.controller.currencyFormatter,
+                      controller: widget.controller.saleController,
+                    ),
+                  ),
                 ),
               ),
-              Divider(
-                height: size.height * 0.005,
-              ),
-              SizedBox(
-                height: size.height * 0.06,
-                width: size.width * 0.26,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: const BorderSide(color: kTextButtonColor)),
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: CustomCurrencyTextFormField(
-                        label: 'R\$ 4,62',
-                        onChanged: (value) {
-                          setState(() {
-                            profit = widget.controller.changeProfit(
-                                widget.controller.saleController.text,
-                                widget.controller.costController.text);
-                            widget.controller.setSalePrice();
-                          });
-                        },
-                        inputFormatter: widget.controller.currencyFormatter,
-                        controller: widget.controller.saleController,
-                      )),
+            ),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Lucro R\$',
+              style: TextStyle(
+                  color: kTextButtonColor, fontSize: size.height * 0.017),
+            ),
+            Divider(height: size.height * 0.005),
+            SizedBox(
+              height: size.height * 0.05,
+              width: size.width * 0.25,
+              child: Card(
+                elevation: 0,
+                margin: EdgeInsets.zero,
+                child: ClipPath(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Colors.black, width: 1))),
+                    alignment: Alignment.center,
+                    child: Text(
+                      profit.toStringAsPrecision(4),
+                      style: TextStyle(
+                        fontSize: size.height * 0.017,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Lucro R\$',
-                style: TextStyle(
-                    color: kTextButtonColor, fontSize: size.height * 0.017),
-              ),
-              Divider(height: size.height * 0.005),
-              SizedBox(
-                height: size.height * 0.06,
-                width: size.width * 0.25,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: const BorderSide(color: kTextButtonColor)),
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        profit.toStringAsPrecision(4),
-                        style: TextStyle(
-                            fontSize: size.height * 0.017,
-                            fontWeight: FontWeight.w700,
-                            color: kPrimaryColor),
-                      )),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
