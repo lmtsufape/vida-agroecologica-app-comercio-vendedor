@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
-import 'package:thunderapp/screens/products/products_repository.dart';
+import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 

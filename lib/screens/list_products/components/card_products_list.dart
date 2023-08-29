@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/list_products/list_products_controller.dart';
-import 'package:thunderapp/screens/products/products_screen.dart';
+import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/list_products/components/image_card_list.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 
@@ -30,7 +30,7 @@ class _CardProductsListState
           child: InkWell(
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) {
-              return ProductsScreen();
+              return AddProductsScreen();
             })),
             child: Ink(
               child: Card(

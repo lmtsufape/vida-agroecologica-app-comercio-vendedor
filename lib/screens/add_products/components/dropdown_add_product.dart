@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/products/products_controller.dart';
+import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
 // ignore: must_be_immutable
 class DropDownAddProduct extends StatefulWidget {
-  late ProductsController controller;
+  late AddProductsController controller;
 
   DropDownAddProduct(this.controller, {Key? key})
       : super(key: key);
