@@ -5,15 +5,18 @@ import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/screens/add_products/components/dropdown_add_product.dart';
 import 'package:thunderapp/screens/add_products/components/dropdown_qtd_add_product.dart';
 import 'package:thunderapp/screens/add_products/components/elevated_button_add_product.dart';
+import 'package:thunderapp/screens/add_products/components/elevated_button_back_add_product.dart';
 import 'package:thunderapp/screens/add_products/components/image_edit.dart';
 import 'package:thunderapp/screens/add_products/components/sale_infos.dart';
 
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
+import '../../shared/core/models/products_model.dart';
 
 class AddProductsScreen extends StatefulWidget {
-  const AddProductsScreen({Key? key}) : super(key: key);
+  ProductsModel model;
+  AddProductsScreen(this.model ,{Key? key}) : super(key: key);
 
   @override
   State<AddProductsScreen> createState() => _AddProductsScreenState();
@@ -64,17 +67,50 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
           child: Column(
             children: [
               Divider(
-                height: size.height * 0.04,
+                height: size.height * 0.008,
                 color: Colors.transparent,
               ),
-              ImageEdit(controller),
+              Column(
+                children: [
+                  ImageEdit(controller),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 14),
+                    child: Container(
+                      width: size.width * 0.3,
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Editar imagem',
+                              style: TextStyle(
+                                  color: kPrimaryColor,
+                                  fontSize: size.height * 0.014,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: kPrimaryColor,
+                              ),
+                            ),
+                            Icon(
+                              Icons.edit,
+                              size: size.height * 0.016,
+                              color: kPrimaryColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Divider(
-                height: size.height * 0.025,
+                height: size.height * 0.03,
                 color: Colors.transparent,
               ),
               DropDownAddProduct(controller),
               Divider(
-                height: size.height * 0.025,
+                height: size.height * 0.03,
                 color: Colors.transparent,
               ),
               Align(
@@ -82,8 +118,7 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
                   child: Text(
                     'Informações de venda',
                     style: TextStyle(
-                        fontSize: size.height * 0.024,
-                        color: kPrimaryColor,
+                        fontSize: size.height * 0.018,
                         fontWeight: FontWeight.w500),
                   )),
               Divider(
@@ -92,14 +127,14 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
               ),
               SaleInfos(controller),
               Divider(
-                height: size.height * 0.02,
+                height: size.height * 0.04,
                 color: Colors.transparent,
               ),
               Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: DropDownQtdAddProduct(controller)),
               Divider(
-                height: size.height * 0.03,
+                height: size.height * 0.04,
                 color: Colors.transparent,
               ),
               ElevatedButtonAddProduct(controller),
