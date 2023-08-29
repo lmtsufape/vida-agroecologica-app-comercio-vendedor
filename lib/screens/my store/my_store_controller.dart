@@ -19,8 +19,8 @@ class MyStoreController extends GetxController {
   bool editSucess = false;
   String userToken = '';
 
-  final List<bool> isSelected = [false, false];
-  final List<String> checkItems = ['Dinheiro', 'PIX'];
+  final List<bool> isSelected = [false, false, false];
+  final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
 
   bool deliver = false;
 
