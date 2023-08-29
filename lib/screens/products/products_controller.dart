@@ -7,6 +7,8 @@ import 'package:thunderapp/screens/products/components/info_cards_products.dart'
 import 'package:thunderapp/screens/products/products_repository.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 
+import '../list_products/components/card_products_list.dart';
+
 class ProductsController extends GetxController {
   List<CardProducts> products = [];
   int quantProducts = 0;
