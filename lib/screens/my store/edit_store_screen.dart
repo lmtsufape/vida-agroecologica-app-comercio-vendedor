@@ -365,7 +365,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     DefaultAlertDialogOneButton(
                                       title: 'Erro',
                                       body:
-                                          'Adicione pelo menos uma forma de pagamento',
+                                          'Adicione pelo menos uma forma de pagamento e o valor mínimo de entrega',
                                       confirmText: 'Ok',
                                       onConfirm: () => Get.back(),
                                       buttonColor: kAlertColor,

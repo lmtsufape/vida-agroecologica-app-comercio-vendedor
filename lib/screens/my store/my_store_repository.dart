@@ -72,10 +72,10 @@ class MyStoreRepository {
           "descricao": "loja",
           "horario_abertura": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
-              : '$horarioAbertura:00',
+              : horarioAbertura,
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
-              : '$horarioFechamento:00',
+              : horarioFechamento,
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin
               : precoMin,
@@ -84,6 +84,7 @@ class MyStoreRepository {
             filename: imgPath.split("\\").last,
           ),
           "formas_pagamento": formasPagamento,
+          "bairro entrega": "1=>4.50"
         });
       }
       Response response =
@@ -138,8 +139,6 @@ class MyStoreRepository {
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
      try {
-      print(horarioAbertura);
-      print(horarioFechamento);
       body = FormData.fromMap({
           "nome": nome,
           "descricao": "loja",

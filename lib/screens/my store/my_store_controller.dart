@@ -123,6 +123,10 @@ class MyStoreController extends GetxController {
         _imagePath,
         isSelected,
         banca);
+    if(editSucess){
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacementNamed(context, Screens.home);
+    }
   }
 
   void adicionarBanca(BuildContext context) async {
@@ -149,13 +153,16 @@ class MyStoreController extends GetxController {
   }
 
   bool verifySelectedFields() {
-   
-      for (int i = 0; i < isSelected.length; i++) {
+      if(_quantiaMinController.text.isNotEmpty){
+        for (int i = 0; i < isSelected.length; i++) {
         if (isSelected[i] == true) {
           return true;
         }
-     
     }
+
+
+      }
+      
     return false;
   }
    bool verifyFields() {
