@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:thunderapp/screens/home/home_screen.dart';
+import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/list_products/components/total_infos.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
 import 'list_products_controller.dart';
 
 class ListProductsScreen extends StatelessWidget {
-  const ListProductsScreen({super.key});
+  ListProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,8 @@ class ListProductsScreen extends StatelessWidget {
             'Produtos',
             style: kTitle2.copyWith(color: Colors.orange),
           ),
-          iconTheme: const IconThemeData(color: Colors.orange),
+          iconTheme:
+              const IconThemeData(color: Colors.orange),
         ),
         /*drawer: Drawer(
             child: ListView(
@@ -43,8 +46,11 @@ class ListProductsScreen extends StatelessWidget {
             backgroundColor: kPrimaryColor,
             heroTag: 'AddListProduct',
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(100))),
-            child: Icon(Icons.add, size: size.height * 0.06, color: Colors.white),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(100))),
+            child: Icon(Icons.add,
+                size: size.height * 0.06,
+                color: Colors.white),
           ),
         ),
         body: Container(
@@ -55,19 +61,26 @@ class ListProductsScreen extends StatelessWidget {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Estoque',
                     style: TextStyle(
-                        fontSize: size.height * 0.018,
-                        fontWeight: FontWeight.w500,
-                        color: kSecondaryColor,
+                      fontSize: size.height * 0.018,
+                      fontWeight: FontWeight.w500,
+                      color: kSecondaryColor,
                     ),
                   ),
-                  Divider(height: size.height * 0.014, color: Colors.transparent,),
-                   TotalInfos(controller),
-                  Divider(height: size.height * 0.04, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.014,
+                    color: Colors.transparent,
+                  ),
+                  TotalInfos(controller),
+                  Divider(
+                    height: size.height * 0.04,
+                    color: Colors.transparent,
+                  ),
                   Text(
                     'Produtos',
                     style: TextStyle(
@@ -76,10 +89,12 @@ class ListProductsScreen extends StatelessWidget {
                       color: kSecondaryColor,
                     ),
                   ),
-                  Divider(height: size.height * 0.014, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.014,
+                    color: Colors.transparent,
+                  ),
                   Column(
-                    children:
-                      controller.products,
+                    children: controller.products,
                   )
                 ],
               ),
