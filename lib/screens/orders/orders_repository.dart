@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:thunderapp/shared/core/models/cliente_pedido_model.dart';
+import 'package:thunderapp/shared/core/models/consumidor_pedido_model.dart';
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
 import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 import '../../shared/constants/app_text_constants.dart';
@@ -32,19 +34,17 @@ class OrdersRepository extends GetxController {
 
     print(response.statusCode);
 
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       all = response.data['transações'];
-      if(all.isNotEmpty){
-        for(int i = 0; i < all.length; i++){
+      if (all.isNotEmpty) {
+        for (int i = 0; i < all.length; i++) {
           itensList = all[i]['itens'];
-          for(int j = 0; j < itensList.length; j++){
+          for (int j = 0; j < itensList.length; j++) {
             ProdutoPedidoModel produtoList = ProdutoPedidoModel(
-              itensList[j]['id'].toString(),
-              itensList[j]['tipo_unidade'].toString(),
-              itensList[j]['quantidade'],
-              itensList[j]['preco']
-            );
+                itensList[j]['id'].toString(),
+                itensList[j]['tipo_unidade'].toString(),
+                itensList[j]['quantidade'],
+                itensList[j]['preco']);
             itens.add(produtoList);
           }
           PedidoModel order = PedidoModel(
@@ -56,6 +56,8 @@ class OrdersRepository extends GetxController {
             all[i]['total'],
             all[i]['consumidor_id'].toString(),
             all[i]['produtor_id'].toString(),
+            all[i]['forma_pagamento_id'].toString(),
+            all[i]['tipo_entrega'].toString(),
             itens,
           );
           orders.add(order);
