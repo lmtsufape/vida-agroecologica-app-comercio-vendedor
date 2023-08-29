@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 
+import 'cliente_pedido_model.dart';
+import 'consumidor_pedido_model.dart';
+
 class PedidoModel extends ChangeNotifier{
 
   String? id;
@@ -12,6 +15,8 @@ class PedidoModel extends ChangeNotifier{
   double? total;
   String? consumidorId;
   String? produtorId;
+  String? tipoPagamentoId;
+  String? tipoEntrega;
   List<ProdutoPedidoModel>? itens;
 
   PedidoModel(
@@ -23,7 +28,9 @@ class PedidoModel extends ChangeNotifier{
       this.total,
       this.consumidorId,
       this.produtorId,
-      this.itens
+      this.tipoPagamentoId,
+      this.tipoEntrega,
+      this.itens,
   );
 
   get getId => id;
@@ -34,6 +41,7 @@ class PedidoModel extends ChangeNotifier{
   get getTotal => total;
   get getConsumidorId => consumidorId;
   get getProdutorId => produtorId;
+  get getTipoPagamentoId => tipoPagamentoId;
+  get getTipoEntrega => tipoEntrega;
   get getItens => itens;
-
 }
