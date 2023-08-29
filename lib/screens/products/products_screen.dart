@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:provider/provider.dart';
 import 'package:thunderapp/screens/products/components/add_button.dart';
-import 'package:thunderapp/screens/products/components/card_products.dart';
 import 'package:thunderapp/screens/products/components/product_search_bar.dart';
 import 'package:thunderapp/screens/products/products_controller.dart';
 
@@ -33,7 +31,8 @@ class ProductsScreen extends StatelessWidget {
                 iconTheme: const IconThemeData(
                     color: kPrimaryColor),
               ),
-              body: Container(
+              body: ListView(children: [
+                Container(
                 width: size.width,
                 height: size.height,
                 padding:
@@ -59,6 +58,7 @@ class ProductsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              ],)
             ));
   }
 }

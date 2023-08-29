@@ -6,7 +6,7 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 class DropDownQtdAddProduct extends StatefulWidget {
   final AddProductsController controller;
 
-  DropDownQtdAddProduct(this.controller, {Key? key})
+  const DropDownQtdAddProduct(this.controller, {Key? key})
       : super(key: key);
 
   @override

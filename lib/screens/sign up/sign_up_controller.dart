@@ -228,7 +228,8 @@ class SignUpController extends GetxController {
   }
 
   void signUp(BuildContext context) async {
-    log(signupSuccess.toString());
+    if(signUpRepository.verificar(SignUpController()) == true){
+      log(signupSuccess.toString());
     signupSuccess = await signUpRepository.signUp(
         _nomeController.text,
         _emailController.text,
@@ -250,6 +251,10 @@ class SignUpController extends GetxController {
         context);
     update();
     log(signupSuccess.toString());
+    }
+    else{
+      log("Erro ao cadastar");
+    }
   }
 
   bool validateEmptyFields() {

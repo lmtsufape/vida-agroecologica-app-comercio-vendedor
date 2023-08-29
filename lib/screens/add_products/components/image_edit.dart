@@ -38,7 +38,7 @@ class _ImageEditState extends State<ImageEdit> {
                   '$kBaseURL/imagens/produtos/${widget.controller!.productId}',
                 ));
               }
-            },
+            }, future: null,
           ),
         ),
       ),

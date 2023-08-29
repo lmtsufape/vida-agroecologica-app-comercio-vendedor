@@ -14,37 +14,28 @@ class SignInRepository {
   }) async {
     try {
       final response = await _dio.post(
-        '$kBaseURL/login',
+        '$kBaseURL/sanctum/token',
         data: {
           'email': email,
           'password': password,
+          'device_name': "PC"
         },
       );
       if (response.statusCode == 200) {
-        if (response.data['user']['papel'].toString() ==
-            'Produtor') {
-          log('User é um produtor');
           if (await userStorage.userHasCredentials()) {
             await userStorage.clearUserCredentials();
           }
           await userStorage.saveUserCredentials(
               id: response.data['user']['id'].toString(),
               nome:
-                  response.data['user']['nome'].toString(),
+                  response.data['user']['name'].toString(),
               token:
-                  response.data['user']['token'].toString(),
+                  response.data['token'].toString(),
               email:
                   response.data['user']['email'].toString(),
-              papel:
-                  response.data['user']['papel'].toString(),
-              papelId: response.data['user']['papel_id']
-                  .toString());
+              );
           return true;
-        } else {
-          return false;
-
-          //Colocar caixa de erro aqui
-        }
+        
       }
     } catch (e) {
       log(e.toString());

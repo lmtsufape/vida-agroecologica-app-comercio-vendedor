@@ -65,6 +65,7 @@ Widget bottomSheet(MyStoreController controller) {
   return Container(
     height: 100.0,
     width: 300,
+
     margin: const EdgeInsets.symmetric(
       horizontal: 20,
       vertical: 20,
@@ -80,26 +81,30 @@ Widget bottomSheet(MyStoreController controller) {
         const SizedBox(
           height: 20,
         ),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton.icon(
-                icon: const Icon(Icons.camera),
-                onPressed: () {
-                  controller0.selectImageCam();
-                },
-                label: const Text("Camera"),
-              ),
-              const HorizontalSpacerBox(
-                  size: SpacerSize.small),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.image),
-                onPressed: () {
-                  controller0.selectImage();
-                },
-                label: const Text("Gallery"),
-              ),
-            ])
+        Padding(
+          padding: const EdgeInsets.only(top: 23),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton.icon(
+                    icon: const Icon(Icons.camera, size: 30,),
+                    onPressed: () {
+                      controller0.selectImageCam();
+                    },
+                    label: const Text("Camera", style: TextStyle(fontSize: 23),),
+                  ),
+                
+                const HorizontalSpacerBox(
+                    size: SpacerSize.small),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.image, size: 30,),
+                  onPressed: () {
+                    controller0.selectImage();
+                  },
+                  label: const Text("Gallery", style: TextStyle(fontSize: 23),),
+                ),
+              ]),
+        )
       ],
     ),
   );
