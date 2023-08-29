@@ -50,13 +50,16 @@ class HomeScreen extends StatelessWidget {
                       CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.all(kDefaultPadding),
+                      padding: const EdgeInsets.all(
+                          kDefaultPadding),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           CircleAvatar(
-                            backgroundImage: controller.bancaModel?.id == null
+                            backgroundImage: controller
+                                        .bancaModel?.id ==
+                                    null
                                 ? null
                                 : NetworkImage(
                                     '$kBaseURL/bancas/${controller.bancaModel!.id}/imagem',
@@ -66,6 +69,8 @@ class HomeScreen extends StatelessWidget {
                                       }),
                             radius: 38,
                           ),
+                          Text(
+                              "${controller.bancaModel?.nome}")
                         ],
                       ),
                     ),

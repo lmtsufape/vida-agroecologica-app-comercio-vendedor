@@ -13,7 +13,7 @@ class ProductsRepository {
     var userToken = await userStorage.getUserToken();
 
     var response = await dio.get(
-      '$kBaseURL/banca/produtos',
+      '$kBaseURL/produtos',
       options: Options(
         headers: {
           "Content-Type": "application/json",
@@ -42,7 +42,7 @@ class ProductsRepository {
       );
       stockProduct.add(product);
     }
-    
+
     if (response.statusCode == 200 ||
         response.statusCode == 201) {
       return stockProduct;
