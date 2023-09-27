@@ -1,4 +1,6 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
@@ -12,7 +14,6 @@ import 'components/circle_image_profile.dart';
 
 // ignore: must_be_immutable
 class AddStoreScreen extends StatefulWidget {
- 
 
   const AddStoreScreen({Key? key}) : super(key: key);
 
@@ -332,9 +333,17 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                 ),
                                 alignment: Alignment.center,
                                 child: Expanded(
-                                  child: CustomTextFormField(
+                                  child: CustomTextFormFieldCurrency(
                                     hintText:
-                                        "7.00",
+                                        "R\$ 7,00",
+                                    currencyFormatter: <TextInputFormatter>[
+                                      CurrencyTextInputFormatter(
+                                        locale: 'pt-BR',
+                                        symbol: 'R\$',
+                                        decimalDigits: 2,
+                                      ),
+                                    ],
+                                    keyboardType: TextInputType.number,
                                     controller: controller.quantiaMinController,
                                   ),
                                 ),
