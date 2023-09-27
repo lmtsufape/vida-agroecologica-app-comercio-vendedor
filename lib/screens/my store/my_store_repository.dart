@@ -43,6 +43,11 @@ class MyStoreRepository {
     }
     String? userToken = await userStorage.getUserToken();
     print(banca.getPrecoMin);
+    String precoMinimo = banca.getPrecoMin.toString();
+    const find = "R\$";
+    const replace = "";
+    var pMinimo = precoMin.replaceAll(find, replace);
+    var preMinimo = pMinimo.replaceAll(",", ".");
     
       try {
       //Se o usuário não selecionou uma imagem, ele envia o body sem a imagem para a API
@@ -60,7 +65,7 @@ class MyStoreRepository {
               : horarioFechamento,
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin.toString()
-              : precoMin,
+              : preMinimo,
           "formas_pagamento": formasPagamento,
           "bairro entrega": "1=>4.50"
         });
@@ -78,7 +83,7 @@ class MyStoreRepository {
               : horarioFechamento,
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin
-              : precoMin,
+              : preMinimo,
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath.split("\\").last,
@@ -123,7 +128,13 @@ class MyStoreRepository {
   }
 
   Future<bool> adicionarBanca(String nome, String horarioAbertura, String horarioFechamento, String precoMin,String? imgPath, List<bool> isSelected) async{
-     if (formasPagamento == '' && checkItems.isEmpty) {
+    final find = "R\$";
+    final replace = "";
+    var pMinimo = precoMin.replaceAll(find, replace);
+    var preMinimo = pMinimo.replaceAll(",", ".");
+
+
+    if (formasPagamento == '' && checkItems.isEmpty) {
       for (int i = 0; i < isSelected.length; i++) {
         if (isSelected[i] == true) {
           checkItems.add((i + 1).toString());
@@ -144,7 +155,7 @@ class MyStoreRepository {
           "descricao": "loja",
           "horario_abertura":horarioAbertura,
           "horario_fechamento":horarioFechamento,
-          "preco_minimo": precoMin,
+          "preco_minimo": preMinimo,
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath!.split("\\").last,
