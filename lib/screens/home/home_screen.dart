@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
@@ -169,9 +170,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           horizontal: kDefaultPadding),
                       child: PrimaryButton(
                           text: 'Sair',
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, Screens.myStore);
+                          onPressed: () async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            await prefs.clear();
+                            Navigator.popAndPushNamed(context, Screens.signin);
                           }),
                     ),
                     const VerticalSpacerBox(
