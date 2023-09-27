@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:intl/intl.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 
 import 'package:thunderapp/screens/orders/orders_controller.dart';
@@ -17,11 +18,6 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<ReportScreen> {
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -98,8 +94,8 @@ class _ReportCardState extends State<ReportCard> {
                                   ),
                                   Text(
                                     'Cliente',
-                                    style:
-                                        kCaption2.copyWith(color: kTextButtonColor),
+                                    style: kCaption2.copyWith(
+                                        color: kTextButtonColor),
                                   ),
                                 ],
                               ),
@@ -110,7 +106,6 @@ class _ReportCardState extends State<ReportCard> {
                         ),
                       ],
                     ),
-                   
                   ],
                 ),
                 const Divider(),
@@ -121,7 +116,9 @@ class _ReportCardState extends State<ReportCard> {
                       'Itens:',
                       style: kCaption2.copyWith(color: kTextButtonColor),
                     ),
-                    Text('R\$ ${widget.model.total}')
+                    Text(NumberFormat.simpleCurrency(
+                            locale: 'pt-BR', decimalDigits: 2)
+                        .format(widget.model.total)),
                   ],
                 ),
                 const VerticalSpacerBox(size: SpacerSize.medium),
@@ -132,7 +129,9 @@ class _ReportCardState extends State<ReportCard> {
                       'Taxa de entrega:',
                       style: kCaption2.copyWith(color: kTextButtonColor),
                     ),
-                    Text('R\$ ${widget.model.taxaEntrega}')
+                    Text(NumberFormat.simpleCurrency(
+                            locale: 'pt-BR', decimalDigits: 2)
+                        .format(widget.model.taxaEntrega)),
                   ],
                 ),
                 const VerticalSpacerBox(size: SpacerSize.medium),
@@ -144,9 +143,11 @@ class _ReportCardState extends State<ReportCard> {
                       style: kBody2,
                     ),
                     Text(
-                      'R\$ ${widget.model.subtotal}',
+                      NumberFormat.simpleCurrency(
+                              locale: 'pt-BR', decimalDigits: 2)
+                          .format(widget.model.subtotal),
                       style: kBody2.copyWith(color: kDetailColor),
-                    )
+                    ),
                   ],
                 ),
                 const VerticalSpacerBox(size: SpacerSize.large),
@@ -173,7 +174,10 @@ class _ReportCardState extends State<ReportCard> {
             ),
           ),
         ),
-        Divider(height: size.height * 0.01, color: Colors.transparent,),
+        Divider(
+          height: size.height * 0.01,
+          color: Colors.transparent,
+        ),
       ],
     );
   }
