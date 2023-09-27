@@ -1,16 +1,11 @@
 import 'dart:io';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:thunderapp/screens/my%20store/my_store_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-
 import '../../shared/core/image_picker_controller.dart';
 import '../screens_index.dart';
 
@@ -23,6 +18,7 @@ class MyStoreController extends GetxController {
   bool hasImg = false;
   bool editSucess = false;
   bool adcSucess = false;
+  var textoErro = "Não funciona";
   String userToken = '';
 
   final List<bool> isSelected = [false, false, false];
@@ -136,9 +132,23 @@ void adicionarBanca(BuildContext context) async {
     if (adcSucess) {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, Screens.home);
-    } else {
-      log("ocorreu um erro, verifique os campos e tente novamente");
     }
+    else{
+      if(_nomeBancaController.text.isEmpty) {
+        print('to aqui');
+        textoErro = "Insira um nome";
+    } else if(_horarioAberturaController.text.isEmpty) {
+        textoErro = "Insira o horário de abertura";
+    } else if(_horarioFechamentoController.text.isEmpty) {
+        textoErro = "Insira o horário de fechamento";
+    } else if(_quantiaMinController.text.isEmpty) {
+        textoErro = "Insira uma quantia mínima para entrega";
+    } else if(isSelected.isEmpty) {
+        textoErro = "Adicione pelo menos um método de pagamento";
+    }
+  else {
+  log("Ocorreu um erro, verifique os campos");
+  }}
   } catch (e) {
     print(e);
   }
@@ -152,7 +162,6 @@ bool verifySelectedFields() {
       }
     }
   }
-
   return false;
 }
 
