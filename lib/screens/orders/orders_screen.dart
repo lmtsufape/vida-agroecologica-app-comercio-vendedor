@@ -8,6 +8,7 @@ import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
+import 'package:intl/intl.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -131,7 +132,7 @@ class _OrderCardState extends State<OrderCard> {
                       'Itens:',
                       style: kCaption2.copyWith(color: kTextButtonColor),
                     ),
-                    Text('R\$ ${widget.model.total}')
+                    Text(NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.total))
                   ],
                 ),
                 const VerticalSpacerBox(size: SpacerSize.medium),
@@ -142,7 +143,7 @@ class _OrderCardState extends State<OrderCard> {
                       'Taxa de entrega:',
                       style: kCaption2.copyWith(color: kTextButtonColor),
                     ),
-                    Text('R\$ ${widget.model.taxaEntrega}')
+                    Text(NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.taxaEntrega))
                   ],
                 ),
                 const VerticalSpacerBox(size: SpacerSize.medium),
@@ -154,7 +155,7 @@ class _OrderCardState extends State<OrderCard> {
                       style: kBody2,
                     ),
                     Text(
-                      'R\$ ${widget.model.subtotal}',
+                      NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.subtotal),
                       style: kBody2.copyWith(color: kDetailColor),
                     )
                   ],
