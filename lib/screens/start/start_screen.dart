@@ -13,8 +13,11 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 
 import '../../shared/constants/app_enums.dart';
+import '../../shared/core/models/banca_model.dart';
 
 class StartScreen extends StatelessWidget {
+
+
   const StartScreen({Key? key}) : super(key: key);
 
   @override
@@ -76,10 +79,16 @@ class StartScreen extends StatelessWidget {
                         : PrimaryButton(
                             text:
                                 'Continuar como ${controller.userName}',
-                            onPressed: () => navigatorKey
-                                .currentState!
-                                .pushReplacementNamed(
-                                    Screens.home)),
+                            onPressed: () {
+                            if(controller.Start(context) == 0){
+                                  navigatorKey.currentState!
+                                      .pushReplacementNamed(Screens.home);
+                                }
+                            else{
+                              navigatorKey.currentState!.pushReplacementNamed(Screens.addStore);
+                              print('tá aqui');
+                            }
+    }),
                     SizedBox(
                       width: size.width,
                       child: Column(
