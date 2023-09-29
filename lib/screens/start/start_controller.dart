@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:thunderapp/screens/start/start_repository.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
+import '../../shared/core/navigator.dart';
 import '../home/home_screen_repository.dart';
 import '../screens_index.dart';
 import '../signin/sign_in_repository.dart';
@@ -16,13 +17,23 @@ class StartController extends GetxController {
   String? userId;
   String userName = 'teste';
 
-  Future Start(BuildContext context) async {
-    userId = await userStorage.getUserId();
-    userToken = await userStorage.getUserToken();
-    if(startRepository.vazia == 2){
-      return 1;
+  Future StartVeri(BuildContext context) async {
+    var succ = await startRepository.Start(
+        userToken = await userStorage.getUserToken(),
+        userId = await userStorage.getUserId(),
+    );
+    if(succ == 1){
+      navigatorKey.currentState!
+          .pushReplacementNamed(Screens.home);
+      print('home');
     }
-    return 0;
+    else if(succ == 2){
+      navigatorKey.currentState!.pushReplacementNamed(Screens.addStore);
+      print('cadastro');
+    }
+    else{
+      print('erro');
+    }
   }
 
   Future getUserName() async {

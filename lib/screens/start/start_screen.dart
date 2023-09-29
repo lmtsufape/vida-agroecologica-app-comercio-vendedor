@@ -79,16 +79,7 @@ class StartScreen extends StatelessWidget {
                         : PrimaryButton(
                             text:
                                 'Continuar como ${controller.userName}',
-                            onPressed: () {
-                            if(controller.Start(context) == 0){
-                                  navigatorKey.currentState!
-                                      .pushReplacementNamed(Screens.home);
-                                }
-                            else{
-                              navigatorKey.currentState!.pushReplacementNamed(Screens.addStore);
-                              print('tá aqui');
-                            }
-    }),
+                            onPressed: () => controller.StartVeri(context)),
                     SizedBox(
                       width: size.width,
                       child: Column(
