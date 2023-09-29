@@ -8,6 +8,7 @@ import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
+import 'package:intl/intl.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -64,122 +65,130 @@ class _OrderCardState extends State<OrderCard> {
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
+        InkWell(
+          onTap: () =>
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return OrderDetailScreen(widget.model);
+          })),
+          child: Ink(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: size.width * 0.4,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: size.width * 0.4,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    'Pedido #${widget.model.id.toString()}',
-                                    style: kBody3.copyWith(
-                                        fontWeight: FontWeight.bold),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Pedido #${widget.model.id.toString()}',
+                                        style: kBody3.copyWith(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Divider(
+                                        height: size.height * 0.006,
+                                        color: Colors.transparent,
+                                      ),
+                                      Text(
+                                        'Cliente',
+                                        style:
+                                            kCaption2.copyWith(color: kTextButtonColor),
+                                      ),
+                                    ],
                                   ),
-                                  Divider(
-                                    height: size.height * 0.006,
-                                    color: Colors.transparent,
-                                  ),
-                                  Text(
-                                    'Cliente',
-                                    style:
-                                        kCaption2.copyWith(color: kTextButtonColor),
-                                  ),
+                                  // Text(widget.model.consumidorId.toString(),
+                                  //     style: kCaption1),
                                 ],
                               ),
-                              // Text(widget.model.consumidorId.toString(),
-                              //     style: kCaption1),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
+                        IconButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return OrderDetailScreen(widget.model);
+                              }),);
+                            },
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: kPrimaryColor,
+                              size: size.height * 0.05,
+                            )),
                       ],
                     ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return OrderDetailScreen(widget.model);
-                          }),);
-                        },
-                        icon: Icon(
-                          Icons.more_vert,
-                          color: kPrimaryColor,
-                          size: size.height * 0.05,
-                        )),
-                  ],
-                ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Itens:',
-                      style: kCaption2.copyWith(color: kTextButtonColor),
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Itens:',
+                          style: kCaption2.copyWith(color: kTextButtonColor),
+                        ),
+                        Text(NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.total))
+                      ],
                     ),
-                    Text('R\$ ${widget.model.total}')
-                  ],
-                ),
-                const VerticalSpacerBox(size: SpacerSize.medium),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Taxa de entrega:',
-                      style: kCaption2.copyWith(color: kTextButtonColor),
+                    const VerticalSpacerBox(size: SpacerSize.medium),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Taxa de entrega:',
+                          style: kCaption2.copyWith(color: kTextButtonColor),
+                        ),
+                        Text(NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.taxaEntrega))
+                      ],
                     ),
-                    Text('R\$ ${widget.model.taxaEntrega}')
-                  ],
-                ),
-                const VerticalSpacerBox(size: SpacerSize.medium),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    const Text(
-                      'Total do pedido:',
-                      style: kBody2,
+                    const VerticalSpacerBox(size: SpacerSize.medium),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        const Text(
+                          'Total do pedido:',
+                          style: kBody2,
+                        ),
+                        Text(
+                          NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.subtotal),
+                          style: kBody2.copyWith(color: kDetailColor),
+                        )
+                      ],
                     ),
-                    Text(
-                      'R\$ ${widget.model.subtotal}',
-                      style: kBody2.copyWith(color: kDetailColor),
-                    )
-                  ],
-                ),
-                const VerticalSpacerBox(size: SpacerSize.large),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      widget.model.dataPedido.toString(),
-                      style: kCaption2.copyWith(color: kTextButtonColor),
+                    const VerticalSpacerBox(size: SpacerSize.large),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          widget.model.dataPedido.toString(),
+                          style: kCaption2.copyWith(color: kTextButtonColor),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(kTinySize),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: kAlertColor),
+                          child: Text(
+                            widget.model.status.toString(),
+                            style: kCaption2.copyWith(color: kBackgroundColor),
+                          ),
+                        )
+                      ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(kTinySize),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: kAlertColor),
-                      child: Text(
-                        widget.model.status.toString(),
-                        style: kCaption2.copyWith(color: kBackgroundColor),
-                      ),
-                    )
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

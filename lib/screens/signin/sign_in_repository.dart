@@ -49,7 +49,7 @@ class SignInRepository {
         if(response.data["bancas"].isEmpty){
           return 2;
         }else{
-          print("deu false");
+          print(response.statusCode);
           return 1;}
       }
           }catch(e){

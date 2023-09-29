@@ -11,7 +11,7 @@ class HomeScreenRepository {
   Future<BancaModel?> getBancaPrefs(
       String? userToken, String? userId) async {
     print('userId: $userId');
-    log('chegou aqui');
+    print('chegou aqui');
 
     try {
       Response response = await _dio.get(
@@ -29,7 +29,7 @@ class HomeScreenRepository {
                 .toString(),
             response.data["bancas"][0]["horario_fechamento"]
                 .toString(),
-            response.data["bancas"][0]["preco_minimo"],
+            response.data["bancas"][0]["preco_minimo"].toString(),
             response.data["bancas"][0]["feira_id"],
             response.data["bancas"][0]["agricultor_id"]);
         log('bancaModel: ${bancaModel.getNome}');

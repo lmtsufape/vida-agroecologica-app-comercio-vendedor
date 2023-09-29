@@ -3,7 +3,7 @@ import 'package:thunderapp/components/buttons/cancel_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-
+import 'package:intl/intl.dart';
 import '../../shared/core/models/pedido_model.dart';
 
 class OrderDetailScreen extends StatefulWidget {
@@ -142,7 +142,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
                       Text(
-                        'R\$ ${widget.model.taxaEntrega.toString()}',
+                        NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.taxaEntrega),
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
                     ],
@@ -153,7 +153,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     children: <Widget>[
                       Text('Total do pedido', style: TextStyle(fontSize: size.height * 0.018)),
                       Text(
-                        'R\$ ${widget.model.total.toString()}',
+                        NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.subtotal),
                         style: TextStyle(fontSize: size.height * 0.018, color: kPrimaryColor),
                       ),
                     ],
