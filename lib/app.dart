@@ -1,7 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
 import 'package:thunderapp/screens/list_products/list_products_screen.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
@@ -36,21 +36,11 @@ class App extends StatelessWidget {
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       navigatorKey: navigatorKey,
-      builder: (context, child) {
+      builder: (context, widget) {
         return DevicePreview.appBuilder(
-            context,
-            ResponsiveWrapper.builder(child,
-                minWidth: 640,
-                maxWidth: 1980,
-                defaultScale: true,
-                breakpoints: const [
-                  ResponsiveBreakpoint.resize(480,
-                      name: MOBILE),
-                  ResponsiveBreakpoint.resize(768,
-                      name: TABLET),
-                  ResponsiveBreakpoint.resize(1024,
-                      name: DESKTOP),
-                ]));
+          context,
+          widget!,
+        );
       },
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
@@ -65,8 +55,10 @@ class App extends StatelessWidget {
             const HomeScreen(),
         Screens.signin: (BuildContext context) =>
             const SignInScreen(),
-        Screens.addStore: (BuildContext context) => const AddStoreScreen(),
-        Screens.orders: (BuildContext context) => const OrdersScreen(),
+        Screens.addStore: (BuildContext context) =>
+            const AddStoreScreen(),
+        Screens.orders: (BuildContext context) =>
+            const OrdersScreen(),
         //Screens.orderDetail: (BuildContext context) =>
         // OrderDetailScreen(),
         Screens.payments: (context) =>
