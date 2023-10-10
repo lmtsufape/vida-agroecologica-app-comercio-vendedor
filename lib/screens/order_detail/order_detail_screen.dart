@@ -27,12 +27,19 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         SizedBox(
           child: Column(
             children: <Widget>[
-              Divider(height: size.height * 0.02, color: Colors.transparent,),
+              Divider(
+                height: size.height * 0.006,
+                color: Colors.transparent,
+              ),
               Text(
                 'Confirmar pedido?',
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: size.height * 0.020),
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, fontSize: size.height * 0.020),
               ),
-              Divider(height: size.height * 0.015, color: Colors.transparent,),
+              Divider(
+                height: size.height * 0.015,
+                color: Colors.transparent,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -62,8 +69,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(kDefaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,17 +80,24 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Text(
                         widget.model.dataPedido.toString(),
-                        style: TextStyle(fontSize: size.height * 0.018, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
-                  Divider(height: size.height * 0.01, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.01,
+                    color: Colors.transparent,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         'Cliente:',
-                        style: kCaption2.copyWith(color: kTextButtonColor),
+                        style: TextStyle(
+                            fontSize: size.height * 0.022,
+                            color: kTextButtonColor),
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 10),
@@ -94,13 +107,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       const SizedBox()
                     ],
                   ),
-                  Divider(height: size.height * 0.03,),
+                  Divider(
+                    height: size.height * 0.03,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         'Forma de pagamento:',
-                        style: kCaption2.copyWith(color: kTextButtonColor),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018,
+                            color: kTextButtonColor),
                       ),
                       // Text(
                       //   widget.model.tipoPagamentoId.toString(),
@@ -114,26 +131,39 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ))
                     ],
                   ),
-                  Divider(height: size.height * 0.01, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.01,
+                    color: Colors.transparent,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         'Tipo de entrega:',
-                        style: kCaption2.copyWith(color: kTextButtonColor),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018,
+                            color: kTextButtonColor),
                       ),
                       Text(
                         widget.model.tipoEntrega.toString(),
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
-                      const SizedBox(),
                     ],
                   ),
-                  Divider(height: size.height * 0.02, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.02,
+                    color: Colors.transparent,
+                  ),
                   const InformationHolder(),
-                  Divider(height: size.height * 0.02, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.02,
+                    color: Colors.transparent,
+                  ),
                   const ItensOrder(),
-                  Divider(height: size.height * 0.03, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.03,
+                    color: Colors.transparent,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -142,19 +172,29 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
                       Text(
-                        NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.taxaEntrega),
+                        NumberFormat.simpleCurrency(
+                                locale: 'pt-BR', decimalDigits: 2)
+                            .format(widget.model.taxaEntrega),
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
                     ],
                   ),
-                  Divider(height: size.height * 0.015, color: Colors.transparent,),
+                  Divider(
+                    height: size.height * 0.015,
+                    color: Colors.transparent,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Total do pedido', style: TextStyle(fontSize: size.height * 0.018)),
+                      Text('Total do pedido',
+                          style: TextStyle(fontSize: size.height * 0.018)),
                       Text(
-                        NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.subtotal),
-                        style: TextStyle(fontSize: size.height * 0.018, color: kPrimaryColor),
+                        NumberFormat.simpleCurrency(
+                                locale: 'pt-BR', decimalDigits: 2)
+                            .format(widget.model.subtotal),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018,
+                            color: kPrimaryColor),
                       ),
                     ],
                   ),
@@ -186,15 +226,19 @@ class _InformationHolderState extends State<InformationHolder> {
           'Endereço:',
           style: TextStyle(fontSize: size.height * 0.018),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: kHugeSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Rua professora Esmeralda Barros, 67'),
-              Text('Boa Vista'),
-              Text('Apartamento'),
-              Text('Contato: (81) 99699-7476'),
+              Text('Rua professora Esmeralda Barros, 67',
+                  style: TextStyle(fontSize: size.height * 0.018)),
+              Text('Boa Vista',
+                  style: TextStyle(fontSize: size.height * 0.018)),
+              Text('Apartamento',
+                  style: TextStyle(fontSize: size.height * 0.018)),
+              Text('Contato: (81) 99699-7476',
+                  style: TextStyle(fontSize: size.height * 0.018)),
             ],
           ),
         )
@@ -217,8 +261,14 @@ class _ItensOrderState extends State<ItensOrder> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Itens:', style: TextStyle(fontSize: size.height * 0.018),),
-        Divider(height: size.height * 0.02, color: Colors.transparent,),
+        Text(
+          'Itens:',
+          style: TextStyle(fontSize: size.height * 0.018),
+        ),
+        Divider(
+          height: size.height * 0.01,
+          color: Colors.transparent,
+        ),
         const Column(
           children: [
             ListItens(),
@@ -246,11 +296,15 @@ class _ListItensState extends State<ListItens> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('2 unid x Pêra', style: TextStyle(fontSize: size.height * 0.018),),
-        Text('R\$ 6,00', style: TextStyle(fontSize: size.height * 0.018),),
+        Text(
+          '2 unid x Pêra',
+          style: TextStyle(fontSize: size.height * 0.018),
+        ),
+        Text(
+          'R\$ 6,00',
+          style: TextStyle(fontSize: size.height * 0.018),
+        ),
       ],
     );
   }
 }
-
-
