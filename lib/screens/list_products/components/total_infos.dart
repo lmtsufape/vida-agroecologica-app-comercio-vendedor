@@ -12,7 +12,7 @@ class TotalInfos extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: size.width * 0.42,
+          width: size.width * 0.40,
           height: size.width * 0.165,
           child: Card(
             margin: EdgeInsets.zero,
@@ -44,7 +44,7 @@ class TotalInfos extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: size.width * 0.42,
+          width: size.width * 0.40,
           height: size.width * 0.165,
           child: Card(
             margin: EdgeInsets.zero,
