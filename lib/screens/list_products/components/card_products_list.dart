@@ -67,7 +67,7 @@ class _CardProductsListState
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: kPrimaryColor,
+                              backgroundColor: kSuccessColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
