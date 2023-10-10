@@ -19,9 +19,11 @@ class HomeScreenController extends GetxController {
     update();
   }
 
+
   @override
   void onInit() {
     super.onInit();
+    update();
     getBancaPrefs();
   }
 }
