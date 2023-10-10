@@ -5,7 +5,7 @@ import '../../../shared/constants/app_text_constants.dart';
 import '../../../shared/core/models/products_model.dart';
 
 // ignore: must_be_immutable
-class ImageCardList extends StatefulWidget {
+class ImageCardList extends StatefulWidget{
   String userToken;
   ProductsModel model;
   ImageCardList(this.userToken, this.model, {Key? key})
@@ -16,7 +16,7 @@ class ImageCardList extends StatefulWidget {
       _ImageCardListState();
 }
 
-class _ImageCardListState extends State<ImageCardList> {
+class _ImageCardListState extends State<ImageCardList>{
   ListProductsController controller =
       ListProductsController();
   @override
@@ -31,22 +31,22 @@ class _ImageCardListState extends State<ImageCardList> {
           elevation: 2,
           shadowColor: Colors.black,
           child: FutureBuilder(
-            future: null,
+            future: controller.getImage(widget.model.produtoTabeladoId),
             builder: (context, snapshot) {
-              if (widget.model.id == null) {
+              if (snapshot.hasData && snapshot.data == true) {
                 return Image(
                     image: NetworkImage(
-                        '$kBaseURL/produtos/${widget.model.id}/imagem',
+                        '$kBaseURL/produtos/${widget.model.produtoTabeladoId}/imagem',
                         headers: {
-                      "Content-Type": "application/json",
-                      "Accept": "application/json",
-                      "Authorization":
+                          "Content-Type": "application/json",
+                          "Accept": "application/json",
+                          "Authorization":
                           "Bearer ${widget.userToken}"
-                    }));
+                        }));
               } else {
-                return const Icon(
+                return Icon(
                   Icons.shopping_bag,
-                  size: 100,
+                  size: size.height * 0.1,
                   color: kPrimaryColor,
                 );
               }
