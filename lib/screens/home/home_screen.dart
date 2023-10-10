@@ -38,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 iconTheme: const IconThemeData(
                     color: kPrimaryColor),
               ),
-             
               body: SizedBox(
                 width: size.width,
                 height: size.height,
@@ -72,22 +71,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? const CircularProgressIndicator(
                                   color: Colors.white,
                                 )
-                              : Text(
-                                  "Olá, ${controller.bancaModel?.nome}",
-                                  style: TextStyle(
-                                      fontSize:
-                                          size.height *
-                                              0.020,
-                                      fontWeight:
-                                          FontWeight.w500,
-                                      color:
-                                          kSecondaryColor),
+                              : Container(
+                                width: size.width * 0.38,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                      "Olá, ${controller.bancaModel?.nome}",
+                                      style: TextStyle(
+                                          fontSize:
+                                              size.height *
+                                                  0.020,
+                                          fontWeight:
+                                              FontWeight.w500,
+                                          color:
+                                              kSecondaryColor),
+                                    ),
                                 ),
+                              ),
                           Row(
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (_) =>
@@ -100,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .mode_edit_outline_outlined,
                                     color: kPrimaryColor,
                                     size:
-                                        size.height * 0.04,
+                                        size.height * 0.03,
                                   )),
                               IconButton(
                                   onPressed: () {},
@@ -109,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .notifications_none,
                                     color: kPrimaryColor,
                                     size:
-                                        size.height * 0.04,
+                                        size.height * 0.03,
                                   )),
                             ],
                           ),
