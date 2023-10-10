@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
+import 'package:thunderapp/screens/home/home_screen.dart';
 import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
@@ -11,6 +12,7 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import '../../components/forms/custom_text_form_field.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
+import '../screens_index.dart';
 import 'components/circle_image_profile.dart';
 
 // ignore: must_be_immutable
@@ -42,7 +44,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
             body: Container(
                 width: size.width,
                 height: size.height,
-                padding: const EdgeInsets.all(kDefaultPadding),
+                padding: const EdgeInsets.only(top: 26, left: 26, right: 26, bottom: 18),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -69,7 +71,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                           fontWeight: FontWeight.w500),
                     ),
                     Divider(
-                      height: size.height * 0.02,
+                      height: size.height * 0.016,
                       color: Colors.transparent,
                     ),
                     Column(
@@ -82,11 +84,6 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               fontWeight: FontWeight.w500,
                               fontSize: size.height * 0.014),
                         ),
-                        /*CustomTextFormField(
-                          hintText: widget.bancaModel!.nome,
-                          icon: Icons.person,
-                          controller: controller.nomeBancaController,
-                        ),*/
                         SizedBox(
                           width: size.width,
                           child: Card(
@@ -100,11 +97,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                           color: Colors.black, width: 1)),
                                 ),
                                 alignment: Alignment.center,
-                                child: Expanded(
-                                  child: CustomTextFormField(
-                                    hintText: widget.bancaModel!.nome,
-                                    controller: controller.nomeBancaController,
-                                  ),
+                                child: CustomTextFormField(
+                                  hintText: widget.bancaModel!.nome,
+                                  controller: controller.nomeBancaController,
                                 ),
                               ),
                             ),
@@ -133,19 +128,6 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: size.height * 0.016),
                               ),
-                              /*Expanded(
-                                child: CustomTextFormField(
-                                  hintText: widget.bancaModel!
-                                      .horarioAbertura,
-                                  keyboardType:
-                                      TextInputType.number,
-                                  maskFormatter: controller
-                                      .timeFormatter,
-                                  icon: Icons.alarm_on,
-                                  controller: controller
-                                      .horarioAberturaController,
-                                ),
-                              ),*/
                               Divider(
                                 height: size.height * 0.006,
                                 color: Colors.transparent,
@@ -164,16 +146,14 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                                 color: Colors.black, width: 1)),
                                       ),
                                       alignment: Alignment.center,
-                                      child: Expanded(
-                                        child: CustomTextFormField(
-                                          hintText: widget
-                                              .bancaModel!.horarioAbertura,
-                                          keyboardType: TextInputType.number,
-                                          maskFormatter:
-                                              controller.timeFormatter,
-                                          controller: controller
-                                              .horarioAberturaController,
-                                        ),
+                                      child: CustomTextFormField(
+                                        hintText: widget
+                                            .bancaModel!.horarioAbertura,
+                                        keyboardType: TextInputType.number,
+                                        maskFormatter:
+                                            controller.timeFormatter,
+                                        controller: controller
+                                            .horarioAberturaController,
                                       ),
                                     ),
                                   ),
@@ -192,19 +172,6 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: size.height * 0.016),
                               ),
-                              /*Expanded(
-                                child: CustomTextFormField(
-                                  hintText: widget.bancaModel!
-                                      .horarioAbertura,
-                                  keyboardType:
-                                      TextInputType.number,
-                                  maskFormatter: controller
-                                      .timeFormatter,
-                                  icon: Icons.alarm_on,
-                                  controller: controller
-                                      .horarioAberturaController,
-                                ),
-                              ),*/
                               Divider(
                                 height: size.height * 0.006,
                                 color: Colors.transparent,
@@ -223,16 +190,14 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                                 color: Colors.black, width: 1)),
                                       ),
                                       alignment: Alignment.center,
-                                      child: Expanded(
-                                        child: CustomTextFormField(
-                                          hintText: widget
-                                              .bancaModel!.horarioFechamento,
-                                          keyboardType: TextInputType.number,
-                                          maskFormatter:
-                                              controller.timeFormatter,
-                                          controller: controller
-                                              .horarioFechamentoController,
-                                        ),
+                                      child: CustomTextFormField(
+                                        hintText: widget
+                                            .bancaModel!.horarioFechamento,
+                                        keyboardType: TextInputType.number,
+                                        maskFormatter:
+                                            controller.timeFormatter,
+                                        controller: controller
+                                            .horarioFechamentoController,
                                       ),
                                     ),
                                   ),
@@ -264,7 +229,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               value: controller.isSelected[0],
                               title: Text(
                                 controller.checkItems[0],
-                                style: TextStyle(fontSize: size.height * 0.018),
+                                style: TextStyle(fontSize: size.height * 0.016),
                               ),
                               checkboxShape: const CircleBorder(),
                               controlAffinity: ListTileControlAffinity.leading,
@@ -273,11 +238,12 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                           ),
                           Flexible(
                             child: CheckboxListTile(
+                              contentPadding: EdgeInsetsDirectional.zero,
                               activeColor: kPrimaryColor,
                               value: controller.isSelected[1],
                               title: Text(
                                 controller.checkItems[1],
-                                style: TextStyle(fontSize: size.height * 0.018),
+                                style: TextStyle(fontSize: size.height * 0.016),
                               ),
                               checkboxShape: const CircleBorder(),
                               controlAffinity: ListTileControlAffinity.leading,
@@ -291,7 +257,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               value: controller.isSelected[2],
                               title: Text(
                                 controller.checkItems[2],
-                                style: TextStyle(fontSize: size.height * 0.018),
+                                style: TextStyle(fontSize: size.height * 0.016),
                               ),
                               checkboxShape: const CircleBorder(),
                               controlAffinity: ListTileControlAffinity.leading,
@@ -336,20 +302,18 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                           color: Colors.black, width: 1)),
                                 ),
                                 alignment: Alignment.center,
-                                child: Expanded(
-                                  child: CustomTextFormFieldCurrency(
-                                    currencyFormatter: <TextInputFormatter>[
-                                      CurrencyTextInputFormatter(
-                                        locale: 'pt-BR',
-                                        symbol: 'R\$',
-                                        decimalDigits: 2,
-                                      ),
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    hintText:
-                                        "R\$ ${double.tryParse(widget.bancaModel!.precoMin)}0",
-                                    controller: controller.quantiaMinController,
-                                  ),
+                                child: CustomTextFormFieldCurrency(
+                                  currencyFormatter: <TextInputFormatter>[
+                                    CurrencyTextInputFormatter(
+                                      locale: 'pt-BR',
+                                      symbol: 'R\$',
+                                      decimalDigits: 2,
+                                    ),
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  hintText:
+                                      "R\$ ${double.tryParse(widget.bancaModel!.precoMin)}0",
+                                  controller: controller.quantiaMinController,
                                 ),
                               ),
                             ),
@@ -357,17 +321,25 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         ),
                       ],
                     ),
-                    /*CustomTextFormField(
-                      hintText: widget.bancaModel!.precoMin.toString(),
-                      icon: Icons.paid,
-                      controller: controller.quantiaMinController,
-                    ),*/
-                    const VerticalSpacerBox(size: SpacerSize.huge),
+                    const VerticalSpacerBox(size: SpacerSize.large),
                     PrimaryButton(
                         text: 'Salvar',
                         onPressed: () {
                           if (controller.verifySelectedFields()) {
-                            controller.editBanca(context, widget.bancaModel!);
+                            showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    DefaultAlertDialogOneButton(
+                                      title: 'Êxito',
+                                      body:
+                                      'Suas informações foram alteradas com sucesso',
+                                      confirmText: 'Ok',
+                                      onConfirm: () {
+                                        controller.editBanca(
+                                            context, widget.bancaModel!);
+                                      },
+                                      buttonColor: kAlertColor,
+                                    ));
                           } else {
                             showDialog(
                                 context: context,
@@ -375,7 +347,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     DefaultAlertDialogOneButton(
                                       title: 'Erro',
                                       body:
-                                          'Adicione pelo menos uma forma de pagamento e o valor mínimo de entrega',
+                                          'Preencha todos os campos',
                                       confirmText: 'Ok',
                                       onConfirm: () => Get.back(),
                                       buttonColor: kAlertColor,
@@ -387,7 +359,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                       width: size.width,
                       height: size.height * 0.06,
                       child: OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () => Get.off(()=>HomeScreen()),
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.white,
                           side: const BorderSide(
