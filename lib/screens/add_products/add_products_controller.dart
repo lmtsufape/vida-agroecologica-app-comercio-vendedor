@@ -4,13 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
-import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
+
+import '../../shared/constants/app_text_constants.dart';
 
 class AddProductsController extends GetxController {
   ScreenState screenState = ScreenState.idle;
@@ -26,8 +27,11 @@ class AddProductsController extends GetxController {
   String? token;
   BancaModel? bancaModel;
   String? userId;
+  late String userToken;
+  bool hasImage = false;
 
   // -----------------------
+
 
   HomeScreenRepository homeRepository =
       HomeScreenRepository();
@@ -73,6 +77,11 @@ class AddProductsController extends GetxController {
     }
 
     return profit;
+  }
+
+  void setHasImage(bool value){
+    hasImage = value;
+    update();
   }
 
   void setProductId(int? value) {
@@ -165,11 +174,44 @@ class AddProductsController extends GetxController {
     }
   }
 
+  Future<bool> boolImage(int? proId) async {
+    setHasImage(await repository.getImage(proId));
+    print("rodou");
+    return hasImage;
+  }
+
+  /*Future<bool> getImage(int? proId) async {
+    Dio dio = Dio();
+
+    UserStorage userStorage = UserStorage();
+
+    userToken = await userStorage.getUserToken();
+
+    try {
+      var response = await dio.get(
+        '$kBaseURL/produtos/$proId/imagem',
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer $userToken"
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }*/
+
   @override
   void onInit() {
     super.onInit();
     loadTableProducts();
-
     update();
   }
 }

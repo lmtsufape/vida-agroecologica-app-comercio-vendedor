@@ -11,7 +11,7 @@ import 'package:thunderapp/screens/add_products/components/sale_infos.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
-import '../../shared/core/models/products_model.dart';
+
 
 class AddProductsScreen extends StatefulWidget {
   const AddProductsScreen({Key? key}) : super(key: key);
@@ -48,25 +48,11 @@ class _AddProductsScreenState
           iconTheme:
               const IconThemeData(color: kPrimaryColor),
         ),
-        /*drawer: Drawer(
-            child: ListView(
-              children: [
-                ListTile(
-                  title: const Text('Sair'),
-                  trailing: const Icon(
-                    Icons.exit_to_app,
-                    size: 20,
-                    color: kPrimaryColor,
-                  ),
-                  onTap: () {},
-                )
-              ],
-            )),*/
         body: Container(
           width: size.width,
           height: size.height,
           padding: const EdgeInsets.all(kDefaultPadding),
-          child: Column(
+          child: ListView(
             children: [
               Divider(
                 height: size.height * 0.008,
@@ -78,7 +64,7 @@ class _AddProductsScreenState
                   Padding(
                     padding: const EdgeInsets.only(top: 14),
                     child: Container(
-                      width: size.width * 0.3,
+                      width: size.width * 0.315,
                       alignment: Alignment.center,
                       child: TextButton(
                         onPressed: () {},

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
@@ -89,4 +90,62 @@ class AddProductsRepository extends GetxController {
       return false;
     }
   }
+
+  Future<bool> getImage(int? prodId) async{
+    Dio dio = Dio();
+
+    UserStorage userStorage = UserStorage();
+
+    userToken = await userStorage.getUserToken();
+
+    print("função de pegar imagem");
+    print(prodId);
+
+    try{
+      var response = await dio.get(
+        '$kBaseURL/produtos/$prodId/imagem',
+        options: Options(headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer $userToken"
+        }),
+      );
+      if(response.statusCode == 200 || response.statusCode == 201){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }catch(e){
+      print(e);
+      return false;
+    }
+  }
+
+
+  Future<bool> deleteProduct(context, int? prodId) async {
+    Dio dio = Dio();
+
+    UserStorage userStorage = UserStorage();
+
+    userToken = await userStorage.getUserToken();
+
+    var response = await dio.delete(
+      '$kBaseURL/produtos/$prodId',
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer $userToken"
+        },
+      ),
+    );
+    if (kDebugMode) {
+      print(response.statusCode);
+    }
+    print(response.statusCode);
+    return true;
+  }
+
+
 }
