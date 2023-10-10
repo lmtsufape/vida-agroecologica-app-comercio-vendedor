@@ -16,49 +16,44 @@ class OrdersRepository extends GetxController {
     UserStorage userStorage = UserStorage();
     List<PedidoModel> orders = [];
     userToken = await userStorage.getUserToken();
-    try{
-    Response response = await dio.get(
-        '$kBaseURL/transacoes/bancas/$id',
-        options: Options(
-          headers: {"Authorization": "Bearer $userToken"},
-        ));
+    try {
+      Response response = await dio.get('$kBaseURL/transacoes/bancas/$id',
+          options: Options(
+            headers: {"Authorization": "Bearer $userToken"},
+          ));
 
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
-      List<dynamic> all = response.data['vendas'];
-      if (all.isNotEmpty) {
-        for (int i = 0; i < all.length; i++) {
-          if (all[i]["status"] == "pedido realizado" || all[i]["status"] == "pagamento pendente") {
-          
-            pedido = PedidoModel(
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> all = response.data['vendas'];
+        if (all.isNotEmpty) {
+          for (int i = 0; i < all.length; i++) {
+            if (all[i]["status"] == "pedido realizado" ||
+                all[i]["status"] == "pagamento pendente") {
+              pedido = PedidoModel(
                 id: all[i]["id"],
                 status: all[i]["status"],
-                dataPedido: all[i]["dataPedido"],
                 tipoEntrega: all[i]["tipo_entrega"],
-                subtotal: all[i]["subtotal"],
-                taxaEntrega: all[i]["taxa_entrega"],
-                total: all[i]["total"]);
+                subtotal: double.tryParse(all[i]["subtotal"].toString()),
+                taxaEntrega: double.tryParse(all[i]["taxa_entrega"].toString()),
+                total: double.tryParse(all[i]["total"].toString()),
+                dataPedido: all[i]["dataPedido"],
+              );
 
-            orders.add(pedido);
-        
+              orders.add(pedido);
+            }
           }
+          return orders;
         }
-        return orders;
       }
-      
-    }
-    }catch(e){
-    if (e is DioError) {
+    } catch (e) {
+      if (e is DioError) {
         final dioError = e;
         if (dioError.response != null) {
-          final errorMessage =
-              dioError.response!.data['errors'];
+          final errorMessage = dioError.response!.data['errors'];
           print('Erro: $errorMessage');
           print("Erro ${e.toString()}");
-          
         }
       }
+    }
+    return [];
   }
-  return [];
-}
 }
