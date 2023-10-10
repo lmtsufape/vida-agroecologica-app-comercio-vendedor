@@ -36,7 +36,7 @@ class _StockAddProductState extends State<StockAddProduct> {
           color: Colors.transparent,
         ),
         SizedBox(
-          height: size.height * 0.05,
+          height: size.height * 0.06,
           width: size.width * 0.25,
           child: Card(
             margin: EdgeInsets.zero,
