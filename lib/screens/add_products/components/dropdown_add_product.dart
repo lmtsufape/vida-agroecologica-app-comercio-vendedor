@@ -31,7 +31,7 @@ class _DropDownAddProductState
             width: size.width,
             height: size.height * 0.06,
             child:
-                DropdownButtonFormField<TableProductsModel>(
+            DropdownButtonFormField<TableProductsModel>(
               isExpanded: true,
               icon: Icon(
                 Icons.keyboard_arrow_down,
@@ -52,6 +52,9 @@ class _DropDownAddProductState
                       .setProductId(selectedObj!.id);
                   widget.controller
                       .setDescription(selectedObj.nome);
+                });
+                widget.controller.boolImage(selectedObj!.id).then((value) {
+                  widget.controller.setHasImage(value);
                 });
               },
             )),
