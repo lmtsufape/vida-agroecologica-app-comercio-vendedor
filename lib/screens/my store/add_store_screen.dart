@@ -40,7 +40,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
             body: Container(
                 width: size.width,
                 height: size.height,
-                padding: const EdgeInsets.all(kDefaultPadding),
+                padding: const EdgeInsets.all(26),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -80,13 +80,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                               fontWeight: FontWeight.w500,
                               fontSize: size.height * 0.014),
                         ),
-                        /*CustomTextFormField(
-                          hintText: widget.bancaModel!.nome,
-                          icon: Icons.person,
-                          controller: controller.nomeBancaController,
-                        ),*/
-                        SizedBox(
-                          width: size.width,
+                        IntrinsicWidth(
+                          stepWidth: size.width,
                           child: Card(
                             margin: EdgeInsets.zero,
                             elevation: 0,
@@ -95,14 +90,12 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                 decoration: const BoxDecoration(
                                   border: Border(
                                       bottom: BorderSide(
-                                          color: Colors.black, width: 1)),
+                                          color: Colors.black, width: 1),),
                                 ),
                                 alignment: Alignment.center,
-                                child: Expanded(
-                                  child: CustomTextFormField(
-                                    hintText: "nome",
-                                    controller: controller.nomeBancaController,
-                                  ),
+                                child: CustomTextFormField(
+                                  hintText: "Nome",
+                                  controller: controller.nomeBancaController,
                                 ),
                               ),
                             ),
@@ -116,116 +109,92 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                             fontWeight: FontWeight.w500,
                             fontSize: size.height * 0.014,
                             color: kTextButtonColor)),
+                    Divider(
+                      height: size.height * 0.008,
+                      color: Colors.transparent,
+                    ),
                     SizedBox(
                       width: size.width * 0.65,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Início',
-                                style: TextStyle(
-                                    color: kSecondaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: size.height * 0.016),
-                              ),
-                              /*Expanded(
-                                child: CustomTextFormField(
-                                  hintText: widget.bancaModel!
-                                      .horarioAbertura,
-                                  keyboardType:
-                                      TextInputType.number,
-                                  maskFormatter: controller
-                                      .timeFormatter,
-                                  icon: Icons.alarm_on,
-                                  controller: controller
-                                      .horarioAberturaController,
+                          IntrinsicWidth(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Início',
+                                  style: TextStyle(
+                                      color: kSecondaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: size.height * 0.016),
                                 ),
-                              ),*/
-                              Divider(
-                                height: size.height * 0.006,
-                                color: Colors.transparent,
-                              ),
-                              SizedBox(
-                                height: size.height * 0.05,
-                                width: size.width * 0.25,
-                                child: Card(
-                                  margin: EdgeInsets.zero,
-                                  elevation: 0,
-                                  child: ClipPath(
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.black, width: 1)),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Expanded(
+                                Divider(
+                                  height: size.height * 0.006,
+                                  color: Colors.transparent,
+                                ),
+                                SizedBox(
+                                  width: size.width * 0.25,
+                                  height: size.height * 0.05,
+                                  child: Card(
+                                    margin: EdgeInsets.zero,
+                                    elevation: 0,
+                                    child: ClipPath(
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.black, width: 1)),
+                                        ),
                                         child: CustomTextFormField(
                                           hintText: "00:00",
                                           keyboardType: TextInputType.number,
                                           maskFormatter:
-                                              controller.timeFormatter,
+                                          controller.timeFormatter,
                                           controller: controller
                                               .horarioAberturaController,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                           const VerticalSpacerBox(size: SpacerSize.small),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Fechamento',
-                                style: TextStyle(
-                                    color: kSecondaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: size.height * 0.016),
-                              ),
-                              /*Expanded(
-                                child: CustomTextFormField(
-                                  hintText: widget.bancaModel!
-                                      .horarioAbertura,
-                                  keyboardType:
-                                      TextInputType.number,
-                                  maskFormatter: controller
-                                      .timeFormatter,
-                                  icon: Icons.alarm_on,
-                                  controller: controller
-                                      .horarioAberturaController,
+                          IntrinsicWidth(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Fechamento',
+                                  style: TextStyle(
+                                      color: kSecondaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: size.height * 0.016),
                                 ),
-                              ),*/
-                              Divider(
-                                height: size.height * 0.006,
-                                color: Colors.transparent,
-                              ),
-                              SizedBox(
-                                height: size.height * 0.05,
-                                width: size.width * 0.25,
-                                child: Card(
-                                  margin: EdgeInsets.zero,
-                                  elevation: 0,
-                                  child: ClipPath(
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.black, width: 1)),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Expanded(
+                                Divider(
+                                  height: size.height * 0.006,
+                                  color: Colors.transparent,
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.05,
+                                  width: size.width * 0.25,
+                                  child: Card(
+                                    margin: EdgeInsets.zero,
+                                    elevation: 0,
+                                    child: ClipPath(
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.black, width: 1)),
+                                        ),
                                         child: CustomTextFormField(
                                           hintText: "00:00",
                                           keyboardType: TextInputType.number,
                                           maskFormatter:
-                                              controller.timeFormatter,
+                                          controller.timeFormatter,
                                           controller: controller
                                               .horarioFechamentoController,
                                         ),
@@ -233,8 +202,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -260,7 +229,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                               value: controller.isSelected[0],
                               title: Text(
                                 controller.checkItems[0],
-                                style: TextStyle(fontSize: size.height * 0.018),
+                                style: TextStyle(fontSize: size.height * 0.016),
                               ),
                               checkboxShape: const CircleBorder(),
                               controlAffinity: ListTileControlAffinity.leading,
@@ -269,11 +238,12 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                           ),
                           Flexible(
                             child: CheckboxListTile(
+                              contentPadding: EdgeInsetsDirectional.zero,
                               activeColor: kPrimaryColor,
                               value: controller.isSelected[1],
                               title: Text(
                                 controller.checkItems[1],
-                                style: TextStyle(fontSize: size.height * 0.018),
+                                style: TextStyle(fontSize: size.height * 0.016),
                               ),
                               checkboxShape: const CircleBorder(),
                               controlAffinity: ListTileControlAffinity.leading,
@@ -287,7 +257,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                               value: controller.isSelected[2],
                               title: Text(
                                 controller.checkItems[2],
-                                style: TextStyle(fontSize: size.height * 0.018),
+                                style: TextStyle(fontSize: size.height * 0.016),
                               ),
                               checkboxShape: const CircleBorder(),
                               controlAffinity: ListTileControlAffinity.leading,
@@ -319,7 +289,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                 fontSize: size.height * 0.014,
                                 color: kTextButtonColor)),
                         SizedBox(
-                          height: size.height * 0.05,
+                          height: size.height * 0.06,
                           width: size.width * 0.25,
                           child: Card(
                             margin: EdgeInsets.zero,
@@ -332,20 +302,18 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                           color: Colors.black, width: 1)),
                                 ),
                                 alignment: Alignment.center,
-                                child: Expanded(
-                                  child: CustomTextFormFieldCurrency(
-                                    hintText:
-                                        "R\$ 7,00",
-                                    currencyFormatter: <TextInputFormatter>[
-                                      CurrencyTextInputFormatter(
-                                        locale: 'pt-BR',
-                                        symbol: 'R\$',
-                                        decimalDigits: 2,
-                                      ),
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    controller: controller.quantiaMinController,
-                                  ),
+                                child: CustomTextFormFieldCurrency(
+                                  hintText:
+                                  "R\$ 7,00",
+                                  currencyFormatter: <TextInputFormatter>[
+                                    CurrencyTextInputFormatter(
+                                      locale: 'pt-BR',
+                                      symbol: 'R\$',
+                                      decimalDigits: 2,
+                                    ),
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  controller: controller.quantiaMinController,
                                 ),
                               ),
                             ),
