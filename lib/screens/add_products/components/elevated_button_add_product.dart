@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
+import 'package:thunderapp/screens/home/home_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
@@ -40,14 +41,12 @@ class _ElevatedButtonAddProductState
           if (response == false) {
             showDialog(
                 context: context,
-                builder: (context) => DefaultAlertDialog(
+                builder: (context) => DefaultAlertDialogOneButton(
                       title: 'Erro',
                       body: 'Preencha todos os campos',
-                      cancelText: 'Ok',
                       confirmText: 'Ok',
                       onConfirm: () => Get.back(),
-                      cancelColor: kErrorColor,
-                      confirmColor: kSuccessColor,
+                      buttonColor: kSuccessColor,
                     ));
           } else {
             showDialog(
@@ -58,9 +57,7 @@ class _ElevatedButtonAddProductState
                       body:
                           'Produto cadastrado com sucesso',
                       confirmText: 'Ok',
-                      onConfirm: () =>
-                          Navigator.popAndPushNamed(
-                              context, Screens.home),
+                      onConfirm: () => Get.offAll(() => HomeScreen()),
                       buttonColor: kSuccessColor,
                     )));
           }
