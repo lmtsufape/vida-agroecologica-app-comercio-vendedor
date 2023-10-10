@@ -1,4 +1,8 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:thunderapp/components/forms/custom_text_form_field.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../../components/forms/custom_currency_form_field.dart';
@@ -6,8 +10,7 @@ import '../../../components/forms/custom_currency_form_field.dart';
 class SaleInfos extends StatefulWidget {
   final AddProductsController controller;
 
-  const SaleInfos(this.controller, {Key? key})
-      : super(key: key);
+  const SaleInfos(this.controller, {Key? key}) : super(key: key);
 
   @override
   State<SaleInfos> createState() => _SaleInfosState();
@@ -33,15 +36,14 @@ class _SaleInfosState extends State<SaleInfos> {
             Text(
               'Preço de custo',
               style: TextStyle(
-                  color: kTextButtonColor,
-                  fontSize: size.height * 0.017),
+                  color: kTextButtonColor, fontSize: size.height * 0.017),
             ),
             Divider(
               height: size.height * 0.005,
             ),
             SizedBox(
               height: size.height * 0.05,
-              width: size.width * 0.25,
+              width: size.width * 0.30,
               child: Card(
                 margin: EdgeInsets.zero,
                 elevation: 0,
@@ -49,28 +51,21 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                          bottom: BorderSide(
-                              color: Colors.black,
-                              width: 1)),
+                          bottom: BorderSide(color: Colors.black, width: 1)),
                     ),
                     alignment: Alignment.center,
                     child: CustomCurrencyTextFormField(
                       label: 'R\$ 2,62',
                       onChanged: (value) {
                         setState(() {
-                          profit = widget.controller
-                              .changeProfit(
-                                  widget.controller
-                                      .saleController.text,
-                                  widget.controller
-                                      .costController.text);
+                          profit = widget.controller.changeProfit(
+                              widget.controller.saleController.text,
+                              widget.controller.costController.text);
                           widget.controller.setCostPrice();
                         });
                       },
-                      inputFormatter: widget
-                          .controller.currencyFormatter,
-                      controller:
-                          widget.controller.costController,
+                      inputFormatter: widget.controller.currencyFormatter,
+                      controller: widget.controller.costController,
                     ),
                   ),
                 ),
@@ -86,8 +81,7 @@ class _SaleInfosState extends State<SaleInfos> {
               child: Text(
                 'Preço de venda',
                 style: TextStyle(
-                    color: kTextButtonColor,
-                    fontSize: size.height * 0.017),
+                    color: kTextButtonColor, fontSize: size.height * 0.017),
               ),
             ),
             Divider(
@@ -95,7 +89,7 @@ class _SaleInfosState extends State<SaleInfos> {
             ),
             SizedBox(
               height: size.height * 0.05,
-              width: size.width * 0.26,
+              width: size.width * 0.30,
               child: Card(
                 margin: EdgeInsets.zero,
                 elevation: 0,
@@ -114,19 +108,14 @@ class _SaleInfosState extends State<SaleInfos> {
                       label: 'R\$ 4,62',
                       onChanged: (value) {
                         setState(() {
-                          profit = widget.controller
-                              .changeProfit(
-                                  widget.controller
-                                      .saleController.text,
-                                  widget.controller
-                                      .costController.text);
+                          profit = widget.controller.changeProfit(
+                              widget.controller.saleController.text,
+                              widget.controller.costController.text);
                           widget.controller.setSalePrice();
                         });
                       },
-                      inputFormatter: widget
-                          .controller.currencyFormatter,
-                      controller:
-                          widget.controller.saleController,
+                      inputFormatter: widget.controller.currencyFormatter,
+                      controller: widget.controller.saleController,
                     ),
                   ),
                 ),
@@ -135,18 +124,17 @@ class _SaleInfosState extends State<SaleInfos> {
           ],
         ),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'Lucro R\$',
               style: TextStyle(
-                  color: kTextButtonColor,
-                  fontSize: size.height * 0.017),
+                  color: kTextButtonColor, fontSize: size.height * 0.017),
             ),
             Divider(height: size.height * 0.005),
             SizedBox(
               height: size.height * 0.05,
-              width: size.width * 0.25,
+              width: size.width * 0.20,
               child: Card(
                 elevation: 0,
                 margin: EdgeInsets.zero,
@@ -154,14 +142,15 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     decoration: const BoxDecoration(
                         border: Border(
-                            bottom: BorderSide(
-                                color: Colors.black,
-                                width: 1))),
+                            bottom: BorderSide(color: Colors.black, width: 1))),
                     alignment: Alignment.center,
                     child: Text(
-                      profit.toStringAsPrecision(4),
+                      NumberFormat.simpleCurrency(
+                              locale: 'pt-BR', decimalDigits: 2)
+                          .format(
+                              double.tryParse(profit.toStringAsPrecision(2))),
                       style: TextStyle(
-                        fontSize: size.height * 0.017,
+                        fontSize: size.height * 0.015,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
