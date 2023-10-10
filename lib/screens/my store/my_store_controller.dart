@@ -7,6 +7,7 @@ import 'package:thunderapp/screens/my%20store/my_store_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 import '../../shared/core/image_picker_controller.dart';
+import '../home/home_screen.dart';
 import '../screens_index.dart';
 
 class MyStoreController extends GetxController {
@@ -116,7 +117,7 @@ void editBanca(BuildContext context, BancaModel banca) async {
       banca);
   if (editSucess) {
     // ignore: use_build_context_synchronously
-    Navigator.pushReplacementNamed(context, Screens.home);
+    Get.offAll(()=>HomeScreen());
   }
 }
 
@@ -155,7 +156,7 @@ void adicionarBanca(BuildContext context) async {
 }
 
 bool verifySelectedFields() {
-  if (_quantiaMinController.text.isNotEmpty) {
+  if (_quantiaMinController.text.isNotEmpty && _horarioFechamentoController.text.isNotEmpty && _horarioFechamentoController.text.isNotEmpty && _nomeBancaController.text.isNotEmpty) {
     for (int i = 0; i < isSelected.length; i++) {
       if (isSelected[i] == true) {
         return true;
@@ -179,4 +180,5 @@ bool verifyFields() {
     return false;
   }
   return false;
-}}
+}
+}
