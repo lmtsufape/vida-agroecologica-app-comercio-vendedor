@@ -5,4 +5,5 @@
 ///the text should be in the following format: start the variable with the letter 'K' and then
 ///use camel case to separate the words
 const String kPppTitle = 'Thunderapp';
+//const String kBaseURL = 'http://comerciovidaagroecologica.ufape.edu.br/api';
 const String kBaseURL = 'http://127.0.0.1:8000/api';
