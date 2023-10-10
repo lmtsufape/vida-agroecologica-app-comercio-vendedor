@@ -8,7 +8,7 @@ class ProductsModel {
   int? estoque;
   double? preco;
   double? custo;
-  int? disponivel;
+  bool? disponivel;
   int? bancaId;
   int? produtoTabeladoId;
 
