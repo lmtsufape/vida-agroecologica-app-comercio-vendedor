@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/list_products/components/image_card_list.dart';
+import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
-
-import '../../add_products/add_products_screen.dart';
+import '../../../shared/constants/style_constants.dart';
+import '../list_products_repository.dart';
 
 class CardProductsList extends StatefulWidget {
   String userToken;
   ProductsModel model;
-  CardProductsList(this.userToken, this.model, {Key? key})
+  ListProductsRepository repository;
+  CardProductsList(this.userToken, this.model, this.repository, {Key? key})
       : super(key: key);
 
   @override
@@ -28,10 +31,75 @@ class _CardProductsListState
           width: size.width,
           height: size.height * 0.1,
           child: InkWell(
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) {
-              return AddProductsScreen();
-            })),
+            onTap: () {
+              showDialog(context: context, builder: (context) =>
+                AlertDialog(
+                  title: Center(
+                    child: const Text(
+                      'Excluir produto?',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  content: const Text(
+                    'Você tem certeza que deseja excluir este produto?',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  ),
+                  actions: [
+                    Center(
+                      child: Wrap(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            // ignore: sort_child_properties_last
+                            child: const Text(
+                              'Cancelar',
+                              style: TextStyle(
+                                color: kBackgroundColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: kPrimaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child: ElevatedButton(
+                              onPressed: () => widget.repository
+                                  .deleteProduct(widget.model.id),
+                              // ignore: sort_child_properties_last
+                              child: const Text(
+                                'Excluir',
+                                style: TextStyle(
+                                  color: kBackgroundColor,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.redAccent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ));
+            },
             child: Ink(
               child: Card(
                 margin: EdgeInsets.zero,
@@ -87,7 +155,7 @@ class _CardProductsListState
                               color: Colors.transparent,
                             ),
                             Text(
-                              'R\$ ${widget.model.preco.toString()}',
+                                NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.preco),
                               style: TextStyle(
                                   fontWeight:
                                       FontWeight.w500,

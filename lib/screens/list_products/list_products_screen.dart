@@ -44,7 +44,7 @@ class ListProductsScreen extends StatelessWidget {
           width: size.width * 0.18,
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (_) => AddProductsScreen()));
@@ -62,7 +62,7 @@ class ListProductsScreen extends StatelessWidget {
         body: Container(
           width: size.width,
           height: size.height,
-          padding: const EdgeInsets.all(kDefaultPadding),
+          padding: const EdgeInsets.all(28),
           child: ListView(
             children: [
               Column(
@@ -100,7 +100,7 @@ class ListProductsScreen extends StatelessWidget {
                     color: Colors.transparent,
                   ),
                   Column(
-                    children: controller.products,
+                      children: controller.products
                   )
                 ],
               ),
