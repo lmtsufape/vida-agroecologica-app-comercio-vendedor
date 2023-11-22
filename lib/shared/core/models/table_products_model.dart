@@ -8,11 +8,14 @@ class TableProductsModel {
       {this.id, this.nome, this.categoria, this.imagem});
 
   TableProductsModel.fromJson(Map<String, dynamic> json) {
-    print(json['file']);
     id = json['id'];
     nome = json['nome'];
     categoria = json['categoria'];
-    imagem = json['imagem'];
+    if (json['file'] != null) {
+      imagem = json['imagem'];
+    } else {
+      imagem = null;
+    }
   }
 
   Map<String, dynamic> toJson() => {
