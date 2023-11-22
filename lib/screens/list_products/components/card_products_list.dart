@@ -12,7 +12,9 @@ class CardProductsList extends StatefulWidget {
   String userToken;
   ProductsModel model;
   ListProductsRepository repository;
-  CardProductsList(this.userToken, this.model, this.repository, {Key? key})
+  CardProductsList(
+      this.userToken, this.model, this.repository,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -32,73 +34,8 @@ class _CardProductsListState
           height: size.height * 0.1,
           child: InkWell(
             onTap: () {
-              showDialog(context: context, builder: (context) =>
-                AlertDialog(
-                  title: Center(
-                    child: const Text(
-                      'Excluir produto?',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  content: const Text(
-                    'Você tem certeza que deseja excluir este produto?',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                  ),
-                  actions: [
-                    Center(
-                      child: Wrap(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            // ignore: sort_child_properties_last
-                            child: const Text(
-                              'Cancelar',
-                              style: TextStyle(
-                                color: kBackgroundColor,
-                                fontSize: 20,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: kSuccessColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 16),
-                            child: ElevatedButton(
-                              onPressed: () => widget.repository
-                                  .deleteProduct(widget.model.id),
-                              // ignore: sort_child_properties_last
-                              child: const Text(
-                                'Excluir',
-                                style: TextStyle(
-                                  color: kBackgroundColor,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.redAccent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ));
+              Navigator.pushNamed(
+                  context, Screens.editProducts);
             },
             child: Ink(
               child: Card(
@@ -155,7 +92,11 @@ class _CardProductsListState
                               color: Colors.transparent,
                             ),
                             Text(
-                                NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.preco),
+                              NumberFormat.simpleCurrency(
+                                      locale: 'pt-BR',
+                                      decimalDigits: 2)
+                                  .format(
+                                      widget.model.preco),
                               style: TextStyle(
                                   fontWeight:
                                       FontWeight.w500,

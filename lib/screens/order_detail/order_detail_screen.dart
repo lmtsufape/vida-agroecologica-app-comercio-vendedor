@@ -15,10 +15,12 @@ class OrderDetailScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<OrderDetailScreen> createState() => _OrderDetailScreenState();
+  State<OrderDetailScreen> createState() =>
+      _OrderDetailScreenState();
 }
 
-class _OrderDetailScreenState extends State<OrderDetailScreen> {
+class _OrderDetailScreenState
+    extends State<OrderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,22 +36,27 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               Text(
                 'Confirmar pedido?',
                 style: TextStyle(
-                    fontWeight: FontWeight.w500, fontSize: size.height * 0.020),
+                    fontWeight: FontWeight.w500,
+                    fontSize: size.height * 0.020),
               ),
               Divider(
                 height: size.height * 0.015,
                 color: Colors.transparent,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   SizedBox(
                     width: 168,
-                    child: PrimaryButton(text: 'Confirmar', onPressed: () {}),
+                    child: PrimaryButton(
+                        text: 'Confirmar',
+                        onPressed: () {}),
                   ),
                   SizedBox(
                     width: 168,
-                    child: CancelButton(text: 'Cancelar', onPressed: () {}),
+                    child: CancelButton(
+                        text: 'Cancelar', onPressed: () {}),
                   )
                 ],
               )
@@ -64,19 +71,23 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         ),
       ),
       body: Container(
-          padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
+          padding: const EdgeInsets.all(
+              kDefaultPadding - kSmallSize),
           height: size.height,
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.all(kDefaultPadding),
+              padding:
+                  const EdgeInsets.all(kDefaultPadding),
               child: ListView(
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Pedido #${widget.model.id.toString()}',
-                        style: TextStyle(fontSize: size.height * 0.018),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018),
                       ),
                       Text(
                         widget.model.dataPedido.toString(),
@@ -91,7 +102,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     color: Colors.transparent,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment:
+                        MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         'Cliente:',
@@ -100,7 +112,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             color: kTextButtonColor),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 10),
+                        padding: const EdgeInsetsDirectional
+                            .only(start: 10),
                         // child: Text(widget.model.consumidorId.toString(),
                         //     style: TextStyle(fontSize: size.height * 0.018, fontWeight: FontWeight.w700),),
                       ),
@@ -111,7 +124,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     height: size.height * 0.03,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         'Forma de pagamento:',
@@ -136,7 +150,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     color: Colors.transparent,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         'Tipo de entrega:',
@@ -146,7 +161,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Text(
                         widget.model.tipoEntrega.toString(),
-                        style: TextStyle(fontSize: size.height * 0.018),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018),
                       ),
                     ],
                   ),
@@ -165,17 +181,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     color: Colors.transparent,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         'Taxa de entrega',
-                        style: TextStyle(fontSize: size.height * 0.018),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018),
                       ),
                       Text(
                         NumberFormat.simpleCurrency(
-                                locale: 'pt-BR', decimalDigits: 2)
-                            .format(widget.model.taxaEntrega),
-                        style: TextStyle(fontSize: size.height * 0.018),
+                                locale: 'pt-BR',
+                                decimalDigits: 2)
+                            .format(
+                                widget.model.taxaEntrega),
+                        style: TextStyle(
+                            fontSize: size.height * 0.018),
                       ),
                     ],
                   ),
@@ -184,13 +205,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     color: Colors.transparent,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text('Total do pedido',
-                          style: TextStyle(fontSize: size.height * 0.018)),
+                          style: TextStyle(
+                              fontSize:
+                                  size.height * 0.018)),
                       Text(
                         NumberFormat.simpleCurrency(
-                                locale: 'pt-BR', decimalDigits: 2)
+                                locale: 'pt-BR',
+                                decimalDigits: 2)
                             .format(widget.model.subtotal),
                         style: TextStyle(
                             fontSize: size.height * 0.018,
@@ -212,10 +237,12 @@ class InformationHolder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<InformationHolder> createState() => _InformationHolderState();
+  State<InformationHolder> createState() =>
+      _InformationHolderState();
 }
 
-class _InformationHolderState extends State<InformationHolder> {
+class _InformationHolderState
+    extends State<InformationHolder> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -232,13 +259,17 @@ class _InformationHolderState extends State<InformationHolder> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('Rua professora Esmeralda Barros, 67',
-                  style: TextStyle(fontSize: size.height * 0.018)),
+                  style: TextStyle(
+                      fontSize: size.height * 0.018)),
               Text('Boa Vista',
-                  style: TextStyle(fontSize: size.height * 0.018)),
+                  style: TextStyle(
+                      fontSize: size.height * 0.018)),
               Text('Apartamento',
-                  style: TextStyle(fontSize: size.height * 0.018)),
+                  style: TextStyle(
+                      fontSize: size.height * 0.018)),
               Text('Contato: (81) 99699-7476',
-                  style: TextStyle(fontSize: size.height * 0.018)),
+                  style: TextStyle(
+                      fontSize: size.height * 0.018)),
             ],
           ),
         )
@@ -269,8 +300,8 @@ class _ItensOrderState extends State<ItensOrder> {
           height: size.height * 0.01,
           color: Colors.transparent,
         ),
-        const Column(
-          children: [
+        Column(
+          children: const [
             ListItens(),
             ListItens(),
             ListItens(),

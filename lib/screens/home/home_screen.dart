@@ -11,6 +11,7 @@ import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/user_storage.dart';
 import '../../components/utils/horizontal_spacer_box.dart';
 import '../my store/edit_store_screen.dart';
 import 'components/item_card_holder.dart';
@@ -72,22 +73,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.white,
                                 )
                               : Container(
-                                width: size.width * 0.38,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
+                                  width: size.width * 0.38,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
                                       "Olá, ${controller.bancaModel?.nome}",
                                       style: TextStyle(
                                           fontSize:
                                               size.height *
                                                   0.020,
                                           fontWeight:
-                                              FontWeight.w500,
+                                              FontWeight
+                                                  .w500,
                                           color:
                                               kSecondaryColor),
                                     ),
+                                  ),
                                 ),
-                              ),
                           Row(
                             children: [
                               IconButton(
@@ -176,9 +178,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: PrimaryButton(
                           text: 'Sair',
                           onPressed: () async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            await prefs.clear();
-                            Navigator.popAndPushNamed(context, Screens.signin);
+                            UserStorage userStorage =
+                                UserStorage();
+                            userStorage
+                                .clearUserCredentials();
+                            Navigator.popAndPushNamed(
+                                context, Screens.signin);
                           }),
                     ),
                     const VerticalSpacerBox(

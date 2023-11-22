@@ -65,6 +65,9 @@ dependencies:
   currency_text_input_formatter: ^2.1.10
   google_fonts: ^4.0.4
 
+dependency_overrides:
+  intl: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
