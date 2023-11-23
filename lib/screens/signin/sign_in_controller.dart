@@ -1,9 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/my%20store/add_store_screen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 
+import '../../shared/components/dialogs/default_alert_dialog.dart';
+import '../../shared/constants/style_constants.dart';
 import 'sign_in_repository.dart';
 
 enum SignInStatus {
@@ -56,7 +59,23 @@ class SignInController with ChangeNotifier {
         Navigator.pushReplacementNamed(context, Screens.addStore);
       }
       else{
-        
+        showDialog(
+            context:
+            context,
+            builder:
+                (context) =>
+                DefaultAlertDialogOneButton(
+                  title:
+                  'Erro',
+                  body:
+                  'Credenciais inválidas, verifique seus dados',
+                  confirmText:
+                  'Voltar',
+                  onConfirm: () =>
+                      Get.back(),
+                  buttonColor:
+                  kErrorColor,
+                ));
         status = SignInStatus.error;
         setErrorMessage(
             'Credenciais inválidas, verifique seus dados');

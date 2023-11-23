@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 
@@ -49,7 +51,12 @@ class _StockAddProductState extends State<StockAddProduct> {
                           color: Colors.black, width: 1)),
                 ),
                 alignment: Alignment.center,
-                child: CustomTextFormField(
+                child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                      LengthLimitingTextInputFormatter(3),
+                    ],
                     controller:
                         widget.controller.stockController,
                     onChanged: (value) {

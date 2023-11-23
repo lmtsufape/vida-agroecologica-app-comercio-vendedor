@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
@@ -24,32 +25,29 @@ class _ImageCardListState extends State<ImageCardList>{
     Size size = MediaQuery.of(context).size;
     return Container(
       alignment: Alignment.center,
-      height: size.width * 0.4,
+      height: size.height * 0.115,
       child: AspectRatio(
-        aspectRatio: 12 / 9,
+        aspectRatio: 1.15,
         child: Material(
           elevation: 2,
           shadowColor: Colors.black,
           child: FutureBuilder(
             future: controller.getImage(widget.model.produtoTabeladoId),
             builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data == true) {
-                return Image(
-                    image: NetworkImage(
-                        '$kBaseURL/produtos/${widget.model.produtoTabeladoId}/imagem',
-                        headers: {
+                return CachedNetworkImage(
+                        imageUrl: '$kBaseURL/produtos/${widget.model.produtoTabeladoId}/imagem',
+                        httpHeaders: {
                           "Content-Type": "application/json",
                           "Accept": "application/json",
                           "Authorization":
                           "Bearer ${widget.userToken}"
-                        }));
-              } else {
-                return Icon(
-                  Icons.shopping_bag,
-                  size: size.height * 0.1,
-                  color: kPrimaryColor,
+                        },
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.shopping_bag,
+                    size: size.height * 0.1,
+                    color: kPrimaryColor,
+                  ),
                 );
-              }
             },
           ),
         ),

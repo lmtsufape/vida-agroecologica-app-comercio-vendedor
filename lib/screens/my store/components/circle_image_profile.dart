@@ -23,10 +23,10 @@ class _CircleImageProfileState
     final heightScreen = MediaQuery.of(context).size.height;
     final widthScreen = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 15),
+      padding: const EdgeInsets.only(top: 10, bottom: 15),
       child: SizedBox(
         width: widthScreen * 0.25,
-        height: heightScreen * 0.12,
+        height: heightScreen * 0.11,
         child: FloatingActionButton(
             heroTag: 'Photo',
             backgroundColor: kBackgroundColor,

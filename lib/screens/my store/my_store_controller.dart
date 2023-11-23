@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:thunderapp/screens/my%20store/my_store_repository.dart';
@@ -28,10 +29,14 @@ class MyStoreController extends GetxController {
   bool deliver = false;
 
   MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
-      mask: '##:##',
-      filter: {"#": RegExp(r'[0-9]')},
+      mask: '#@:%&',
+      filter: {"#": RegExp(r'[0-2]'), "@": RegExp(r'^(?:[01]?\d|2[0-3])$'), "%": RegExp(r'[0-5]'), "&": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
 
+  MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
+      mask: '#@:%&',
+      filter: {"#": RegExp(r'[0-2]'), "@": RegExp(r'[0-3]'), "%": RegExp(r'[0-5]'), "&": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
 final TextEditingController _nomeBancaController = TextEditingController();
 final TextEditingController _quantiaMinController = TextEditingController();
@@ -135,8 +140,7 @@ void adicionarBanca(BuildContext context) async {
       Navigator.pushReplacementNamed(context, Screens.home);
     }
     else{
-      if(_nomeBancaController.text.isEmpty) {
-        print('to aqui');
+      if(_nomeBancaController.text.isEmpty == true) {
         textoErro = "Insira um nome";
     } else if(_horarioAberturaController.text.isEmpty) {
         textoErro = "Insira o horário de abertura";
