@@ -77,7 +77,6 @@ class ListProductsRepository {
       print(response.statusCode);
     }
     print(response.statusCode);
-    Get.offAll(() => HomeScreen());
     return true;
   }
 

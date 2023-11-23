@@ -62,7 +62,7 @@ class ListProductsScreen extends StatelessWidget {
         body: Container(
           width: size.width,
           height: size.height,
-          padding: const EdgeInsets.all(28),
+          padding: const EdgeInsets.all(26),
           child: ListView(
             children: [
               Column(
