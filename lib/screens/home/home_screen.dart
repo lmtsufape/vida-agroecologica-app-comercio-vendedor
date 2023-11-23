@@ -30,10 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
         init: HomeScreenController(),
         builder: (controller) => Scaffold(
               appBar: AppBar(
-                title: Text(
-                  'Início',
-                  style: kTitle2.copyWith(
-                      color: kPrimaryColor),
+                title: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    'Início',
+                    style: kTitle2.copyWith(
+                        color: kPrimaryColor),
+                  ),
                 ),
                 iconTheme: const IconThemeData(
                     color: kPrimaryColor),
@@ -46,11 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.all(
-                          kDefaultPadding),
+                      padding: const EdgeInsets.only(top: 18, bottom: 18, left: 26, right: 26),
+                      alignment: AlignmentDirectional.topStart,
                       child: Row(
                         mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            MainAxisAlignment.start,
                         children: <Widget>[
                           CircleAvatar(
                             backgroundImage: controller
@@ -67,63 +70,59 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const HorizontalSpacerBox(
                               size: SpacerSize.small),
-                          controller.bancaModel == null
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
-                                )
-                              : Container(
-                                width: size.width * 0.38,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                      "Olá, ${controller.bancaModel?.nome}",
-                                      style: TextStyle(
-                                          fontSize:
-                                              size.height *
-                                                  0.020,
-                                          fontWeight:
-                                              FontWeight.w500,
-                                          color:
-                                              kSecondaryColor),
+                          SizedBox(
+                            width: size.width *  0.61,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                controller.bancaModel == null
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
+                                    : Container(
+                                      width: size.width * 0.38,
+                                      alignment: AlignmentDirectional.topStart,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                            "Olá, ${controller.bancaModel?.nome}",
+                                            style: TextStyle(
+                                                fontSize:
+                                                    size.height *
+                                                        0.032,
+                                                fontWeight:
+                                                    FontWeight.w500,
+                                                color:
+                                                    kSecondaryColor),
+                                          ),
+                                      ),
                                     ),
-                                ),
-                              ),
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                EditStoreScreen(
-                                                    controller
-                                                        .bancaModel)));
-                                  },
-                                  icon: Icon(
-                                    Icons
-                                        .mode_edit_outline_outlined,
-                                    color: kPrimaryColor,
-                                    size:
-                                        size.height * 0.03,
-                                  )),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons
-                                        .notifications_none,
-                                    color: kPrimaryColor,
-                                    size:
-                                        size.height * 0.03,
-                                  )),
-                            ],
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  EditStoreScreen(
+                                                      controller
+                                                          .bancaModel)));
+                                    },
+                                    icon: Icon(
+                                      Icons
+                                          .mode_edit_outline_outlined,
+                                      color: kPrimaryColor,
+                                      size:
+                                          size.height * 0.04,
+                                    )),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Container(
                       width: size.width,
-                      height: size.width,
+                      height: size.height * 0.6,
                       padding: const EdgeInsets.all(
                           kDefaultPadding),
                       child: GridView.count(
@@ -169,10 +168,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding),
+                          horizontal: 15),
                       child: PrimaryButton(
                           text: 'Sair',
                           onPressed: () async {
@@ -181,8 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.popAndPushNamed(context, Screens.signin);
                           }),
                     ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.huge)
+                    Divider(height: size.height * 0.02, color: Colors.transparent,)
                   ],
                 ),
               ),
