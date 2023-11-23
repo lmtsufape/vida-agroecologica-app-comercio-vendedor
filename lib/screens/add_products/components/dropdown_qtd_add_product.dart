@@ -34,11 +34,11 @@ class _DropDownQtdAddProductState
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(bottom: 4),
               child: Text(
                 'Unidade de medida',
-                style: TextStyle(color: kTextButtonColor),
+                style: TextStyle(color: kTextButtonColor, fontSize: size.height * 0.017),
               ),
             ),
             Container(

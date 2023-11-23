@@ -176,7 +176,6 @@ class AddProductsController extends GetxController {
 
   Future<bool> boolImage(int? proId) async {
     setHasImage(await repository.getImage(proId));
-    print("rodou");
     return hasImage;
   }
 

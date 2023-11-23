@@ -61,7 +61,7 @@ class _AddProductsScreenState
               Column(
                 children: [
                   ImageEdit(controller),
-                  Padding(
+                  /*Padding(
                     padding: const EdgeInsets.only(top: 14),
                     child: Container(
                       width: size.width * 0.315,
@@ -94,7 +94,7 @@ class _AddProductsScreenState
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
               Divider(
