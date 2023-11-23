@@ -11,6 +11,7 @@ import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/user_storage.dart';
 import '../../components/utils/horizontal_spacer_box.dart';
 import '../my store/edit_store_screen.dart';
 import 'components/item_card_holder.dart';
@@ -70,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const HorizontalSpacerBox(
                               size: SpacerSize.small),
+
                           SizedBox(
                             width: size.width *  0.61,
                             child: Row(
@@ -116,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     )),
                               ],
                             ),
+
                           ),
                         ],
                       ),
@@ -174,9 +177,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: PrimaryButton(
                           text: 'Sair',
                           onPressed: () async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            await prefs.clear();
-                            Navigator.popAndPushNamed(context, Screens.signin);
+                            UserStorage userStorage =
+                                UserStorage();
+                            userStorage
+                                .clearUserCredentials();
+                            Navigator.popAndPushNamed(
+                                context, Screens.signin);
                           }),
                     ),
                     Divider(height: size.height * 0.02, color: Colors.transparent,)

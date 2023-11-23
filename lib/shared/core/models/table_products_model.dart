@@ -2,32 +2,26 @@ class TableProductsModel {
   int? id;
   String? nome;
   String? categoria;
-  String? createdAt;
-  String? updatedAt;
+  String? imagem;
 
   TableProductsModel(
-      {this.id,
-      this.nome,
-      this.categoria,
-      this.createdAt,
-      this.updatedAt});
+      {this.id, this.nome, this.categoria, this.imagem});
 
   TableProductsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
     categoria = json['categoria'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    if (json['file'] != null) {
+      imagem = json['imagem'];
+    } else {
+      imagem = null;
+    }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =
-        <String, dynamic>{};
-    data['id'] = id;
-    data['nome'] = nome;
-    data['categoria'] = categoria;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'nome': nome,
+        'categoria': categoria,
+        'imagem': imagem,
+      };
 }

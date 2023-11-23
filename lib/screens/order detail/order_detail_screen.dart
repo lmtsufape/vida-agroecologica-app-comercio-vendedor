@@ -175,18 +175,18 @@ class InformationHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
+        const Text(
           'Endereço:',
           style: kBody3,
         ),
         Padding(
-          padding: EdgeInsets.only(left: kHugeSize),
+          padding: const EdgeInsets.only(left: kHugeSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: const <Widget>[
               Text('Rua professora Esmeralda Barros, 67'),
               Text('Apartamento'),
               Text('Caruaru, PE, 5504200'),

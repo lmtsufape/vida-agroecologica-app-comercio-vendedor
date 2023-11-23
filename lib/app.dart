@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
+import 'package:thunderapp/screens/edit_products/edit_products_screen.dart';
 import 'package:thunderapp/screens/list_products/list_products_screen.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
 import 'package:thunderapp/screens/payments/payments_screen.dart';
@@ -66,6 +67,8 @@ class App extends StatelessWidget {
         Screens.report: (context) => const ReportScreen(),
         Screens.listProducts: (context) =>
             ListProductsScreen(),
+        Screens.editProducts: (context) =>
+            const EditProductsScreen()
       },
     );
   }

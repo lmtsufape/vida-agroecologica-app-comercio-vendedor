@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 // import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
@@ -9,6 +11,9 @@ import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 import 'package:thunderapp/shared/core/preferences_manager.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
+
+import '../../shared/constants/app_text_constants.dart';
+import '../../shared/core/models/table_products_model.dart';
 
 class SplashScreenController {
   final BuildContext context;
@@ -26,6 +31,10 @@ class SplashScreenController {
   /// -- setting and config startup data
 
   void initApplication(Function onComplete) async {
+    SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+    prefs.clear();
+
     ///initialize the application
     /// DO put all startup logic in here, the startup logic should be returned by futures
     /// so we can await the setup while the app don't freeze
@@ -39,12 +48,8 @@ class SplashScreenController {
     ///or we can use the following code to go to the sign in screen:
     // FirebaseAuth.instance.authStateChanges().listen((User? user) {
     await Future.delayed(const Duration(seconds: 3), () {
+      getTableProducts();
       onComplete.call();
-      // if (user == null) {
-      //   navigatorKey.currentState!.pushNamed(Screens.signin);
-      // } else {
-      //   onComplete();
-      // }
     });
     await configDefaultAppSettings();
     // });
@@ -92,5 +97,39 @@ class SplashScreenController {
       log('user has no token');
       return false;
     }
+  }
+
+  void getTableProducts() async {
+    Dio dio = Dio();
+    UserStorage userStorage = UserStorage();
+    List<TableProductsModel> products = [];
+
+    var userToken = await userStorage.getUserToken();
+
+    var response =
+        await dio.get('$kBaseURL/produtos/tabelados',
+            options: Options(
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer $userToken"
+              },
+            ));
+
+    List<dynamic> responseData = response.data['produtos'];
+
+    for (int i = 0; i < responseData.length; i++) {
+      var product =
+          TableProductsModel.fromJson(responseData[i]);
+
+      products.add(product);
+    }
+    SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+    List<String> listProducts = products
+        .map((product) => json.encode(product.toJson()))
+        .toList();
+    prefs.setStringList(
+        'listaProdutosTabelados', listProducts);
   }
 }

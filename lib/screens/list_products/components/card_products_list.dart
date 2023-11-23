@@ -13,7 +13,10 @@ class CardProductsList extends StatefulWidget {
   ProductsModel model;
   ListProductsRepository repository;
 
-  CardProductsList(this.userToken, this.model, this.repository, {Key? key})
+  CardProductsList(
+      this.userToken, this.model, this.repository,
+      {Key? key})
+
       : super(key: key);
 
   @override
@@ -30,7 +33,12 @@ class _CardProductsListState extends State<CardProductsList> {
           width: size.width,
           height: size.height * 0.115,
           child: InkWell(
-            onTap: () {},
+
+            onTap: () {
+              Navigator.pushNamed(
+                  context, Screens.editProducts);
+            },
+
             child: Ink(
               child: Card(
                 margin: EdgeInsets.zero,
@@ -212,8 +220,12 @@ class _CardProductsListState extends State<CardProductsList> {
                             ),
                             Text(
                               NumberFormat.simpleCurrency(
-                                      locale: 'pt-BR', decimalDigits: 2)
-                                  .format(widget.model.preco),
+
+                                      locale: 'pt-BR',
+                                      decimalDigits: 2)
+                                  .format(
+                                      widget.model.preco),
+
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: size.height * 0.016),
