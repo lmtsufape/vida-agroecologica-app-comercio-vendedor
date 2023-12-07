@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:thunderapp/screens/list_products/components/image_card_list.dart';
+import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../../../shared/components/dialogs/default_alert_dialog.dart';
 import '../../../shared/constants/style_constants.dart';
+import '../../../shared/core/models/table_products_model.dart';
 import '../../home/home_screen.dart';
+import '../../screens_index.dart';
 import '../list_products_repository.dart';
 
 class CardProductsList extends StatefulWidget {
   String userToken;
   ProductsModel model;
   ListProductsRepository repository;
+  List<TableProductsModel> listTable;
 
   CardProductsList(
-      this.userToken, this.model, this.repository,
+      this.userToken, this.model, this.repository, this.listTable,
       {Key? key})
 
       : super(key: key);
@@ -27,6 +31,7 @@ class _CardProductsListState extends State<CardProductsList> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(widget.listTable.length);
     return Column(
       children: [
         SizedBox(
@@ -49,7 +54,7 @@ class _CardProductsListState extends State<CardProductsList> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ImageCardList(widget.userToken, widget.model),
+                    ImageCardList(widget.userToken, widget.model.produtoTabeladoId,widget.listTable),
                     Container(
                       width: size.width * 0.5615,
                       alignment: Alignment.centerLeft,

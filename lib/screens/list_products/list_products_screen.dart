@@ -44,7 +44,7 @@ class ListProductsScreen extends StatelessWidget {
           width: size.width * 0.18,
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (_) => AddProductsScreen()));

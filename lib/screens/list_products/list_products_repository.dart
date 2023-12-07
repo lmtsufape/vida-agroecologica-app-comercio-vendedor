@@ -37,13 +37,13 @@ class ListProductsRepository {
         nome: data[i]['nome'],
         id: data[i]['id'],
         descricao: data[i]['descricao'],
-        tipoUnidade: data[i]['tipo_unidade'],
+        tipoMedida: data[i]['tipo_medida'],
         estoque: int.tryParse(data[i]['estoque'].toString()),
         preco: double.parse(data[i]['preco'].toString()),
         custo: double.parse(data[i]['custo'].toString()),
-        disponivel: data[i]['disponivel'] == 1? false : true,
-        bancaId: data[i]['banca_id'],
+        disponivel: data[i]['disponivel'] >= 1 ? false : true,
         produtoTabeladoId: data[i]['produto_tabelado_id'],
+        bancaId: data[i]['banca_id'],
       );
       stockProduct.add(product);
     }
