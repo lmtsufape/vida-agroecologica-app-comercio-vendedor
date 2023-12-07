@@ -20,7 +20,7 @@ class MyStoreController extends GetxController {
   bool hasImg = false;
   bool editSucess = false;
   bool adcSucess = false;
-  var textoErro = "Não funciona";
+  var textoErro = "Selecione um método de pagamento";
   String userToken = '';
 
   final List<bool> isSelected = [false, false, false];

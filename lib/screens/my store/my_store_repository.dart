@@ -84,7 +84,7 @@ class MyStoreRepository {
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin
               : preMinimo,
-          "imagem": await MultipartFile.fromFile(
+          "file": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath.split("\\").last,
           ),
@@ -104,12 +104,14 @@ class MyStoreRepository {
               data: body);
       if (response.statusCode == 200) {
         print('banca editada com sucesso');
+        print(body);
         return true;
       } else {
         final errorMessage = response.data['errors'];
         print('Erro: $errorMessage');
         print(
             'erro ao editar a banca ${response.statusCode}}');
+        print(body);
         return false;
       }
     } catch (e) {
@@ -120,10 +122,12 @@ class MyStoreRepository {
               dioError.response!.data['errors'];
           print('Erro: $errorMessage');
           print("Erro ${e.toString()}");
+          print(body);
           return false;
         }
       }
     }
+    print(body);
     return false;
   }
 
@@ -156,7 +160,7 @@ class MyStoreRepository {
           "horario_abertura":horarioAbertura,
           "horario_fechamento":horarioFechamento,
           "preco_minimo": preMinimo,
-          "imagem": await MultipartFile.fromFile(
+          "file": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath!.split("\\").last,
           ),
