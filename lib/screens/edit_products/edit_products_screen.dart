@@ -14,7 +14,7 @@ import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
 
 class EditProductsScreen extends StatefulWidget {
-  late ProductsModel model;
+  ProductsModel model;
   EditProductsScreen(this.model, {Key? key})
       : super(key: key);
 
@@ -27,14 +27,6 @@ class _EditProductsScreenState
     extends State<EditProductsScreen> {
   EditProductsRepository repository =
       EditProductsRepository();
-
-  Future<List<TableProductsModel>>? products;
-
-  @override
-  void initState() {
-    products = repository.getProducts();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,41 +54,7 @@ class _EditProductsScreenState
               ),
               Column(
                 children: [
-                  ImageEdit(controller),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 14),
-                    child: Container(
-                      width: size.width * 0.315,
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment
-                                  .spaceBetween,
-                          children: [
-                            Text(
-                              'Editar imagem',
-                              style: TextStyle(
-                                color: kPrimaryColor,
-                                fontSize:
-                                    size.height * 0.014,
-                                decoration: TextDecoration
-                                    .underline,
-                                decorationColor:
-                                    kPrimaryColor,
-                              ),
-                            ),
-                            Icon(
-                              Icons.edit,
-                              size: size.height * 0.016,
-                              color: kPrimaryColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  ImageEdit(controller,widget.model),
                 ],
               ),
               Divider(

@@ -52,17 +52,7 @@ class _DropDownEditProductState
                 );
               }).toList(),
               onChanged: (selectedObj) {
-                setState(() {
-                  widget.controller
-                      .setProductId(selectedObj!.id);
-                  widget.controller
-                      .setDescription(selectedObj.nome);
-                });
-                widget.controller
-                    .boolImage(selectedObj!.id)
-                    .then((value) {
-                  widget.controller.setHasImage(value);
-                });
+               
               },
             )),
       ],
