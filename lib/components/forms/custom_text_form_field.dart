@@ -4,20 +4,21 @@ import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
-
 class CustomTextFormField extends StatefulWidget {
-  const CustomTextFormField(
-      {Key? key,
-      this.onChanged,
-      this.label,
-      this.maskFormatter,
-      this.controller,
-      this.keyboardType,
-      this.hintText,
-      this.isPassword,
-      this.icon,
-      this.isBordered})
-      : super(key: key);
+  const CustomTextFormField({
+    Key? key,
+    this.onChanged,
+    this.label,
+    this.maskFormatter,
+    this.controller,
+    this.keyboardType,
+    this.hintText,
+    this.isPassword,
+    this.icon,
+    this.isBordered,
+    this.validatorError,
+    this.erroStyle,
+  }) : super(key: key);
   final Function(String)? onChanged;
   final String? label;
   final MaskTextInputFormatter? maskFormatter;
@@ -27,14 +28,16 @@ class CustomTextFormField extends StatefulWidget {
   final bool? isPassword;
   final IconData? icon;
   final bool? isBordered;
+  final dynamic validatorError;
+  final dynamic erroStyle;
+
   @override
-  State<CustomTextFormField> createState() =>
-      _CustomTextFormFieldState();
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
 
-class _CustomTextFormFieldState
-    extends State<CustomTextFormField> {
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
   bool _obscureText = false;
+
   @override
   void initState() {
     if (widget.isPassword != null) {
@@ -51,54 +54,51 @@ class _CustomTextFormFieldState
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: TextFormField(
-        onChanged: widget.onChanged,
-        inputFormatters: widget.maskFormatter == null
-            ? null
-            : [widget.maskFormatter!],
-        obscureText: _obscureText,
-        controller: widget.controller,
-        decoration: InputDecoration(
-          prefixIcon: widget.icon == null
-              ? null
-              : Icon(widget.icon),
-          border: widget.isBordered == null
-              ? InputBorder.none
-              : const OutlineInputBorder(),
-          labelText: widget.label,
-          filled: true,
-          fillColor: Colors.white,
-          hintText: widget.hintText,
-          suffixIcon: widget.isPassword == true
-              ? InkWell(
-                  onTap: () => _toggleVisibility(),
-                  child: Icon(
-                    _obscureText
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                )
-              : null,
-        ),
+    return TextFormField(
+      onChanged: widget.onChanged,
+      inputFormatters:
+          widget.maskFormatter == null ? null : [widget.maskFormatter!],
+      validator: widget.validatorError,
+      obscureText: _obscureText,
+      controller: widget.controller,
+      decoration: InputDecoration(
+        errorStyle: widget.erroStyle == null ? null : widget.erroStyle,
+        prefixIcon: widget.icon == null ? null : Icon(widget.icon),
+        /*border: widget.isBordered == null
+            ? InputBorder.none
+            : const OutlineInputBorder(),*/
+        labelText: widget.label,
+        filled: true,
+        fillColor: Colors.white,
+        hintText: widget.hintText,
+        suffixIcon: widget.isPassword == true
+            ? InkWell(
+                onTap: () => _toggleVisibility(),
+                child: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                ),
+              )
+            : null,
       ),
     );
   }
 }
 
 class CustomTextFormFieldCurrency extends StatefulWidget {
-  const CustomTextFormFieldCurrency(
-      {Key? key,
-        this.onChanged,
-        this.label,
-        this.currencyFormatter,
-        this.controller,
-        this.keyboardType,
-        this.hintText,
-        this.isPassword,
-        this.icon,
-        this.isBordered})
-      : super(key: key);
+  const CustomTextFormFieldCurrency({
+    Key? key,
+    this.onChanged,
+    this.label,
+    this.currencyFormatter,
+    this.controller,
+    this.keyboardType,
+    this.hintText,
+    this.isPassword,
+    this.icon,
+    this.isBordered,
+    this.validatorError,
+    this.erroStyle,
+  }) : super(key: key);
 
   final Function(String)? onChanged;
   final String? label;
@@ -109,6 +109,9 @@ class CustomTextFormFieldCurrency extends StatefulWidget {
   final bool? isPassword;
   final IconData? icon;
   final bool? isBordered;
+  final dynamic validatorError;
+  final dynamic erroStyle;
+
   @override
   State<CustomTextFormFieldCurrency> createState() =>
       _CustomTextFormFieldCurrencyState();
@@ -117,6 +120,7 @@ class CustomTextFormFieldCurrency extends StatefulWidget {
 class _CustomTextFormFieldCurrencyState
     extends State<CustomTextFormFieldCurrency> {
   bool _obscureText = false;
+
   @override
   void initState() {
     if (widget.isPassword != null) {
@@ -136,31 +140,28 @@ class _CustomTextFormFieldCurrencyState
     return SizedBox(
       child: TextFormField(
         onChanged: widget.onChanged,
-        inputFormatters: widget.currencyFormatter == null
-            ? null
-            : widget.currencyFormatter!,
+        inputFormatters:
+            widget.currencyFormatter == null ? null : widget.currencyFormatter!,
         obscureText: _obscureText,
         controller: widget.controller,
+        validator: widget.validatorError,
         decoration: InputDecoration(
-          prefixIcon: widget.icon == null
-              ? null
-              : Icon(widget.icon),
-          border: widget.isBordered == null
+          errorStyle: widget.erroStyle == null ? null : widget.erroStyle,
+          prefixIcon: widget.icon == null ? null : Icon(widget.icon),
+          /*border: widget.isBordered == null
               ? InputBorder.none
-              : const OutlineInputBorder(),
+              : const OutlineInputBorder(),*/
           labelText: widget.label,
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
           suffixIcon: widget.isPassword == true
               ? InkWell(
-            onTap: () => _toggleVisibility(),
-            child: Icon(
-              _obscureText
-                  ? Icons.visibility
-                  : Icons.visibility_off,
-            ),
-          )
+                  onTap: () => _toggleVisibility(),
+                  child: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                  ),
+                )
               : null,
         ),
       ),
@@ -169,18 +170,20 @@ class _CustomTextFormFieldCurrencyState
 }
 
 class CustomTextFormFieldTime extends StatefulWidget {
-  const CustomTextFormFieldTime(
-      {Key? key,
-        this.onChanged,
-        this.label,
-        this.timeFormatter,
-        this.controller,
-        this.keyboardType,
-        this.hintText,
-        this.isPassword,
-        this.icon,
-        this.isBordered})
-      : super(key: key);
+  const CustomTextFormFieldTime({
+    Key? key,
+    this.onChanged,
+    this.label,
+    this.timeFormatter,
+    this.controller,
+    this.keyboardType,
+    this.hintText,
+    this.isPassword,
+    this.icon,
+    this.isBordered,
+    this.erroStyle,
+    this.validatorError,
+  }) : super(key: key);
 
   final Function(String)? onChanged;
   final String? label;
@@ -191,14 +194,17 @@ class CustomTextFormFieldTime extends StatefulWidget {
   final bool? isPassword;
   final IconData? icon;
   final bool? isBordered;
+  final dynamic validatorError;
+  final dynamic erroStyle;
+
   @override
   State<CustomTextFormFieldTime> createState() =>
       _CustomTextFormFieldTimeState();
 }
 
-class _CustomTextFormFieldTimeState
-    extends State<CustomTextFormFieldTime> {
+class _CustomTextFormFieldTimeState extends State<CustomTextFormFieldTime> {
   bool _obscureText = false;
+
   @override
   void initState() {
     if (widget.isPassword != null) {
@@ -217,32 +223,29 @@ class _CustomTextFormFieldTimeState
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
+        validator: widget.validatorError == null ? null : widget.validatorError,
         onChanged: widget.onChanged,
-        inputFormatters: widget.timeFormatter == null
-            ? null
-            : widget.timeFormatter!,
+        inputFormatters:
+            widget.timeFormatter == null ? null : widget.timeFormatter!,
         obscureText: _obscureText,
         controller: widget.controller,
         decoration: InputDecoration(
-          prefixIcon: widget.icon == null
-              ? null
-              : Icon(widget.icon),
-          border: widget.isBordered == null
+          errorStyle: widget.erroStyle == null ? null : widget.erroStyle,
+          prefixIcon: widget.icon == null ? null : Icon(widget.icon),
+          /*border: widget.isBordered == null
               ? InputBorder.none
-              : const OutlineInputBorder(),
+              : const OutlineInputBorder(),*/
           labelText: widget.label,
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
           suffixIcon: widget.isPassword == true
               ? InkWell(
-            onTap: () => _toggleVisibility(),
-            child: Icon(
-              _obscureText
-                  ? Icons.visibility
-                  : Icons.visibility_off,
-            ),
-          )
+                  onTap: () => _toggleVisibility(),
+                  child: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                  ),
+                )
               : null,
         ),
       ),
