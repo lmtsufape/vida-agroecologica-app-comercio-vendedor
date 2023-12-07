@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
 import '../edit_products_controller.dart';
@@ -8,8 +9,10 @@ import '../edit_products_controller.dart';
 // ignore: must_be_immutable
 class DropDownEditProduct extends StatefulWidget {
   late EditProductsController controller;
+  late ProductsModel model;
 
-  DropDownEditProduct(this.controller, {Key? key})
+  DropDownEditProduct(this.controller, this.model,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -40,7 +43,7 @@ class _DropDownEditProductState
                 color: kPrimaryColor,
                 size: size.width * 0.05,
               ),
-              hint: const Text('Selecione'),
+              hint: Text('${widget.model.descricao}'),
               value: null,
               items: widget.controller.products.map((obj) {
                 return DropdownMenuItem<TableProductsModel>(

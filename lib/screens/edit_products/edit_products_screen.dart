@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
 import 'components/dropdown_edit_product.dart';
 import 'components/dropdown_qtd_edit_product.dart';
 import 'components/elevated_button_edit_product.dart';
@@ -13,7 +14,9 @@ import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
 
 class EditProductsScreen extends StatefulWidget {
-  const EditProductsScreen({Key? key}) : super(key: key);
+  late ProductsModel model;
+  EditProductsScreen(this.model, {Key? key})
+      : super(key: key);
 
   @override
   State<EditProductsScreen> createState() =>
@@ -100,7 +103,7 @@ class _EditProductsScreenState
                 height: size.height * 0.03,
                 color: Colors.transparent,
               ),
-              DropDownEditProduct(controller),
+              DropDownEditProduct(controller, widget.model),
               Divider(
                 height: size.height * 0.03,
                 color: Colors.transparent,

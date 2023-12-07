@@ -7,9 +7,7 @@ import '../../shared/core/user_storage.dart';
 import '../home/home_screen.dart';
 
 class ListProductsRepository {
-
   late String userToken;
-
 
   Future<List<ProductsModel>> getProducts(id) async {
     Dio dio = Dio();
@@ -38,10 +36,11 @@ class ListProductsRepository {
         id: data[i]['id'],
         descricao: data[i]['descricao'],
         tipoMedida: data[i]['tipo_medida'],
-        estoque: int.tryParse(data[i]['estoque'].toString()),
+        estoque:
+            int.tryParse(data[i]['estoque'].toString()),
         preco: double.parse(data[i]['preco'].toString()),
         custo: double.parse(data[i]['custo'].toString()),
-        disponivel: data[i]['disponivel'] >= 1 ? false : true,
+        disponivel: data[i]['disponivel'],
         produtoTabeladoId: data[i]['produto_tabelado_id'],
         bancaId: data[i]['banca_id'],
       );
@@ -79,8 +78,4 @@ class ListProductsRepository {
     print(response.statusCode);
     return true;
   }
-
-
-
-
 }
