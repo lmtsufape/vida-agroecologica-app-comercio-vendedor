@@ -38,20 +38,23 @@ class _StockAddProductState extends State<StockAddProduct> {
           color: Colors.transparent,
         ),
         SizedBox(
-          height: size.height * 0.06,
           width: size.width * 0.25,
           child: Card(
             margin: EdgeInsets.zero,
             elevation: 0,
             child: ClipPath(
               child: Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          color: Colors.black, width: 1)),
-                ),
                 alignment: Alignment.center,
                 child: TextFormField(
+                  decoration: const InputDecoration(
+                    errorStyle: TextStyle(fontSize: 12),
+                  ),
+                    validator: (value) {
+                      if(value!.isEmpty){
+                        return 'Obrigatório';
+                      }
+                      return null;
+                    },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),

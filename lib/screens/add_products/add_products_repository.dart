@@ -60,7 +60,7 @@ class AddProductsRepository extends GetxController {
 
     var body = {
       "descricao": description.toString(),
-      "tipo_unidade": measure
+      "tipo_medida": measure
           .toString() /**Alterar para "measure" quando tiver a validação*/,
       "estoque": stock,
       "preco": salePrice,
@@ -81,43 +81,12 @@ class AddProductsRepository extends GetxController {
         ),
         data: body);
 
-    print(response.statusCode);
+    print("O erro é esse: ${response.statusCode}");
 
     if (response.statusCode == 200 ||
         response.statusCode == 201) {
       return true;
     } else {
-      return false;
-    }
-  }
-
-  Future<bool> getImage(int? prodId) async{
-    Dio dio = Dio();
-
-    UserStorage userStorage = UserStorage();
-
-    userToken = await userStorage.getUserToken();
-
-    print("função de pegar imagem");
-    print(prodId);
-
-    try{
-      var response = await dio.get(
-        '$kBaseURL/produtos/$prodId/imagem',
-        options: Options(headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $userToken"
-        }),
-      );
-      if(response.statusCode == 200 || response.statusCode == 201){
-        return true;
-      }
-      else{
-        return false;
-      }
-    }catch(e){
-      print(e);
       return false;
     }
   }

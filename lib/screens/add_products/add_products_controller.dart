@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
@@ -17,7 +19,6 @@ class AddProductsController extends GetxController {
   ScreenState screenState = ScreenState.idle;
 
   // Informações para o post de cadastro de produtos.
-
   String? description;
   String measure = 'unidade';
   int? productId;
@@ -33,13 +34,17 @@ class AddProductsController extends GetxController {
   // -----------------------
 
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   HomeScreenRepository homeRepository =
       HomeScreenRepository();
   UserStorage userStorage = UserStorage();
 
   AddProductsRepository repository =
       AddProductsRepository();
+
   List<TableProductsModel> products = [];
+
   final TextEditingController _stockController =
       TextEditingController();
 
@@ -77,11 +82,6 @@ class AddProductsController extends GetxController {
     }
 
     return profit;
-  }
-
-  void setHasImage(bool value){
-    hasImage = value;
-    update();
   }
 
   void setProductId(int? value) {
@@ -126,11 +126,9 @@ class AddProductsController extends GetxController {
   }
 
   void loadTableProducts() async {
-    token = await userStorage.getUserToken();
+
     products = await repository.getProducts();
-    userId = await userStorage.getUserId();
-    bancaModel =
-        await homeRepository.getBancaPrefs(token, userId);
+
 
     update();
   }
@@ -165,8 +163,8 @@ class AddProductsController extends GetxController {
         if (dioError.response != null) {
           final errorMessage =
               dioError.response!.data['errors'];
-          print('Erro: $errorMessage');
-          print("Erro ${e.toString()}");
+          print('Erro triste: $errorMessage');
+          print("Erro chato: ${e.toString()}");
           return false;
         }
       }
@@ -174,43 +172,36 @@ class AddProductsController extends GetxController {
     }
   }
 
-  Future<bool> boolImage(int? proId) async {
-    setHasImage(await repository.getImage(proId));
-    return hasImage;
+  void printList() {
+    print(products);
   }
 
-  /*Future<bool> getImage(int? proId) async {
-    Dio dio = Dio();
 
-    UserStorage userStorage = UserStorage();
+  Future<List<TableProductsModel>> loadList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> listaString =
+        prefs.getStringList('listaProdutosTabelados') ?? [];
+    return listaString
+        .map((string) => TableProductsModel.fromJson(json.decode(string)))
+        .toList();
+  }
 
-    userToken = await userStorage.getUserToken();
-
-    try {
-      var response = await dio.get(
-        '$kBaseURL/produtos/$proId/imagem',
-        options: Options(headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $userToken"
-        }),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return true;
-      } else {
-        return false;
+  TableProductsModel? search(int? tableProId){
+    for(int i = 0; i < products.length; i++){
+      if(products[i].id == tableProId){
+        return products[i];
       }
-    } catch (e) {
-      print(e);
-      return false;
     }
-  }*/
+    return null;
+  }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    loadTableProducts();
+    token = await userStorage.getUserToken();
+    userId = await userStorage.getUserId();
+    bancaModel = await homeRepository.getBancaPrefs(token, userId);
+    products = await loadList();
     update();
   }
 }

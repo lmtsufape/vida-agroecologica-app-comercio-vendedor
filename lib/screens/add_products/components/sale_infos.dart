@@ -42,29 +42,37 @@ class _SaleInfosState extends State<SaleInfos> {
               height: size.height * 0.005,
             ),
             SizedBox(
-              height: size.height * 0.05,
               width: size.width * 0.30,
               child: Card(
                 margin: EdgeInsets.zero,
                 elevation: 0,
                 child: ClipPath(
                   child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: Colors.black, width: 1)),
-                    ),
                     alignment: Alignment.center,
-                    child: CustomCurrencyTextFormField(
-                      label: 'R\$ 2,62',
+                    child: CustomTextFormFieldCurrency(
+                      hintText: 'R\$ 2,62',
+                      erroStyle: TextStyle(fontSize: 12),
+                      validatorError: (value) {
+                        if(value.isEmpty){
+                          return 'Obrigatório';
+                        }
+                      },
                       onChanged: (value) {
                         setState(() {
-                          profit = widget.controller.changeProfit(
-                              widget.controller.saleController.text,
-                              widget.controller.costController.text);
-                          widget.controller.setCostPrice();
+                            profit = widget.controller.changeProfit(
+                                widget.controller.saleController.text,
+                                widget.controller.costController.text);
+                            widget.controller.setCostPrice();
                         });
                       },
-                      inputFormatter: widget.controller.currencyFormatter,
+                      currencyFormatter: <TextInputFormatter>[
+                        CurrencyTextInputFormatter(
+                          locale: 'pt-BR',
+                          symbol: 'R\$',
+                          decimalDigits: 2,
+                        ),
+                        LengthLimitingTextInputFormatter(9),
+                      ],
                       controller: widget.controller.costController,
                     ),
                   ),
@@ -88,24 +96,21 @@ class _SaleInfosState extends State<SaleInfos> {
               height: size.height * 0.005,
             ),
             SizedBox(
-              height: size.height * 0.05,
               width: size.width * 0.30,
               child: Card(
                 margin: EdgeInsets.zero,
                 elevation: 0,
                 child: ClipPath(
                   child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                    ),
                     alignment: Alignment.center,
-                    child: CustomCurrencyTextFormField(
-                      label: 'R\$ 4,62',
+                    child: CustomTextFormFieldCurrency(
+                      erroStyle: TextStyle(fontSize: 12),
+                      validatorError: (value) {
+                        if(value.isEmpty){
+                          return 'Obrigatório';
+                        }
+                      },
+                      hintText: 'R\$ 4,62',
                       onChanged: (value) {
                         setState(() {
                           profit = widget.controller.changeProfit(
@@ -114,7 +119,14 @@ class _SaleInfosState extends State<SaleInfos> {
                           widget.controller.setSalePrice();
                         });
                       },
-                      inputFormatter: widget.controller.currencyFormatter,
+                      currencyFormatter: <TextInputFormatter>[
+                        CurrencyTextInputFormatter(
+                          locale: 'pt-BR',
+                          symbol: 'R\$',
+                          decimalDigits: 2,
+                        ),
+                        LengthLimitingTextInputFormatter(9),
+                      ],
                       controller: widget.controller.saleController,
                     ),
                   ),
@@ -133,7 +145,7 @@ class _SaleInfosState extends State<SaleInfos> {
             ),
             Divider(height: size.height * 0.005),
             SizedBox(
-              height: size.height * 0.05,
+              height: size.height * 0.06,
               width: size.width * 0.20,
               child: Card(
                 elevation: 0,

@@ -4,7 +4,7 @@ class ProductsModel {
   String? createdAt;
   String? updatedAt;
   String? descricao;
-  String? tipoUnidade;
+  String? tipoMedida;
   int? estoque;
   double? preco;
   double? custo;
@@ -18,7 +18,7 @@ class ProductsModel {
     this.createdAt,
     this.updatedAt,
     this.descricao,
-    this.tipoUnidade,
+    this.tipoMedida,
     this.estoque,
     this.preco,
     this.custo,
@@ -33,7 +33,7 @@ class ProductsModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     descricao = json['descricao'];
-    tipoUnidade = json['tipo_unidade'];
+    tipoMedida = json['tipo_medida'];
     estoque = json['estoque'];
     preco = json['preco'];
     custo = json['custo'];
@@ -50,7 +50,7 @@ class ProductsModel {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['descricao'] = descricao;
-    data['tipo_unidade'] = tipoUnidade;
+    data['tipo_medida'] = tipoMedida;
     data['estoque'] = estoque;
     data['preco'] = preco;
     data['custo'] = custo;

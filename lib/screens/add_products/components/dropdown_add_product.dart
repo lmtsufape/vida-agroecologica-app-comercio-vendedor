@@ -29,7 +29,6 @@ class _DropDownAddProductState
         Container(
             alignment: Alignment.topCenter,
             width: size.width,
-            height: size.height * 0.06,
             child:
             DropdownButtonFormField<TableProductsModel>(
               isExpanded: true,
@@ -53,9 +52,15 @@ class _DropDownAddProductState
                   widget.controller
                       .setDescription(selectedObj.nome);
                 });
-                widget.controller.boolImage(selectedObj!.id).then((value) {
-                  widget.controller.setHasImage(value);
-                });
+              },
+              decoration: InputDecoration(
+                errorStyle: TextStyle(fontSize: 12),
+              ),
+              validator: (dropValue) {
+                if(dropValue == null){
+                  return 'Obrigatório';
+                }
+                return null;
               },
             )),
       ],

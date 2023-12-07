@@ -37,6 +37,7 @@ class _AddProductsScreenState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return GetBuilder<AddProductsController>(
       init: AddProductsController(),
       builder: (controller) => Scaffold(
@@ -48,92 +49,57 @@ class _AddProductsScreenState
           iconTheme:
               const IconThemeData(color: kPrimaryColor),
         ),
-        body: Container(
-          width: size.width,
-          height: size.height,
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: ListView(
-            children: [
-              Divider(
-                height: size.height * 0.008,
-                color: Colors.transparent,
-              ),
-              Column(
-                children: [
-                  ImageEdit(controller),
-                  /*Padding(
-                    padding: const EdgeInsets.only(top: 14),
-                    child: Container(
-                      width: size.width * 0.315,
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment
-                                  .spaceBetween,
-                          children: [
-                            Text(
-                              'Editar imagem',
-                              style: TextStyle(
-                                color: kPrimaryColor,
-                                fontSize:
-                                    size.height * 0.014,
-                                decoration: TextDecoration
-                                    .underline,
-                                decorationColor:
-                                    kPrimaryColor,
-                              ),
-                            ),
-                            Icon(
-                              Icons.edit,
-                              size: size.height * 0.016,
-                              color: kPrimaryColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),*/
-                ],
-              ),
-              Divider(
-                height: size.height * 0.03,
-                color: Colors.transparent,
-              ),
-              DropDownAddProduct(controller),
-              Divider(
-                height: size.height * 0.03,
-                color: Colors.transparent,
-              ),
-              Align(
-                  alignment:
-                      AlignmentDirectional.centerStart,
-                  child: Text(
-                    'Informações de venda',
-                    style: TextStyle(
-                        fontSize: size.height * 0.018,
-                        fontWeight: FontWeight.w500),
-                  )),
-              Divider(
-                height: size.height * 0.02,
-                color: Colors.transparent,
-              ),
-              SaleInfos(controller),
-              Divider(
-                height: size.height * 0.04,
-                color: Colors.transparent,
-              ),
-              Align(
-                  alignment:
-                      AlignmentDirectional.centerStart,
-                  child: DropDownQtdAddProduct(controller)),
-              Divider(
-                height: size.height * 0.04,
-                color: Colors.transparent,
-              ),
-              ElevatedButtonAddProduct(controller),
-            ],
+        body: Form(
+          key: controller.formKey,
+          child: Container(
+            width: size.width,
+            height: size.height,
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child: ListView(
+              children: [
+                Divider(
+                  height: size.height * 0.008,
+                  color: Colors.transparent,
+                ),
+                ImageEdit(controller),
+                Divider(
+                  height: size.height * 0.03,
+                  color: Colors.transparent,
+                ),
+                DropDownAddProduct(controller),
+                Divider(
+                  height: size.height * 0.03,
+                  color: Colors.transparent,
+                ),
+                Align(
+                    alignment:
+                        AlignmentDirectional.centerStart,
+                    child: Text(
+                      'Informações de venda',
+                      style: TextStyle(
+                          fontSize: size.height * 0.018,
+                          fontWeight: FontWeight.w500),
+                    )),
+                Divider(
+                  height: size.height * 0.02,
+                  color: Colors.transparent,
+                ),
+                SaleInfos(controller),
+                Divider(
+                  height: size.height * 0.04,
+                  color: Colors.transparent,
+                ),
+                Align(
+                    alignment:
+                        AlignmentDirectional.centerStart,
+                    child: DropDownQtdAddProduct(controller)),
+                Divider(
+                  height: size.height * 0.04,
+                  color: Colors.transparent,
+                ),
+                ElevatedButtonAddProduct(controller),
+              ],
+            ),
           ),
         ),
       ),

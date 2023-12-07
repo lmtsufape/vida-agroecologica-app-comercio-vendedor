@@ -43,7 +43,6 @@ class _DropDownQtdAddProductState
             ),
             Container(
               alignment: AlignmentDirectional.centerStart,
-              height: size.height * 0.06,
               width: size.width * 0.57,
               child: ValueListenableBuilder(
                   valueListenable: dropValue,
@@ -56,7 +55,7 @@ class _DropDownQtdAddProductState
                         color: Colors.orange,
                         size: size.width * 0.05,
                       ),
-                      hint: Text('Unidade', style: TextStyle(fontSize: size.height * 0.018),),
+                      hint: Text('Selecione', style: TextStyle(fontSize: size.height * 0.018),),
                       value: (value.isEmpty) ? null : value,
                       onChanged: (escolha) {
                         setState(() {
@@ -74,6 +73,15 @@ class _DropDownQtdAddProductState
                             ),
                           )
                           .toList(),
+                      decoration: InputDecoration(
+                        errorStyle: TextStyle(fontSize: 12),
+                      ),
+                      validator: (dropValue) {
+                        if(dropValue == null){
+                          return 'Obrigatório';
+                        }
+                        return null;
+                      },
                     );
                   }),
             ),

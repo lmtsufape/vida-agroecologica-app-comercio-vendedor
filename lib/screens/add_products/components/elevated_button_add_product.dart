@@ -35,20 +35,11 @@ class _ElevatedButtonAddProductState
       height: size.height * 0.06,
       child: ElevatedButton(
         onPressed: () async {
-          var response =
-              await widget.controller.validateEmptyFields();
-
-          if (response == false) {
-            showDialog(
-                context: context,
-                builder: (context) => DefaultAlertDialogOneButton(
-                      title: 'Erro',
-                      body: 'Preencha todos os campos',
-                      confirmText: 'Ok',
-                      onConfirm: () => Get.back(),
-                      buttonColor: kSuccessColor,
-                    ));
-          } else {
+          final isValidForm = widget.controller.formKey.currentState!.validate();
+          if(isValidForm){
+            var response =
+            await widget.controller.validateEmptyFields();
+            if(response) {
             showDialog(
                 context: context,
                 builder: ((context) =>
@@ -60,7 +51,7 @@ class _ElevatedButtonAddProductState
                       onConfirm: () => Get.offAll(() => HomeScreen()),
                       buttonColor: kSuccessColor,
                     )));
-          }
+          }}
         },
         style: ElevatedButtonAddProduct.styleEditProduct,
         child: Text(
