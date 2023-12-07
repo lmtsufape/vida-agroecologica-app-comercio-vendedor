@@ -19,7 +19,6 @@ class HomeScreenController extends GetxController {
     userToken = await userStorage.getUserToken();
     bancaModel = await homeScreenRepository.getBancaPrefs(
         userToken, userId);
-    print(prefs.getStringList('listaProdutosTabelados'));
     update();
   }
 
