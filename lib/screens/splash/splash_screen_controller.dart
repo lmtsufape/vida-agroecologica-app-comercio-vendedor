@@ -31,9 +31,6 @@ class SplashScreenController {
   /// -- setting and config startup data
 
   void initApplication(Function onComplete) async {
-    SharedPreferences prefs =
-        await SharedPreferences.getInstance();
-    prefs.clear();
 
     ///initialize the application
     /// DO put all startup logic in here, the startup logic should be returned by futures
@@ -121,7 +118,6 @@ class SplashScreenController {
     for (int i = 0; i < responseData.length; i++) {
       var product =
           TableProductsModel.fromJson(responseData[i]);
-
       products.add(product);
     }
     SharedPreferences prefs =
