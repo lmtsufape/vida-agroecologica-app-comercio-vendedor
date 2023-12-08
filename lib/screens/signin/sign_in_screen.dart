@@ -128,9 +128,6 @@ class SignInScreen extends StatelessWidget {
                                                   else if(value.contains('@') == false){
                                                     return "Digite um e-mail válido";
                                                   }
-                                                  else if(value.contains('.com') == false){
-                                                    return "Digite um e-mail válido";
-                                                  }
                                                 },
                                                 controller: controller
                                                     .emailController,
