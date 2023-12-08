@@ -41,7 +41,7 @@ class ListProductsRepository {
         estoque: int.tryParse(data[i]['estoque'].toString()),
         preco: double.parse(data[i]['preco'].toString()),
         custo: double.parse(data[i]['custo'].toString()),
-        disponivel: data[i]['disponivel'] >= 1 ? false : true,
+        disponivel: data[i]['estoque'] >= 1 ? true : false,
         produtoTabeladoId: data[i]['produto_tabelado_id'],
         bancaId: data[i]['banca_id'],
       );
