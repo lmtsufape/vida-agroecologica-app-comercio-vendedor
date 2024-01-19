@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:thunderapp/screens/add_products/components/elevated_button_back_add_product.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import 'components/dropdown_edit_product.dart';
 import 'components/dropdown_qtd_edit_product.dart';
+import 'components/elevated_button_back_add_product.dart';
 import 'components/elevated_button_edit_product.dart';
 import 'components/image_edit.dart';
 import 'components/sale_infos.dart';
@@ -27,13 +29,17 @@ class _EditProductsScreenState
     extends State<EditProductsScreen> {
   EditProductsRepository repository =
       EditProductsRepository();
+      
+      
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(widget.model.id);
     return GetBuilder<EditProductsController>(
-      init: EditProductsController(),
+      init: EditProductsController(widget.model),
       builder: (controller) => Scaffold(
+
         appBar: AppBar(
           title: Text(
             'Editar produto',
@@ -54,7 +60,7 @@ class _EditProductsScreenState
               ),
               Column(
                 children: [
-                  ImageEdit(controller,widget.model),
+                  ImageEdit(controller, widget.model),
                 ],
               ),
               Divider(
