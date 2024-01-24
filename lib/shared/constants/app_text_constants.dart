@@ -6,4 +6,4 @@
 ///use camel case to separate the words
 const String kPppTitle = 'Thunderapp';
 //const String kBaseURL = 'http://127.0.0.1:8000/api';
-const String kBaseURL = 'http://comerciovidaagroecologica.ufape.edu.br/api';
+const String kBaseURL = 'https://comerciovidaagroecologica.ufape.edu.br/api';
