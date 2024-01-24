@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
@@ -30,6 +32,7 @@ class EditProductsController extends GetxController {
   String? userId;
   late String userToken;
   bool hasImage = false;
+  List<TableProductsModel> tableProducts = [];
 
   // -----------------------
 
@@ -125,16 +128,6 @@ class EditProductsController extends GetxController {
     update();
   }
 
-  void loadTableProducts() async {
-    token = await userStorage.getUserToken();
-    products = await repository.getProducts();
-    userId = await userStorage.getUserId();
-    bancaModel =
-        await homeRepository.getBancaPrefs(token, userId);
-
-    update();
-  }
-
   Future<bool> validateEmptyFields() async {
     try {
       if (description == null ||
@@ -173,45 +166,30 @@ class EditProductsController extends GetxController {
       return false;
     }
   }
-
-  Future<bool> boolImage(int? proId) async {
-    setHasImage(await repository.getImage(proId));
-    print("rodou");
-    return hasImage;
+  Future<List<TableProductsModel>> loadList() async {
+    SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+    List<String> listaString =
+        prefs.getStringList('listaProdutosTabelados') ?? [];
+    return listaString
+        .map((string) => TableProductsModel.fromJson(
+            json.decode(string)))
+        .toList();
   }
 
-  /*Future<bool> getImage(int? proId) async {
-    Dio dio = Dio();
-
-    UserStorage userStorage = UserStorage();
-
-    userToken = await userStorage.getUserToken();
-
-    try {
-      var response = await dio.get(
-        '$kBaseURL/produtos/$proId/imagem',
-        options: Options(headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $userToken"
-        }),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return true;
-      } else {
-        return false;
+  TableProductsModel? search(int? tableProId) {
+    for (int i = 0; i < tableProducts.length; i++) {
+      if (tableProducts[i].id == tableProId) {
+        return tableProducts[i];
       }
-    } catch (e) {
-      print(e);
-      return false;
     }
-  }*/
+    return null;
+  }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    loadTableProducts();
+    tableProducts = await loadList();
     update();
   }
 }

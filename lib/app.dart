@@ -68,8 +68,6 @@ class App extends StatelessWidget {
         Screens.report: (context) => const ReportScreen(),
         Screens.listProducts: (context) =>
             ListProductsScreen(),
-        Screens.editProducts: (context) =>
-            const EditProductsScreen()
       },
     );
   }
