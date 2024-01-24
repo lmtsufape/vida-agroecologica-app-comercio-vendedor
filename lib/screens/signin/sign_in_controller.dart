@@ -25,6 +25,7 @@ class SignInController with ChangeNotifier {
   final TextEditingController _passwordController =
       TextEditingController();
   String? errorMessage;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   TextEditingController get emailController =>
       _emailController;
@@ -42,18 +43,18 @@ class SignInController with ChangeNotifier {
       );
       if (succ == 1) {
         status = SignInStatus.done;
-        
+
         notifyListeners();
-        
-      
+
+
           // ignore: use_build_context_synchronously
           Navigator.pushReplacementNamed(
             context, Screens.home);
-       
-        
+
+
       }
       else if (succ == 2) {
-      
+
 
         // ignore: use_build_context_synchronously
         Navigator.pushReplacementNamed(context, Screens.addStore);
@@ -83,8 +84,8 @@ class SignInController with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      
-     
+
+
       status = SignInStatus.error;
       setErrorMessage(
           'Credenciais inválidas verifique seus dados');

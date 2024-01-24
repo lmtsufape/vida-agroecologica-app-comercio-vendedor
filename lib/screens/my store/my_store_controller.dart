@@ -22,6 +22,7 @@ class MyStoreController extends GetxController {
   bool adcSucess = false;
   var textoErro = "Selecione um método de pagamento";
   String userToken = '';
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final List<bool> isSelected = [false, false, false];
   final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];

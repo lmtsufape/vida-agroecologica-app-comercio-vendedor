@@ -48,8 +48,8 @@ class MyStoreRepository {
     const replace = "";
     var pMinimo = precoMin.replaceAll(find, replace);
     var preMinimo = pMinimo.replaceAll(",", ".");
-    
-      try {
+
+    try {
       //Se o usuário não selecionou uma imagem, ele envia o body sem a imagem para a API
       if (imgPath == null) {
         body = FormData.fromMap({
@@ -84,11 +84,11 @@ class MyStoreRepository {
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin
               : preMinimo,
-          "file": await MultipartFile.fromFile(
+          "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath.split("\\").last,
           ),
-          "formas_pagamento": formasPagamento,
+          "formas pagamento": formasPagamento,
           "bairro entrega": "1=>4.50"
         });
       }
@@ -131,12 +131,17 @@ class MyStoreRepository {
     return false;
   }
 
-  Future<bool> adicionarBanca(String nome, String horarioAbertura, String horarioFechamento, String precoMin,String? imgPath, List<bool> isSelected) async{
+  Future<bool> adicionarBanca(
+      String nome,
+      String horarioAbertura,
+      String horarioFechamento,
+      String precoMin,
+      String? imgPath,
+      List<bool> isSelected) async {
     final find = "R\$";
     final replace = "";
     var pMinimo = precoMin.replaceAll(find, replace);
     var preMinimo = pMinimo.replaceAll(",", ".");
-
 
     if (formasPagamento == '' && checkItems.isEmpty) {
       for (int i = 0; i < isSelected.length; i++) {
@@ -153,23 +158,23 @@ class MyStoreRepository {
     }
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
-     try {
+    try {
       body = FormData.fromMap({
-          "nome": nome,
-          "descricao": "loja",
-          "horario_abertura":horarioAbertura,
-          "horario_fechamento":horarioFechamento,
-          "preco_minimo": preMinimo,
-          "file": await MultipartFile.fromFile(
-            imgPath.toString(),
-            filename: imgPath!.split("\\").last,
-          ),
-          "formas_pagamento": formasPagamento,
-          "agricultor_id" : userId,
-          "feira_id" : '1',
-          "bairro_entrega" : '1=>3.50'
-        });
-      
+        "nome": nome,
+        "descricao": "loja",
+        "horario_abertura": horarioAbertura,
+        "horario_fechamento": horarioFechamento,
+        "preco_minimo": preMinimo,
+        "imagem": await MultipartFile.fromFile(
+          imgPath.toString(),
+          filename: imgPath!.split("\\").last,
+        ),
+        "formas pagamento": formasPagamento,
+        "agricultor_id": userId,
+        "feira_id": '1',
+        "bairro entrega": '1=>3.50'
+      });
+
       Response response = await _dio.post(
         '$kBaseURL/bancas',
         options: Options(headers: {
@@ -184,14 +189,13 @@ class MyStoreRepository {
       } else {
         formasPagamento = '';
         checkItems = [];
-      
-   
+
         return false;
       }
     } catch (e) {
       formasPagamento = '';
       checkItems = [];
-    
+
       if (e is DioError) {
         final dioError = e;
         if (dioError.response != null) {
@@ -205,5 +209,4 @@ class MyStoreRepository {
       return false;
     }
   }
-  }
-
+}
