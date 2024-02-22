@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
@@ -10,7 +11,7 @@ class ImageCardList extends StatefulWidget {
   final int? productId; // Adiciona o ID do produto como argumento
   final List<TableProductsModel> tableProducts;
 
-  ImageCardList(this.userToken, this.productId,this.tableProducts, {Key? key}) : super(key: key);
+  const ImageCardList(this.userToken, this.productId,this.tableProducts, {Key? key}) : super(key: key);
 
   @override
   State<ImageCardList> createState() => _ImageCardListState();
@@ -20,13 +21,14 @@ class _ImageCardListState extends State<ImageCardList> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return FutureBuilder<int?>(
 
       future: Future.value(searchID(widget.productId, widget.tableProducts)), // Retorna uma instância de Future
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // O futuro ainda está sendo processado, você pode mostrar um indicador de carregamento aqui
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           // Ocorreu um erro durante o processamento do futuro
           return Text("Erro: ${snapshot.error}");
@@ -35,7 +37,7 @@ class _ImageCardListState extends State<ImageCardList> {
           return const AspectRatio(
             aspectRatio: 1.15,
             child: Material(
-              elevation: 2,
+              elevation: 1.3,
               shadowColor: Colors.black,
               child: Icon(
                 Icons.shopping_bag,
@@ -52,16 +54,19 @@ class _ImageCardListState extends State<ImageCardList> {
               : null;
 
           return AspectRatio(
-            aspectRatio: 1.15,
-            child: Material(
-              elevation: 2,
-              shadowColor: Colors.black,
-              child: widget.tableProducts[produtoIndex].imagem != null && base64Image != null
-                  ? Image.memory(base64Decode(base64Image.split(',').last))
-                  : const Icon(
-                Icons.shopping_bag,
-                size: 80,
-                color: Colors.orange,
+            aspectRatio: 1.05,
+            child: SizedBox(
+              child: Material(
+                borderRadius: BorderRadius.circular(10),
+                elevation: 1.3,
+                shadowColor: Colors.black,
+                child: widget.tableProducts[produtoIndex].imagem != null && base64Image != null
+                    ? Image.memory(base64Decode(base64Image.split(',').last))
+                    : const Icon(
+                  Icons.shopping_bag,
+                  size: 80,
+                  color: Colors.orange,
+                ),
               ),
             ),
           );

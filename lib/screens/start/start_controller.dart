@@ -4,9 +4,7 @@ import 'package:thunderapp/screens/start/start_repository.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
 import '../../shared/core/navigator.dart';
-import '../home/home_screen_repository.dart';
 import '../screens_index.dart';
-import '../signin/sign_in_repository.dart';
 
 
 class StartController extends GetxController {

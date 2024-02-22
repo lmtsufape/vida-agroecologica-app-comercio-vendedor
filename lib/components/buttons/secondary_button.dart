@@ -26,9 +26,12 @@ class SecondaryButton extends StatelessWidget {
                   kDefaultBorderRadius)),
         ),
         onPressed: () => onPressed(),
-        child: Text(
-          text,
-          style: kBody2.copyWith(color: kSecondaryColor),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            text,
+            style: kBody2.copyWith(color: kSecondaryColor),
+          ),
         ),
       ),
     );

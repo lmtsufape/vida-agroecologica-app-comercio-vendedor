@@ -12,6 +12,7 @@ class EditProductsRepository extends GetxController {
   List<TableProductsModel> products = [];
   TableProductsModel product = TableProductsModel();
 
+
   Future<List<TableProductsModel>> getProducts() async {
     Dio dio = Dio();
     UserStorage userStorage = UserStorage();
@@ -45,56 +46,6 @@ class EditProductsRepository extends GetxController {
     return [];
   }
 
-  Future<bool> registerProduct(
-      String? description,
-      String? measure,
-      int? stock,
-      String? salePrice,
-      String? costPrice,
-      int? productId,
-      int? bancaId) async {
-    Dio dio = Dio();
-
-    UserStorage userStorage = UserStorage();
-
-    userToken = await userStorage.getUserToken();
-
-    var body = {
-      "descricao": description.toString(),
-      "tipo_unidade": measure
-          .toString() /**Alterar para "measure" quando tiver a validação*/,
-      "estoque": stock,
-      "preco": salePrice,
-      "custo": costPrice,
-      "produto_tabelado_id": productId,
-      "banca_id": bancaId,
-    };
-
-    print(body);
-
-    var response = await dio.post("$kBaseURL/produtos",
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": "Bearer $userToken"
-          },
-        ),
-        data: body);
-
-    print(response.statusCode);
-
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  
-
-
   Future<bool> deleteProduct(context, int? prodId) async {
     Dio dio = Dio();
 
@@ -119,7 +70,7 @@ class EditProductsRepository extends GetxController {
     return true;
   }
 
-  void editProducts(
+  Future<bool> editProducts(
       EditProductsController controller) async {
     Dio dio = Dio();
 
@@ -128,27 +79,33 @@ class EditProductsRepository extends GetxController {
     userToken = await userStorage.getUserToken();
 
     var body = {
-      "descricao": controller.description,
+      "descricao": controller.description.toString(),
       "tipo_unidade": controller.measure
           .toString() /**Alterar para "measure" quando tiver a validação*/,
       "estoque": controller.stock,
       "preco": controller.salePrice,
       "custo": controller.costPrice,
-      "disponivel": false
+      "disponivel": true
     };
     print(body);
-
-    var response = await dio.patch(
-        "$kBaseURL/produtos/${controller.productId}",
-        options: Options(
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": "Bearer $userToken"
-          },
-        ),
-        data: body);
-
-    print(response.statusCode);
+    try {
+      var response = await dio.patch(
+          "$kBaseURL/produtos/${controller.productId}",
+          options: Options(
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "Authorization": "Bearer $userToken"
+            },
+          ),
+          data: body);
+      if (response.statusCode == 200 ||
+          response.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 }

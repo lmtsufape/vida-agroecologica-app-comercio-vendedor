@@ -126,9 +126,14 @@ class DefaultAlertDialogOneButton extends StatelessWidget {
             style: kBody2,
           ),
         ),
-        content: Text(
-          body,
-          style: kCaption2,
+        content: Container(
+          alignment: Alignment.center,
+          height: size.height * 0.1,
+          padding: const EdgeInsetsDirectional.only(start: 8),
+          child: Text(
+            body,
+            style: kCaption2,
+          ),
         ),
         actions:<Widget>[
           Align(

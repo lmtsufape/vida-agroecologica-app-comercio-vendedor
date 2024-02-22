@@ -5,14 +5,14 @@ import 'package:intl/intl.dart';
 import 'package:thunderapp/components/forms/custom_text_form_field.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-import '../../../components/forms/custom_currency_form_field.dart';
+import '../../../shared/core/models/products_model.dart';
 import '../edit_products_controller.dart';
 
 class SaleInfos extends StatefulWidget {
   final EditProductsController controller;
+  ProductsModel? productsModel;
 
-  const SaleInfos(this.controller, {Key? key})
-      : super(key: key);
+  SaleInfos(this.controller, this.productsModel, {Key? key}) : super(key: key);
 
   @override
   State<SaleInfos> createState() => _SaleInfosState();
@@ -29,53 +29,53 @@ class _SaleInfosState extends State<SaleInfos> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final double? custo = widget.productsModel!.custo;
+    final String? custoCorreto = custo?.toStringAsFixed(2);
+    final double? preco = widget.productsModel!.preco;
+    final String? precoCorreto = preco?.toStringAsFixed(2);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Divider(
+              height: size.height * 0.03,
+              color: Colors.transparent,
+            ),
             Text(
-              'Preço de custo',
+              'Nome do produto',
               style: TextStyle(
-                  color: kTextButtonColor,
-                  fontSize: size.height * 0.017),
+                  color: kSecondaryColor,
+                  fontSize: size.height * 0.018,
+                  fontWeight: FontWeight.w700),
             ),
             Divider(
               height: size.height * 0.005,
+              color: Colors.transparent,
             ),
             SizedBox(
-              height: size.height * 0.05,
-              width: size.width * 0.30,
+              width: size.width,
               child: Card(
                 margin: EdgeInsets.zero,
                 elevation: 0,
                 child: ClipPath(
                   child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: Colors.black,
-                              width: 1)),
-                    ),
                     alignment: Alignment.center,
-                    child: CustomCurrencyTextFormField(
-                      label: 'R\$ 2,62',
+                    child: CustomTextFormField(
+                      hintText: "R\$ $custoCorreto",
+                      erroStyle: const TextStyle(fontSize: 12),
+                      validatorError: (value) {
+                        if (value.isEmpty) {
+                          return 'Obrigatório';
+                        }
+                      },
                       onChanged: (value) {
                         setState(() {
-                          profit = widget.controller
-                              .changeProfit(
-                                  widget.controller
-                                      .saleController.text,
-                                  widget.controller
-                                      .costController.text);
                           widget.controller.setCostPrice();
                         });
                       },
-                      inputFormatter: widget
-                          .controller.currencyFormatter,
-                      controller:
-                          widget.controller.costController,
+                      controller: widget.controller.costController,
                     ),
                   ),
                 ),
@@ -83,96 +83,102 @@ class _SaleInfosState extends State<SaleInfos> {
             )
           ],
         ),
+        Divider(
+          height: size.height * 0.03,
+          color: Colors.transparent,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
-              alignment: AlignmentDirectional.topStart,
-              child: Text(
-                'Preço de venda',
-                style: TextStyle(
-                    color: kTextButtonColor,
-                    fontSize: size.height * 0.017),
-              ),
+            Text(
+              'Descrição',
+              style: TextStyle(
+                  color: kSecondaryColor,
+                  fontSize: size.height * 0.018,
+                  fontWeight: FontWeight.w700),
             ),
             Divider(
               height: size.height * 0.005,
+              color: Colors.transparent,
             ),
             SizedBox(
-              height: size.height * 0.05,
-              width: size.width * 0.30,
+              width: size.width,
               child: Card(
-                margin: EdgeInsets.zero,
                 elevation: 0,
+                margin: EdgeInsets.zero,
                 child: ClipPath(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: CustomCurrencyTextFormField(
-                      label: 'R\$ 4,62',
-                      onChanged: (value) {
-                        setState(() {
-                          profit = widget.controller
-                              .changeProfit(
-                                  widget.controller
-                                      .saleController.text,
-                                  widget.controller
-                                      .costController.text);
-                          widget.controller.setSalePrice();
-                        });
-                      },
-                      inputFormatter: widget
-                          .controller.currencyFormatter,
-                      controller:
-                          widget.controller.saleController,
-                    ),
+                  child: CustomTextFormField(
+                    hintText: "R\$ $custoCorreto",
+                    erroStyle: const TextStyle(fontSize: 12),
+                    validatorError: (value) {
+                      if (value.isEmpty) {
+                        return 'Obrigatório';
+                      }
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        widget.controller.setCostPrice();
+                      });
+                    },
+                    controller: widget.controller.costController,
                   ),
                 ),
               ),
             ),
           ],
         ),
+        Divider(
+          height: size.height * 0.03,
+          color: Colors.transparent,
+        ),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Lucro R\$',
-              style: TextStyle(
-                  color: kTextButtonColor,
-                  fontSize: size.height * 0.017),
+            Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text(
+                'Preço',
+                style: TextStyle(
+                    color: kSecondaryColor,
+                    fontSize: size.height * 0.018,
+                    fontWeight: FontWeight.w700),
+              ),
             ),
-            Divider(height: size.height * 0.005),
+            Divider(
+              height: size.height * 0.005,
+              color: Colors.transparent,
+            ),
             SizedBox(
-              height: size.height * 0.05,
-              width: size.width * 0.20,
+              width: size.width,
               child: Card(
-                elevation: 0,
                 margin: EdgeInsets.zero,
+                elevation: 0,
                 child: ClipPath(
                   child: Container(
-                    decoration: const BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Colors.black,
-                                width: 1))),
                     alignment: Alignment.center,
-                    child: Text(
-                      NumberFormat.simpleCurrency(
-                              locale: 'pt-BR',
-                              decimalDigits: 2)
-                          .format(double.tryParse(profit
-                              .toStringAsPrecision(2))),
-                      style: TextStyle(
-                        fontSize: size.height * 0.015,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    child: CustomTextFormFieldCurrency(
+                      keyboardType: TextInputType.number,
+                      erroStyle: const TextStyle(fontSize: 12),
+                      validatorError: (value) {
+                        if (value.isEmpty) {
+                          return 'Obrigatório';
+                        }
+                      },
+                      hintText: "R\$ $precoCorreto",
+                      onChanged: (value) {
+                        setState(() {
+                          widget.controller.setSalePrice();
+                        });
+                      },
+                      currencyFormatter: <TextInputFormatter>[
+                        CurrencyTextInputFormatter(
+                          locale: 'pt-BR',
+                          symbol: 'R\$',
+                          decimalDigits: 2,
+                        ),
+                        LengthLimitingTextInputFormatter(9),
+                      ],
+                      controller: widget.controller.saleController,
                     ),
                   ),
                 ),

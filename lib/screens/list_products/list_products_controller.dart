@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,8 +12,7 @@ import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
-import '../../shared/constants/app_text_constants.dart';
-import '../add_products/add_products_repository.dart';
+import '../edit_products/edit_products_repository.dart';
 import '../list_products/components/card_products_list.dart';
 import 'list_products_repository.dart';
 
@@ -30,7 +28,7 @@ class ListProductsController extends GetxController {
   late bool hasImage = false;
 
   HomeScreenRepository homeRepository = HomeScreenRepository();
-
+  EditProductsRepository editRepository = EditProductsRepository();
   ListProductsRepository repository = ListProductsRepository();
   final TextEditingController _searchController = TextEditingController();
 
@@ -56,7 +54,7 @@ class ListProductsController extends GetxController {
       for (int i = 0; i < products.length; i++) {
         print(products[i]);
         CardProductsList card =
-            CardProductsList(token, products[i], repository, tableProducts);
+            CardProductsList(token, products[i], repository, tableProducts, editRepository);
         list.add(card);
         if (products.isNotEmpty) {
           quantStock += products[i].estoque!;

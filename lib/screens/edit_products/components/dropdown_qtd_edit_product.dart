@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
 
 import '../edit_products_controller.dart';
 import 'stock_edit_product.dart';
 
 class DropDownQtdEditProduct extends StatefulWidget {
   final EditProductsController controller;
+  ProductsModel? model;
 
-  const DropDownQtdEditProduct(this.controller, {Key? key})
+  DropDownQtdEditProduct(this.controller, this.model, {Key? key})
       : super(key: key);
 
   @override
@@ -35,16 +37,15 @@ class _DropDownQtdEditProductState
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(bottom: 4),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
               child: Text(
                 'Unidade de medida',
-                style: TextStyle(color: kTextButtonColor),
+                style: TextStyle(color: kTextButtonColor, fontSize: size.height * 0.017),
               ),
             ),
             Container(
               alignment: AlignmentDirectional.centerStart,
-              height: size.height * 0.06,
               width: size.width * 0.57,
               child: ValueListenableBuilder(
                   valueListenable: dropValue,
@@ -58,7 +59,7 @@ class _DropDownQtdEditProductState
                         size: size.width * 0.05,
                       ),
                       hint: Text(
-                        'Unidade',
+                        widget.model!.tipoMedida.toString(),
                         style: TextStyle(
                             fontSize: size.height * 0.018),
                       ),
@@ -79,12 +80,21 @@ class _DropDownQtdEditProductState
                             ),
                           )
                           .toList(),
+                      decoration: const InputDecoration(
+                        errorStyle: TextStyle(fontSize: 12),
+                      ),
+                      validator: (dropValue) {
+                        if(dropValue == null){
+                          return 'Obrigatório';
+                        }
+                        return null;
+                      },
                     );
                   }),
             ),
           ],
         ),
-        StockEditProduct(widget.controller),
+        StockEditProduct(widget.controller, widget.model),
       ],
     );
   }

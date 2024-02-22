@@ -22,9 +22,12 @@ class PrimaryButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(
                     kDefaultBorderRadius))),
         onPressed: () => onPressed(),
-        child: Text(
-          text,
-          style: kBody2.copyWith(color: kTextColor),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            text,
+            style: kBody2.copyWith(color: kTextColor),
+          ),
         ),
       ),
     );

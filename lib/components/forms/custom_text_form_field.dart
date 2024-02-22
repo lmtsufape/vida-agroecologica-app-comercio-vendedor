@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
@@ -54,6 +53,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return TextFormField(
       onChanged: widget.onChanged,
       inputFormatters:
@@ -62,7 +62,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: _obscureText,
       controller: widget.controller,
       decoration: InputDecoration(
-        errorStyle: widget.erroStyle == null ? null : widget.erroStyle,
+        errorStyle: widget.erroStyle,
         prefixIcon: widget.icon == null ? null : Icon(widget.icon),
         /*border: widget.isBordered == null
             ? InputBorder.none
@@ -71,6 +71,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         filled: true,
         fillColor: Colors.white,
         hintText: widget.hintText,
+        hintStyle: TextStyle(fontSize: size.height * 0.02),
         suffixIcon: widget.isPassword == true
             ? InkWell(
                 onTap: () => _toggleVisibility(),
@@ -137,6 +138,7 @@ class _CustomTextFormFieldCurrencyState
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: TextFormField(
         onChanged: widget.onChanged,
@@ -146,7 +148,7 @@ class _CustomTextFormFieldCurrencyState
         controller: widget.controller,
         validator: widget.validatorError,
         decoration: InputDecoration(
-          errorStyle: widget.erroStyle == null ? null : widget.erroStyle,
+          errorStyle: widget.erroStyle,
           prefixIcon: widget.icon == null ? null : Icon(widget.icon),
           /*border: widget.isBordered == null
               ? InputBorder.none
@@ -155,6 +157,7 @@ class _CustomTextFormFieldCurrencyState
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
+          hintStyle: TextStyle(fontSize: size.height * 0.02),
           suffixIcon: widget.isPassword == true
               ? InkWell(
                   onTap: () => _toggleVisibility(),
@@ -221,16 +224,18 @@ class _CustomTextFormFieldTimeState extends State<CustomTextFormFieldTime> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: TextFormField(
-        validator: widget.validatorError == null ? null : widget.validatorError,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: widget.validatorError,
         onChanged: widget.onChanged,
         inputFormatters:
             widget.timeFormatter == null ? null : widget.timeFormatter!,
         obscureText: _obscureText,
         controller: widget.controller,
         decoration: InputDecoration(
-          errorStyle: widget.erroStyle == null ? null : widget.erroStyle,
+          errorStyle: widget.erroStyle,
           prefixIcon: widget.icon == null ? null : Icon(widget.icon),
           /*border: widget.isBordered == null
               ? InputBorder.none
@@ -239,6 +244,7 @@ class _CustomTextFormFieldTimeState extends State<CustomTextFormFieldTime> {
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
+          hintStyle: TextStyle(fontSize: size.height * 0.02),
           suffixIcon: widget.isPassword == true
               ? InkWell(
                   onTap: () => _toggleVisibility(),

@@ -1,7 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 import 'package:thunderapp/screens/carrousel/carrousel_screen.dart';
 import 'package:thunderapp/screens/edit_products/edit_products_screen.dart';
 import 'package:thunderapp/screens/list_products/list_products_screen.dart';
@@ -10,13 +9,11 @@ import 'package:thunderapp/screens/payments/payments_screen.dart';
 import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/report/report_screen.dart';
 import 'package:thunderapp/screens/screens_index.dart';
-
 import 'package:thunderapp/screens/start/start_screen.dart';
 import 'package:thunderapp/shared/constants/app_theme.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/my store/add_store_screen.dart';
-import 'screens/my store/edit_store_screen.dart';
 import 'screens/signin/sign_in_screen.dart';
 import 'screens/splash/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

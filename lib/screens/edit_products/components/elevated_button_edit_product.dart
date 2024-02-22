@@ -14,7 +14,8 @@ import '../edit_products_controller.dart';
 class ElevatedButtonEditProduct extends StatefulWidget {
   final EditProductsController controller;
 
-  const ElevatedButtonEditProduct(this.controller,
+  const ElevatedButtonEditProduct(
+      this.controller,
       {Key? key})
       : super(key: key);
 
@@ -42,7 +43,21 @@ class _ElevatedButtonEditProductState
       height: size.height * 0.06,
       child: ElevatedButton(
         onPressed: () async {
-          repository.editProducts(widget.controller);
+          final isValidForm = widget.controller.formKey.currentState!.validate();
+          if(isValidForm){
+            var response = await widget.controller.validateEmptyFields();
+            if (response) {
+              showDialog(
+                  context: context,
+                  builder: ((context) => DefaultAlertDialogOneButton(
+                        title: 'Sucesso',
+                        body: 'Produto editado com sucesso',
+                        confirmText: 'Ok',
+                        onConfirm: () => Get.offAll(() => HomeScreen()),
+                        buttonColor: kSuccessColor,
+                      )));
+            }
+          }
         },
         style: ElevatedButtonEditProduct.styleEditProduct,
         child: Text(

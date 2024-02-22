@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 

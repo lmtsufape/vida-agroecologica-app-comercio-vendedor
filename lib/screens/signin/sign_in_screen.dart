@@ -121,7 +121,7 @@ class SignInScreen extends StatelessWidget {
                                               child: Container(
                                                 alignment: Alignment.center,
                                                 child: CustomTextFormField(
-                                                  erroStyle: TextStyle(fontSize: 12),
+                                                  erroStyle: const TextStyle(fontSize: 12),
                                                   validatorError: (value) {
                                                     if(value.isEmpty){
                                                       return 'Obrigatório';
@@ -164,7 +164,7 @@ class SignInScreen extends StatelessWidget {
                                               child: Container(
                                                 alignment: Alignment.center,
                                                 child: CustomTextFormField(
-                                                  erroStyle: TextStyle(fontSize: 12),
+                                                  erroStyle: const TextStyle(fontSize: 12),
                                                   validatorError: (value) {
                                                     if(value.isEmpty){
                                                       return 'Obrigatório';

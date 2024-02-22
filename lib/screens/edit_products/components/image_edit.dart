@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ class ImageEdit extends StatefulWidget {
   final EditProductsController? controller;
   final ProductsModel model;
 
-  ImageEdit(this.controller, this.model, {Key? key})
+  const ImageEdit(this.controller, this.model, {Key? key})
       : super(key: key);
 
   @override
@@ -35,15 +34,15 @@ class _ImageEditState extends State<ImageEdit> {
         tableProductsModel?.imagem == null) {
       return Container(
         alignment: Alignment.center,
-        height: size.width * 0.4,
-        child: const AspectRatio(
+        height: size.height * 0.15,
+        child: AspectRatio(
           aspectRatio: 12 / 9,
           child: Material(
-            elevation: 3,
+            elevation: 1,
             shadowColor: Colors.black,
             child: Icon(
               Icons.shopping_bag,
-              size: 100,
+              size: size.height * 0.1,
               color: Colors.orange,
             ),
           ),
@@ -57,11 +56,11 @@ class _ImageEditState extends State<ImageEdit> {
 
     return Container(
       alignment: Alignment.center,
-      height: size.width * 0.4,
+      height: size.height * 0.2,
       child: AspectRatio(
         aspectRatio: 12 / 9,
         child: Material(
-          elevation: 3,
+          elevation: 0,
           shadowColor: Colors.black,
           child: Image.memory(
               base64Decode(base64Image!.split(',').last)),

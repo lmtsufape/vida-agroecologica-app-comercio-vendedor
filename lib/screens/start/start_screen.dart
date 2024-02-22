@@ -13,7 +13,6 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
 
 import '../../shared/constants/app_enums.dart';
-import '../../shared/core/models/banca_model.dart';
 
 class StartScreen extends StatelessWidget {
 
@@ -66,9 +65,9 @@ class StartScreen extends StatelessWidget {
                   mainAxisAlignment:
                       MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
+                    Text(
                       'Para começar, que tal entrar na sua conta?',
-                      style: kTitle2,
+                      style: kTitle2.copyWith(fontSize: size.height * 0.028),
                       textAlign: TextAlign.center,
                     ),
                     const VerticalSpacerBox(

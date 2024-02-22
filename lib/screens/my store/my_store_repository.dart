@@ -5,6 +5,7 @@ import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
+
 class MyStoreRepository {
   List<String> checkItems = [];
   FormData body = FormData.fromMap({});
@@ -22,6 +23,7 @@ class MyStoreRepository {
       String? imgPath,
       List<bool> isSelected,
       BancaModel banca) async {
+
     //Verifica se o usuário quer entrega ou retirada na banca e seta a variável entrega
 
     //Verifica se o usuário selecionou alguma forma de pagamento e seta a variável formasPagamento
@@ -138,8 +140,8 @@ class MyStoreRepository {
       String precoMin,
       String? imgPath,
       List<bool> isSelected) async {
-    final find = "R\$";
-    final replace = "";
+    const find = "R\$";
+    const replace = "";
     var pMinimo = precoMin.replaceAll(find, replace);
     var preMinimo = pMinimo.replaceAll(",", ".");
 
@@ -183,19 +185,18 @@ class MyStoreRepository {
         }),
         data: body,
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         log('cadastro da banca bem sucedida');
+        // Mostrar o statusCode em um AlertDialog
         return true;
       } else {
         formasPagamento = '';
         checkItems = [];
-
         return false;
       }
     } catch (e) {
       formasPagamento = '';
       checkItems = [];
-
       if (e is DioError) {
         final dioError = e;
         if (dioError.response != null) {
@@ -209,4 +210,25 @@ class MyStoreRepository {
       return false;
     }
   }
+
+  /*void _showAlertDialog(BuildContext context, String title, String content) {
+    // Código para outras plataformas (como mobile)
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(content),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }*/
 }

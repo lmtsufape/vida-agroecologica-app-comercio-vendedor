@@ -92,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen>
                         .toUpperCase(),
                     textAlign: TextAlign.center,
                     style: kTitle1.copyWith(
-                        color: kOnSurfaceColor),
+                        color: kOnSurfaceColor, fontSize: size.height * 0.038),
                   ),
                 ),
                 const VerticalSpacerBox(
@@ -111,7 +111,7 @@ class _SplashScreenState extends State<SplashScreen>
                 'LMTS - Laboratório Multidisciplinar de Tecnologias Sociais',
                 textAlign: TextAlign.center,
                 style:
-                    kBody2.copyWith(fontFamily: 'Roboto'),
+                    kBody2.copyWith(fontFamily: 'Roboto', fontSize: size.height * 0.022),
               ),
             ),
           )

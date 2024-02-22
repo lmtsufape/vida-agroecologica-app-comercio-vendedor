@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
 
 import '../../../components/forms/custom_text_form_field.dart';
 import '../edit_products_controller.dart';
 
 class StockEditProduct extends StatefulWidget {
   final EditProductsController controller;
+  ProductsModel? model;
 
-  const StockEditProduct(this.controller, {Key? key})
+  StockEditProduct(this.controller, this.model, {Key? key})
       : super(key: key);
 
   @override
@@ -38,20 +40,22 @@ class _StockEditProductState
           color: Colors.transparent,
         ),
         SizedBox(
-          height: size.height * 0.06,
           width: size.width * 0.25,
           child: Card(
             margin: EdgeInsets.zero,
             elevation: 0,
             child: ClipPath(
               child: Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(
-                          color: Colors.black, width: 1)),
-                ),
                 alignment: Alignment.center,
                 child: CustomTextFormField(
+                    erroStyle: const TextStyle(fontSize: 12),
+                    validatorError: (value) {
+                      if(value.isEmpty){
+                        return 'Obrigatório';
+                      }
+                    },
+                    keyboardType: TextInputType.number,
+                    hintText: widget.model!.estoque.toString(),
                     controller:
                         widget.controller.stockController,
                     onChanged: (value) {

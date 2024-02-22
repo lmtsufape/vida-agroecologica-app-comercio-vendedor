@@ -16,6 +16,7 @@ class ItemCardHolder extends StatelessWidget {
   final Function()? onTap;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       child: Card(
@@ -33,8 +34,8 @@ class ItemCardHolder extends StatelessWidget {
                 size: SpacerSize.medium),
             Text(
               title,
-              style: kBody2.copyWith(
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: size.height * 0.022),
             )
           ],
         ),

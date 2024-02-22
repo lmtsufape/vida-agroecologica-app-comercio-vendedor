@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../components/forms/custom_text_form_field.dart';
+
 
 class StockAddProduct extends StatefulWidget {
   final AddProductsController controller;
@@ -27,10 +27,11 @@ class _StockAddProductState extends State<StockAddProduct> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Estoque atual',
+          'Estoque',
           style: TextStyle(
-            fontSize: size.height * 0.017,
-            color: kTextButtonColor,
+            fontSize: size.height * 0.018,
+            color: kSecondaryColor,
+            fontWeight: FontWeight.w700,
           ),
         ),
         Divider(
@@ -38,28 +39,22 @@ class _StockAddProductState extends State<StockAddProduct> {
           color: Colors.transparent,
         ),
         SizedBox(
-          width: size.width * 0.25,
+          width: size.width * 0.4,
           child: Card(
             margin: EdgeInsets.zero,
             elevation: 0,
             child: ClipPath(
               child: Container(
                 alignment: Alignment.center,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    errorStyle: TextStyle(fontSize: 12),
-                  ),
-                    validator: (value) {
+                child: CustomTextFormField(
+                    hintText: '30',
+                    validatorError: (value) {
                       if(value!.isEmpty){
                         return 'Obrigatório';
                       }
                       return null;
                     },
                     keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      LengthLimitingTextInputFormatter(3),
-                    ],
                     controller:
                         widget.controller.stockController,
                     onChanged: (value) {

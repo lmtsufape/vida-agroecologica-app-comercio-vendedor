@@ -25,8 +25,8 @@ class _CircleImageProfileState
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 15),
       child: SizedBox(
-        width: widthScreen * 0.25,
-        height: heightScreen * 0.11,
+        width: widthScreen * 0.24,
+        height: heightScreen * 0.12,
         child: FloatingActionButton(
             heroTag: 'Photo',
             backgroundColor: kBackgroundColor,

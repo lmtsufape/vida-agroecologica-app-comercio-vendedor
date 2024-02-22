@@ -111,8 +111,8 @@ class _OrderDetailScreenState
                             fontSize: size.height * 0.022,
                             color: kTextButtonColor),
                       ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional
+                      const Padding(
+                        padding: EdgeInsetsDirectional
                             .only(start: 10),
                         // child: Text(widget.model.consumidorId.toString(),
                         //     style: TextStyle(fontSize: size.height * 0.018, fontWeight: FontWeight.w700),),
@@ -300,8 +300,8 @@ class _ItensOrderState extends State<ItensOrder> {
           height: size.height * 0.01,
           color: Colors.transparent,
         ),
-        Column(
-          children: const [
+        const Column(
+          children: [
             ListItens(),
             ListItens(),
             ListItens(),

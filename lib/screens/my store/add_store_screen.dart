@@ -1,11 +1,9 @@
 import 'dart:math';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
@@ -52,7 +50,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                   key: controller.formKey,
                   child: Container(
                       width: size.width,
-                      height: size.height * 0.85,
+                      height: size.height * 0.88,
                       padding: const EdgeInsets.all(22),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +88,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     child: Container(
                                       alignment: Alignment.center,
                                       child: CustomTextFormField(
-                                        erroStyle: TextStyle(fontSize: 12),
+                                        erroStyle: const TextStyle(fontSize: 12),
                                         validatorError: (value) {
                                           if(value.isEmpty){
                                             return 'Obrigatório';
@@ -116,7 +114,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                             color: Colors.transparent,
                           ),
                           SizedBox(
-                            width: size.width * 0.65,
+                            width: size.width * 0.75,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -136,17 +134,21 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                         color: Colors.transparent,
                                       ),
                                       SizedBox(
-                                        width: size.width * 0.25,
+                                        width: size.width * 0.40,
                                         child: Card(
                                           margin: EdgeInsets.zero,
                                           elevation: 0,
                                           child: ClipPath(
                                             child: Container(
                                               child: CustomTextFormFieldTime(
-                                                erroStyle: TextStyle(fontSize: 12),
+                                                erroStyle: const TextStyle(fontSize: 12),
                                                 validatorError: (value) {
+                                                  final exp = RegExp(r"(\d{2})+:?(\d{2})+");
                                                   if(value.isEmpty){
                                                     return 'Obrigatório';
+                                                  }
+                                                  if(!exp.hasMatch(value)){
+                                                    return 'Horário inválido';
                                                   }
                                                 },
                                                 hintText: '00:00',
@@ -181,18 +183,32 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                         color: Colors.transparent,
                                       ),
                                       SizedBox(
-                                        width: size.width * 0.25,
+                                        width: size.width * 0.40,
                                         child: Card(
                                           margin: EdgeInsets.zero,
                                           elevation: 0,
                                           child: ClipPath(
                                             child: Container(
                                               child: CustomTextFormFieldTime(
-                                                erroStyle: TextStyle(fontSize: 12),
+                                                erroStyle: const TextStyle(fontSize: 12),
                                                 validatorError: (value) {
+                                                  final exp = RegExp(r"(\d{2})+:?(\d{2})+");
                                                   if(value.isEmpty){
                                                     return 'Obrigatório';
                                                   }
+                                                  if(!exp.hasMatch(value)){
+                                                    return 'Horário inválido';
+                                                  }
+                                                  List<int> startTime = _extractHoursAndMinutes(controller.horarioAberturaController.text);
+                                                  List<int> endTime = _extractHoursAndMinutes(controller.horarioFechamentoController.text);
+
+                                                  int startMinutes = startTime[0] * 60 + startTime[1];
+                                                  int endMinutes = endTime[0] * 60 + endTime[1];
+
+                                                  if (startMinutes >= endMinutes) {
+                                                    return 'Horário inválido';
+                                                  }
+                                                  return null;
                                                 },
                                                 hintText: "23:59",
                                                 keyboardType: TextInputType.datetime,
@@ -293,7 +309,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                       fontSize: size.height * 0.014,
                                       color: kTextButtonColor)),
                               SizedBox(
-                                width: size.width * 0.25,
+                                width: size.width * 0.35,
                                 child: Card(
                                   margin: EdgeInsets.zero,
                                   elevation: 0,
@@ -301,7 +317,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     child: Container(
                                       alignment: Alignment.center,
                                       child: CustomTextFormFieldCurrency(
-                                        erroStyle: TextStyle(fontSize: 12),
+                                        erroStyle: const TextStyle(fontSize: 12),
                                         validatorError: (value) {
                                           if(value.isEmpty){
                                             return 'Obrigatório';
@@ -350,9 +366,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                             ));
                                   }
                                   else {
-                                    controller.adicionarBanca(context);
-                                  }
-                                }}),
+                                      controller.adicionarBanca(context);
+                                }}}),
                         ],
                       )),
                 ),
@@ -361,6 +376,19 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   }
 }
 
+List<int> _extractHoursAndMinutes(String time) {
+  final exp = RegExp(r"(\d{2})+:?(\d{2})+");
+  Match? match = exp.firstMatch(time);
+
+  if (match != null) {
+    int hours = int.parse(match.group(1)!);
+    int minutes = int.parse(match.group(2)!);
+    return [hours, minutes];
+  } else {
+    // Se não houver correspondência, retorna uma lista com valores padrão
+    return [0, 0];
+  }
+}
 
 class _HourInputFormatter extends TextInputFormatter {
   @override
@@ -383,12 +411,12 @@ class _HourInputFormatter extends TextInputFormatter {
         // Avoid adding leading zero for the first digit of minutes
         if (newText.length > 3) {
           minutes = minutes.clamp(0, 59);
-          formattedText += ':' + minutes.toString().padLeft(2, '0');
+          formattedText += ':${minutes.toString().padLeft(2, '0')}';
         } else {
-          formattedText += ':' + minutes.toString();
+          formattedText += ':$minutes';
         }
       } else {
-        formattedText += ':' + newText.substring(2);
+        formattedText += ':${newText.substring(2)}';
       }
 
       newText = formattedText;

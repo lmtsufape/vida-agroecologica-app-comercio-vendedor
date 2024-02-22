@@ -1,4 +1,4 @@
-# THUNDERAPP
+# Vida Agroecológica Vendedor
 
 * Este projeto é um template para usar usar nos aplicativos do flutter
 Muitas coisas já foram configuradas. O Template vem com uma implementação básica do provider. 

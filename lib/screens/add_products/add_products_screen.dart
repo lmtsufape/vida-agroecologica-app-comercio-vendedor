@@ -46,12 +46,13 @@ class _AddProductsScreenState
         },
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: kPrimaryColor,
             title: Text(
               'Adicionar produto',
-              style: kTitle2.copyWith(color: kPrimaryColor),
+              style: kTitle2.copyWith(color: Colors.white),
             ),
             iconTheme:
-                const IconThemeData(color: kPrimaryColor),
+                const IconThemeData(color: Colors.white),
           ),
           body: Form(
             key: controller.formKey,
@@ -70,7 +71,24 @@ class _AddProductsScreenState
                     height: size.height * 0.03,
                     color: Colors.transparent,
                   ),
+                  Text(
+                    'Imagem do produto',
+                    style: TextStyle(
+                      fontSize: size.height * 0.018,
+                      fontWeight: FontWeight.w700,
+                      color: kSecondaryColor,
+                    ),
+                  ),
+                  Divider(
+                    height: size.height * 0.005,
+                    color: Colors.transparent,
+                  ),
                   DropDownAddProduct(controller),
+                  Divider(
+                    height: size.height * 0.03,
+                    color: Colors.transparent,
+                  ),
+                  SaleInfos(controller),
                   Divider(
                     height: size.height * 0.03,
                     color: Colors.transparent,
@@ -78,27 +96,9 @@ class _AddProductsScreenState
                   Align(
                       alignment:
                           AlignmentDirectional.centerStart,
-                      child: Text(
-                        'Informações de venda',
-                        style: TextStyle(
-                            fontSize: size.height * 0.018,
-                            fontWeight: FontWeight.w500),
-                      )),
-                  Divider(
-                    height: size.height * 0.02,
-                    color: Colors.transparent,
-                  ),
-                  SaleInfos(controller),
-                  Divider(
-                    height: size.height * 0.04,
-                    color: Colors.transparent,
-                  ),
-                  Align(
-                      alignment:
-                          AlignmentDirectional.centerStart,
                       child: DropDownQtdAddProduct(controller)),
                   Divider(
-                    height: size.height * 0.04,
+                    height: size.height * 0.03,
                     color: Colors.transparent,
                   ),
                   ElevatedButtonAddProduct(controller),

@@ -1,10 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../../shared/core/user_storage.dart';
-import '../home/home_screen.dart';
 
 class ListProductsRepository {
   late String userToken;

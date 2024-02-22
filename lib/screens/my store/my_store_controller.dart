@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:thunderapp/screens/my%20store/my_store_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
+import '../../shared/components/dialogs/default_alert_dialog.dart';
+import '../../shared/constants/style_constants.dart';
 import '../../shared/core/image_picker_controller.dart';
 import '../home/home_screen.dart';
 import '../screens_index.dart';
@@ -20,170 +21,257 @@ class MyStoreController extends GetxController {
   bool hasImg = false;
   bool editSucess = false;
   bool adcSucess = false;
-  var textoErro = "Selecione um método de pagamento";
+  var textoErro = "Verifique os campos";
   String userToken = '';
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final List<bool> isSelected = [false, false, false];
-  final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
+  final List<String> checkItems = [
+    'Dinheiro',
+    'PIX',
+    'Cartão'
+  ];
 
   bool deliver = false;
 
-  MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
+  MaskTextInputFormatter timeFormatter =
+  MaskTextInputFormatter(
       mask: '#@:%&',
-      filter: {"#": RegExp(r'[0-2]'), "@": RegExp(r'^(?:[01]?\d|2[0-3])$'), "%": RegExp(r'[0-5]'), "&": RegExp(r'[0-9]')},
+      filter: {
+        "#": RegExp(r'[0-2]'),
+        "@": RegExp(r'^(?:[01]?\d|2[0-3])$'),
+        "%": RegExp(r'[0-5]'),
+        "&": RegExp(r'[0-9]')
+      },
       type: MaskAutoCompletionType.lazy);
 
-  MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
+  MaskTextInputFormatter timeFormatter2 =
+  MaskTextInputFormatter(
       mask: '#@:%&',
-      filter: {"#": RegExp(r'[0-2]'), "@": RegExp(r'[0-3]'), "%": RegExp(r'[0-5]'), "&": RegExp(r'[0-9]')},
+      filter: {
+        "#": RegExp(r'[0-2]'),
+        "@": RegExp(r'[0-3]'),
+        "%": RegExp(r'[0-5]'),
+        "&": RegExp(r'[0-9]')
+      },
       type: MaskAutoCompletionType.lazy);
 
-final TextEditingController _nomeBancaController = TextEditingController();
-final TextEditingController _quantiaMinController = TextEditingController();
-final TextEditingController _horarioAberturaController =
-TextEditingController();
-final TextEditingController _horarioFechamentoController =
-TextEditingController();
+  final TextEditingController _nomeBancaController =
+  TextEditingController();
+  final TextEditingController _quantiaMinController =
+  TextEditingController();
+  final TextEditingController _horarioAberturaController =
+  TextEditingController();
+  final TextEditingController _horarioFechamentoController =
+  TextEditingController();
 
-TextEditingController get nomeBancaController => _nomeBancaController;
+  TextEditingController get nomeBancaController =>
+      _nomeBancaController;
 
-TextEditingController get quantiaMinController => _quantiaMinController;
+  TextEditingController get quantiaMinController =>
+      _quantiaMinController;
 
-TextEditingController get horarioAberturaController =>
-    _horarioAberturaController;
+  TextEditingController get horarioAberturaController =>
+      _horarioAberturaController;
 
-TextEditingController get horarioFechamentoController =>
-    _horarioFechamentoController;
+  TextEditingController get horarioFechamentoController =>
+      _horarioFechamentoController;
 
-void onItemTapped(int index) {
-  isSelected[index] = !isSelected[index];
-  update();
-}
-
-void setDeliver(bool value) {
-  deliver = value;
-  update();
-}
-
-bool checkImg() {
-  if (_selectedImage == null) {
-    return false;
-  }
-  return true;
-}
-
-String? get imagePath => _imagePath;
-
-File? get selectedImage => _selectedImage;
-
-set selectedImage(File? value) {
-  _selectedImage = value;
-  update();
-}
-
-Future selectImageCam() async {
-  File? file = await _imagePickerController.pickImageFromCamera();
-  if (file != null) {
-    _imagePath = file.path;
-  } else {
-    return null;
+  void onItemTapped(int index) {
+    isSelected[index] = !isSelected[index];
+    update();
   }
 
-  _selectedImage = file;
-
-  update();
-}
-
-Future selectImage() async {
-  File? file = await _imagePickerController.pickImageFromGalery();
-  if (file != null) {
-    _imagePath = file.path;
-  } else {
-    return null;
+  void setDeliver(bool value) {
+    deliver = value;
+    update();
   }
 
-  _selectedImage = file;
-  update();
-}
-
-Future clearImg() async {
-  _selectedImage = null;
-  update();
-}
-
-void editBanca(BuildContext context, BancaModel banca) async {
-  editSucess = await myStoreRepository.editarBanca(
-      _nomeBancaController.text,
-      _horarioAberturaController.text,
-      _horarioFechamentoController.text,
-      _quantiaMinController.text,
-      _imagePath,
-      isSelected,
-      banca);
-  if (editSucess) {
-    // ignore: use_build_context_synchronously
-    Get.offAll(()=>HomeScreen());
+  bool checkImg() {
+    if (_selectedImage == null) {
+      return false;
+    }
+    return true;
   }
-}
 
-void adicionarBanca(BuildContext context) async {
-  try {
-    adcSucess = await myStoreRepository.adicionarBanca(
+  String? get imagePath => _imagePath;
+
+  File? get selectedImage => _selectedImage;
+
+  set selectedImage(File? value) {
+    _selectedImage = value;
+    update();
+  }
+
+  Future selectImageCam() async {
+    try{
+      File? file =
+      await _imagePickerController.pickImageFromCamera();
+      if (file != null) {
+        _imagePath = file.path;
+      } else {
+        return null;
+      }
+      _selectedImage = file;
+    }catch(e){
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Erro'),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
+
+
+
+    update();
+  }
+
+  Future selectImage() async {
+    try {
+      File? file = await _imagePickerController
+          .pickImageFromGallery();
+      if (file != null) {
+        _imagePath = file.path;
+      } else {
+        return null;
+      }
+
+      _selectedImage = file;
+      update();
+    } catch (e) {
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Erro'),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future clearImg() async {
+    _selectedImage = null;
+    update();
+  }
+
+  void editBanca(
+      BuildContext context, BancaModel banca) async {
+    editSucess = await myStoreRepository.editarBanca(
         _nomeBancaController.text,
         _horarioAberturaController.text,
         _horarioFechamentoController.text,
         _quantiaMinController.text,
         _imagePath,
-        isSelected);
-    if (adcSucess) {
+        isSelected,
+        banca);
+    if (editSucess) {
       // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, Screens.home);
+      Get.offAll(() => const HomeScreen());
     }
-    else{
-      if(_nomeBancaController.text.isEmpty == true) {
-        textoErro = "Insira um nome";
-    } else if(_horarioAberturaController.text.isEmpty) {
-        textoErro = "Insira o horário de abertura";
-    } else if(_horarioFechamentoController.text.isEmpty) {
-        textoErro = "Insira o horário de fechamento";
-    } else if(_quantiaMinController.text.isEmpty) {
-        textoErro = "Insira uma quantia mínima para entrega";
-    } else if(isSelected.isEmpty) {
-        textoErro = "Adicione pelo menos um método de pagamento";
-    }
-  else {
-  log("Ocorreu um erro, verifique os campos");
-  }}
-  } catch (e) {
-    print(e);
   }
-}
 
-bool verifySelectedFields() {
-  if (_quantiaMinController.text.isNotEmpty && _horarioFechamentoController.text.isNotEmpty && _horarioFechamentoController.text.isNotEmpty && _nomeBancaController.text.isNotEmpty) {
-    for (int i = 0; i < isSelected.length; i++) {
-      if (isSelected[i] == true) {
-        return true;
+  void adicionarBanca(BuildContext context) async {
+    try {
+      adcSucess = await myStoreRepository.adicionarBanca(
+          _nomeBancaController.text,
+          _horarioAberturaController.text,
+          _horarioFechamentoController.text,
+          _quantiaMinController.text,
+          _imagePath,
+          isSelected);
+      if (adcSucess) {
+        // ignore: use_build_context_synchronously
+        showDialog(
+            context: context,
+            builder: (context) =>
+                DefaultAlertDialogOneButton(
+                  title: 'Sucesso',
+                  body: 'Sua banca foi criada',
+                  confirmText: 'Ok',
+                  onConfirm: () => Navigator.pushReplacementNamed(context, Screens.home),
+                  buttonColor: kSuccessColor,
+                ));
+      } else {
+        if (_nomeBancaController.text.isEmpty == true) {
+          textoErro = "Insira um nome";
+        } else if (_horarioAberturaController
+            .text.isEmpty) {
+          textoErro = "Insira o horário de abertura";
+        } else if (_horarioFechamentoController
+            .text.isEmpty) {
+          textoErro = "Insira o horário de fechamento";
+        } else if (_quantiaMinController.text.isEmpty) {
+          textoErro =
+          "Insira uma quantia mínima para entrega";
+        } else if (isSelected.isEmpty) {
+          textoErro =
+          "Adicione pelo menos um método de pagamento";
+        } else {
+          log("Ocorreu um erro, verifique os campos");
+        }
       }
+    } catch (e) {
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Erro'),
+          content: Text(e.toString()),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      );
     }
   }
-  return false;
-}
 
-bool verifyFields() {
-  if (_nomeBancaController.text.isNotEmpty &&
-      _horarioAberturaController.text.isNotEmpty &&
-      _horarioFechamentoController.text.isNotEmpty &&
-      _quantiaMinController.text.isNotEmpty &&
-      _imagePath != null) {
-    for (int i = 0; i < isSelected.length; i++) {
-      if (isSelected[i] == true) {
-        return true;
+  bool verifySelectedFields() {
+    if (_quantiaMinController.text.isNotEmpty &&
+        _horarioFechamentoController.text.isNotEmpty &&
+        _horarioFechamentoController.text.isNotEmpty &&
+        _nomeBancaController.text.isNotEmpty) {
+      for (int i = 0; i < isSelected.length; i++) {
+        if (isSelected[i] == true) {
+          return true;
+        }
       }
     }
     return false;
   }
-  return false;
-}
+
+  bool verifyFields() {
+    if (_nomeBancaController.text.isNotEmpty &&
+        _horarioAberturaController.text.isNotEmpty &&
+        _horarioFechamentoController.text.isNotEmpty &&
+        _quantiaMinController.text.isNotEmpty &&
+        _imagePath != null) {
+      for (int i = 0; i < isSelected.length; i++) {
+        if (isSelected[i] == true) {
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
+  }
 }

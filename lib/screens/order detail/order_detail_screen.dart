@@ -184,9 +184,9 @@ class InformationHolder extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: kHugeSize),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const <Widget>[
+            children: <Widget>[
               Text('Rua professora Esmeralda Barros, 67'),
               Text('Apartamento'),
               Text('Caruaru, PE, 5504200'),

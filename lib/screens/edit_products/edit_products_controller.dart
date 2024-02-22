@@ -9,11 +9,11 @@ import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
+import 'package:thunderapp/shared/core/models/products_model.dart';
 
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
-import '../../shared/constants/app_text_constants.dart';
 import 'edit_products_repository.dart';
 
 class EditProductsController extends GetxController {
@@ -33,9 +33,16 @@ class EditProductsController extends GetxController {
   late String userToken;
   bool hasImage = false;
   List<TableProductsModel> tableProducts = [];
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // -----------------------
-
+  EditProductsController(ProductsModel model) {
+    description = model.descricao;
+    productId = model.id;
+    stock = model.estoque;
+    costPrice = model.custo.toString();
+    salePrice = model.preco.toString();
+  }
   HomeScreenRepository homeRepository =
       HomeScreenRepository();
   UserStorage userStorage = UserStorage();
@@ -130,23 +137,20 @@ class EditProductsController extends GetxController {
 
   Future<bool> validateEmptyFields() async {
     try {
-      if (description == null ||
-          measure.isEmpty ||
+      if (measure.isEmpty ||
           _stockController.text.isEmpty ||
           _saleController.text.isEmpty ||
           _costController.text.isEmpty ||
           productId == null) {
+        log(measure);
+        log(_stockController.text);
+        log(_saleController.text);
+        log(_costController.text);
+        log(productId.toString());
         log('Error, o user não preencheu todos os campos, retornando falso');
         return false;
       } else {
-        var response = await repository.registerProduct(
-            description,
-            measure,
-            stock,
-            salePrice,
-            costPrice,
-            productId,
-            bancaModel?.id);
+        var response = await repository.editProducts(this);
         if (response) {
           return true;
         }
@@ -166,6 +170,7 @@ class EditProductsController extends GetxController {
       return false;
     }
   }
+
   Future<List<TableProductsModel>> loadList() async {
     SharedPreferences prefs =
         await SharedPreferences.getInstance();
