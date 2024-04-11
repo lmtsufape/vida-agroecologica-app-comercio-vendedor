@@ -25,7 +25,6 @@ class StartRepository {
           vazia = 2;
           print('vazia = 2');
           return 2;
-
         }else{
           print(response.statusCode);
           vazia = 1;

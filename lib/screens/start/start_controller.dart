@@ -23,7 +23,6 @@ class StartController extends GetxController {
     if(succ == 1){
       navigatorKey.currentState!
           .pushReplacementNamed(Screens.home);
-      print('home');
     }
     else if(succ == 2){
       navigatorKey.currentState!.pushReplacementNamed(Screens.addStore);
