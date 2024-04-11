@@ -32,28 +32,28 @@ class AppTheme with ChangeNotifier {
       textTheme: TextTheme(
         titleMedium: kBody3.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
         titleLarge: kBody3.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
         bodySmall: kBody2.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
         bodyLarge: kBody3.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
         bodyMedium: kBody3.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
         headlineSmall: kBody3.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
         headlineMedium: kBody3.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
         headlineLarge: kBody3.copyWith(
             color: kDarkTextColor,
-            fontSize: kDefaultFontSize),
+            fontSize: 18),
       ),
       indicatorColor: kPrimaryColor,
       progressIndicatorTheme:
