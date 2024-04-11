@@ -26,16 +26,14 @@ class MyStoreController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final List<bool> isSelected = [false, false, false];
-  final List<String> checkItems = [
-    'Dinheiro',
-    'PIX',
-    'Cartão'
-  ];
+  final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
+
+  final List<bool> delivery = [false, false];
+  final List<String> deliveryItems = ['Sim', 'Não'];
 
   bool deliver = false;
 
-  MaskTextInputFormatter timeFormatter =
-  MaskTextInputFormatter(
+  MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
       mask: '#@:%&',
       filter: {
         "#": RegExp(r'[0-2]'),
@@ -45,8 +43,7 @@ class MyStoreController extends GetxController {
       },
       type: MaskAutoCompletionType.lazy);
 
-  MaskTextInputFormatter timeFormatter2 =
-  MaskTextInputFormatter(
+  MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
       mask: '#@:%&',
       filter: {
         "#": RegExp(r'[0-2]'),
@@ -56,20 +53,16 @@ class MyStoreController extends GetxController {
       },
       type: MaskAutoCompletionType.lazy);
 
-  final TextEditingController _nomeBancaController =
-  TextEditingController();
-  final TextEditingController _quantiaMinController =
-  TextEditingController();
+  final TextEditingController _nomeBancaController = TextEditingController();
+  final TextEditingController _quantiaMinController = TextEditingController();
   final TextEditingController _horarioAberturaController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _horarioFechamentoController =
-  TextEditingController();
+      TextEditingController();
 
-  TextEditingController get nomeBancaController =>
-      _nomeBancaController;
+  TextEditingController get nomeBancaController => _nomeBancaController;
 
-  TextEditingController get quantiaMinController =>
-      _quantiaMinController;
+  TextEditingController get quantiaMinController => _quantiaMinController;
 
   TextEditingController get horarioAberturaController =>
       _horarioAberturaController;
@@ -79,6 +72,18 @@ class MyStoreController extends GetxController {
 
   void onItemTapped(int index) {
     isSelected[index] = !isSelected[index];
+    update();
+  }
+
+  void onDeliveryTapped(int index) {
+    //delivery[index] = !delivery[index];
+    for (int i = 0; i < delivery.length; i++) {
+      delivery[i] = false;
+    }
+    // Ativa o checkbox selecionado
+    delivery[index] = true;
+    deliver = delivery[0];
+    print(deliver);
     update();
   }
 
@@ -104,16 +109,15 @@ class MyStoreController extends GetxController {
   }
 
   Future selectImageCam() async {
-    try{
-      File? file =
-      await _imagePickerController.pickImageFromCamera();
+    try {
+      File? file = await _imagePickerController.pickImageFromCamera();
       if (file != null) {
         _imagePath = file.path;
       } else {
         return null;
       }
       _selectedImage = file;
-    }catch(e){
+    } catch (e) {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
@@ -130,16 +134,12 @@ class MyStoreController extends GetxController {
       );
     }
 
-
-
-
     update();
   }
 
   Future selectImage() async {
     try {
-      File? file = await _imagePickerController
-          .pickImageFromGallery();
+      File? file = await _imagePickerController.pickImageFromGallery();
       if (file != null) {
         _imagePath = file.path;
       } else {
@@ -171,8 +171,7 @@ class MyStoreController extends GetxController {
     update();
   }
 
-  void editBanca(
-      BuildContext context, BancaModel banca) async {
+  void editBanca(BuildContext context, BancaModel banca) async {
     editSucess = await myStoreRepository.editarBanca(
         _nomeBancaController.text,
         _horarioAberturaController.text,
@@ -180,6 +179,7 @@ class MyStoreController extends GetxController {
         _quantiaMinController.text,
         _imagePath,
         isSelected,
+        deliver,
         banca);
     if (editSucess) {
       // ignore: use_build_context_synchronously
@@ -195,34 +195,31 @@ class MyStoreController extends GetxController {
           _horarioFechamentoController.text,
           _quantiaMinController.text,
           _imagePath,
-          isSelected);
+          isSelected,
+          deliver);
       if (adcSucess) {
         // ignore: use_build_context_synchronously
         showDialog(
             context: context,
-            builder: (context) =>
-                DefaultAlertDialogOneButton(
+            builder: (context) => DefaultAlertDialogOneButton(
                   title: 'Sucesso',
                   body: 'Sua banca foi criada',
                   confirmText: 'Ok',
-                  onConfirm: () => Navigator.pushReplacementNamed(context, Screens.home),
+                  onConfirm: () =>
+                      Navigator.pushReplacementNamed(context, Screens.home),
                   buttonColor: kSuccessColor,
                 ));
       } else {
         if (_nomeBancaController.text.isEmpty == true) {
           textoErro = "Insira um nome";
-        } else if (_horarioAberturaController
-            .text.isEmpty) {
+        } else if (_horarioAberturaController.text.isEmpty) {
           textoErro = "Insira o horário de abertura";
-        } else if (_horarioFechamentoController
-            .text.isEmpty) {
+        } else if (_horarioFechamentoController.text.isEmpty) {
           textoErro = "Insira o horário de fechamento";
         } else if (_quantiaMinController.text.isEmpty) {
-          textoErro =
-          "Insira uma quantia mínima para entrega";
+          textoErro = "Insira uma quantia mínima para entrega";
         } else if (isSelected.isEmpty) {
-          textoErro =
-          "Adicione pelo menos um método de pagamento";
+          textoErro = "Adicione pelo menos um método de pagamento";
         } else {
           log("Ocorreu um erro, verifique os campos");
         }
@@ -246,8 +243,7 @@ class MyStoreController extends GetxController {
   }
 
   bool verifySelectedFields() {
-    if (_quantiaMinController.text.isNotEmpty &&
-        _horarioFechamentoController.text.isNotEmpty &&
+    if (_horarioFechamentoController.text.isNotEmpty &&
         _horarioFechamentoController.text.isNotEmpty &&
         _nomeBancaController.text.isNotEmpty) {
       for (int i = 0; i < isSelected.length; i++) {
@@ -263,7 +259,6 @@ class MyStoreController extends GetxController {
     if (_nomeBancaController.text.isNotEmpty &&
         _horarioAberturaController.text.isNotEmpty &&
         _horarioFechamentoController.text.isNotEmpty &&
-        _quantiaMinController.text.isNotEmpty &&
         _imagePath != null) {
       for (int i = 0; i < isSelected.length; i++) {
         if (isSelected[i] == true) {

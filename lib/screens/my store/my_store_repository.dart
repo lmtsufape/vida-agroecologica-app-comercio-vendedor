@@ -8,22 +8,21 @@ import 'package:thunderapp/shared/core/user_storage.dart';
 
 class MyStoreRepository {
   List<String> checkItems = [];
+  bool? entrega;
   FormData body = FormData.fromMap({});
   String formasPagamento = '';
-  String? entrega;
   UserStorage userStorage = UserStorage();
   final Dio _dio = Dio();
 
   //Função para editar a banca
-  Future<bool> editarBanca(
-      String nome,
+  Future<bool> editarBanca(String nome,
       String horarioAbertura,
       String horarioFechamento,
       String precoMin,
       String? imgPath,
       List<bool> isSelected,
+      bool? entrega,
       BancaModel banca) async {
-
     //Verifica se o usuário quer entrega ou retirada na banca e seta a variável entrega
 
     //Verifica se o usuário selecionou alguma forma de pagamento e seta a variável formasPagamento
@@ -43,6 +42,7 @@ class MyStoreRepository {
       formasPagamento = formasPagamento.substring(
           0, formasPagamento.length - 1);
     }
+
     String? userToken = await userStorage.getUserToken();
     print(banca.getPrecoMin);
     String precoMinimo = banca.getPrecoMin.toString();
@@ -69,8 +69,10 @@ class MyStoreRepository {
               ? banca.getPrecoMin.toString()
               : preMinimo,
           "formas_pagamento": formasPagamento,
+          "entrega": entrega,
           "bairro entrega": "1=>4.50"
         });
+        print(body);
       } else {
         body = FormData.fromMap({
           "nome": nome.isEmpty
@@ -88,22 +90,26 @@ class MyStoreRepository {
               : preMinimo,
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
-            filename: imgPath.split("\\").last,
+            filename: imgPath
+                .split("\\")
+                .last,
           ),
           "formas pagamento": formasPagamento,
+          "entrega": entrega,
           "bairro entrega": "1=>4.50"
         });
+        print(body);
       }
       Response response =
-          await _dio.post('$kBaseURL/bancas/${banca.getId}',
-              options: Options(
-                headers: {
-                  "Authorization": "Bearer $userToken",
-                  "Content-Type": "multipart/form-data",
-                  "X-HTTP-Method-Override": "PATCH"
-                },
-              ),
-              data: body);
+      await _dio.post('$kBaseURL/bancas/${banca.getId}',
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $userToken",
+              "Content-Type": "multipart/form-data",
+              "X-HTTP-Method-Override": "PATCH"
+            },
+          ),
+          data: body);
       if (response.statusCode == 200) {
         print('banca editada com sucesso');
         print(body);
@@ -121,7 +127,7 @@ class MyStoreRepository {
         final dioError = e;
         if (dioError.response != null) {
           final errorMessage =
-              dioError.response!.data['errors'];
+          dioError.response!.data['errors'];
           print('Erro: $errorMessage');
           print("Erro ${e.toString()}");
           print(body);
@@ -133,13 +139,13 @@ class MyStoreRepository {
     return false;
   }
 
-  Future<bool> adicionarBanca(
-      String nome,
+  Future<bool> adicionarBanca(String nome,
       String horarioAbertura,
       String horarioFechamento,
       String precoMin,
       String? imgPath,
-      List<bool> isSelected) async {
+      List<bool> isSelected,
+      bool? entrega) async {
     const find = "R\$";
     const replace = "";
     var pMinimo = precoMin.replaceAll(find, replace);
@@ -161,22 +167,41 @@ class MyStoreRepository {
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
     try {
-      body = FormData.fromMap({
-        "nome": nome,
-        "descricao": "loja",
-        "horario_abertura": horarioAbertura,
-        "horario_fechamento": horarioFechamento,
-        "preco_minimo": preMinimo,
-        "imagem": await MultipartFile.fromFile(
-          imgPath.toString(),
-          filename: imgPath!.split("\\").last,
-        ),
-        "formas pagamento": formasPagamento,
-        "agricultor_id": userId,
-        "feira_id": '1',
-        "bairro entrega": '1=>3.50'
-      });
-
+      if(preMinimo != null) {
+        body = FormData.fromMap({
+          "nome": nome,
+          "descricao": "loja",
+          "horario_abertura": horarioAbertura,
+          "horario_fechamento": horarioFechamento,
+          "preco_minimo": preMinimo,
+          "imagem": await MultipartFile.fromFile(
+            imgPath.toString(),
+            filename: imgPath!.split("\\").last,
+          ),
+          "formas pagamento": formasPagamento,
+          "entrega": entrega,
+          "agricultor_id": userId,
+          "feira_id": '1',
+          "bairro entrega": '1=>3.50'
+        });
+      } else {
+        body = FormData.fromMap({
+          "nome": nome,
+          "descricao": "loja",
+          "horario_abertura": horarioAbertura,
+          "horario_fechamento": horarioFechamento,
+          "imagem": await MultipartFile.fromFile(
+            imgPath.toString(),
+            filename: imgPath!.split("\\").last,
+          ),
+          "formas pagamento": formasPagamento,
+          "entrega": entrega,
+          "agricultor_id": userId,
+          "feira_id": '1',
+          "bairro entrega": '1=>3.50'
+        });
+      }
+      print(body);
       Response response = await _dio.post(
         '$kBaseURL/bancas',
         options: Options(headers: {
@@ -201,7 +226,7 @@ class MyStoreRepository {
         final dioError = e;
         if (dioError.response != null) {
           final errorMessage =
-              dioError.response!.data['errors'];
+          dioError.response!.data['errors'];
           print('Erro: $errorMessage');
           print("Erro ${e.toString()}");
           return false;
@@ -211,7 +236,7 @@ class MyStoreRepository {
     }
   }
 
-  /*void _showAlertDialog(BuildContext context, String title, String content) {
+/*void _showAlertDialog(BuildContext context, String title, String content) {
     // Código para outras plataformas (como mobile)
       showDialog(
         context: context,

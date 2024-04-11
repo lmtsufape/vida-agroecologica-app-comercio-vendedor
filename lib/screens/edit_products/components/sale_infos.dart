@@ -29,8 +29,6 @@ class _SaleInfosState extends State<SaleInfos> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final double? custo = widget.productsModel!.custo;
-    final String? custoCorreto = custo?.toStringAsFixed(2);
     final double? preco = widget.productsModel!.preco;
     final String? precoCorreto = preco?.toStringAsFixed(2);
     return Column(
@@ -63,7 +61,7 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormField(
-                      hintText: "R\$ $custoCorreto",
+                      hintText: widget.productsModel!.descricao,
                       erroStyle: const TextStyle(fontSize: 12),
                       validatorError: (value) {
                         if (value.isEmpty) {
@@ -72,10 +70,10 @@ class _SaleInfosState extends State<SaleInfos> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          widget.controller.setCostPrice();
+                          widget.controller.setDescription();
                         });
                       },
-                      controller: widget.controller.costController,
+                      controller: widget.controller.descriptionController,
                     ),
                   ),
                 ),
@@ -108,7 +106,7 @@ class _SaleInfosState extends State<SaleInfos> {
                 margin: EdgeInsets.zero,
                 child: ClipPath(
                   child: CustomTextFormField(
-                    hintText: "R\$ $custoCorreto",
+                    hintText: widget.productsModel!.titulo,
                     erroStyle: const TextStyle(fontSize: 12),
                     validatorError: (value) {
                       if (value.isEmpty) {
@@ -117,10 +115,10 @@ class _SaleInfosState extends State<SaleInfos> {
                     },
                     onChanged: (value) {
                       setState(() {
-                        widget.controller.setCostPrice();
+                        widget.controller.setTitle();
                       });
                     },
-                    controller: widget.controller.costController,
+                    controller: widget.controller.titleController,
                   ),
                 ),
               ),

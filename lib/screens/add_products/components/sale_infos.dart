@@ -60,10 +60,10 @@ class _SaleInfosState extends State<SaleInfos> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          widget.controller.setCostPrice();
+                          widget.controller.setDescription();
                         });
                       },
-                      controller: widget.controller.costController,
+                      controller: widget.controller.descriptionController,
                     ),
                   ),
                 ),
@@ -106,11 +106,11 @@ class _SaleInfosState extends State<SaleInfos> {
                         }
                       },
                       onChanged: (value) {
-                        setState(() {
-                          widget.controller.setCostPrice();
-                        });
+                         setState(() {
+                           widget.controller.setTitle();
+                         });
                       },
-                      controller: widget.controller.costController,
+                      controller: widget.controller.titleController,
                     ),
                   ),
                 ),

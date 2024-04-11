@@ -9,7 +9,6 @@ import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/home/home_screen.dart';
 import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import '../../components/forms/custom_text_form_field.dart';
@@ -55,320 +54,345 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                       key: controller.formKey,
                       child: Container(
                           width: size.width,
-                          height: size.height * 0.95,
+                          height: size.height,
                           padding: const EdgeInsets.only(
                               top: 20, left: 26, right: 26, bottom: 18),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: CircleImageProfile(controller),
-                              ),
-                              Divider(
-                                height: size.height * 0.016,
-                                color: Colors.transparent,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Nome da banca',
-                                    style: TextStyle(
-                                        color: kSecondaryColor,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: size.height * 0.018),
+                          child: Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: CircleImageProfile(controller),
+                                ),
+                                Divider(
+                                  height: size.height * 0.016,
+                                  color: Colors.transparent,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Nome da banca',
+                                      style: TextStyle(
+                                          color: kSecondaryColor,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: size.height * 0.018),
+                                    ),
+                                    SizedBox(
+                                      width: size.width,
+                                      child: Card(
+                                        margin: EdgeInsets.zero,
+                                        elevation: 0,
+                                        child: ClipPath(
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            child: CustomTextFormField(
+                                              hintText: widget.bancaModel!.nome,
+                                              erroStyle:
+                                                  const TextStyle(fontSize: 12),
+                                              validatorError: (value) {
+                                                if (value.isEmpty) {
+                                                  return 'Obrigatório';
+                                                }
+                                                if (value.length < 3){
+                                                  return 'O nome deve ter no mínimo 3 caracteres';
+                                                }
+                                              },
+                                              controller:
+                                                  controller.nomeBancaController,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const VerticalSpacerBox(size: SpacerSize.small),
+                                /*Text('Horário de Funcionamento',
+                                style: kTitle1.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: size.height * 0.014,
+                                    color: kTextButtonColor)),*/
+                                Divider(
+                                  height: size.height * 0.01,
+                                  color: Colors.transparent,
+                                ),
+                                SizedBox(
+                                  width: size.width,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Horário de abertura',
+                                            style: TextStyle(
+                                                color: kSecondaryColor,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: size.height * 0.018),
+                                          ),
+                                          Divider(
+                                            height: size.height * 0.006,
+                                            color: Colors.transparent,
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.4,
+                                            child: Card(
+                                              margin: EdgeInsets.zero,
+                                              elevation: 0,
+                                              child: ClipPath(
+                                                child: Container(
+                                                  /*decoration: const BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Colors.black, width: 1)),
+                                              ),*/
+                                                  alignment: Alignment.center,
+                                                  child: CustomTextFormFieldTime(
+                                                    erroStyle: const TextStyle(
+                                                        fontSize: 12),
+                                                    validatorError: (value) {
+                                                      final exp = RegExp(
+                                                          r"(\d{2})+:?(\d{2})+");
+                                                      if (value.isEmpty) {
+                                                        return 'Obrigatório';
+                                                      }
+                                                      if (!exp.hasMatch(value)) {
+                                                        return 'Horário inválido';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    hintText: widget.bancaModel!
+                                                        .horarioAbertura,
+                                                    keyboardType:
+                                                        TextInputType.datetime,
+                                                    timeFormatter: [
+                                                      _HourInputFormatter(),
+                                                    ],
+                                                    controller: controller
+                                                        .horarioAberturaController,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      const VerticalSpacerBox(
+                                          size: SpacerSize.large),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Horário de fechamento',
+                                            style: TextStyle(
+                                                color: kSecondaryColor,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: size.height * 0.018),
+                                          ),
+                                          Divider(
+                                            height: size.height * 0.006,
+                                            color: Colors.transparent,
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.40,
+                                            child: Card(
+                                              margin: EdgeInsets.zero,
+                                              elevation: 0,
+                                              child: ClipPath(
+                                                child: Container(
+                                                  /*decoration: const BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: Colors.black, width: 1)),
+                                              ),*/
+                                                  alignment: Alignment.center,
+                                                  child: CustomTextFormFieldTime(
+                                                    erroStyle: const TextStyle(
+                                                        fontSize: 12),
+                                                    validatorError: (value) {
+                                                      final exp = RegExp(
+                                                          r"(\d{2})+:?(\d{2})+");
+                                                      if (value.isEmpty) {
+                                                        return 'Obrigatório';
+                                                      }
+                                                      if (!exp.hasMatch(value)) {
+                                                        return 'Horário inválido';
+                                                      }
+                                                      List<int> startTime =
+                                                          _extractHoursAndMinutes(
+                                                              controller
+                                                                  .horarioAberturaController
+                                                                  .text);
+                                                      List<int> endTime =
+                                                          _extractHoursAndMinutes(
+                                                              controller
+                                                                  .horarioFechamentoController
+                                                                  .text);
+                            
+                                                      int startMinutes =
+                                                          startTime[0] * 60 +
+                                                              startTime[1];
+                                                      int endMinutes =
+                                                          endTime[0] * 60 +
+                                                              endTime[1];
+                            
+                                                      if (startMinutes >=
+                                                          endMinutes) {
+                                                        return 'Horário inválido';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    hintText: widget.bancaModel!
+                                                        .horarioFechamento,
+                                                    keyboardType:
+                                                        TextInputType.datetime,
+                                                    timeFormatter: [
+                                                      _HourInputFormatter(),
+                                                    ],
+                                                    controller: controller
+                                                        .horarioFechamentoController,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: size.width,
-                                    child: Card(
-                                      margin: EdgeInsets.zero,
-                                      elevation: 0,
-                                      child: ClipPath(
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          child: CustomTextFormField(
-                                            hintText: widget.bancaModel!.nome,
-                                            erroStyle:
-                                                const TextStyle(fontSize: 12),
-                                            validatorError: (value) {
-                                              if (value.isEmpty) {
-                                                return 'Obrigatório';
-                                              }
-                                            },
-                                            controller:
-                                                controller.nomeBancaController,
+                                ),
+                                Divider(
+                                  height: size.height * 0.018,
+                                  color: Colors.transparent,
+                                ),
+                                Text('Formas de Pagamento',
+                                    style: kTitle1.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: size.height * 0.018,
+                                        color: kSecondaryColor)),
+                                SizedBox(
+                                  width: size.width,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: ListTileTheme(
+                                          horizontalTitleGap: 0,
+                                          child: CheckboxListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            activeColor: kPrimaryColor,
+                                            value: controller.isSelected[0],
+                                            title: Text(
+                                              controller.checkItems[0],
+                                              style: TextStyle(
+                                                  fontSize: size.height * 0.016),
+                                            ),
+                                            checkboxShape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            controlAffinity:
+                                                ListTileControlAffinity.leading,
+                                            onChanged: (value) =>
+                                                controller.onItemTapped(0),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const VerticalSpacerBox(size: SpacerSize.small),
-                              /*Text('Horário de Funcionamento',
-                              style: kTitle1.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: size.height * 0.014,
-                                  color: kTextButtonColor)),*/
-                              Divider(
-                                height: size.height * 0.01,
-                                color: Colors.transparent,
-                              ),
-                              SizedBox(
-                                width: size.width,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Horário de abertura',
-                                          style: TextStyle(
-                                              color: kSecondaryColor,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: size.height * 0.018),
-                                        ),
-                                        Divider(
-                                          height: size.height * 0.006,
-                                          color: Colors.transparent,
-                                        ),
-                                        SizedBox(
-                                          width: size.width * 0.4,
-                                          child: Card(
-                                            margin: EdgeInsets.zero,
-                                            elevation: 0,
-                                            child: ClipPath(
-                                              child: Container(
-                                                /*decoration: const BoxDecoration(
-                                              border: Border(
-                                                  bottom: BorderSide(
-                                                      color: Colors.black, width: 1)),
-                                            ),*/
-                                                alignment: Alignment.center,
-                                                child: CustomTextFormFieldTime(
-                                                  erroStyle: const TextStyle(
-                                                      fontSize: 12),
-                                                  validatorError: (value) {
-                                                    final exp = RegExp(
-                                                        r"(\d{2})+:?(\d{2})+");
-                                                    if (value.isEmpty) {
-                                                      return 'Obrigatório';
-                                                    }
-                                                    if (!exp.hasMatch(value)) {
-                                                      return 'Horário inválido';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  hintText: widget.bancaModel!
-                                                      .horarioAbertura,
-                                                  keyboardType:
-                                                      TextInputType.datetime,
-                                                  timeFormatter: [
-                                                    _HourInputFormatter(),
-                                                  ],
-                                                  controller: controller
-                                                      .horarioAberturaController,
-                                                ),
-                                              ),
+                                      Flexible(
+                                        child: ListTileTheme(
+                                          horizontalTitleGap: 0,
+                                          child: CheckboxListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            activeColor: kPrimaryColor,
+                                            value: controller.isSelected[2],
+                                            title: Text(
+                                              controller.checkItems[2],
+                                              style: TextStyle(
+                                                  fontSize: size.height * 0.016),
                                             ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    const VerticalSpacerBox(
-                                        size: SpacerSize.large),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Horário de fechamento',
-                                          style: TextStyle(
-                                              color: kSecondaryColor,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: size.height * 0.018),
-                                        ),
-                                        Divider(
-                                          height: size.height * 0.006,
-                                          color: Colors.transparent,
-                                        ),
-                                        SizedBox(
-                                          width: size.width * 0.40,
-                                          child: Card(
-                                            margin: EdgeInsets.zero,
-                                            elevation: 0,
-                                            child: ClipPath(
-                                              child: Container(
-                                                /*decoration: const BoxDecoration(
-                                              border: Border(
-                                                  bottom: BorderSide(
-                                                      color: Colors.black, width: 1)),
-                                            ),*/
-                                                alignment: Alignment.center,
-                                                child: CustomTextFormFieldTime(
-                                                  erroStyle: const TextStyle(
-                                                      fontSize: 12),
-                                                  validatorError: (value) {
-                                                    final exp = RegExp(
-                                                        r"(\d{2})+:?(\d{2})+");
-                                                    if (value.isEmpty) {
-                                                      return 'Obrigatório';
-                                                    }
-                                                    if (!exp.hasMatch(value)) {
-                                                      return 'Horário inválido';
-                                                    }
-                                                    List<int> startTime =
-                                                        _extractHoursAndMinutes(
-                                                            controller
-                                                                .horarioAberturaController
-                                                                .text);
-                                                    List<int> endTime =
-                                                        _extractHoursAndMinutes(
-                                                            controller
-                                                                .horarioFechamentoController
-                                                                .text);
-
-                                                    int startMinutes =
-                                                        startTime[0] * 60 +
-                                                            startTime[1];
-                                                    int endMinutes =
-                                                        endTime[0] * 60 +
-                                                            endTime[1];
-
-                                                    if (startMinutes >=
-                                                        endMinutes) {
-                                                      return 'Horário inválido';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  hintText: widget.bancaModel!
-                                                      .horarioFechamento,
-                                                  keyboardType:
-                                                      TextInputType.datetime,
-                                                  timeFormatter: [
-                                                    _HourInputFormatter(),
-                                                  ],
-                                                  controller: controller
-                                                      .horarioFechamentoController,
-                                                ),
-                                              ),
-                                            ),
+                                            checkboxShape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            controlAffinity:
+                                                ListTileControlAffinity.leading,
+                                            onChanged: (value) =>
+                                                controller.onItemTapped(2),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                      Flexible(
+                                        child: ListTileTheme(
+                                          horizontalTitleGap: 0,
+                                          child: CheckboxListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            activeColor: kPrimaryColor,
+                                            value: controller.isSelected[1],
+                                            title: Text(
+                                              controller.checkItems[1],
+                                              style: TextStyle(
+                                                  fontSize: size.height * 0.016),
+                                            ),
+                                            checkboxShape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            controlAffinity:
+                                                ListTileControlAffinity.leading,
+                                            onChanged: (value) =>
+                                                controller.onItemTapped(1),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Divider(
-                                height: size.height * 0.018,
-                                color: Colors.transparent,
-                              ),
-                              Text('Formas de Pagamento',
-                                  style: kTitle1.copyWith(
-                                      fontWeight: FontWeight.w700,
+                                Text(
+                                  'Realizará entregas?',
+                                  style: TextStyle(
                                       fontSize: size.height * 0.018,
-                                      color: kSecondaryColor)),
-                              SizedBox(
-                                width: size.width,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: ListTileTheme(
-                                        horizontalTitleGap: 0,
-                                        child: CheckboxListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          activeColor: kPrimaryColor,
-                                          value: controller.isSelected[0],
-                                          title: Text(
-                                            controller.checkItems[0],
-                                            style: TextStyle(
-                                                fontSize: size.height * 0.016),
-                                          ),
-                                          checkboxShape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          onChanged: (value) =>
-                                              controller.onItemTapped(0),
-                                        ),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: ListTileTheme(
-                                        horizontalTitleGap: 0,
-                                        child: CheckboxListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          activeColor: kPrimaryColor,
-                                          value: controller.isSelected[2],
-                                          title: Text(
-                                            controller.checkItems[2],
-                                            style: TextStyle(
-                                                fontSize: size.height * 0.016),
-                                          ),
-                                          checkboxShape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          onChanged: (value) =>
-                                              controller.onItemTapped(2),
-                                        ),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: ListTileTheme(
-                                        horizontalTitleGap: 0,
-                                        child: CheckboxListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          activeColor: kPrimaryColor,
-                                          value: controller.isSelected[1],
-                                          title: Text(
-                                            controller.checkItems[1],
-                                            style: TextStyle(
-                                                fontSize: size.height * 0.016),
-                                          ),
-                                          checkboxShape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          controlAffinity:
-                                              ListTileControlAffinity.leading,
-                                          onChanged: (value) =>
-                                              controller.onItemTapped(1),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                      color: kSecondaryColor,
+                                      fontWeight: FontWeight.w700),
                                 ),
-                              ),
-                              Text(
-                                'Realizará entregas?',
-                                style: TextStyle(
-                                    fontSize: size.height * 0.018,
-                                    color: kSecondaryColor,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.08,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: ListTileTheme(
+                                SizedBox(
+                                  height: size.height * 0.08,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: ListTileTheme(
+                                          horizontalTitleGap: 0,
+                                          child: CheckboxListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            activeColor: kPrimaryColor,
+                                            value: controller.delivery[0],
+                                            title: Text(
+                                              'Sim',
+                                              style: TextStyle(
+                                                  fontSize: size.height * 0.018),
+                                            ),
+                                            checkboxShape: const CircleBorder(),
+                                            controlAffinity:
+                                                ListTileControlAffinity.leading,
+                                            onChanged: (value) {
+                                              controller.onDeliveryTapped(0);
+                                              }
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                          child: ListTileTheme(
                                         horizontalTitleGap: 0,
                                         child: CheckboxListTile(
                                           contentPadding: EdgeInsets.zero,
                                           activeColor: kPrimaryColor,
-                                          value: controller.isSelected[0],
+                                          value: controller.delivery[1],
                                           title: Text(
-                                            'Sim',
+                                            'Não',
                                             style: TextStyle(
                                                 fontSize: size.height * 0.018),
                                           ),
@@ -376,148 +400,131 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                           controlAffinity:
                                               ListTileControlAffinity.leading,
                                           onChanged: (value) =>
-                                              controller.onItemTapped(0),
+                                              controller.onDeliveryTapped(1),
                                         ),
-                                      ),
-                                    ),
-                                    Flexible(
-                                        child: ListTileTheme(
-                                      horizontalTitleGap: 0,
-                                      child: CheckboxListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        activeColor: kPrimaryColor,
-                                        value: controller.isSelected[1],
-                                        title: Text(
-                                          'Não',
-                                          style: TextStyle(
-                                              fontSize: size.height * 0.018),
-                                        ),
-                                        checkboxShape: const CircleBorder(),
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                        onChanged: (value) =>
-                                            controller.onItemTapped(1),
-                                      ),
-                                    )),
-                                  ],
+                                      )),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Divider(
-                                height: size.height * 0.025,
-                                color: Colors.transparent,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Valor mínimo para frete',
-                                      style: kTitle1.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: size.height * 0.018,
-                                          color: kSecondaryColor)),
-                                  SizedBox(
-                                    width: size.width,
-                                    child: Card(
-                                      margin: EdgeInsets.zero,
-                                      elevation: 0,
-                                      child: ClipPath(
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          child: CustomTextFormFieldCurrency(
-                                            erroStyle:
-                                                const TextStyle(fontSize: 12),
-                                            validatorError: (value) {
-                                              if (value.isEmpty) {
-                                                return 'Obrigatório';
-                                              }
-                                            },
-                                            hintText: "R\$ $freteCorreto",
-                                            currencyFormatter: <TextInputFormatter>[
-                                              CurrencyTextInputFormatter(
-                                                locale: 'pt-BR',
-                                                symbol: 'R\$',
-                                                decimalDigits: 2,
-                                              ),
-                                              LengthLimitingTextInputFormatter(
-                                                  8),
-                                            ],
-                                            keyboardType: TextInputType.number,
-                                            controller:
-                                                controller.quantiaMinController,
+                                Divider(
+                                  height: size.height * 0.025,
+                                  color: Colors.transparent,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Valor mínimo para frete',
+                                        style: kTitle1.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: size.height * 0.018,
+                                            color: kSecondaryColor)),
+                                    SizedBox(
+                                      width: size.width,
+                                      child: Card(
+                                        margin: EdgeInsets.zero,
+                                        elevation: 0,
+                                        child: ClipPath(
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            child: CustomTextFormFieldCurrency(
+                                              erroStyle:
+                                                  const TextStyle(fontSize: 12),
+                                              validatorError: (value) {
+                                                if(controller.delivery[0] == true) {
+                                                  if (value.isEmpty) {
+                                                    return 'Obrigatório';
+                                                  }
+                                                }
+                                              },
+                                              hintText: "R\$ $freteCorreto",
+                                              currencyFormatter: <TextInputFormatter>[
+                                                CurrencyTextInputFormatter(
+                                                  locale: 'pt-BR',
+                                                  symbol: 'R\$',
+                                                  decimalDigits: 2,
+                                                ),
+                                                LengthLimitingTextInputFormatter(
+                                                    8),
+                                              ],
+                                              keyboardType: TextInputType.number,
+                                              controller:
+                                                  controller.quantiaMinController,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const VerticalSpacerBox(size: SpacerSize.large),
-                              SizedBox(
-                                width: size.width,
-                                height: size.height * 0.06,
-                                child: PrimaryButton(
-                                    text: 'Salvar',
-                                    onPressed: () {
-                                      final isValidForm = controller
-                                          .formKey.currentState!
-                                          .validate();
-                                      if (isValidForm) {
-                                        if (controller.verifySelectedFields()) {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  DefaultAlertDialogOneButton(
-                                                    title: 'Êxito',
-                                                    body:
-                                                        'Suas informações foram alteradas com sucesso',
-                                                    confirmText: 'Ok',
-                                                    onConfirm: () {
-                                                      controller.editBanca(
-                                                          context,
-                                                          widget.bancaModel!);
-                                                    },
-                                                    buttonColor: kAlertColor,
-                                                  ));
-                                        } else {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  DefaultAlertDialogOneButton(
-                                                    title: 'Erro',
-                                                    body: controller.textoErro,
-                                                    confirmText: 'Voltar',
-                                                    onConfirm: () => Get.back(),
-                                                    buttonColor: kAlertColor,
-                                                  ));
+                                  ],
+                                ),
+                                const VerticalSpacerBox(size: SpacerSize.huge),
+                                SizedBox(
+                                  width: size.width,
+                                  height: size.height * 0.06,
+                                  child: PrimaryButton(
+                                      text: 'Salvar',
+                                      onPressed: () {
+                                        final isValidForm = controller
+                                            .formKey.currentState!
+                                            .validate();
+                                        if (isValidForm) {
+                                          if (controller.verifySelectedFields()) {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    DefaultAlertDialogOneButton(
+                                                      title: 'Êxito',
+                                                      body:
+                                                          'Suas informações foram alteradas com sucesso',
+                                                      confirmText: 'Ok',
+                                                      onConfirm: () {
+                                                        controller.editBanca(
+                                                            context,
+                                                            widget.bancaModel!);
+                                                      },
+                                                      buttonColor: kAlertColor,
+                                                    ));
+                                          } else {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    DefaultAlertDialogOneButton(
+                                                      title: 'Erro',
+                                                      body: controller.textoErro,
+                                                      confirmText: 'Voltar',
+                                                      onConfirm: () => Get.back(),
+                                                      buttonColor: kAlertColor,
+                                                    ));
+                                          }
                                         }
-                                      }
-                                    }),
-                              ),
-                              Divider(
-                                  height: size.height * 0.015,
-                                  color: Colors.transparent),
-                              SizedBox(
-                                width: size.width,
-                                height: size.height * 0.06,
-                                child: OutlinedButton(
-                                  onPressed: () => Get.off(() => HomeScreen()),
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    side: const BorderSide(
-                                        color: Colors.orange, width: 1.5),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
+                                      }),
+                                ),
+                                Divider(
+                                    height: size.height * 0.015,
+                                    color: Colors.transparent),
+                                SizedBox(
+                                  width: size.width,
+                                  height: size.height * 0.06,
+                                  child: OutlinedButton(
+                                    onPressed: () => Get.off(() => HomeScreen()),
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      side: const BorderSide(
+                                          color: Colors.orange, width: 1.5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Voltar',
+                                      style: TextStyle(
+                                          color: Colors.orange,
+                                          fontSize: size.height * 0.024,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  child: Text(
-                                    'Voltar',
-                                    style: TextStyle(
-                                        color: Colors.orange,
-                                        fontSize: size.height * 0.024,
-                                        fontWeight: FontWeight.w500),
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           )),
                     ),
                   )),
