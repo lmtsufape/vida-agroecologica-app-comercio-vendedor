@@ -33,11 +33,12 @@ class ListProductsRepository {
         nome: data[i]['nome'],
         id: data[i]['id'],
         descricao: data[i]['descricao'],
+        titulo: data[i]['titulo'],
         tipoMedida: data[i]['tipo_medida'],
         estoque:
             int.tryParse(data[i]['estoque'].toString()),
         preco: double.parse(data[i]['preco'].toString()),
-        custo: double.parse(data[i]['custo'].toString()),
+        custo: double.parse("1.00"),
         disponivel: data[i]['disponivel'],
         produtoTabeladoId: data[i]['produto_tabelado_id'],
         bancaId: data[i]['banca_id'],

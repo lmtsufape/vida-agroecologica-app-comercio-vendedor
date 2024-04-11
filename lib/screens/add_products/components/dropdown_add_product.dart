@@ -52,8 +52,8 @@ class _DropDownAddProductState
                 setState(() {
                   widget.controller
                       .setProductId(selectedObj!.id);
-                  widget.controller
-                      .setDescription(selectedObj.nome);
+                  // widget.controller
+                  //     .setDescription(selectedObj.nome);
                 });
               },
               decoration: const InputDecoration(

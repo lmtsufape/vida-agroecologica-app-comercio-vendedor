@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,11 +22,12 @@ class AddProductsController extends GetxController {
 
   // Informações para o post de cadastro de produtos.
   String? description;
+  String? title;
   String measure = 'unidade';
   int? productId;
   int? stock;
-  String? costPrice;
   String? salePrice;
+  //String? costPrice;
   String? token;
   BancaModel? bancaModel;
   String? userId;
@@ -45,18 +47,22 @@ class AddProductsController extends GetxController {
 
   final TextEditingController _stockController = TextEditingController();
 
+  final TextEditingController _descriptionController = TextEditingController();
+
   CurrencyTextInputFormatter currencyFormatter =
       CurrencyTextInputFormatter(locale: 'pt-Br', symbol: 'R\$');
 
   final TextEditingController _saleController = TextEditingController();
 
-  final TextEditingController _costController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
   TextEditingController get saleController => _saleController;
 
-  TextEditingController get costController => _costController;
+  TextEditingController get titleController => _titleController;
 
   TextEditingController get stockController => _stockController;
+
+  TextEditingController get descriptionController => _descriptionController;
 
   double changeProfit(String salePrice, String costPrice) {
     salePrice =
@@ -77,8 +83,13 @@ class AddProductsController extends GetxController {
     update();
   }
 
-  void setDescription(String? value) {
-    description = value;
+  void setDescription() {
+    description = descriptionController.text;
+    update();
+  }
+
+  void setTitle() {
+    title = titleController.text;
     update();
   }
 
@@ -94,14 +105,6 @@ class AddProductsController extends GetxController {
     if (value.isNotEmpty) {
       stock = int.parse(value);
     }
-    update();
-  }
-
-  void setCostPrice() {
-    costPrice = costController.text
-        .replaceAll(RegExp(r'[^0-9,.]'), '')
-        .replaceAll(',', '.');
-
     update();
   }
 
@@ -130,13 +133,13 @@ class AddProductsController extends GetxController {
           measure.isEmpty ||
           _stockController.text.isEmpty ||
           _saleController.text.isEmpty ||
-          _costController.text.isEmpty ||
+          _titleController.text.isEmpty ||
           productId == null) {
         log('Error, o user não preencheu todos os campos, retornando falso');
         return false;
       } else {
-        var response = await repository.registerProduct(description, measure,
-            stock, salePrice, costPrice, productId, bancaModel?.id);
+        var response = await repository.registerProduct(description, title, measure,
+            stock, salePrice, productId, bancaModel?.id);
         if (response) {
           return true;
         }

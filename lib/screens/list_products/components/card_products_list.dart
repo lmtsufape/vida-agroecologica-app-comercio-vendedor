@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thunderapp/screens/edit_products/edit_products_repository.dart';
@@ -69,12 +70,15 @@ class _CardProductsListState extends State<CardProductsList> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.model.descricao.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: size.height * 0.016,
-                                  color: kSecondaryColor),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                widget.model.descricao.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: size.height * 0.016,
+                                    color: kSecondaryColor),
+                              ),
                             ),
                             Divider(
                               height: size.height * 0.002,

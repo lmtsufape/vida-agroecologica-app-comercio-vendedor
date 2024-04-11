@@ -46,10 +46,10 @@ class AddProductsRepository extends GetxController {
 
   Future<bool> registerProduct(
       String? description,
+      String? title,
       String? measure,
       int? stock,
       String? salePrice,
-      String? costPrice,
       int? productId,
       int? bancaId) async {
     Dio dio = Dio();
@@ -60,11 +60,12 @@ class AddProductsRepository extends GetxController {
 
     var body = {
       "descricao": description.toString(),
+      "titulo": title.toString(),
       "tipo_medida": measure
-          .toString() /**Alterar para "measure" quando tiver a validação*/,
+          .toString(),
       "estoque": stock,
       "preco": salePrice,
-      "custo": costPrice,
+      "custo": "1.00",
       "produto_tabelado_id": productId,
       "banca_id": bancaId,
     };

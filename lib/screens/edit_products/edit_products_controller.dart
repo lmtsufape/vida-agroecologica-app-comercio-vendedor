@@ -22,6 +22,7 @@ class EditProductsController extends GetxController {
   // Informações para o post de cadastro de produtos.
 
   String? description;
+  String? title;
   String measure = 'unidade';
   int? productId;
   int? stock;
@@ -38,9 +39,10 @@ class EditProductsController extends GetxController {
   // -----------------------
   EditProductsController(ProductsModel model) {
     description = model.descricao;
+    title = model.titulo;
     productId = model.id;
     stock = model.estoque;
-    costPrice = model.custo.toString();
+    costPrice = "1.00";
     salePrice = model.preco.toString();
   }
   HomeScreenRepository homeRepository =
@@ -60,14 +62,21 @@ class EditProductsController extends GetxController {
   final TextEditingController _saleController =
       TextEditingController();
 
-  final TextEditingController _costController =
-      TextEditingController();
+  final TextEditingController _descriptionController =
+  TextEditingController();
+
+  final TextEditingController _titleController =
+  TextEditingController();
+
 
   TextEditingController get saleController =>
       _saleController;
 
-  TextEditingController get costController =>
-      _costController;
+  TextEditingController get titleController =>
+      _titleController;
+
+  TextEditingController get descriptionController =>
+      _descriptionController;
 
   TextEditingController get stockController =>
       _stockController;
@@ -99,8 +108,13 @@ class EditProductsController extends GetxController {
     update();
   }
 
-  void setDescription(String? value) {
-    description = value;
+  void setDescription() {
+    description = descriptionController.text;
+    update();
+  }
+
+  void setTitle() {
+    title = titleController.text;
     update();
   }
 
@@ -119,14 +133,6 @@ class EditProductsController extends GetxController {
     update();
   }
 
-  void setCostPrice() {
-    costPrice = costController.text
-        .replaceAll(RegExp(r'[^0-9,.]'), '')
-        .replaceAll(',', '.');
-
-    update();
-  }
-
   void setSalePrice() {
     salePrice = saleController.text
         .replaceAll(RegExp(r'[^0-9,.]'), '')
@@ -140,20 +146,22 @@ class EditProductsController extends GetxController {
       if (measure.isEmpty ||
           _stockController.text.isEmpty ||
           _saleController.text.isEmpty ||
-          _costController.text.isEmpty ||
+          _titleController.text.isEmpty ||
           productId == null) {
         log(measure);
         log(_stockController.text);
         log(_saleController.text);
-        log(_costController.text);
+        log(_titleController.text);
         log(productId.toString());
         log('Error, o user não preencheu todos os campos, retornando falso');
         return false;
       } else {
         var response = await repository.editProducts(this);
         if (response) {
+          log('tá certo');
           return true;
         }
+        log('tá errado dog ${response}');
         return false;
       }
     } catch (e) {

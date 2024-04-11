@@ -16,9 +16,17 @@ class _DropDownQtdAddProductState extends State<DropDownQtdAddProduct> {
   final dropValue = ValueNotifier('');
 
   final dropOpcoes = [
-    'unidade',
-    'fracionario',
-    'peso',
+    'Unidade',
+    'Fracionario',
+    'Peso',
+    'Molho',
+    'Kg',
+    'Litro',
+    'Pote',
+    'Dúzia',
+    'Mão',
+    'Arroba',
+    'Bandeja',
   ];
 
   @override

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
@@ -80,7 +81,8 @@ class EditProductsRepository extends GetxController {
 
     var body = {
       "descricao": controller.description.toString(),
-      "tipo_unidade": controller.measure
+      "titulo": controller.title.toString(),
+      "tipo_medida": controller.measure
           .toString() /**Alterar para "measure" quando tiver a validação*/,
       "estoque": controller.stock,
       "preco": controller.salePrice,
@@ -99,6 +101,7 @@ class EditProductsRepository extends GetxController {
             },
           ),
           data: body);
+
       if (response.statusCode == 200 ||
           response.statusCode == 201) {
         return true;
