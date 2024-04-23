@@ -29,10 +29,11 @@ class _StockEditProductState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Estoque atual',
+          'Estoque',
           style: TextStyle(
-            fontSize: size.height * 0.017,
-            color: kTextButtonColor,
+            fontSize: size.height * 0.018,
+            color: kSecondaryColor,
+            fontWeight: FontWeight.w700,
           ),
         ),
         Divider(
@@ -40,7 +41,7 @@ class _StockEditProductState
           color: Colors.transparent,
         ),
         SizedBox(
-          width: size.width * 0.25,
+          width: size.width * 0.4,
           child: Card(
             margin: EdgeInsets.zero,
             elevation: 0,

@@ -48,6 +48,7 @@ class _StockAddProductState extends State<StockAddProduct> {
                 alignment: Alignment.center,
                 child: CustomTextFormField(
                     hintText: '30',
+                    erroStyle: const TextStyle(fontSize: 12),
                     validatorError: (value) {
                       if(value!.isEmpty){
                         return 'Obrigatório';

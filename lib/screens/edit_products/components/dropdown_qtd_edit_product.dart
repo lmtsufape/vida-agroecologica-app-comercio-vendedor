@@ -49,12 +49,16 @@ class _DropDownQtdEditProductState
               padding: const EdgeInsets.only(bottom: 4),
               child: Text(
                 'Unidade de medida',
-                style: TextStyle(color: kTextButtonColor, fontSize: size.height * 0.017),
+                style: TextStyle(
+                  fontSize: size.height * 0.018,
+                  color: kSecondaryColor,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
             Container(
               alignment: AlignmentDirectional.centerStart,
-              width: size.width * 0.57,
+              width: size.width * 0.4,
               child: ValueListenableBuilder(
                   valueListenable: dropValue,
                   builder: (BuildContext context,

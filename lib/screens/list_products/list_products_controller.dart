@@ -76,7 +76,6 @@ class ListProductsController extends GetxController {
   }
 
 
-
   Future<List<TableProductsModel>> loadList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> listaString =
@@ -85,8 +84,6 @@ class ListProductsController extends GetxController {
         .map((string) => TableProductsModel.fromJson(json.decode(string)))
         .toList();
   }
-
-
 
 
   @override
