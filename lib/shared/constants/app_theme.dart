@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
-import 'package:thunderapp/shared/constants/style_constants.dart';
+
+import 'package:thunderapp/shared/constants/style_constants.dart' as style_constants;
 
 class AppTheme with ChangeNotifier {
   CurrentAppTheme _currentAppTheme = CurrentAppTheme.light;
   CurrentAppTheme get currentAppTheme => _currentAppTheme;
   ThemeData getCurrentTheme(BuildContext context) {
     if (_currentAppTheme == CurrentAppTheme.light) {
-      print(_currentAppTheme);
       return getLightTheme(context);
     } else {
       return getDarkTheme(context);
@@ -26,46 +26,46 @@ class AppTheme with ChangeNotifier {
 
   static ThemeData getLightTheme(BuildContext context) {
     return ThemeData(
-      scaffoldBackgroundColor: kBackgroundColor,
+      scaffoldBackgroundColor: style_constants.kPrimaryColor,
       useMaterial3: true,
       // fontFamily: kDefaultFontFamily,
       textTheme: TextTheme(
-        titleMedium: kBody3.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
-        titleLarge: kBody3.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
-        bodySmall: kBody2.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
-        bodyLarge: kBody3.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
-        bodyMedium: kBody3.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
-        headlineSmall: kBody3.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
-        headlineMedium: kBody3.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
-        headlineLarge: kBody3.copyWith(
-            color: kDarkTextColor,
-            fontSize: 18),
+        titleMedium: style_constants.kBody3.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
+        titleLarge: style_constants.kBody3.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
+        bodySmall: style_constants.kBody2.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
+        bodyLarge: style_constants.kBody3.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
+        bodyMedium: style_constants.kBody3.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
+        headlineSmall: style_constants.kBody3.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
+        headlineMedium: style_constants.kBody3.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
+        headlineLarge: style_constants.kBody3.copyWith(
+            color: style_constants.kDarkTextColor,
+            fontSize: kDefaultFontSize),
       ),
-      indicatorColor: kPrimaryColor,
+      indicatorColor: style_constants.kPrimaryColor,
       progressIndicatorTheme:
           const ProgressIndicatorThemeData(
-              color: kPrimaryColor),
+              color: style_constants.kPrimaryColor),
       inputDecorationTheme: const InputDecorationTheme(
-          hintStyle: kCaption2,
-          labelStyle: kCaption2,
-          counterStyle: kCaption2),
+          hintStyle: style_constants.kCaption2,
+          labelStyle: style_constants.kCaption2,
+          counterStyle: style_constants.kCaption2,),
       appBarTheme: AppBarTheme.of(context).copyWith(
           iconTheme:
-              const IconThemeData(color: kDetailColor),
+              const IconThemeData(color: style_constants.kDetailColor),
           elevation: 0,
           backgroundColor: Colors.transparent),
     );
@@ -74,30 +74,30 @@ class AppTheme with ChangeNotifier {
   static ThemeData getDarkTheme(BuildContext context) {
     return ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: kPrimaryDarkColor,
-        cardColor: kSecondaryDarkColor,
+        scaffoldBackgroundColor: style_constants.kPrimaryDarkColor,
+        cardColor: style_constants.kSecondaryDarkColor,
         appBarTheme: const AppBarTheme(
             backgroundColor: Colors.transparent,
-            titleTextStyle: kBody1,
+            titleTextStyle: style_constants.kBody1,
             surfaceTintColor: Colors.white,
             iconTheme: IconThemeData(color: Colors.white)),
         inputDecorationTheme: const InputDecorationTheme(
-            hintStyle: kCaption2),
+            hintStyle: style_constants.kCaption2),
         textTheme: TextTheme(
           titleMedium:
-              kBody3.copyWith(color: kDarkTextColor),
+              style_constants.kBody3.copyWith(color: style_constants.kDarkTextColor),
           titleLarge:
-              kBody3.copyWith(color: kDarkTextColor),
-          bodySmall: kBody2.copyWith(color: kDarkTextColor),
-          bodyLarge: kBody3.copyWith(color: kDarkTextColor),
+              style_constants.kBody3.copyWith(color: style_constants.kDarkTextColor),
+          bodySmall: style_constants.kBody2.copyWith(color: style_constants.kDarkTextColor),
+          bodyLarge: style_constants.kBody3.copyWith(color: style_constants.kDarkTextColor),
           bodyMedium:
-              kBody3.copyWith(color: kDarkTextColor),
+              style_constants.kBody3.copyWith(color: style_constants.kDarkTextColor),
           headlineSmall:
-              kBody3.copyWith(color: kDarkTextColor),
+              style_constants.kBody3.copyWith(color: style_constants.kDarkTextColor),
           headlineMedium:
-              kBody3.copyWith(color: kDarkTextColor),
+              style_constants.kBody3.copyWith(color: style_constants.kDarkTextColor),
           headlineLarge:
-              kBody3.copyWith(color: kDarkTextColor),
+              style_constants.kBody3.copyWith(color: style_constants.kDarkTextColor),
         ));
   }
 }
