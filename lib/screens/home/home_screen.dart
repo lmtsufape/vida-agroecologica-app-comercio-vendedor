@@ -40,9 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             iconTheme: const IconThemeData(
                 color: Colors.white),
           ),
-          body: SizedBox(
-            width: size.width,
-            height: size.height,
+          body: Expanded(
             child: Column(
               crossAxisAlignment:
               CrossAxisAlignment.center,
@@ -157,8 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  width: size.width,
-                  height: size.height * 0.6,
+                  //width: size.width,
+                 height: size.height * 0.6,
                   padding: const EdgeInsets.all(
                       kDefaultPadding),
                   child: GridView.count(
