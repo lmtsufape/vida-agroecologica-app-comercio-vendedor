@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vidaagrovenda">
+    package="com.vidaagrovendedor">
    <application
         android:label="Vida Agroecológica Vendedor"
         android:name="${applicationName}"
