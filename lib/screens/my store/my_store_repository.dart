@@ -53,7 +53,7 @@ class MyStoreRepository {
 
     try {
       //Se o usuário não selecionou uma imagem, ele envia o body sem a imagem para a API
-      if (imgPath == null) {
+      if (imgPath == null && entrega == true) {
         body = FormData.fromMap({
           "nome": nome.isEmpty
               ? banca.getNome.toString()
@@ -73,7 +73,7 @@ class MyStoreRepository {
           "bairro entrega": "1=>4.50"
         });
         print(body);
-      } else {
+      } else if(entrega == true){
         body = FormData.fromMap({
           "nome": nome.isEmpty
               ? banca.getNome.toString()
@@ -91,7 +91,49 @@ class MyStoreRepository {
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath
-                .split("\\")
+                ?.split("\\")
+                .last,
+          ),
+          "formas pagamento": formasPagamento,
+          "entrega": entrega,
+          "bairro entrega": "1=>4.50"
+        });
+        print(body);
+      }
+      else if(imgPath == null && entrega == false){
+        body = FormData.fromMap({
+          "nome": nome.isEmpty
+              ? banca.getNome.toString()
+              : nome,
+          "descricao": "loja",
+          "horario_abertura": horarioAbertura.isEmpty
+              ? banca.getHorarioAbertura.toString()
+              : horarioAbertura,
+          "horario_fechamento": horarioFechamento.isEmpty
+              ? banca.getHorarioFechamento.toString()
+              : horarioFechamento,
+          "formas_pagamento": formasPagamento,
+          "entrega": entrega,
+          "bairro entrega": "1=>4.50"
+        });
+        print(body);
+      }
+      else{
+        body = FormData.fromMap({
+          "nome": nome.isEmpty
+              ? banca.getNome.toString()
+              : nome,
+          "descricao": "loja",
+          "horario_abertura": horarioAbertura.isEmpty
+              ? banca.getHorarioAbertura.toString()
+              : horarioAbertura,
+          "horario_fechamento": horarioFechamento.isEmpty
+              ? banca.getHorarioFechamento.toString()
+              : horarioFechamento,
+          "imagem": await MultipartFile.fromFile(
+            imgPath.toString(),
+            filename: imgPath
+                ?.split("\\")
                 .last,
           ),
           "formas pagamento": formasPagamento,
@@ -167,7 +209,7 @@ class MyStoreRepository {
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
     try {
-      if(preMinimo != null) {
+      if(entrega == true) {
         body = FormData.fromMap({
           "nome": nome,
           "descricao": "loja",
@@ -184,6 +226,7 @@ class MyStoreRepository {
           "feira_id": '1',
           "bairro entrega": '1=>3.50'
         });
+        print(body);
       } else {
         body = FormData.fromMap({
           "nome": nome,
@@ -200,8 +243,9 @@ class MyStoreRepository {
           "feira_id": '1',
           "bairro entrega": '1=>3.50'
         });
+        print(body);
       }
-      print(body);
+
       Response response = await _dio.post(
         '$kBaseURL/bancas',
         options: Options(headers: {
@@ -210,6 +254,7 @@ class MyStoreRepository {
         }),
         data: body,
       );
+
       if (response.statusCode == 201 || response.statusCode == 200) {
         log('cadastro da banca bem sucedida');
         // Mostrar o statusCode em um AlertDialog

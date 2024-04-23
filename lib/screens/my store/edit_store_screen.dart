@@ -53,11 +53,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                     child: Form(
                       key: controller.formKey,
                       child: Container(
-                          width: size.width,
-                          height: size.height,
                           padding: const EdgeInsets.only(
                               top: 20, left: 26, right: 26, bottom: 18),
-                          child: Flexible(
+                          child: Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -233,14 +231,14 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                                               controller
                                                                   .horarioFechamentoController
                                                                   .text);
-                            
+                                                  
                                                       int startMinutes =
                                                           startTime[0] * 60 +
                                                               startTime[1];
                                                       int endMinutes =
                                                           endTime[0] * 60 +
                                                               endTime[1];
-                            
+                                                  
                                                       if (startMinutes >=
                                                           endMinutes) {
                                                         return 'Horário inválido';
@@ -456,7 +454,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     ),
                                   ],
                                 ),
-                                const VerticalSpacerBox(size: SpacerSize.huge),
+                                const VerticalSpacerBox(size: SpacerSize.large),
                                 SizedBox(
                                   width: size.width,
                                   height: size.height * 0.06,
