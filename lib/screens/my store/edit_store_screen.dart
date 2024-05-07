@@ -31,7 +31,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
     final double? doubleFrete = double.tryParse(widget.bancaModel!.precoMin);
     final String? freteCorreto = doubleFrete?.toStringAsFixed(2);
     Size size = MediaQuery.of(context).size;
-    
+
     return GetBuilder<MyStoreController>(
         init: MyStoreController(),
         builder: (controller) => GestureDetector(
