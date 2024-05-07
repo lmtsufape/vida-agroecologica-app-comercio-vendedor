@@ -226,7 +226,7 @@ class SignInScreen extends StatelessWidget {
                                         ],
                                       ),
                                       Divider(
-                                        height: size.height * 0.027,
+                                        height: size.height * 0.040,
                                         color: Colors.transparent,
                                       ),
                                       SizedBox(
