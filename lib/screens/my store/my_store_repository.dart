@@ -5,7 +5,6 @@ import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
-
 class MyStoreRepository {
   List<String> checkItems = [];
   bool? entrega;
@@ -15,12 +14,14 @@ class MyStoreRepository {
   final Dio _dio = Dio();
 
   //Função para editar a banca
-  Future<bool> editarBanca(String nome,
+  Future<bool> editarBanca(
+      String nome,
       String horarioAbertura,
       String horarioFechamento,
       String precoMin,
       String? imgPath,
       List<bool> isSelected,
+      String pix,
       bool? entrega,
       BancaModel banca) async {
     //Verifica se o usuário quer entrega ou retirada na banca e seta a variável entrega
@@ -39,8 +40,8 @@ class MyStoreRepository {
         formasPagamento += '${checkItems[i]},';
       }
       //Remove a última vírgula da string
-      formasPagamento = formasPagamento.substring(
-          0, formasPagamento.length - 1);
+      formasPagamento =
+          formasPagamento.substring(0, formasPagamento.length - 1);
     }
 
     String? userToken = await userStorage.getUserToken();
@@ -55,95 +56,83 @@ class MyStoreRepository {
       //Se o usuário não selecionou uma imagem, ele envia o body sem a imagem para a API
       if (imgPath == null && entrega == true) {
         body = FormData.fromMap({
-          "nome": nome.isEmpty
-              ? banca.getNome.toString()
-              : nome,
+          "nome": nome.isEmpty ? banca.getNome.toString() : nome.toString(),
           "descricao": "loja",
           "horario_abertura": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
-              : horarioAbertura,
+              : horarioAbertura.toString(),
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
-              : horarioFechamento,
+              : horarioFechamento.toString(),
           "preco_minimo": precoMin.isEmpty
               ? banca.getPrecoMin.toString()
-              : preMinimo,
-          "formas_pagamento": formasPagamento,
-          "entrega": entrega,
+              : preMinimo.toString(),
+          "formas_pagamento": formasPagamento.toString(),
+          "entrega": entrega.toString(),
+          "pix": pix.isEmpty ? banca.getPix.toString() : pix.toString(),
           "bairro entrega": "1=>4.50"
         });
-        print(body);
-      } else if(entrega == true){
+        print(body.fields);
+      } else if (entrega == true) {
         body = FormData.fromMap({
-          "nome": nome.isEmpty
-              ? banca.getNome.toString()
-              : nome,
+          "nome": nome.isEmpty ? banca.getNome.toString() : nome.toString(),
           "descricao": "loja",
           "horario_abertura": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
-              : horarioAbertura,
+              : horarioAbertura.toString(),
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
-              : horarioFechamento,
-          "preco_minimo": precoMin.isEmpty
-              ? banca.getPrecoMin
-              : preMinimo,
+              : horarioFechamento.toString(),
+          "preco_minimo":
+              precoMin.isEmpty ? banca.getPrecoMin : preMinimo.toString(),
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
-            filename: imgPath
-                ?.split("\\")
-                .last,
+            filename: imgPath?.split("\\").last,
           ),
-          "formas pagamento": formasPagamento,
-          "entrega": entrega,
+          "formas pagamento": formasPagamento.toString(),
+          "entrega": entrega.toString(),
+          "pix": pix.toString(),
           "bairro entrega": "1=>4.50"
         });
-        print(body);
-      }
-      else if(imgPath == null && entrega == false){
+        print(body.fields);
+      } else if (imgPath == null && entrega == false) {
         body = FormData.fromMap({
-          "nome": nome.isEmpty
-              ? banca.getNome.toString()
-              : nome,
+          "nome": nome.isEmpty ? banca.getNome.toString() : nome.toString(),
           "descricao": "loja",
           "horario_abertura": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
-              : horarioAbertura,
+              : horarioAbertura.toString(),
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
-              : horarioFechamento,
-          "formas_pagamento": formasPagamento,
-          "entrega": entrega,
+              : horarioFechamento.toString(),
+          "formas_pagamento": formasPagamento.toString(),
+          "entrega": entrega.toString(),
+          "pix": pix.toString(),
           "bairro entrega": "1=>4.50"
         });
-        print(body);
-      }
-      else{
+        print(body.fields);
+      } else {
         body = FormData.fromMap({
-          "nome": nome.isEmpty
-              ? banca.getNome.toString()
-              : nome,
+          "nome": nome.isEmpty ? banca.getNome.toString() : nome.toString(),
           "descricao": "loja",
           "horario_abertura": horarioAbertura.isEmpty
               ? banca.getHorarioAbertura.toString()
-              : horarioAbertura,
+              : horarioAbertura.toString(),
           "horario_fechamento": horarioFechamento.isEmpty
               ? banca.getHorarioFechamento.toString()
-              : horarioFechamento,
+              : horarioFechamento.toString(),
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
-            filename: imgPath
-                ?.split("\\")
-                .last,
+            filename: imgPath?.split("\\").last,
           ),
-          "formas pagamento": formasPagamento,
-          "entrega": entrega,
+          "formas pagamento": formasPagamento.toString(),
+          "entrega": entrega.toString(),
+          "pix": pix.toString(),
           "bairro entrega": "1=>4.50"
         });
-        print(body);
+        print(body.fields);
       }
-      Response response =
-      await _dio.post('$kBaseURL/bancas/${banca.getId}',
+      Response response = await _dio.post('$kBaseURL/bancas/${banca.getId}',
           options: Options(
             headers: {
               "Authorization": "Bearer $userToken",
@@ -154,25 +143,23 @@ class MyStoreRepository {
           data: body);
       if (response.statusCode == 200) {
         print('banca editada com sucesso');
-        print(body);
+        print(body.fields);
         return true;
       } else {
         final errorMessage = response.data['errors'];
         print('Erro: $errorMessage');
-        print(
-            'erro ao editar a banca ${response.statusCode}}');
-        print(body);
+        print('erro ao editar a banca ${response.statusCode}}');
+        print(body.fields);
         return false;
       }
     } catch (e) {
       if (e is DioError) {
         final dioError = e;
         if (dioError.response != null) {
-          final errorMessage =
-          dioError.response!.data['errors'];
+          final errorMessage = dioError.response!.data['errors'];
           print('Erro: $errorMessage');
           print("Erro ${e.toString()}");
-          print(body);
+          print(body.fields);
           return false;
         }
       }
@@ -181,13 +168,15 @@ class MyStoreRepository {
     return false;
   }
 
-  Future<bool> adicionarBanca(String nome,
+  Future<bool> adicionarBanca(
+      String nome,
       String horarioAbertura,
       String horarioFechamento,
       String precoMin,
       String? imgPath,
       List<bool> isSelected,
-      bool? entrega) async {
+      bool? entrega,
+      String? pix) async {
     const find = "R\$";
     const replace = "";
     var pMinimo = precoMin.replaceAll(find, replace);
@@ -203,47 +192,49 @@ class MyStoreRepository {
         formasPagamento += '${checkItems[i]},';
       }
       //Remove a última vírgula da string
-      formasPagamento = formasPagamento.substring(
-          0, formasPagamento.length - 1);
+      formasPagamento =
+          formasPagamento.substring(0, formasPagamento.length - 1);
     }
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
     try {
-      if(entrega == true) {
+      if (entrega == true) {
         body = FormData.fromMap({
-          "nome": nome,
-          "descricao": "loja",
-          "horario_abertura": horarioAbertura,
-          "horario_fechamento": horarioFechamento,
-          "preco_minimo": preMinimo,
+          "nome": nome.toString(),
+          "descricao": 'loja',
+          "horario_abertura": horarioAbertura.toString(),
+          "horario_fechamento": horarioFechamento.toString(),
+          "preco_minimo": preMinimo.toString(),
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath!.split("\\").last,
           ),
-          "formas pagamento": formasPagamento,
-          "entrega": entrega,
-          "agricultor_id": userId,
+          "formas pagamento": formasPagamento.toString(),
+          "entrega": entrega.toString(),
+          "pix": pix.toString(),
+          "agricultor_id": userId.toString(),
           "feira_id": '1',
           "bairro entrega": '1=>3.50'
         });
-        print(body);
+        print(body.fields);
       } else {
         body = FormData.fromMap({
-          "nome": nome,
-          "descricao": "loja",
-          "horario_abertura": horarioAbertura,
-          "horario_fechamento": horarioFechamento,
+          "nome": nome.toString(),
+          "descricao": 'loja',
+          "horario_abertura": horarioAbertura.toString(),
+          "horario_fechamento": horarioFechamento.toString(),
           "imagem": await MultipartFile.fromFile(
             imgPath.toString(),
             filename: imgPath!.split("\\").last,
           ),
-          "formas pagamento": formasPagamento,
-          "entrega": entrega,
-          "agricultor_id": userId,
+          "formas pagamento": formasPagamento.toString(),
+          "entrega": entrega.toString(),
+          "pix": pix.toString(),
+          "agricultor_id": userId.toString(),
           "feira_id": '1',
           "bairro entrega": '1=>3.50'
         });
-        print(body);
+        print(body.fields);
       }
 
       Response response = await _dio.post(
@@ -270,8 +261,7 @@ class MyStoreRepository {
       if (e is DioError) {
         final dioError = e;
         if (dioError.response != null) {
-          final errorMessage =
-          dioError.response!.data['errors'];
+          final errorMessage = dioError.response!.data['errors'];
           print('Erro: $errorMessage');
           print("Erro ${e.toString()}");
           return false;

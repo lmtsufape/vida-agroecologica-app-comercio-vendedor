@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -32,6 +33,7 @@ class MyStoreController extends GetxController {
   final List<String> deliveryItems = ['Sim', 'Não'];
 
   bool deliver = false;
+  bool pixBool = false;
 
   MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
       mask: '#@:%&',
@@ -54,6 +56,7 @@ class MyStoreController extends GetxController {
       type: MaskAutoCompletionType.lazy);
 
   final TextEditingController _nomeBancaController = TextEditingController();
+  final TextEditingController _pixController = TextEditingController();
   final TextEditingController _quantiaMinController = TextEditingController();
   final TextEditingController _horarioAberturaController =
       TextEditingController();
@@ -63,6 +66,8 @@ class MyStoreController extends GetxController {
   TextEditingController get nomeBancaController => _nomeBancaController;
 
   TextEditingController get quantiaMinController => _quantiaMinController;
+
+  TextEditingController get pixController => _pixController;
 
   TextEditingController get horarioAberturaController =>
       _horarioAberturaController;
@@ -89,6 +94,10 @@ class MyStoreController extends GetxController {
 
   void setDeliver(bool value) {
     deliver = value;
+    update();
+  }
+  void setPixBool(bool value){
+    pixBool = value;
     update();
   }
 
@@ -120,8 +129,8 @@ class MyStoreController extends GetxController {
     } catch (e) {
       Get.dialog(
         AlertDialog(
-          title: const Text('Erro'),
-          content: Text(e.toString()),
+          title: const Text('Erro 1'),
+          content: Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
               child: const Text('OK'),
@@ -152,10 +161,10 @@ class MyStoreController extends GetxController {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text(e.toString()),
+          content: Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
-              child: const Text('OK'),
+              child: const Text('Voltar'),
               onPressed: () {
                 Get.back();
               },
@@ -179,6 +188,7 @@ class MyStoreController extends GetxController {
         _quantiaMinController.text,
         _imagePath,
         isSelected,
+        _pixController.text,
         deliver,
         banca);
     if (editSucess) {
@@ -196,7 +206,8 @@ class MyStoreController extends GetxController {
           _quantiaMinController.text,
           _imagePath,
           isSelected,
-          deliver);
+          deliver,
+          _pixController.text);
       if (adcSucess) {
         // ignore: use_build_context_synchronously
         showDialog(
@@ -228,10 +239,10 @@ class MyStoreController extends GetxController {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text(e.toString()),
+          content: Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
-              child: const Text('OK'),
+              child: const Text('Voltar'),
               onPressed: () {
                 Get.back();
               },
