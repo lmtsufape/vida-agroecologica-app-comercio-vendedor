@@ -26,7 +26,7 @@ class AppTheme with ChangeNotifier {
 
   static ThemeData getLightTheme(BuildContext context) {
     return ThemeData(
-      scaffoldBackgroundColor: style_constants.kPrimaryColor,
+      scaffoldBackgroundColor: style_constants.kBackgroundColor,
       useMaterial3: true,
       // fontFamily: kDefaultFontFamily,
       textTheme: TextTheme(
