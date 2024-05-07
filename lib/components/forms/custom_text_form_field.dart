@@ -17,6 +17,8 @@ class CustomTextFormField extends StatefulWidget {
     this.isBordered,
     this.validatorError,
     this.erroStyle,
+    this.enabled,
+    this.autoValidate,
   }) : super(key: key);
   final Function(String)? onChanged;
   final String? label;
@@ -29,6 +31,8 @@ class CustomTextFormField extends StatefulWidget {
   final bool? isBordered;
   final dynamic validatorError;
   final dynamic erroStyle;
+  final bool? enabled;
+  final dynamic autoValidate;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -55,6 +59,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return TextFormField(
+      autovalidateMode: widget.autoValidate == null ? null : widget.autoValidate!,
+      enabled: widget.enabled == null ? null : widget.enabled!,
       onChanged: widget.onChanged,
       inputFormatters:
           widget.maskFormatter == null ? null : [widget.maskFormatter!],
@@ -99,6 +105,8 @@ class CustomTextFormFieldCurrency extends StatefulWidget {
     this.isBordered,
     this.validatorError,
     this.erroStyle,
+    this.enabled,
+    this.autoValidate,
   }) : super(key: key);
 
   final Function(String)? onChanged;
@@ -112,6 +120,8 @@ class CustomTextFormFieldCurrency extends StatefulWidget {
   final bool? isBordered;
   final dynamic validatorError;
   final dynamic erroStyle;
+  final bool? enabled;
+  final dynamic autoValidate;
 
   @override
   State<CustomTextFormFieldCurrency> createState() =>
@@ -141,6 +151,8 @@ class _CustomTextFormFieldCurrencyState
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: TextFormField(
+        autovalidateMode: widget.autoValidate == null ? null : widget.autoValidate!,
+        enabled: widget.enabled == null ? null : widget.enabled!,
         onChanged: widget.onChanged,
         inputFormatters:
             widget.currencyFormatter == null ? null : widget.currencyFormatter!,
