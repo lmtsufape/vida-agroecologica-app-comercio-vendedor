@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 
 import 'package:thunderapp/screens/orders/orders_controller.dart';
+import 'package:thunderapp/screens/report/report_controller.dart';
 
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
@@ -14,15 +15,15 @@ class ReportScreen extends StatefulWidget {
   const ReportScreen({Key? key}) : super(key: key);
 
   @override
-  State<ReportScreen> createState() => _OrdersScreenState();
+  State<ReportScreen> createState() => _ReportScreenState();
 }
 
-class _OrdersScreenState extends State<ReportScreen> {
+class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return GetBuilder<OrdersController>(
-      init: OrdersController(),
+    return GetBuilder<ReportController>(
+      init: ReportController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
           title: Text(

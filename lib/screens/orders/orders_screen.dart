@@ -44,9 +44,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
 class OrderCard extends StatefulWidget {
   PedidoModel model;
+  OrdersController controller;
 
   OrderCard(
-    this.model, {
+    this.model, this.controller,{
     Key? key,
   }) : super(key: key);
 
@@ -63,7 +64,7 @@ class _OrderCardState extends State<OrderCard> {
         InkWell(
           onTap: () =>
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return OrderDetailScreen(widget.model);
+            return OrderDetailScreen(widget.model, widget.controller);
           })),
           child: Ink(
             child: Card(
@@ -115,7 +116,7 @@ class _OrderCardState extends State<OrderCard> {
                         IconButton(
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return OrderDetailScreen(widget.model);
+                                return OrderDetailScreen(widget.model, widget.controller);
                               }),);
                             },
                             icon: Icon(

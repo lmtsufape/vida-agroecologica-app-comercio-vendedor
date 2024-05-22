@@ -127,7 +127,7 @@ class OrdersRepository extends GetxController {
 
     try {
       var body = {
-        "confirmacao": confirm.toString,
+        "confirmacao": confirm,
       };
 
       print(body);
