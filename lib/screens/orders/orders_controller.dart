@@ -30,7 +30,7 @@ class OrdersController extends GetxController {
     var userId = await userStorage.getUserId();
     bancaModel =
         await homeRepository.getBancaPrefs(token, userId);
-    var pedidos = await repository.getOrders(bancaModel!.id);
+    var pedidos = await repository.getOrders();
 
     quantPedidos = pedidos.length;
 
@@ -43,6 +43,7 @@ class OrdersController extends GetxController {
       update();
       return list;
     } else {
+      print(list);
       log('CARD VAZIO');
       return list;
     }
