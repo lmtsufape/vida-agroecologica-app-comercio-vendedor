@@ -23,7 +23,6 @@ class _DropDownQtdEditProductState
 
   final dropOpcoes = [
     'Unidade',
-    'Fracionario',
     'Peso',
     'Molho',
     'Kg',

@@ -17,7 +17,6 @@ class _DropDownQtdAddProductState extends State<DropDownQtdAddProduct> {
 
   final dropOpcoes = [
     'Unidade',
-    'Fracionario',
     'Peso',
     'Molho',
     'Kg',
