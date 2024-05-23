@@ -57,10 +57,14 @@ class StartScreen extends StatelessWidget {
                     const EdgeInsets.all(kDefaultPadding),
                 width: size.width,
                 height: size.height * 0.5,
-                decoration: BoxDecoration(
-                    color: kBackgroundColor,
-                    borderRadius:
-                        BorderRadius.circular(30)),
+                decoration: const BoxDecoration(
+                  color: kBackgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                    bottomLeft: Radius.zero,
+                    bottomRight: Radius.zero,),
+                ),
                 child: Column(
                   mainAxisAlignment:
                       MainAxisAlignment.center,
