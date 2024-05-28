@@ -5,6 +5,7 @@ import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../edit_products_controller.dart';
 import 'stock_edit_product.dart';
 
+// ignore: must_be_immutable
 class DropDownQtdEditProduct extends StatefulWidget {
   final EditProductsController controller;
   ProductsModel? model;

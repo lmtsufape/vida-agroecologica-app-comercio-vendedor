@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_print
+
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -5,7 +8,6 @@ import 'package:dio/dio.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
-import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 import '../../shared/constants/app_text_constants.dart';
 import '../../shared/core/user_storage.dart';
 
@@ -160,6 +162,35 @@ class OrdersRepository extends GetxController {
         }
       }
       return false;
+    }
+  }
+
+  Future<Map<String, dynamic>?> fetchUserDetails(int userId) async {
+    UserStorage userStorage = UserStorage();
+    userToken = await userStorage.getUserToken();
+
+    try {
+      Response response = await _dio.get(
+        '$kBaseURL/users/$userId', // Modifique o URL conforme a estrutura da sua API
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer $userToken"
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        // Decodificar a resposta JSON e retornar o objeto de usuário
+        return jsonDecode(response.data);
+      } else {
+        print('Erro ao buscar detalhes do usuário: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao fazer a chamada de API: $e');
+      return null;
     }
   }
 }

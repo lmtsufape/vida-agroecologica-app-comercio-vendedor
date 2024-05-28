@@ -1,14 +1,14 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:developer';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thunderapp/screens/add_products/add_products_repository.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
-import 'package:thunderapp/shared/components/dialogs/default_alert_dialog.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
@@ -49,9 +49,11 @@ class AddProductsController extends GetxController {
 
   final TextEditingController _descriptionController = TextEditingController();
 
-  CurrencyTextInputFormatter currencyFormatter =
-      CurrencyTextInputFormatter(locale: 'pt-Br', symbol: 'R\$');
-
+   var currencyFormatter = CurrencyTextInputFormatter.currency(
+  locale: 'pt_BR',
+  symbol: 'R\$',
+  decimalDigits: 2,
+);
   final TextEditingController _saleController = TextEditingController();
 
   final TextEditingController _titleController = TextEditingController();

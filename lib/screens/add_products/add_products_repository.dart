@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';

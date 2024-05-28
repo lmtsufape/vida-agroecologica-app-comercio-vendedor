@@ -1,4 +1,3 @@
-import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 
 class PedidoModel {
   int? id;
@@ -14,7 +13,7 @@ class PedidoModel {
   DateTime? dataEnvio;
   DateTime? dataEntrega;
   int? formaPagamentoId;
-  int? consumidorId;
+  int consumidorId;
   int? bancaId;
 
   PedidoModel(
@@ -31,7 +30,7 @@ class PedidoModel {
       this.dataEnvio,
       this.dataEntrega,
       this.formaPagamentoId,
-      this.consumidorId,
+      required this.consumidorId,
       this.bancaId});
 
   factory PedidoModel.fromJson(Map<String, dynamic> json) {

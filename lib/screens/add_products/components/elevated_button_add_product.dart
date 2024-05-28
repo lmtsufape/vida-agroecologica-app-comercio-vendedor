@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/screens/home/home_screen.dart';
-import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../shared/components/dialogs/default_alert_dialog.dart';
@@ -41,6 +40,7 @@ class _ElevatedButtonAddProductState
             await widget.controller.validateEmptyFields(context);
             if(response) {
             showDialog(
+                // ignore: use_build_context_synchronously
                 context: context,
                 builder: ((context) =>
                     DefaultAlertDialogOneButton(
@@ -48,7 +48,7 @@ class _ElevatedButtonAddProductState
                       body:
                           'Produto cadastrado com sucesso',
                       confirmText: 'Ok',
-                      onConfirm: () => Get.offAll(() => HomeScreen()),
+                      onConfirm: () => Get.offAll(() => const HomeScreen()),
                       buttonColor: kSuccessColor,
                     )));
           }}

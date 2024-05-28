@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/start/start_repository.dart';
@@ -15,8 +17,8 @@ class StartController extends GetxController {
   String? userId;
   String userName = 'teste';
 
-  Future StartVeri(BuildContext context) async {
-    var succ = await startRepository.Start(
+  Future startVeri(BuildContext context) async {
+    var succ = await startRepository.start(
         userToken = await userStorage.getUserToken(),
         userId = await userStorage.getUserId(),
     );

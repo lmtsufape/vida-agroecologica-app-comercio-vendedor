@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
+// ignore: must_be_immutable
 class TotalInfos extends StatelessWidget {
   ListProductsController controller;
 

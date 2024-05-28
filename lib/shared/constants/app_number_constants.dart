@@ -1,5 +1,5 @@
 const double kDefaultPadding = 32.0;
-
+const double kDefaultPaddingCardPedido = 17.0;
 
 const double kDefaultBorderRadius = 8.0;
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_unnecessary_containers, avoid_print
+
 import 'dart:math';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
@@ -8,7 +10,6 @@ import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
-import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../components/forms/custom_text_form_field.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
@@ -438,11 +439,11 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                             },
                                             hintText: "R\$ 7,00",
                                             currencyFormatter: <TextInputFormatter>[
-                                              CurrencyTextInputFormatter(
-                                                locale: 'pt-BR',
-                                                symbol: 'R\$',
-                                                decimalDigits: 2,
-                                              ),
+                                              CurrencyTextInputFormatter.currency(
+                                                  locale: 'pt_BR',
+                                                  symbol: 'R\$',
+                                                  decimalDigits: 2,
+                                                ),
                                               LengthLimitingTextInputFormatter(
                                                   8),
                                             ],

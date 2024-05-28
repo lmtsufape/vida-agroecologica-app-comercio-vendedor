@@ -1,17 +1,16 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thunderapp/screens/edit_products/edit_products_repository.dart';
 import 'package:thunderapp/screens/edit_products/edit_products_screen.dart';
-import 'package:thunderapp/screens/list_products/list_products_controller.dart';
-import 'package:thunderapp/screens/add_products/add_products_screen.dart';
 import 'package:thunderapp/screens/list_products/components/image_card_list.dart';
-import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../../../shared/core/models/table_products_model.dart';
 import '../list_products_repository.dart';
 
+// ignore: must_be_immutable
 class CardProductsList extends StatefulWidget {
   String userToken;
   ProductsModel model;

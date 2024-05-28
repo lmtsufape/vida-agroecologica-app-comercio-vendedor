@@ -12,8 +12,10 @@ class ListProductsRepository {
     List<ProductsModel> stockProduct = [];
     ProductsModel product = ProductsModel();
     UserStorage userStorage = UserStorage();
+    // ignore: unused_local_variable
     String nome;
     var userToken = await userStorage.getUserToken();
+    // ignore: avoid_print
     print(id);
     var response = await dio.get(
       '$kBaseURL/bancas/$id/produtos',
@@ -74,6 +76,7 @@ class ListProductsRepository {
     if (kDebugMode) {
       print(response.statusCode);
     }
+    // ignore: avoid_print
     print(response.statusCode);
     return true;
   }
