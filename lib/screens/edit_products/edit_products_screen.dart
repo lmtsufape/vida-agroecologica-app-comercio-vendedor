@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/list_products/list_products_screen.dart';
@@ -14,6 +16,7 @@ import 'edit_products_repository.dart';
 import '../../shared/constants/app_number_constants.dart';
 import '../../shared/constants/style_constants.dart';
 
+// ignore: must_be_immutable
 class EditProductsScreen extends StatefulWidget {
   ProductsModel model;
   EditProductsRepository repository;
@@ -329,7 +332,7 @@ class _EditProductsScreenState extends State<EditProductsScreen> {
                     width: size.width,
                     height: size.height * 0.06,
                     child: OutlinedButton(
-                      onPressed: () => Get.off(() => ListProductsScreen()),
+                      onPressed: () => Get.off(() => const ListProductsScreen()),
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.white,
                         side:

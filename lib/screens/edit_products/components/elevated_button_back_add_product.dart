@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
@@ -41,7 +43,6 @@ class _ElevatedButtonBackAddProductState
                 .validateEmptyFields(context);
 
             if (response == false) {
-              // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
                   builder: (context) => DefaultAlertDialog(
@@ -54,7 +55,6 @@ class _ElevatedButtonBackAddProductState
                         confirmColor: kSuccessColor,
                       ));
             } else {
-              // ignore: use_build_context_synchronously
               showDialog(
                   context: context,
                   builder: ((context) => DefaultAlertDialog(

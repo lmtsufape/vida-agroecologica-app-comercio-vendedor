@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';

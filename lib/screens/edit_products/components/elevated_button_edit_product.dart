@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/screens/edit_products/edit_products_repository.dart';
 import 'package:thunderapp/screens/home/home_screen.dart';
-import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-import 'package:thunderapp/shared/core/models/products_model.dart';
-import 'package:thunderapp/shared/core/models/table_products_model.dart';
-
 import '../../../shared/components/dialogs/default_alert_dialog.dart';
 import '../edit_products_controller.dart';
 
 class ElevatedButtonEditProduct extends StatefulWidget {
   final EditProductsController controller;
 
-  const ElevatedButtonEditProduct(
-      this.controller,
+  const ElevatedButtonEditProduct(this.controller,
       {Key? key})
       : super(key: key);
 
@@ -35,6 +29,7 @@ class _ElevatedButtonEditProductState
     extends State<ElevatedButtonEditProduct> {
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     EditProductsRepository repository =
         EditProductsRepository(); // ERRADO
     Size size = MediaQuery.of(context).size;
@@ -43,19 +38,26 @@ class _ElevatedButtonEditProductState
       height: size.height * 0.06,
       child: ElevatedButton(
         onPressed: () async {
-          final isValidForm = widget.controller.formKey.currentState!.validate();
-          if(isValidForm){
-            var response = await widget.controller.validateEmptyFields();
+          final isValidForm = widget
+              .controller.formKey.currentState!
+              .validate();
+          if (isValidForm) {
+            var response = await widget.controller
+                .validateEmptyFields();
             if (response) {
               showDialog(
-                  context: context,
-                  builder: ((context) => DefaultAlertDialogOneButton(
-                        title: 'Sucesso',
-                        body: 'Produto editado com sucesso',
-                        confirmText: 'Ok',
-                        onConfirm: () => Get.offAll(() => HomeScreen()),
-                        buttonColor: kSuccessColor,
-                      )));
+                // ignore: use_build_context_synchronously
+                context: context,
+                builder: ((context) =>
+                    DefaultAlertDialogOneButton(
+                      title: 'Sucesso',
+                      body: 'Produto editado com sucesso',
+                      confirmText: 'Ok',
+                      onConfirm: () =>
+                          Get.offAll(() => const HomeScreen()),
+                      buttonColor: kSuccessColor,
+                    )),
+              );
             }
           }
         },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
@@ -8,6 +7,7 @@ import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../../../components/forms/custom_text_form_field.dart';
 import '../edit_products_controller.dart';
 
+// ignore: must_be_immutable
 class StockEditProduct extends StatefulWidget {
   final EditProductsController controller;
   ProductsModel? model;

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:math';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
@@ -483,11 +485,11 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                             },
                                             hintText: "R\$ $freteCorreto",
                                             currencyFormatter: <TextInputFormatter>[
-                                              CurrencyTextInputFormatter(
-                                                locale: 'pt-BR',
-                                                symbol: 'R\$',
-                                                decimalDigits: 2,
-                                              ),
+                                              CurrencyTextInputFormatter.currency(
+                                                  locale: 'pt_BR',
+                                                  symbol: 'R\$',
+                                                  decimalDigits: 2,
+                                                ),
                                               LengthLimitingTextInputFormatter(
                                                   8),
                                             ],
@@ -550,7 +552,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 width: size.width,
                                 height: size.height * 0.06,
                                 child: OutlinedButton(
-                                  onPressed: () => Get.off(() => HomeScreen()),
+                                  onPressed: () => Get.off(() => const HomeScreen()),
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     side: const BorderSide(

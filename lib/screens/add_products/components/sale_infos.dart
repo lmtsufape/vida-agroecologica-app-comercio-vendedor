@@ -8,7 +8,8 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 class SaleInfos extends StatefulWidget {
   final AddProductsController controller;
 
-  const SaleInfos(this.controller, {Key? key}) : super(key: key);
+  const SaleInfos(this.controller, {Key? key})
+      : super(key: key);
 
   @override
   State<SaleInfos> createState() => _SaleInfosState();
@@ -52,7 +53,8 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormField(
                       hintText: 'Maçã',
-                      erroStyle: const TextStyle(fontSize: 12),
+                      erroStyle:
+                          const TextStyle(fontSize: 12),
                       validatorError: (value) {
                         if (value.isEmpty) {
                           return 'Obrigatório';
@@ -60,10 +62,12 @@ class _SaleInfosState extends State<SaleInfos> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          widget.controller.setDescription();
+                          widget.controller
+                              .setDescription();
                         });
                       },
-                      controller: widget.controller.descriptionController,
+                      controller: widget
+                          .controller.descriptionController,
                     ),
                   ),
                 ),
@@ -99,18 +103,20 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormField(
                       hintText: 'Fruta',
-                      erroStyle: const TextStyle(fontSize: 12),
+                      erroStyle:
+                          const TextStyle(fontSize: 12),
                       validatorError: (value) {
                         if (value.isEmpty) {
                           return 'Obrigatório';
                         }
                       },
                       onChanged: (value) {
-                         setState(() {
-                           widget.controller.setTitle();
-                         });
+                        setState(() {
+                          widget.controller.setTitle();
+                        });
                       },
-                      controller: widget.controller.titleController,
+                      controller:
+                          widget.controller.titleController,
                     ),
                   ),
                 ),
@@ -148,7 +154,8 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormFieldCurrency(
-                      erroStyle: const TextStyle(fontSize: 12),
+                      erroStyle:
+                          const TextStyle(fontSize: 12),
                       validatorError: (value) {
                         if (value.isEmpty) {
                           return 'Obrigatório';
@@ -161,14 +168,15 @@ class _SaleInfosState extends State<SaleInfos> {
                         });
                       },
                       currencyFormatter: <TextInputFormatter>[
-                        CurrencyTextInputFormatter(
-                          locale: 'pt-BR',
+                        CurrencyTextInputFormatter.currency(
+                          locale: 'pt_BR',
                           symbol: 'R\$',
                           decimalDigits: 2,
                         ),
                         LengthLimitingTextInputFormatter(9),
                       ],
-                      controller: widget.controller.saleController,
+                      controller:
+                          widget.controller.saleController,
                     ),
                   ),
                 ),

@@ -39,7 +39,7 @@ class _DropDownQtdAddProductState extends State<DropDownQtdAddProduct> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(bottom: 4),
               child: Text(
                 'Unidade de medida',
                 style: TextStyle(

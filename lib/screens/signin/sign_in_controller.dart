@@ -1,4 +1,6 @@
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/screens_index.dart';
@@ -45,7 +47,6 @@ class SignInController with ChangeNotifier {
         notifyListeners();
 
 
-          // ignore: use_build_context_synchronously
           Navigator.pushReplacementNamed(
             context, Screens.home);
 
@@ -54,7 +55,6 @@ class SignInController with ChangeNotifier {
       else if (succ == 2) {
 
 
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacementNamed(context, Screens.addStore);
       }
       else{
