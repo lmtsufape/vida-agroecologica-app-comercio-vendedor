@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -45,6 +47,8 @@ class MyStoreRepository {
     }
 
     String? userToken = await userStorage.getUserToken();
+    // ignore: duplicate_ignore
+    // ignore: avoid_print
     print(banca.getPrecoMin);
     String precoMinimo = banca.getPrecoMin.toString();
     const find = "R\$";

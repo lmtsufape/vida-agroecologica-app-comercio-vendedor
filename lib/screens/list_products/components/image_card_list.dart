@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:thunderapp/screens/list_products/list_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-import 'package:thunderapp/shared/core/models/products_model.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 
 class ImageCardList extends StatefulWidget {
@@ -21,7 +18,6 @@ class _ImageCardListState extends State<ImageCardList> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return FutureBuilder<int?>(
 
       future: Future.value(searchID(widget.productId, widget.tableProducts)), // Retorna uma instância de Future

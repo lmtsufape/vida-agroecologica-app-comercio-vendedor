@@ -13,7 +13,8 @@ import 'report_screen.dart';
 class ReportController extends GetxController {
   int quantPedidos = 0;
   BancaModel? bancaModel;
-  HomeScreenRepository homeRepository = HomeScreenRepository();
+  HomeScreenRepository homeRepository =
+      HomeScreenRepository();
   List<PedidoModel> orders = [];
   List<ReportCard> pedidos = [];
   late Future<List<dynamic>> orderData;
@@ -26,14 +27,16 @@ class ReportController extends GetxController {
     UserStorage userStorage = UserStorage();
     var token = await userStorage.getUserToken();
     var userId = await userStorage.getUserId();
-    bancaModel = await homeRepository.getBancaPrefs(token, userId);
+    bancaModel =
+        await homeRepository.getBancaPrefs(token, userId);
     var pedidos = await repository.getReports();
 
     quantPedidos = pedidos.length;
 
     for (int i = 0; i < pedidos.length; i++) {
       if (pedidos[i].status != "aguardando confirmação") {
-        ReportCard card = ReportCard(pedidos[i]);
+        ReportCard card =
+            ReportCard(pedidos[i], ReportController());
         list.add(card);
       }
     }

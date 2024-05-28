@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/add_products/add_products_controller.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';

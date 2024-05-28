@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:thunderapp/screens/add_products/add_products_screen.dart';
-import 'package:thunderapp/screens/home/home_screen.dart';
-import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/list_products/components/total_infos.dart';
 import '../../shared/constants/style_constants.dart';
 import 'list_products_controller.dart';
@@ -47,7 +45,7 @@ class ListProductsScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => AddProductsScreen()));
+                      builder: (_) => const AddProductsScreen()));
             },
             backgroundColor: kPrimaryColor,
             heroTag: 'AddListProduct',

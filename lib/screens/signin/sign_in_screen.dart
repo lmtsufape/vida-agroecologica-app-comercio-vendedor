@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/forms/custom_text_form_field.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/signin/sign_in_controller.dart';
@@ -56,7 +55,7 @@ class SignInScreen extends StatelessWidget {
                                       EdgeInsets.only(top: size.height * 0.03),
                                   padding: const EdgeInsets.only(
                                       top: 30, left: 28, bottom: 0, right: 28),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: kBackgroundColor,
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(15),

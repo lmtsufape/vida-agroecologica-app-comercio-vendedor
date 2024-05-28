@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:thunderapp/components/buttons/custom_text_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/buttons/secondary_button.dart';
-
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/signin/sign_in_controller.dart';
@@ -11,12 +9,9 @@ import 'package:thunderapp/screens/start/start_controller.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
-
 import '../../shared/constants/app_enums.dart';
 
 class StartScreen extends StatelessWidget {
-
-
   const StartScreen({Key? key}) : super(key: key);
 
   @override
@@ -63,7 +58,8 @@ class StartScreen extends StatelessWidget {
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                     bottomLeft: Radius.zero,
-                    bottomRight: Radius.zero,),
+                    bottomRight: Radius.zero,
+                  ),
                 ),
                 child: Column(
                   mainAxisAlignment:
@@ -71,7 +67,8 @@ class StartScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       'Para começar, que tal entrar na sua conta?',
-                      style: kTitle2.copyWith(fontSize: size.height * 0.028),
+                      style: kTitle2.copyWith(
+                          fontSize: size.height * 0.028),
                       textAlign: TextAlign.center,
                     ),
                     const VerticalSpacerBox(
@@ -82,7 +79,8 @@ class StartScreen extends StatelessWidget {
                         : PrimaryButton(
                             text:
                                 'Continuar como ${controller.userName}',
-                            onPressed: () => controller.StartVeri(context)),
+                            onPressed: () => controller
+                                .startVeri(context)),
                     SizedBox(
                       width: size.width,
                       child: Column(
@@ -100,16 +98,16 @@ class StartScreen extends StatelessWidget {
                           const VerticalSpacerBox(
                               size: SpacerSize.small),
                           SecondaryButton(
-                              text:
-                                  'Não sou ${controller.userName}',
-                              onPressed: () {
-                                navigatorKey.currentState!
-                                    .pushReplacementNamed(
-                                        Screens.signin);
-                              }),
+                            text:
+                                'Não sou ${controller.userName}',
+                            onPressed: () {
+                              navigatorKey.currentState!
+                                  .pushReplacementNamed(
+                                      Screens.signin);
+                            },
+                          ),
                           const VerticalSpacerBox(
                               size: SpacerSize.small),
-                        
                         ],
                       ),
                     ),
