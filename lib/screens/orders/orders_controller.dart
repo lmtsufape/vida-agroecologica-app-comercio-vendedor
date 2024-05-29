@@ -27,6 +27,7 @@ class OrdersController extends GetxController {
   OrdersRepository repository = OrdersRepository();
   bool confirmSucess = false;
   bool confirmedOrder = false;
+  bool delivery = false;
   Rx<User> user = User().obs;
   List<PedidoModel> get getOrders => orders;
 
@@ -76,6 +77,66 @@ class OrdersController extends GetxController {
                           builder: (context) =>
                               const HomeScreen()),
                       (Route<dynamic> route) => false,
+                    );
+                  },
+                  buttonColor: kSuccessColor,
+                ));
+      }
+    } catch (e) {
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Erro'),
+          content: Text(
+              "${e.toString()}\n Procure o suporte com a equipe LMTS"),
+          actions: [
+            TextButton(
+              child: const Text('Voltar'),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  void confirmDeliver(BuildContext context, int id) async {
+    try {
+      delivery =
+      await repository.confirmDelivery(id);
+      if (delivery == true) {
+        showDialog(
+            context: context,
+            builder: (context) =>
+                DefaultAlertDialogOneButton(
+                  title: 'Sucesso',
+                  body: 'O pedido está pronto',
+                  confirmText: 'Ok',
+                  onConfirm: () {
+                    navigator?.pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const HomeScreen()),
+                          (Route<dynamic> route) => false,
+                    );
+                  },
+                  buttonColor: kSuccessColor,
+                ));
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) =>
+                DefaultAlertDialogOneButton(
+                  title: 'Erro',
+                  body: 'Erro na entrega',
+                  confirmText: 'Ok',
+                  onConfirm: () {
+                    navigator?.pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const HomeScreen()),
+                          (Route<dynamic> route) => false,
                     );
                   },
                   buttonColor: kSuccessColor,

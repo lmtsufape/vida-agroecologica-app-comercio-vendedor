@@ -165,6 +165,41 @@ class OrdersRepository extends GetxController {
     }
   }
 
+  Future<bool> confirmDelivery(int pedidoId) async {
+    UserStorage userStorage = UserStorage();
+    userToken = await userStorage.getUserToken();
+
+    try {
+      Response response = await _dio.post(
+        '$kBaseURL/transacoes/$pedidoId/enviar',
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer $userToken"
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      if (e is DioError) {
+        final dioError = e;
+        if (dioError.response != null) {
+          final errorMessage = dioError.response!.data['errors'];
+          print('Erro: $errorMessage');
+          print("Erro ${e.toString()}");
+          return false;
+        }
+      }
+      return false;
+    }
+  }
+
   Future<Map<String, dynamic>?> fetchUserDetails(int userId) async {
     UserStorage userStorage = UserStorage();
     userToken = await userStorage.getUserToken();
