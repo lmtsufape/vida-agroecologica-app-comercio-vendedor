@@ -314,10 +314,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             fontSize: size.height * 0.018,
                             color: kTextButtonColor),
                       ),
-                      // Text(
-                      //   widget.model.tipoPagamentoId.toString(),
-                      //   style: TextStyle(fontSize: size.height * 0.018),
-                      // ),
+                      Text(
+                        widget.model.formaPagamentoId == 1 ? "Pix" : "Dinheiro",
+                        style: TextStyle(fontSize: size.height * 0.018),
+                      ),
                       IconButton(
                         onPressed: () {
                           showDialog(
