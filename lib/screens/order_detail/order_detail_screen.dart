@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thunderapp/components/buttons/cancel_button.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
+import 'package:thunderapp/screens/order_detail/file_view_screen.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:intl/intl.dart';
@@ -95,12 +96,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       //   widget.model.tipoPagamentoId.toString(),
                       //   style: TextStyle(fontSize: size.height * 0.018),
                       // ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.image,
-                            color: kPrimaryColor,
-                          ))
                     ],
                   ),
                   Divider(
@@ -324,11 +319,54 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       //   style: TextStyle(fontSize: size.height * 0.018),
                       // ),
                       IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.image,
-                            color: kPrimaryColor,
-                          ))
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialogComprovante(
+                              title: 'Comprovante',
+                              body:
+                              'Você quer visualizar ou baixar o comprovante?',
+                              viewText: 'Visualizar',
+                              downloadText: 'Baixar',
+                              view: () async {
+                                await widget.controller
+                                    .fetchComprovanteBytes(widget.model.id!);
+                                if (widget.controller.comprovanteBytes !=
+                                    null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FileViewScreen(
+                                        comprovanteBytes:
+                                            widget.controller.comprovanteBytes!,
+                                        comprovanteType:
+                                            widget.controller.comprovanteType!,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              download: () async {
+                                await widget.controller
+                                    .downloadComprovante(widget.model.id!);
+                                if (widget.controller.downloadPath != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Comprovante baixado com sucesso!')),
+                                  );
+                                }
+                              },
+                              viewColor: kSuccessColor,
+                              downloadColor: kErrorColor,
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.image,
+                          color: kPrimaryColor,
+                        ),
+                      ),
                     ],
                   ),
                   Divider(
@@ -523,11 +561,54 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       //   style: TextStyle(fontSize: size.height * 0.018),
                       // ),
                       IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.image,
-                            color: kPrimaryColor,
-                          ))
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialogComprovante(
+                              title: 'Comprovante',
+                              body:
+                              'Você quer visualizar ou baixar o comprovante?',
+                              viewText: 'Visualizar',
+                              downloadText: 'Baixar',
+                              view: () async {
+                                await widget.controller
+                                    .fetchComprovanteBytes(widget.model.id!);
+                                if (widget.controller.comprovanteBytes !=
+                                    null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FileViewScreen(
+                                        comprovanteBytes:
+                                        widget.controller.comprovanteBytes!,
+                                        comprovanteType:
+                                        widget.controller.comprovanteType!,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              download: () async {
+                                await widget.controller
+                                    .downloadComprovante(widget.model.id!);
+                                if (widget.controller.downloadPath != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Comprovante baixado com sucesso!')),
+                                  );
+                                }
+                              },
+                              viewColor: kSuccessColor,
+                              downloadColor: kErrorColor,
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.image,
+                          color: kPrimaryColor,
+                        ),
+                      ),
                     ],
                   ),
                   Divider(

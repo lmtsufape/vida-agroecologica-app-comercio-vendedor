@@ -2,8 +2,11 @@
 
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -15,62 +18,6 @@ class OrdersRepository extends GetxController {
   late String userToken;
   late String userId;
   final Dio _dio = Dio();
-
-  // Future<List<PedidoModel>> getOrders(String id) async {
-  //   PedidoModel pedido = PedidoModel();
-  //   UserStorage userStorage = UserStorage();
-  //   List<PedidoModel> orders = [];
-  //   userToken = await userStorage.getUserToken();
-  //   try {
-  //     Response response = await _dio.get('$kBaseURL/transacoes/$id/vendas',
-  //         options: Options(
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             "Accept": "application/json",
-  //             "Authorization": "Bearer $userToken"
-  //           },
-  //         ));
-  //
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //       List<dynamic> listDynamic = response.data['vendas'];
-  //       print(listDynamic);
-  //       for (int i = 0; i < listDynamic.length; i++) {
-  //         if (listDynamic[i]["status"] == "aguardando confirmação") {
-  //           pedido = PedidoModel(
-  //             id: listDynamic[i]["id"],
-  //             status: listDynamic[i]["status"].toString(),
-  //             tipoEntrega: listDynamic[i]["tipo_entrega"].toString(),
-  //             subtotal: listDynamic[i]["subtotal"],
-  //             taxaEntrega: listDynamic[i]["taxa_entrega"],
-  //             total: listDynamic[i]["total"],
-  //             dataPedido: listDynamic[i]["data_pedido"],
-  //             dataConfirmacao: listDynamic[i]["data_confirmacao"],
-  //             dataCancelamento: listDynamic[i]["data_cancelamento"],
-  //             dataPagamento: listDynamic[i]["data_pagamento"],
-  //             dataEnvio: listDynamic[i]["data_envio"],
-  //             dataEntrega: listDynamic[i]["data_entrega"],
-  //             formaPagamentoId: listDynamic[i]["forma_pagamento_id"],
-  //             consumidorId: listDynamic[i]["consumidor_id"],
-  //             bancaId: listDynamic[i]["banca_id"],
-  //           );
-  //           orders.add(pedido);
-  //           print(orders[i]);
-  //         }
-  //       }
-  //       return orders;
-  //     }
-  //   } catch (e) {
-  //     if (e is DioError) {
-  //       final dioError = e;
-  //       if (dioError.response != null) {
-  //         final errorMessage = dioError.response!.data['errors'];
-  //         print('Erro: $errorMessage');
-  //         print("Erro ${e.toString()}");
-  //       }
-  //     }
-  //   }
-  //   return [];
-  // }
 
   Future<List<PedidoModel>> getOrders() async {
     UserStorage userStorage = UserStorage();
@@ -228,4 +175,85 @@ class OrdersRepository extends GetxController {
       return null;
     }
   }
+
+  Future<Uint8List> getComprovanteBytes(int orderId) async {
+    final userToken = await UserStorage().getUserToken();
+
+    String url = '$kBaseURL/transacoes/$orderId/comprovante';
+
+    try {
+      Response response = await _dio.get(
+        url,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $userToken',
+          },
+          responseType: ResponseType.bytes,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return Uint8List.fromList(response.data);
+      } else {
+        throw Exception('Falha ao obter bytes do comprovante');
+      }
+    } catch (e) {
+      throw Exception('Erro: $e');
+    }
+  }
+
+  Future<String> downloadComprovante(int orderId) async {
+    final userToken = await UserStorage().getUserToken();
+
+    String url = '$kBaseURL/transacoes/$orderId/comprovante';
+
+    try {
+      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+      if (selectedDirectory == null) {
+        final directory = await getExternalStorageDirectory();
+        selectedDirectory = directory?.path ?? '';
+      }
+
+      Response response = await _dio.get(
+        url,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $userToken',
+          },
+          responseType: ResponseType.bytes,
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        // Detecta o tipo de conteúdo da resposta
+        String? contentType = response.headers.value(Headers.contentTypeHeader);
+        String fileExtension;
+
+        if (contentType != null) {
+          if (contentType == 'application/pdf') {
+            fileExtension = 'pdf';
+          } else if (contentType == 'image/jpeg') {
+            fileExtension = 'jpg';
+          } else if (contentType == 'image/png') {
+            fileExtension = 'png';
+          } else {
+            throw Exception('Tipo de conteúdo não suportado: $contentType');
+          }
+        } else {
+          throw Exception('Cabeçalho de tipo de conteúdo não encontrado');
+        }
+
+        final file =
+        File('$selectedDirectory/comprovante_$orderId.$fileExtension');
+        await file.writeAsBytes(response.data);
+        return file.path;
+      } else {
+        throw Exception('Falha ao baixar comprovante');
+      }
+    } catch (e) {
+      throw Exception('Erro: $e');
+    }
+  }
+
 }
