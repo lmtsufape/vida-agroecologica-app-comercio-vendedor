@@ -101,7 +101,7 @@ Widget bottomSheet(MyStoreController controller) {
                   onPressed: () {
                     controller0.selectImage();
                   },
-                  label: const Text("Gallery", style: TextStyle(fontSize: 23),),
+                  label: const Text("Galeria", style: TextStyle(fontSize: 23),),
                 ),
               ]),
         )

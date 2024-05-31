@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/screens/order_detail/order_detail_screen.dart';
+import 'package:thunderapp/screens/order_detail_pedido/order_detail_screen.dart';
 import 'package:thunderapp/screens/orders/orders_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';

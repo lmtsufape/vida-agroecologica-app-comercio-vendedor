@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                         IconButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       fullscreenDialog: true,

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
+import 'package:thunderapp/screens/orders/orders_controller.dart';
 
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
@@ -36,7 +37,7 @@ class ReportController extends GetxController {
     for (int i = 0; i < pedidos.length; i++) {
       if (pedidos[i].status != "aguardando confirmação") {
         ReportCard card =
-            ReportCard(pedidos[i], ReportController());
+            ReportCard(pedidos[i], OrdersController());
         list.add(card);
       }
     }

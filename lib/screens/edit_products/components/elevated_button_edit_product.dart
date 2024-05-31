@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/screens/edit_products/edit_products_repository.dart';
 import 'package:thunderapp/screens/home/home_screen.dart';
+import 'package:thunderapp/screens/list_products/list_products_screen.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../../shared/components/dialogs/default_alert_dialog.dart';
 import '../edit_products_controller.dart';
@@ -54,7 +55,7 @@ class _ElevatedButtonEditProductState
                       body: 'Produto editado com sucesso',
                       confirmText: 'Ok',
                       onConfirm: () =>
-                          Get.offAll(() => const HomeScreen()),
+                          Get.offAll(() => const ListProductsScreen()),
                       buttonColor: kSuccessColor,
                     )),
               );

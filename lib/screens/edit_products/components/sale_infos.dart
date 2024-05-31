@@ -37,12 +37,58 @@ class _SaleInfosState extends State<SaleInfos> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'Nome do produto',
+              style: TextStyle(
+                  color: kSecondaryColor,
+                  fontSize: size.height * 0.018,
+                  fontWeight: FontWeight.w700),
+            ),
+            Divider(
+              height: size.height * 0.005,
+              color: Colors.transparent,
+            ),
+            SizedBox(
+              width: size.width,
+              child: Card(
+                elevation: 0,
+                margin: EdgeInsets.zero,
+                child: ClipPath(
+                  child: CustomTextFormField(
+                    hintText: widget.productsModel!.descricao,
+                    erroStyle:
+                        const TextStyle(fontSize: 12),
+                    validatorError: (value) {
+                      if (value.isEmpty) {
+                        return 'Obrigatório';
+                      }
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        widget.controller.setDescription();
+                      });
+                    },
+                    controller:
+                        widget.controller.descriptionController,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Divider(
+          height: size.height * 0.03,
+          color: Colors.transparent,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Divider(
               height: size.height * 0.03,
               color: Colors.transparent,
             ),
             Text(
-              'Nome do produto',
+              'Descrição',
               style: TextStyle(
                   color: kSecondaryColor,
                   fontSize: size.height * 0.018,
@@ -61,8 +107,7 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormField(
-                      hintText:
-                          widget.productsModel!.descricao,
+                      hintText: widget.productsModel!.titulo,
                       erroStyle:
                           const TextStyle(fontSize: 12),
                       validatorError: (value) {
@@ -73,62 +118,16 @@ class _SaleInfosState extends State<SaleInfos> {
                       onChanged: (value) {
                         setState(() {
                           widget.controller
-                              .setDescription();
+                              .setTitle();
                         });
                       },
                       controller: widget
-                          .controller.descriptionController,
+                          .controller.titleController,
                     ),
                   ),
                 ),
               ),
             )
-          ],
-        ),
-        Divider(
-          height: size.height * 0.03,
-          color: Colors.transparent,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Descrição',
-              style: TextStyle(
-                  color: kSecondaryColor,
-                  fontSize: size.height * 0.018,
-                  fontWeight: FontWeight.w700),
-            ),
-            Divider(
-              height: size.height * 0.005,
-              color: Colors.transparent,
-            ),
-            SizedBox(
-              width: size.width,
-              child: Card(
-                elevation: 0,
-                margin: EdgeInsets.zero,
-                child: ClipPath(
-                  child: CustomTextFormField(
-                    hintText: widget.productsModel!.titulo,
-                    erroStyle:
-                        const TextStyle(fontSize: 12),
-                    validatorError: (value) {
-                      if (value.isEmpty) {
-                        return 'Obrigatório';
-                      }
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        widget.controller.setTitle();
-                      });
-                    },
-                    controller:
-                        widget.controller.titleController,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
         Divider(
