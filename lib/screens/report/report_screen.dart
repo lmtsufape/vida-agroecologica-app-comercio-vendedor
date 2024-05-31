@@ -3,6 +3,7 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:intl/intl.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/order%20detail/order_detail_screen.dart';
+import 'package:thunderapp/screens/orders/orders_controller.dart';
 import 'package:thunderapp/screens/report/report_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
@@ -45,10 +46,11 @@ class _ReportScreenState extends State<ReportScreen> {
 // ignore: must_be_immutable
 class ReportCard extends StatefulWidget {
   PedidoModel model;
-  ReportController controller;
+  ReportController? controller;
+  OrdersController ordersController;
   ReportCard(
     this.model,
-    this.controller, {
+    this.ordersController, {
     Key? key,
   }) : super(key: key);
 
@@ -65,7 +67,7 @@ class _ReportCardState extends State<ReportCard> {
         InkWell(
           onTap: () =>
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return OrderDetailScreen(widget.model, widget.controller);
+            return OrderDetailScreen(widget.model, widget.ordersController);
           })),
           child: Ink(
             child: Padding(
@@ -130,7 +132,7 @@ class _ReportCardState extends State<ReportCard> {
                           IconButton(
                               onPressed: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return OrderDetailScreen(widget.model, widget.controller);
+                                  return OrderDetailScreen(widget.model, widget.ordersController);
                                 }),);
                               },
                               icon: Icon(

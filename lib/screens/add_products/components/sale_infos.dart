@@ -33,7 +33,7 @@ class _SaleInfosState extends State<SaleInfos> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nome do produto',
+              'Nome do proddduto',
               style: TextStyle(
                   color: kSecondaryColor,
                   fontSize: size.height * 0.018,
@@ -52,7 +52,7 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormField(
-                      hintText: 'Maçã',
+                      hintText: 'Nome do produto',
                       erroStyle:
                           const TextStyle(fontSize: 12),
                       validatorError: (value) {
@@ -62,12 +62,11 @@ class _SaleInfosState extends State<SaleInfos> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          widget.controller
-                              .setDescription();
+                          widget.controller.setTitle();
                         });
                       },
-                      controller: widget
-                          .controller.descriptionController,
+                      controller:
+                          widget.controller.titleController,
                     ),
                   ),
                 ),
@@ -102,7 +101,7 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormField(
-                      hintText: 'Fruta',
+                      hintText: 'Descrição do produto',
                       erroStyle:
                           const TextStyle(fontSize: 12),
                       validatorError: (value) {
@@ -112,11 +111,12 @@ class _SaleInfosState extends State<SaleInfos> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          widget.controller.setTitle();
+                          widget.controller
+                              .setDescription();
                         });
                       },
-                      controller:
-                          widget.controller.titleController,
+                      controller: widget
+                          .controller.descriptionController,
                     ),
                   ),
                 ),

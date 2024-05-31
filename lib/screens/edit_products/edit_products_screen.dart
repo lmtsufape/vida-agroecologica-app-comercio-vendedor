@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:thunderapp/screens/list_products/list_products_screen.dart';
 import 'package:thunderapp/shared/core/models/products_model.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
-import '../home/home_screen.dart';
 import 'components/dropdown_edit_product.dart';
 import 'components/dropdown_qtd_edit_product.dart';
 import 'components/elevated_button_edit_product.dart';
@@ -131,7 +130,7 @@ class _EditProductsScreenState extends State<EditProductsScreen> {
                                                           confirmText: 'Ok',
                                                           onConfirm: () =>
                                                               Get.offAll(() =>
-                                                                  const HomeScreen()),
+                                                                  const ListProductsScreen()),
                                                           buttonColor:
                                                               kSuccessColor,
                                                         ))),

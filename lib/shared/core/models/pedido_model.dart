@@ -1,3 +1,4 @@
+import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
 
 class PedidoModel {
   int? id;
@@ -12,9 +13,12 @@ class PedidoModel {
   DateTime? dataPagamento;
   DateTime? dataEnvio;
   DateTime? dataEntrega;
-  int? formaPagamentoId;
   int consumidorId;
+  String? formaDePagamento;
   int? bancaId;
+  String? consumidorName;
+  String? consumidorEmail;
+  List<ProdutoPedidoModel>? listaDeProdutos;
 
   PedidoModel(
       {this.id,
@@ -29,18 +33,33 @@ class PedidoModel {
       this.dataPagamento,
       this.dataEnvio,
       this.dataEntrega,
-      this.formaPagamentoId,
+      this.formaDePagamento,
+      this.consumidorEmail,
+      this.consumidorName,
       required this.consumidorId,
+      this.listaDeProdutos,
       this.bancaId});
 
   factory PedidoModel.fromJson(Map<String, dynamic> json) {
+    List<ProdutoPedidoModel> listaTemp =
+        []; // Initialize listaTemp
+    List<dynamic> itens = json['itens'];
+    for (var item in itens) {
+      ProdutoPedidoModel produto = ProdutoPedidoModel(
+          id: item['id'],
+          tipoUnidade: item['tipo_medida'],
+          quantidade: item['quantidade'],
+          preco: double.parse(item['preco'].toString()),
+          titulo: item['produto']['titulo']);
+      listaTemp.add(produto);
+    }
     return PedidoModel(
       id: json['id'],
       status: json['status'],
       tipoEntrega: json['tipo_entrega'],
-      subtotal: double.parse(json['subtotal'].toString()),
-      taxaEntrega: double.parse(json['taxa_entrega'].toString()),
-      total: double.parse(json['total'].toString()),
+      subtotal: double.parse(json['subtotal']),
+      taxaEntrega: double.parse(json['taxa_entrega']),
+      total: double.parse(json['total']),
       dataPedido: json['data_pedido'] != null
           ? DateTime.parse(json['data_pedido'])
           : null,
@@ -59,9 +78,12 @@ class PedidoModel {
       dataEntrega: json['data_entrega'] != null
           ? DateTime.parse(json['data_entrega'])
           : null,
-      formaPagamentoId: json['forma_pagamento_id'],
+      consumidorEmail: json['consumidor']['email'],
+      consumidorName: json['consumidor']['name'],
       consumidorId: json['consumidor_id'],
       bancaId: json['banca_id'],
+      formaDePagamento: json['forma_pagamento']['tipo'],
+      listaDeProdutos: listaTemp,
     );
   }
 
