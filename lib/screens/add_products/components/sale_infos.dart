@@ -33,7 +33,7 @@ class _SaleInfosState extends State<SaleInfos> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Nome do proddduto',
+              'Nome do produto',
               style: TextStyle(
                   color: kSecondaryColor,
                   fontSize: size.height * 0.018,

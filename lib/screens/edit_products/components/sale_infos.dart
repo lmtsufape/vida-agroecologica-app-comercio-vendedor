@@ -55,7 +55,7 @@ class _SaleInfosState extends State<SaleInfos> {
                 margin: EdgeInsets.zero,
                 child: ClipPath(
                   child: CustomTextFormField(
-                    hintText: widget.productsModel!.descricao,
+                    hintText: widget.productsModel!.titulo,
                     erroStyle:
                         const TextStyle(fontSize: 12),
                     validatorError: (value) {
@@ -65,11 +65,11 @@ class _SaleInfosState extends State<SaleInfos> {
                     },
                     onChanged: (value) {
                       setState(() {
-                        widget.controller.setDescription();
+                        widget.controller.setTitle();
                       });
                     },
                     controller:
-                        widget.controller.descriptionController,
+                        widget.controller.titleController,
                   ),
                 ),
               ),
@@ -107,7 +107,7 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormField(
-                      hintText: widget.productsModel!.titulo,
+                      hintText: widget.productsModel!.descricao,
                       erroStyle:
                           const TextStyle(fontSize: 12),
                       validatorError: (value) {
@@ -118,11 +118,11 @@ class _SaleInfosState extends State<SaleInfos> {
                       onChanged: (value) {
                         setState(() {
                           widget.controller
-                              .setTitle();
+                              .setDescription();
                         });
                       },
                       controller: widget
-                          .controller.titleController,
+                          .controller.descriptionController,
                     ),
                   ),
                 ),
