@@ -38,7 +38,7 @@ class OrdersController extends GetxController {
   String? _pdfPath;
   String? _downloadPath;
   Uint8List? _comprovanteBytes;
-
+  
   File? get comprovante => _comprovante;
 
   String? get comprovanteType => _comprovanteType;
@@ -325,15 +325,17 @@ class OrdersController extends GetxController {
     }
   }
 
-  Future<void> fetchOrders() async {
-    try {
-      var fetchedOrders = await repository
-          .getOrders(4); // Supondo que 4 é o userId
-      orders.assignAll(fetchedOrders);
-    } catch (e) {
-      print('Erro ao buscar pedidos: $e');
-    }
+ Future<void> fetchOrders() async {
+  UserStorage userStorage = UserStorage();
+  String userId = await userStorage.getUserId(); 
+  try {
+    var fetchedOrders = await repository.getOrders(userId);
+    orders.assignAll(fetchedOrders);
+  } catch (e) {
+    print('Erro ao buscar pedidos: $e');
   }
+}
+
 
   List<ProdutoPedidoModel> getItensDoPedido(int pedidoId) {
     var pedido = orders.firstWhere(

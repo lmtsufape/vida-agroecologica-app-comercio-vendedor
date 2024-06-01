@@ -72,7 +72,7 @@ class _CardProductsListState extends State<CardProductsList> {
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                widget.model.descricao.toString(),
+                                widget.model.titulo.toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: size.height * 0.016,

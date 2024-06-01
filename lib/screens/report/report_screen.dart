@@ -88,46 +88,43 @@ class _ReportCardState extends State<ReportCard> {
                 child: Padding(
                   padding: const EdgeInsets.all(kDefaultPaddingCardPedido),
                   child: Column(
-                    
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            children: [
-                              SizedBox(
-                                width: size.width * 0.4,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Pedido #${widget.model.id.toString()}',
+                                  style: kBody3.copyWith(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Divider(
+                                  height: size.height * 0.006,
+                                  color: Colors.transparent,
+                                ),
+                                Row(
                                   children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Pedido #${widget.model.id.toString()}',
-                                          style: kBody3.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Divider(
-                                          height: size.height * 0.006,
-                                          color: Colors.transparent,
-                                        ),
-                                        Text(
-                                          'Cliente',
-                                          style:
-                                              kCaption2.copyWith(color: kTextButtonColor),
-                                        ),
-                                      ],
+                                    Text(
+                                      'Cliente:',
+                                      style: kCaption2.copyWith(color: kTextButtonColor),
                                     ),
-                                    const Text("",
-                                      // widget.controller.fetchUserDetails(widget.model.consumidorId),
-                                        style: kCaption1),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        widget.model.consumidorName ?? '',
+                                        style: const TextStyle(fontSize: 15),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           IconButton(
                               onPressed: () {
@@ -154,16 +151,6 @@ class _ReportCardState extends State<ReportCard> {
                         ],
                       ),
                       const VerticalSpacerBox(size: SpacerSize.medium),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Taxa de entrega:',
-                            style: kCaption2.copyWith(color: kTextButtonColor),
-                          ),
-                          Text(NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.taxaEntrega))
-                        ],
-                      ),
                       const VerticalSpacerBox(size: SpacerSize.medium),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,7 +160,7 @@ class _ReportCardState extends State<ReportCard> {
                             style: kBody2,
                           ),
                           Text(
-                            NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.subtotal),
+                            NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.total),
                             style: kBody2.copyWith(color: kDetailColor),
                           )
                         ],
@@ -185,7 +172,7 @@ class _ReportCardState extends State<ReportCard> {
                           Text(
                             DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
                             style:
-                            kCaption2.copyWith(color: kTextButtonColor, fontSize: 16, ),
+                            kCaption2.copyWith(color: kTextButtonColor, fontSize: 16),
                           ),
                           Container(
                             padding: const EdgeInsets.all(kTinySize),
