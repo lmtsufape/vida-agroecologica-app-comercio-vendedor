@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:thunderapp/assets/index.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-
 import 'package:thunderapp/screens/splash/splash_screen_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
-
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
-
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,11 +24,13 @@ class _SplashScreenState extends State<SplashScreen>
     animController = AnimationController(
         vsync: this, duration: const Duration(seconds: 2));
     _controller = SplashScreenController(context);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setController();
-      stopController();
-      _controller.initApplication(() {});
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        setController();
+        stopController();
+        _controller.initApplication(() {});
+      },
+    );
   }
 
   void setController() async {
@@ -40,13 +38,17 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void stopController() async {
-    Future.delayed(const Duration(milliseconds: 200), () {
-     
-      setState(() {
-        opacity = 1;
-      });
-      animController.stop();
-    });
+    Future.delayed(
+      const Duration(milliseconds: 200),
+      () {
+        setState(
+          () {
+            opacity = 1;
+          },
+        );
+        animController.stop();
+      },
+    );
   }
 
   @override
@@ -54,28 +56,19 @@ class _SplashScreenState extends State<SplashScreen>
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   actions: [
-      //     IconButton(
-      //         onPressed: () async {
-      //           animController.repeat();
-      //           stopController();
-      //         },
-      //         icon: Icon(Icons.add))
-      //   ],
-      // ),
       body: Stack(
         children: [
           Container(
             padding: const EdgeInsets.all(kDefaultPadding),
-            margin: const EdgeInsets.only(bottom: 128),
+            margin: const EdgeInsets.only(bottom: 245),
             decoration: const BoxDecoration(
               color: kPrimaryColor,
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.zero,
-                  topRight: Radius.zero,
-                  bottomLeft: Radius.circular(60),
-                  bottomRight: Radius.circular(60)),
+                topLeft: Radius.zero,
+                topRight: Radius.zero,
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
             ),
             width: size.width,
             child: Column(
@@ -93,11 +86,11 @@ class _SplashScreenState extends State<SplashScreen>
                       const Duration(milliseconds: 200),
                   opacity: opacity,
                   child: Text(
-                    'Gestão Agroecológica BONITO'
-                        .toUpperCase(),
+                    'GESTÃO AGROECOLÓGICA BONITO',
                     textAlign: TextAlign.center,
                     style: kTitle1.copyWith(
-                        color: kOnSurfaceColor, fontSize: size.height * 0.038),
+                        color: kOnSurfaceColor,
+                        fontSize: size.height * 0.038),
                   ),
                 ),
                 const VerticalSpacerBox(
@@ -112,11 +105,37 @@ class _SplashScreenState extends State<SplashScreen>
             padding: const EdgeInsets.all(kDefaultPadding),
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Text(
-                'LMTS - Laboratório Multidisciplinar de Tecnologias Sociais',
-                textAlign: TextAlign.center,
-                style:
-                    kBody2.copyWith(fontFamily: 'Roboto', fontSize: size.height * 0.022),
+              child: Padding(
+                padding:
+                    const EdgeInsets.all(kDefaultPadding),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Desenvolvido por:',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    const VerticalSpacerBox(
+                        size: SpacerSize.small),
+                    Row(
+                      mainAxisAlignment:
+                          MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          Assets.ufape,
+                          width: 100,
+                        ),
+                        const SizedBox(width: 20),
+                        Image.asset(
+                          Assets.lmts,
+                          width: 150,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           )
