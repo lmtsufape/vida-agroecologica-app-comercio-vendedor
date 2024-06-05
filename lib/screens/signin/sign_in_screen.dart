@@ -50,7 +50,7 @@ class SignInScreen extends StatelessWidget {
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
                                   width: size.width,
-                                  height: size.height * 0.58,
+                                  height: size.height * 0.6,
                                   margin:
                                       EdgeInsets.only(top: size.height * 0.03),
                                   padding: const EdgeInsets.only(
@@ -58,10 +58,9 @@ class SignInScreen extends StatelessWidget {
                                   decoration: const BoxDecoration(
                                       color: kBackgroundColor,
                                       borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15),
-                                          bottomLeft: Radius.zero,
-                                          bottomRight: Radius.zero)),
+                                          topLeft: Radius.circular(40),
+                                          topRight: Radius.circular(40),
+                                          ),),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -72,13 +71,13 @@ class SignInScreen extends StatelessWidget {
                                       //     'Entrar',
                                       //     style: TextStyle(
                                       //         fontWeight: FontWeight.w700,
-                                      //         fontSize: size.height * 0.032),
+                                      //         fontSize: size.height * 0.028),
                                       //   ),
                                       // ),
-                                      // Divider(
-                                      //   height: size.height * 0.02,
-                                      //   color: Colors.transparent,
-                                      // ),
+                                      Divider(
+                                        height: size.height * 0.02,
+                                        color: Colors.transparent,
+                                      ),
                                       Column(
                                         children: [
                                           Column(
@@ -195,8 +194,7 @@ class SignInScreen extends StatelessWidget {
                                                       0.06,
                                                   child: ElevatedButton(
                                                     style: ElevatedButton.styleFrom(
-                                                        backgroundColor:
-                                                          const Color(0XFF798E1E),
+                                                        backgroundColor: kPrimaryColor,
                                                         shape: RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius
@@ -235,7 +233,7 @@ class SignInScreen extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Desenvolvido por',
+                                              'Desenvolvido por:',
                                               style: TextStyle(
                                                   fontSize: size.height * 0.018,
                                                   fontWeight: FontWeight.w700,
@@ -286,7 +284,7 @@ class SignInScreen extends StatelessWidget {
                                       children: [
                                         Image.asset(
                                           Assets.logo,
-                                          width: size.width * 0.45,
+                                          width: size.width * 0.35,
                                         ),
                                         Divider(
                                             height: size.height * 0.007,
