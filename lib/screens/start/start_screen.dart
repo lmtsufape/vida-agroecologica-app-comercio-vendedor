@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:thunderapp/components/buttons/primary_button.dart';
-import 'package:thunderapp/components/buttons/secondary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/signin/sign_in_controller.dart';
@@ -34,13 +32,13 @@ class StartScreen extends StatelessWidget {
                     CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Olá, Seja bem vindo(a) ${controller.userName}',
+                    'Eba, que bom que você voltou!',
                     textAlign: TextAlign.center,
                     style:
-                        kTitle1.copyWith(color: kTextColor),
+                        kTitle1.copyWith(color: kTextColor, fontSize: 35),
                   ),
                   SizedBox(
-                    height: size.height * 0.3,
+                    height: size.height * 0.5,
                   )
                 ],
               ),
@@ -51,7 +49,7 @@ class StartScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.all(kDefaultPadding),
                 width: size.width,
-                height: size.height * 0.5,
+                height: size.height * 0.6,
                 decoration: const BoxDecoration(
                   color: kBackgroundColor,
                   borderRadius: BorderRadius.only(
@@ -65,51 +63,82 @@ class StartScreen extends StatelessWidget {
                   mainAxisAlignment:
                       MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Para começar, que tal entrar na sua conta?',
-                      style: kTitle2.copyWith(
-                          fontSize: size.height * 0.028),
+                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400, color: Color.fromARGB(255, 74, 74, 74)),
                       textAlign: TextAlign.center,
                     ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.huge),
+                    const SizedBox(height: 80,),
                     SignInController().status ==
                             SignInStatus.loading
                         ? const CircularProgressIndicator()
-                        : PrimaryButton(
-                            text:
-                                'Continuar como ${controller.userName}',
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(
+                                  315, 50),
+                              backgroundColor:
+                                  kPrimaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(
+                                        8.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.all(2.0),
+                              child: Text(
+                                  'Continuar como ${controller.userName}',
+                                  textAlign:
+                                      TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: kTextColor)),
+                            ),
                             onPressed: () => controller
                                 .startVeri(context)),
-                    SizedBox(
-                      width: size.width,
-                      child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.center,
-                        children: <Widget>[
-                          SignInController().errorMessage !=
-                                  null
-                              ? Text(
-                                  SignInController()
-                                      .errorMessage!,
-                                  style: kCaption1,
-                                )
-                              : const SizedBox(),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.small),
-                          SecondaryButton(
-                            text:
-                                'Não sou ${controller.userName}',
-                            onPressed: () {
-                              navigatorKey.currentState!
-                                  .pushReplacementNamed(
-                                      Screens.signin);
-                            },
+                    Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SignInController().errorMessage !=
+                                null
+                            ? Text(
+                                SignInController()
+                                    .errorMessage!,
+                                style: kCaption1,
+                              )
+                            : const SizedBox(),
+                        const VerticalSpacerBox(
+                            size: SpacerSize.small),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            fixedSize: const Size(
+                                315, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(
+                                      8.0),
+                            ),
+                            side: const BorderSide(
+                                color: kPrimaryColor),
                           ),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.small),
-                        ],
-                      ),
+                          child: Text(
+                            'Não sou ${controller.userName}',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 14,
+                                color: kPrimaryColor, fontFamily: 'Inter'),
+                          ),
+                          onPressed: () {
+                            navigatorKey.currentState!
+                                .pushReplacementNamed(
+                                    Screens.signin);
+                          },
+                        ),
+                        const VerticalSpacerBox(
+                            size: SpacerSize.small),
+                      ],
                     ),
                   ],
                 ),
