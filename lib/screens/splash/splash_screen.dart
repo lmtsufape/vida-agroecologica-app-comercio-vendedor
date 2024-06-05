@@ -101,41 +101,38 @@ class _SplashScreenState extends State<SplashScreen>
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding:
-                    const EdgeInsets.all(kDefaultPadding),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Desenvolvido por:',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.small),
-                    Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          Assets.ufape,
-                          width: 100,
-                        ),
-                        const SizedBox(width: 20),
-                        Image.asset(
-                          Assets.lmts,
-                          width: 150,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+                  const EdgeInsets.all(kDefaultPadding),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Desenvolvido por:',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  const VerticalSpacerBox(
+                      size: SpacerSize.small),
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        Assets.ufape,
+                        width: 100,
+                      ),
+                      const SizedBox(width: 20),
+                      Image.asset(
+                        Assets.lmts,
+                        width: 150,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           )
