@@ -87,13 +87,14 @@ class StartScreen extends StatelessWidget {
                             child: Padding(
                               padding:
                                   const EdgeInsets.all(2.0),
-                              child: Text(
-                                  'Continuar como ${controller.userName}',
-                                  textAlign:
-                                      TextAlign.center,
+                              child: Text('Continuar como ${controller.userName}',
+                                  textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontSize: 14,
-                                      color: kTextColor)),
+                                      fontSize: 14,fontWeight: FontWeight.bold,
+                                      color: kTextColor),
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      ),
                             ),
                             onPressed: () => controller
                                 .startVeri(context)),
@@ -128,7 +129,9 @@ class StartScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 14,
-                                color: kPrimaryColor, fontFamily: 'Inter'),
+                                color: kPrimaryColor, fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: false,
                           ),
                           onPressed: () {
                             navigatorKey.currentState!
