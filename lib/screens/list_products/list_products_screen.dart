@@ -97,8 +97,11 @@ class ListProductsScreen extends StatelessWidget {
                     height: size.height * 0.014,
                     color: Colors.transparent,
                   ),
-                  Column(
-                      children: controller.products
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                        children: controller.products
+                    ),
                   )
                 ],
               ),

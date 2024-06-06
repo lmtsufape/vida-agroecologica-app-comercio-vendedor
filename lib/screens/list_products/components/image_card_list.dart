@@ -8,7 +8,11 @@ class ImageCardList extends StatefulWidget {
   final int? productId; // Adiciona o ID do produto como argumento
   final List<TableProductsModel> tableProducts;
 
-  const ImageCardList(this.userToken, this.productId,this.tableProducts, {Key? key}) : super(key: key);
+  const ImageCardList(
+    this.userToken,
+    this.productId,
+    this.tableProducts,
+    {Key? key}) : super(key: key);
 
   @override
   State<ImageCardList> createState() => _ImageCardListState();
@@ -53,15 +57,20 @@ class _ImageCardListState extends State<ImageCardList> {
             aspectRatio: 1.05,
             child: SizedBox(
               child: Material(
-                borderRadius: BorderRadius.circular(10),
-                elevation: 1.3,
+                
                 shadowColor: Colors.black,
-                child: widget.tableProducts[produtoIndex].imagem != null && base64Image != null
-                    ? Image.memory(base64Decode(base64Image.split(',').last))
-                    : const Icon(
-                  Icons.shopping_bag,
-                  size: 80,
-                  color: Colors.orange,
+                elevation: 3,
+                color: kBackgroundColor,
+                borderRadius: BorderRadius.circular(12),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: widget.tableProducts[produtoIndex].imagem != null && base64Image != null
+                      ? Image.memory(base64Decode(base64Image.split(',').last))
+                      : const Icon(
+                    Icons.shopping_bag,
+                    size: 80,
+                    color: Colors.orange,
+                  ),
                 ),
               ),
             ),

@@ -47,24 +47,27 @@ class _CardProductsListState extends State<CardProductsList> {
                           widget.model, widget.editRepository)));
             },
             child: Ink(
-              child: Card(
-                margin: EdgeInsets.zero,
-                color: Colors.white,
-                elevation: 1.3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+              child: Container(
+                decoration: BoxDecoration(
+          color: kBackgroundColor,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromARGB(121, 120, 120, 120), 
+              blurRadius: 7.0,
+            ),
+          ],
+        ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ImageCardList(widget.userToken,
-                        widget.model.produtoTabeladoId, widget.listTable),
+                    ImageCardList(widget.userToken, widget.model.produtoTabeladoId, widget.listTable),
                     Container(
-                      width: size.width * 0.5615,
+                      width: size.width * 0.5,
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.only(start: 8, end: 0),
+                            const EdgeInsetsDirectional.only(start: 12, end: 0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
