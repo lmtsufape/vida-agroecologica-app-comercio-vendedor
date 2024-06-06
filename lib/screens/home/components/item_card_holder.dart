@@ -18,7 +18,19 @@ class ItemCardHolder extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
-      child: Card(
+      child: Container(
+        width: size.width,
+        height: size.height * 0.2,
+        decoration: BoxDecoration(
+          color: kBackgroundColor,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromARGB(121, 116, 116, 116), 
+              blurRadius: 10.0,
+            ),
+          ],
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
