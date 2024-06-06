@@ -83,24 +83,25 @@ class _OrderDetailScreenState
                   height: size.height * 0.01,
                   color: Colors.transparent,
                 ),
-                Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Cliente:',
-                      style: TextStyle(
-                          fontSize: size.height * 0.022,
-                          color: kTextButtonColor),
-                    ),
-                    Padding(
-                        padding: const EdgeInsetsDirectional
-                            .only(start: 10),
-                        child: Text(
-                            widget.model.consumidorName!)),
-                    const SizedBox()
-                  ],
-                ),
+               Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Cliente:',
+                        style: TextStyle(
+                            fontSize: size.height * 0.022,
+                            color: kTextButtonColor),
+                      ),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(start: 10),
+                          child: Text(widget.model.consumidorName!,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,)
+                      ),
+                      const SizedBox()
+                    ],
+                  ),
                 Divider(
                   height: size.height * 0.03,
                 ),
@@ -144,12 +145,8 @@ class _OrderDetailScreenState
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               FileViewScreen(
-                                            comprovanteBytes: widget
-                                                .controller
-                                                .comprovanteBytes!,
-                                            comprovanteType: widget
-                                                .controller
-                                                .comprovanteType!,
+                                                comprovanteBytes: widget.controller.comprovanteBytes!,
+                                                comprovanteType: widget.controller.comprovanteType!,
                                           ),
                                         ),
                                       );
@@ -157,24 +154,16 @@ class _OrderDetailScreenState
                                   },
                                   download: () async {
                                     await widget.controller
-                                        .downloadComprovante(
-                                            widget
-                                                .model.id!);
-                                    if (widget.controller
-                                            .downloadPath !=
-                                        null) {
-                                      ScaffoldMessenger.of(
-                                              context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text(
-                                                'Comprovante baixado com sucesso!')),
+                                        .downloadComprovante(widget.model.id!);
+                                    if (widget.controller.downloadPath !=null) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('Comprovante baixado com sucesso!'),
+                                                ),
                                       );
                                     }
                                   },
                                   viewColor: kSuccessColor,
-                                  downloadColor:
-                                      kErrorColor,
+                                  downloadColor:kErrorColor,
                                 ),
                               );
                             },
