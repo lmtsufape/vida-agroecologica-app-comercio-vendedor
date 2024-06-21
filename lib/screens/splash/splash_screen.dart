@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thunderapp/assets/index.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/splash/splash_screen_controller.dart';
+import 'package:thunderapp/shared/components/bottomLogos/bottom_logos.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
@@ -75,22 +76,34 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Lottie.asset(
-                //     width: 220,
-                //     height: 220,
-                //     controller: animController,
-                //     Assets.introLottie,
-                //     fit: BoxFit.fill),
+                Center(
+                  child: Image.asset(
+                    Assets.logoAssociacao,
+                    width: 160,
+                  ),
+                ),
+                const SizedBox(height: 50,),
                 AnimatedOpacity(
                   duration:
                       const Duration(milliseconds: 200),
                   opacity: opacity,
-                  child: Text(
-                    'GESTÃO AGROECOLÓGICA BONITO',
-                    textAlign: TextAlign.center,
-                    style: kTitle1.copyWith(
-                        color: kOnSurfaceColor,
-                        fontSize: size.height * 0.038),
+                  child: Column(
+                    children: [
+                      Text(
+                        'VIDA AGROECOLÓGICA',
+                        textAlign: TextAlign.center,
+                        style: kTitle1.copyWith(
+                            color: kOnSurfaceColor,
+                            fontSize: size.height * 0.030),
+                      ),
+                      Text(
+                        '(Aplicativo vendedor/a)',
+                        textAlign: TextAlign.center,
+                        style: kTitle1.copyWith(
+                            color: kOnSurfaceColor,
+                            fontSize: size.height * 0.019),
+                      ),
+                    ],
                   ),
                 ),
                 const VerticalSpacerBox(
@@ -101,41 +114,7 @@ class _SplashScreenState extends State<SplashScreen>
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding:
-                  const EdgeInsets.all(kDefaultPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Desenvolvido por:',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  const VerticalSpacerBox(
-                      size: SpacerSize.small),
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        Assets.ufape,
-                        width: 100,
-                      ),
-                      const SizedBox(width: 20),
-                      Image.asset(
-                        Assets.lmts,
-                        width: 150,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
+          BottomLogos(150),
         ],
       ),
     );

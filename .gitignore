@@ -1,4 +1,6 @@
+.vscode/settings.json
 # Miscellaneous
+.gitignore
 *.class
 *.log
 *.pyc
@@ -60,3 +62,6 @@ windows/flutter/generated_plugins.cmake
 pubspec.lock
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# FVM Version Cache
+.fvm/

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:thunderapp/assets/index.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/screens/signin/sign_in_controller.dart';
 import 'package:thunderapp/screens/start/start_controller.dart';
+import 'package:thunderapp/shared/components/bottomLogos/bottom_logos.dart';
+import 'package:thunderapp/shared/components/header_start_app/header_start_app.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/navigator.dart';
@@ -14,7 +17,6 @@ class StartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /**Declare this variable to get the Media Query of the screen in the current context */
     Size size = MediaQuery.of(context).size;
     return GetBuilder<StartController>(
       init: StartController(),
@@ -26,22 +28,7 @@ class StartScreen extends StatelessWidget {
               width: size.width,
               padding:
                   const EdgeInsets.all(kDefaultPadding),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Eba, que bom que você voltou!',
-                    textAlign: TextAlign.center,
-                    style:
-                        kTitle1.copyWith(color: kTextColor, fontSize: 35),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.5,
-                  )
-                ],
-              ),
+              child: const HeaderStartApp(),
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -99,8 +86,7 @@ class StartScreen extends StatelessWidget {
                             onPressed: () => controller
                                 .startVeri(context)),
                     Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         SignInController().errorMessage !=
                                 null
@@ -134,19 +120,20 @@ class StartScreen extends StatelessWidget {
                                 softWrap: false,
                           ),
                           onPressed: () {
-                            navigatorKey.currentState!
-                                .pushReplacementNamed(
-                                    Screens.signin);
+                            Navigator.pushNamed(
+                                context, 
+                                Screens.signin
+                              );
                           },
                         ),
-                        const VerticalSpacerBox(
-                            size: SpacerSize.small),
+                        const SizedBox(height: 180,),
                       ],
                     ),
                   ],
                 ),
               ),
-            )
+            ),
+            BottomLogos(150)
           ],
         ),
       ),
