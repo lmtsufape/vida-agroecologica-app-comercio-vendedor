@@ -41,13 +41,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 }
 
-// ignore: must_be_immutable
 class OrderCard extends StatefulWidget {
-  PedidoModel model;
-  OrdersController controller;
+  final PedidoModel model;
+  final OrdersController controller;
 
-  OrderCard(
-    this.model, this.controller,{
+  const OrderCard(
+    this.model,
+    this.controller,{
     Key? key,
   }) : super(key: key);
 
@@ -169,7 +169,7 @@ class _OrderCardState extends State<OrderCard> {
                         children: <Widget>[
                           Text(
                             DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
-                            style: kCaption2.copyWith(color: kTextButtonColor, fontSize: 16),
+                            style: kCaption2.copyWith(color: kTextButtonColor, fontSize: 15),
                           ),
                           Container(
                             padding: const EdgeInsets.all(kTinySize),
@@ -178,7 +178,7 @@ class _OrderCardState extends State<OrderCard> {
                                 color: kAlertColor),
                             child: Text(
                               widget.model.status.toString(),
-                              style: kCaption2.copyWith(color: kBackgroundColor),
+                              style: kCaption2.copyWith(color: kBackgroundColor, fontSize: 14),
                             ),
                           )
                         ],

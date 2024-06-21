@@ -14,34 +14,43 @@ class TotalInfos extends StatelessWidget {
     return SizedBox(
       width: size.width,
       height: size.height * 0.13,
-      child: Card(
-        color: Colors.white,
-        margin: EdgeInsets.zero,
-        elevation: 1.4,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'TOTAL DE PRODUTOS',
-              style: TextStyle(
-                fontSize: size.height * 0.018,
-                fontWeight: FontWeight.w700,
-                color: kPrimaryColor,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          margin: EdgeInsets.zero,
+          decoration: BoxDecoration(
+            color: kBackgroundColor,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(121, 120, 120, 120), 
+                blurRadius: 7.0,
               ),
-            ),
-            Divider(
-              height: size.height * 0.01,
-              color: Colors.transparent,
-            ),
-            Text(
-              controller.quantProducts.toString(),
-              style: TextStyle(
-                  fontSize: size.height * 0.020,
-                  fontWeight: FontWeight.w800),
-            )
-          ],
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'TOTAL DE PRODUTOS',
+                style: TextStyle(
+                  fontSize: size.height * 0.018,
+                  fontWeight: FontWeight.w700,
+                  color: kPrimaryColor,
+                ),
+              ),
+              Divider(
+                height: size.height * 0.01,
+                color: Colors.transparent,
+              ),
+              Text(
+                controller.quantProducts.toString(),
+                style: TextStyle(
+                    fontSize: size.height * 0.020,
+                    fontWeight: FontWeight.w800),
+              )
+            ],
+          ),
         ),
       ),
     );

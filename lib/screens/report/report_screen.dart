@@ -181,7 +181,7 @@ class _ReportCardState extends State<ReportCard> {
                                 color: kAlertColor),
                             child: Text(
                               widget.model.status.toString(),
-                              style: kCaption2.copyWith(color: kBackgroundColor),
+                              style: kCaption2.copyWith(color: kBackgroundColor, fontSize: 14),
                             ),
                           )
                         ],

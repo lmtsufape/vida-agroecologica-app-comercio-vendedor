@@ -340,7 +340,7 @@ class OrdersController extends GetxController {
   List<ProdutoPedidoModel> getItensDoPedido(int pedidoId) {
     var pedido = orders.firstWhere(
         (order) => order.id == pedidoId,
-        orElse: () => PedidoModel(consumidorId: 0));
+        orElse: () => PedidoModel(consumidorId: pedidoModel!.consumidorId));
     return pedido.listaDeProdutos ?? [];
   }
 }
