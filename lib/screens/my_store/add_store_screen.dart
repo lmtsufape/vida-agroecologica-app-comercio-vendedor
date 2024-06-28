@@ -1,14 +1,12 @@
 // ignore_for_file: avoid_unnecessary_containers, avoid_print
-
 import 'dart:math';
-
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
+import 'package:thunderapp/screens/my_store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import '../../components/forms/custom_text_form_field.dart';
@@ -37,12 +35,14 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
               child: Scaffold(
                   appBar: AppBar(
                     backgroundColor: kPrimaryColor,
-                    title: Text(
-                      'Criar Banca',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: size.height * 0.030),
+                    title: Center(
+                      child: Text(
+                        'Criar Banca',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: size.height * 0.030),
+                      ),
                     ),
                   ),
                   body: SingleChildScrollView(

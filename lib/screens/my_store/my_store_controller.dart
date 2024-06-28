@@ -1,11 +1,10 @@
 // ignore_for_file: avoid_print
-
 import 'dart:io';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:thunderapp/screens/my%20store/my_store_repository.dart';
+import 'package:thunderapp/screens/my_store/my_store_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
@@ -29,52 +28,37 @@ class MyStoreController extends GetxController {
 
   final List<bool> isSelected = [false, false, false];
   final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
-
   final List<bool> delivery = [false, false];
   final List<String> deliveryItems = ['Sim', 'Não'];
 
   bool deliver = false;
   bool pixBool = false;
+MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
+    mask: '##:##',
+    filter: {
+      "#": RegExp(r'[0-9]')
+    },
+    type: MaskAutoCompletionType.lazy);
 
-  MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
-      mask: '#@:%&',
-      filter: {
-        "#": RegExp(r'[0-2]'),
-        "@": RegExp(r'^(?:[01]?\d|2[0-3])$'),
-        "%": RegExp(r'[0-5]'),
-        "&": RegExp(r'[0-9]')
-      },
-      type: MaskAutoCompletionType.lazy);
+MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
+    mask: '##:##',
+    filter: {
+      "#": RegExp(r'[0-9]')
+    },
+    type: MaskAutoCompletionType.lazy);
 
-  MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
-      mask: '#@:%&',
-      filter: {
-        "#": RegExp(r'[0-2]'),
-        "@": RegExp(r'[0-3]'),
-        "%": RegExp(r'[0-5]'),
-        "&": RegExp(r'[0-9]')
-      },
-      type: MaskAutoCompletionType.lazy);
 
   final TextEditingController _nomeBancaController = TextEditingController();
   final TextEditingController _pixController = TextEditingController();
   final TextEditingController _quantiaMinController = TextEditingController();
-  final TextEditingController _horarioAberturaController =
-      TextEditingController();
-  final TextEditingController _horarioFechamentoController =
-      TextEditingController();
+  final TextEditingController _horarioAberturaController = TextEditingController();
+  final TextEditingController _horarioFechamentoController = TextEditingController();
 
   TextEditingController get nomeBancaController => _nomeBancaController;
-
   TextEditingController get quantiaMinController => _quantiaMinController;
-
   TextEditingController get pixController => _pixController;
-
-  TextEditingController get horarioAberturaController =>
-      _horarioAberturaController;
-
-  TextEditingController get horarioFechamentoController =>
-      _horarioFechamentoController;
+  TextEditingController get horarioAberturaController => _horarioAberturaController;
+  TextEditingController get horarioFechamentoController => _horarioFechamentoController;
 
   void onItemTapped(int index) {
     isSelected[index] = !isSelected[index];

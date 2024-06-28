@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
+import 'package:flutter/widgets.dart';
+import 'package:thunderapp/assets/index.dart';
+import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
+import 'package:thunderapp/screens/my_store/my_store_controller.dart';
 
 import '../../../components/utils/horizontal_spacer_box.dart';
 import '../../../shared/constants/app_enums.dart';
@@ -20,41 +23,57 @@ class _CircleImageProfileState
     extends State<CircleImageProfile> {
   @override
   Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
     final heightScreen = MediaQuery.of(context).size.height;
     final widthScreen = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 15),
-      child: SizedBox(
-        width: widthScreen * 0.24,
-        height: heightScreen * 0.12,
-        child: FloatingActionButton(
-            heroTag: 'Photo',
-            backgroundColor: kBackgroundColor,
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: ((builder) =>
-                      bottomSheet(widget.controller)));
-            },
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(100))),
-            child: CircleAvatar(
-                radius: 65,
+      child: Column(
+        children: [
+          SizedBox(
+            width: widthScreen * 0.24,
+            height: heightScreen * 0.12,
+            child: FloatingActionButton(
+                heroTag: 'Photo',
                 backgroundColor: kBackgroundColor,
-                backgroundImage: widget
-                            .controller.selectedImage !=
-                        null
-                    ? FileImage(
-                        widget.controller.selectedImage!)
-                    : null,
-                child: widget.controller.selectedImage ==
-                        null
-                    ? const Icon(
-                        Icons.person_outline,
-                        color: kSecondaryColor,
-                        size: 50,
-                      )
-                    : null)),
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: ((builder) => bottomSheet(widget.controller)));
+                },
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(100))),
+                child: CircleAvatar(
+                    radius: 65,
+                    backgroundColor: kBackgroundColor,
+                    backgroundImage: widget
+                                .controller.selectedImage !=
+                            null
+                        ? FileImage(
+                            widget.controller.selectedImage!)
+                        : null,
+                    child: widget.controller.selectedImage ==
+                            null
+                        ?  Image.asset(Assets.bancaExemplo)
+                        : null)),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Center(
+                child: Text("Editar imagem  "),
+              ),
+              Icon(
+                  Icons.mode_edit_outline_outlined,
+                  color: kPrimaryColor,
+                  size: size.height * 0.025,
+                ),
+            ],
+          )
+        ],
       ),
     );
   }

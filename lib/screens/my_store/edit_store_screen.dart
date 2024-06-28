@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
-
 import 'dart:math';
-
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/home/home_screen.dart';
-import 'package:thunderapp/screens/my%20store/my_store_controller.dart';
+import 'package:thunderapp/screens/my_store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
@@ -42,13 +40,16 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
               },
               child: Scaffold(
                   appBar: AppBar(
+                    automaticallyImplyLeading: false,
                     backgroundColor: kPrimaryColor,
-                    title: Text(
-                      'Editar banca',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: size.height * 0.030),
+                    title: Center(
+                      child: Text(
+                        'Editar banca',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: size.height * 0.030),
+                      ),
                     ),
                   ),
                   body: SingleChildScrollView(
@@ -98,8 +99,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                                 return 'O nome deve ter no mínimo 3 caracteres';
                                               }
                                             },
-                                            controller:
-                                                controller.nomeBancaController,
+                                            controller: controller.nomeBancaController,
                                           ),
                                         ),
                                       ),
@@ -108,11 +108,6 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 ],
                               ),
                               const VerticalSpacerBox(size: SpacerSize.small),
-                              /*Text('Horário de Funcionamento',
-                              style: kTitle1.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: size.height * 0.014,
-                                  color: kTextButtonColor)),*/
                               Divider(
                                 height: size.height * 0.01,
                                 color: Colors.transparent,
@@ -120,15 +115,13 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               SizedBox(
                                 width: size.width,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Horário de abertura',
+                                          'Início dos pedidos',
                                           style: TextStyle(
                                               color: kSecondaryColor,
                                               fontWeight: FontWeight.w700,
@@ -145,15 +138,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                             elevation: 0,
                                             child: ClipPath(
                                               child: Container(
-                                                /*decoration: const BoxDecoration(
-                                              border: Border(
-                                                  bottom: BorderSide(
-                                                      color: Colors.black, width: 1)),
-                                            ),*/
                                                 alignment: Alignment.center,
                                                 child: CustomTextFormFieldTime(
-                                                  erroStyle: const TextStyle(
-                                                      fontSize: 12),
+                                                  erroStyle: const TextStyle(fontSize: 12),
                                                   validatorError: (value) {
                                                     final exp = RegExp(
                                                         r"(\d{2})+:?(\d{2})+");
@@ -165,15 +152,12 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                                     }
                                                     return null;
                                                   },
-                                                  hintText: widget.bancaModel!
-                                                      .horarioAbertura,
-                                                  keyboardType:
-                                                      TextInputType.datetime,
+                                                  hintText: widget.bancaModel!.horarioAbertura,
+                                                  keyboardType: TextInputType.datetime,
                                                   timeFormatter: [
                                                     _HourInputFormatter(),
                                                   ],
-                                                  controller: controller
-                                                      .horarioAberturaController,
+                                                  controller: controller.horarioAberturaController,
                                                 ),
                                               ),
                                             ),
@@ -188,7 +172,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Horário de fechamento',
+                                          'Término dos pedidos',
                                           style: TextStyle(
                                               color: kSecondaryColor,
                                               fontWeight: FontWeight.w700,
@@ -205,11 +189,6 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                             elevation: 0,
                                             child: ClipPath(
                                               child: Container(
-                                                /*decoration: const BoxDecoration(
-                                              border: Border(
-                                                  bottom: BorderSide(
-                                                      color: Colors.black, width: 1)),
-                                            ),*/
                                                 alignment: Alignment.center,
                                                 child: CustomTextFormFieldTime(
                                                   erroStyle: const TextStyle(
