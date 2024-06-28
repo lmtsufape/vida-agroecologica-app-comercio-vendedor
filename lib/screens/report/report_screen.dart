@@ -134,18 +134,6 @@ class _ReportCardState extends State<ReportCard> {
                               ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return OrderDetailScreen(widget.model, widget.ordersController);
-                              }));
-                            },
-                            icon: Icon(
-                              Icons.more_vert,
-                              color: kPrimaryColor,
-                              size: size.height * 0.05,
-                            ),
-                          ),
                         ],
                       ),
                       const Divider(),

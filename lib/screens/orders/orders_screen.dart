@@ -124,17 +124,6 @@ class _OrderCardState extends State<OrderCard> {
                               ],
                             ),
                           ),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return OrderDetailScreen(widget.model, widget.controller);
-                                }),);
-                              },
-                              icon: Icon(
-                                Icons.more_vert,
-                                color: kPrimaryColor,
-                                size: size.height * 0.05,
-                              )),
                         ],
                       ),
                       const Divider(),
