@@ -7,7 +7,6 @@ import 'list_products_controller.dart';
 
 class ListProductsScreen extends StatelessWidget {
   const ListProductsScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -15,28 +14,17 @@ class ListProductsScreen extends StatelessWidget {
       init: ListProductsController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: kPrimaryColor,
-          title: Text(
-            'Produtos',
-            style: kTitle2.copyWith(color: Colors.white),
+          title: Center(
+            child: Text(
+              'Produtos',
+              style: kTitle2.copyWith(color: Colors.white),
+            ),
           ),
           iconTheme:
               const IconThemeData(color: Colors.white),
         ),
-        /*drawer: Drawer(
-            child: ListView(
-              children: [
-                ListTile(
-                  title: const Text('Sair'),
-                  trailing: const Icon(
-                    Icons.exit_to_app,
-                    size: 20,
-                    color: kPrimaryColor,
-                  ),
-                  onTap: () {},
-                )
-              ],
-            )),*/
         floatingActionButton: SizedBox(
           // height: size.height * 0.085,
           // width: size.width * 0.17,
@@ -69,7 +57,7 @@ class ListProductsScreen extends StatelessWidget {
                     CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Estoque',
+                    'Quantidade disponível',
                     style: TextStyle(
                       fontSize: size.height * 0.02,
                       fontWeight: FontWeight.w700,
