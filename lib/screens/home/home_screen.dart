@@ -91,8 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     width: size.width * 0.61,
                     child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         controller.bancaModel == null
                             ? const CircularProgressIndicator(
@@ -129,8 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                             },
                             icon: Icon(
-                              Icons
-                                  .mode_edit_outline_outlined,
+                              Icons.mode_edit_outline_outlined,
                               color: kPrimaryColor,
                               size: size.height * 0.04,
                             )),
