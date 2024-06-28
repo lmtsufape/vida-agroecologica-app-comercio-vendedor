@@ -33,7 +33,7 @@ class HeaderStartApp extends StatelessWidget {
                   fontSize: size.height * 0.030),
             ),
             Text(
-              '(Aplicativo vendedor/a)',
+              '(aplicativo vendedor/a)',
               textAlign: TextAlign.center,
               style: kTitle1.copyWith(
                   color: kOnSurfaceColor,

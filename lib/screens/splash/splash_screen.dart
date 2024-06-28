@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thunderapp/assets/index.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/splash/splash_screen_controller.dart';
 import 'package:thunderapp/shared/components/bottomLogos/bottom_logos.dart';
+import 'package:thunderapp/shared/components/header_start_app/header_start_app.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/app_number_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
@@ -72,47 +72,19 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
             width: size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child:  Column(
               children: [
-                Center(
-                  child: Image.asset(
-                    Assets.logoAssociacao,
-                    width: 160,
-                  ),
-                ),
-                const SizedBox(height: 50,),
-                AnimatedOpacity(
-                  duration:
-                      const Duration(milliseconds: 200),
-                  opacity: opacity,
-                  child: Column(
-                    children: [
-                      Text(
-                        'VIDA AGROECOLÓGICA',
-                        textAlign: TextAlign.center,
-                        style: kTitle1.copyWith(
-                            color: kOnSurfaceColor,
-                            fontSize: size.height * 0.030),
-                      ),
-                      Text(
-                        '(Aplicativo vendedor/a)',
-                        textAlign: TextAlign.center,
-                        style: kTitle1.copyWith(
-                            color: kOnSurfaceColor,
-                            fontSize: size.height * 0.019),
-                      ),
-                    ],
-                  ),
-                ),
-                const VerticalSpacerBox(
+                SizedBox(height: size.height * 0.12,),
+                 const HeaderStartApp(),
+                 const VerticalSpacerBox(
                     size: SpacerSize.huge),
-                const CircularProgressIndicator(
+                 const CircularProgressIndicator(
                   color: Colors.white,
                 )
               ],
             ),
+            
+            
           ),
           BottomLogos(150),
         ],

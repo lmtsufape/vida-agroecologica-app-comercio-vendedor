@@ -22,17 +22,11 @@ class ListProductsController extends GetxController {
   late String userId;
   late bool hasImage = false;
 
-  HomeScreenRepository homeRepository =
-      HomeScreenRepository();
-  EditProductsRepository editRepository =
-      EditProductsRepository();
-  ListProductsRepository repository =
-      ListProductsRepository();
-  final TextEditingController _searchController =
-      TextEditingController();
-
-  TextEditingController get searchController =>
-      _searchController;
+  HomeScreenRepository homeRepository = HomeScreenRepository();
+  EditProductsRepository editRepository = EditProductsRepository();
+  ListProductsRepository repository = ListProductsRepository();
+  final TextEditingController _searchController = TextEditingController();
+  TextEditingController get searchController => _searchController;
 
   void setHasImage(bool value) {
     hasImage = value;
@@ -45,12 +39,8 @@ class ListProductsController extends GetxController {
     UserStorage userStorage = UserStorage();
     var token = await userStorage.getUserToken();
     var userId = await userStorage.getUserId();
-    bancaModel =
-        await homeRepository.getBancaPrefs(token, userId);
-
-    var products =
-        await repository.getProducts(bancaModel?.id);
-
+    bancaModel = await homeRepository.getBancaPrefs(token, userId);
+    var products = await repository.getProducts(bancaModel?.id);
     quantProducts = products.length;
 
     if (products.isNotEmpty) {
@@ -84,14 +74,9 @@ class ListProductsController extends GetxController {
   }
 
   Future<List<TableProductsModel>> loadList() async {
-    SharedPreferences prefs =
-        await SharedPreferences.getInstance();
-    List<String> listaString =
-        prefs.getStringList('listaProdutosTabelados') ?? [];
-    return listaString
-        .map((string) => TableProductsModel.fromJson(
-            json.decode(string)))
-        .toList();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> listaString = prefs.getStringList('listaProdutosTabelados') ?? [];
+    return listaString.map((string) => TableProductsModel.fromJson(json.decode(string))).toList();
   }
 
   @override
