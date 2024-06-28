@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/order%20detail/order_detail_screen.dart';
@@ -30,14 +30,28 @@ class _ReportScreenState extends State<ReportScreen> {
             style: kTitle2.copyWith(color: kPrimaryColor),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(
-              kDefaultPadding - kSmallSize),
-          height: size.height,
-          child: ListView(
-            children: controller.pedidos,
-          ),
-        ),
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (controller.pedidos.isEmpty) {
+            return Center(
+              child: Text('Nenhum pedido encontrado.'),
+            );
+          } else {
+            return Container(
+              padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
+              height: size.height,
+              child: ListView.builder(
+                itemCount: controller.pedidos.length,
+                itemBuilder: (context, index) {
+                  return controller.pedidos[index];
+                },
+              ),
+            );
+          }
+        }),
       ),
     );
   }
@@ -45,14 +59,10 @@ class _ReportScreenState extends State<ReportScreen> {
 
 // ignore: must_be_immutable
 class ReportCard extends StatefulWidget {
-  PedidoModel model;
-  ReportController? controller;
-  OrdersController ordersController;
-  ReportCard(
-    this.model,
-    this.ordersController, {
-    Key? key,
-  }) : super(key: key);
+  final PedidoModel model;
+  final OrdersController ordersController;
+
+  ReportCard(this.model, this.ordersController, {Key? key}) : super(key: key);
 
   @override
   State<ReportCard> createState() => _ReportCardState();
@@ -65,8 +75,7 @@ class _ReportCardState extends State<ReportCard> {
     return Column(
       children: [
         InkWell(
-          onTap: () =>
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
             return OrderDetailScreen(widget.model, widget.ordersController);
           })),
           child: Ink(
@@ -99,8 +108,7 @@ class _ReportCardState extends State<ReportCard> {
                               children: [
                                 Text(
                                   'Pedido #${widget.model.id.toString()}',
-                                  style: kBody3.copyWith(
-                                      fontWeight: FontWeight.bold),
+                                  style: kBody3.copyWith(fontWeight: FontWeight.bold),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Divider(
@@ -127,16 +135,17 @@ class _ReportCardState extends State<ReportCard> {
                             ),
                           ),
                           IconButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return OrderDetailScreen(widget.model, widget.ordersController);
-                                }),);
-                              },
-                              icon: Icon(
-                                Icons.more_vert,
-                                color: kPrimaryColor,
-                                size: size.height * 0.05,
-                              )),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return OrderDetailScreen(widget.model, widget.ordersController);
+                              }));
+                            },
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: kPrimaryColor,
+                              size: size.height * 0.05,
+                            ),
+                          ),
                         ],
                       ),
                       const Divider(),
@@ -147,7 +156,7 @@ class _ReportCardState extends State<ReportCard> {
                             'Itens:',
                             style: kCaption2.copyWith(color: kTextButtonColor),
                           ),
-                          Text(NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.total))
+                          Text(NumberFormat.simpleCurrency(locale: 'pt-BR', decimalDigits: 2).format(widget.model.total))
                         ],
                       ),
                       const VerticalSpacerBox(size: SpacerSize.medium),
@@ -160,7 +169,7 @@ class _ReportCardState extends State<ReportCard> {
                             style: kBody2,
                           ),
                           Text(
-                            NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.total),
+                            NumberFormat.simpleCurrency(locale: 'pt-BR', decimalDigits: 2).format(widget.model.total),
                             style: kBody2.copyWith(color: kDetailColor),
                           )
                         ],
@@ -171,8 +180,7 @@ class _ReportCardState extends State<ReportCard> {
                         children: <Widget>[
                           Text(
                             DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
-                            style:
-                            kCaption2.copyWith(color: kTextButtonColor, fontSize: 16),
+                            style: kCaption2.copyWith(color: kTextButtonColor, fontSize: 16),
                           ),
                           Container(
                             padding: const EdgeInsets.all(kTinySize),
@@ -193,7 +201,10 @@ class _ReportCardState extends State<ReportCard> {
             ),
           ),
         ),
-        Divider(height: size.height * 0.01, color: Colors.transparent,),
+        Divider(
+          height: size.height * 0.01,
+          color: Colors.transparent,
+        ),
       ],
     );
   }

@@ -11,7 +11,7 @@ import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 import '../../components/utils/horizontal_spacer_box.dart';
-import '../my store/edit_store_screen.dart';
+import '../my_store/edit_store_screen.dart';
 import 'components/item_card_holder.dart';
 
 class HomeScreen extends StatefulWidget {

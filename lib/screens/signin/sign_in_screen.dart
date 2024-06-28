@@ -211,8 +211,7 @@ class SignInScreen extends StatelessWidget {
                                                               .currentState!
                                                               .validate();
                                                       if (isValidForm) {
-                                                        controller
-                                                            .signIn(context);
+                                                        controller.signIn(context);
                                                       }
                                                     },
                                                     child: FittedBox(
