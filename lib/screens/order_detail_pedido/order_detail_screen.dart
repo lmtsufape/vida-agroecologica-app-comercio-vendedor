@@ -519,11 +519,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Text(
                         NumberFormat.simpleCurrency(
-                                locale: 'pt-BR',
-                                decimalDigits: 2).format(widget.model.subtotal),
+                          locale: 'pt-BR',
+                          decimalDigits: 2
+                        ).format(widget.model.subtotal),
                         style: TextStyle(
                             fontSize: size.height * 0.018,
-                            color: kPrimaryColor),
+                            color: kPrimaryColor,
+                          ),
                       ),
                     ],
                   ),
