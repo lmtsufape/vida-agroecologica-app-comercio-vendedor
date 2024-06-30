@@ -24,17 +24,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
       init: OrdersController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Pedidos',
-            style: kTitle2.copyWith(color: kPrimaryColor),
+          title: Text('Pedidos', style: kTitle2.copyWith(color: kPrimaryColor),
           ),
         ),
         body: Container(
           padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
           height: size.height,
-          child: ListView(
-            children: controller.pedidos,
-          ),
+          child: ListView(children: controller.pedidos,),
         ),
       ),
     );
@@ -62,10 +58,14 @@ class _OrderCardState extends State<OrderCard> {
     return Column(
       children: [
         InkWell(
-          onTap: () =>
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return OrderDetailScreen(widget.model, widget.controller);
-          })),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return OrderDetailScreen(widget.model, widget.controller);
+              },
+            )
+          ),
           child: Ink(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -94,10 +94,8 @@ class _OrderCardState extends State<OrderCard> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Pedido #${widget.model.id.toString()}',
-                                  style: kBody3.copyWith(
-                                      fontWeight: FontWeight.bold),
+                                Text('Pedido #${widget.model.id.toString()}',
+                                  style: kBody3.copyWith(fontWeight: FontWeight.bold),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Divider(
@@ -107,14 +105,12 @@ class _OrderCardState extends State<OrderCard> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Cliente:',
-                                      style: kCaption2.copyWith(color: kTextButtonColor),
+                                    Text('Cliente:',
+                                      style: kCaption2.copyWith(color: Colors.black),
                                     ),
                                     const SizedBox(width: 10),
                                     Expanded(
-                                      child: Text(
-                                        widget.model.consumidorName!,
+                                      child: Text(widget.model.consumidorName!,
                                         style: const TextStyle(fontSize: 15),
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -124,28 +120,21 @@ class _OrderCardState extends State<OrderCard> {
                               ],
                             ),
                           ),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return OrderDetailScreen(widget.model, widget.controller);
-                                }),);
-                              },
-                              icon: Icon(
-                                Icons.more_vert,
-                                color: kPrimaryColor,
-                                size: size.height * 0.05,
-                              )),
                         ],
                       ),
                       const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            'Itens:',
-                            style: kCaption2.copyWith(color: kTextButtonColor),
+                          Text('Itens:',
+                            style: kCaption2.copyWith(color: Colors.black),
                           ),
-                          Text(NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.total))
+                          Text(
+                            NumberFormat.simpleCurrency(
+                              locale:'pt-BR', 
+                              decimalDigits: 2
+                            ).format(widget.model.total),
+                          )
                         ],
                       ),
                       const VerticalSpacerBox(size: SpacerSize.medium),
@@ -153,12 +142,12 @@ class _OrderCardState extends State<OrderCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          const Text(
-                            'Total do pedido:',
-                            style: kBody2,
-                          ),
+                          const Text('Total do pedido:', style: kBody2,),
                           Text(
-                            NumberFormat.simpleCurrency(locale:'pt-BR', decimalDigits: 2).format(widget.model.total),
+                            NumberFormat.simpleCurrency(
+                              locale:'pt-BR', 
+                              decimalDigits: 2,
+                            ).format(widget.model.total),
                             style: kBody2.copyWith(color: kDetailColor),
                           )
                         ],
@@ -167,15 +156,15 @@ class _OrderCardState extends State<OrderCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
+                          Text(DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
                             style: kCaption2.copyWith(color: kTextButtonColor, fontSize: 15),
                           ),
                           Container(
                             padding: const EdgeInsets.all(kTinySize),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: kAlertColor),
+                                color: kAlertColor,
+                              ),
                             child: Text(
                               widget.model.status.toString(),
                               style: kCaption2.copyWith(color: kBackgroundColor, fontSize: 14),

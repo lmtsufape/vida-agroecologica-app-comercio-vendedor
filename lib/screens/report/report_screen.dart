@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
-import 'package:thunderapp/screens/order%20detail/order_detail_screen.dart';
+import 'package:thunderapp/screens/order_detail/order_detail_screen.dart';
 import 'package:thunderapp/screens/orders/orders_controller.dart';
 import 'package:thunderapp/screens/report/report_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
@@ -132,18 +132,6 @@ class _ReportCardState extends State<ReportCard> {
                                   ],
                                 ),
                               ],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return OrderDetailScreen(widget.model, widget.ordersController);
-                              }));
-                            },
-                            icon: Icon(
-                              Icons.more_vert,
-                              color: kPrimaryColor,
-                              size: size.height * 0.05,
                             ),
                           ),
                         ],

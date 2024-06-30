@@ -20,8 +20,7 @@ class OrderDetailScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<OrderDetailScreen> createState() =>
-      _OrderDetailScreenState();
+  State<OrderDetailScreen> createState() => _OrderDetailScreenState();
 }
 
 class _OrderDetailScreenState
@@ -38,19 +37,15 @@ class _OrderDetailScreenState
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.all(
-            kDefaultPadding - kSmallSize),
+        padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
         height: size.height,
         child: Container(
           decoration: BoxDecoration(
-            color:
-                Colors.white, // Cor de fundo do Container
-            borderRadius: BorderRadius.circular(
-                10), // Bordas arredondadas
+            color:Colors.white, // Cor de fundo do Container
+            borderRadius: BorderRadius.circular(10), // Bordas arredondadas
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(
-                    0.5), // Cor da sombra com transparência
+                color: Colors.grey.withOpacity(0.5), // Cor da sombra com transparência
                 spreadRadius: 1,
                 blurRadius: 10,
                 offset: const Offset(0, 0),
@@ -62,17 +57,12 @@ class _OrderDetailScreenState
             child: ListView(
               children: <Widget>[
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Pedido #${widget.model.id.toString()}',
-                      style: TextStyle(
-                          fontSize: size.height * 0.018),
+                    Text('Pedido #${widget.model.id.toString()}',
+                      style: TextStyle(fontSize: size.height * 0.018),
                     ),
-                    Text(
-                      DateFormat('dd/MM/yyyy')
-                          .format(widget.model.dataPedido!),
+                    Text(DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
                       style: TextStyle(
                           fontSize: size.height * 0.018,
                           fontWeight: FontWeight.w500),
@@ -83,85 +73,67 @@ class _OrderDetailScreenState
                   height: size.height * 0.01,
                   color: Colors.transparent,
                 ),
-               Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Cliente:',
-                        style: TextStyle(
-                            fontSize: size.height * 0.022,
-                            color: kTextButtonColor),
-                      ),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 10),
-                          child: Text(widget.model.consumidorName!,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: false,)
-                      ),
-                      const SizedBox()
-                    ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text('Cliente:',
+                    style: TextStyle(
+                      fontSize: size.height * 0.022,
+                      color: kTextButtonColor,
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 10),
+                      child: Text(widget.model.consumidorName!,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      )
+                  ),
+                  const SizedBox()
+                ],
+              ),
                 Divider(
                   height: size.height * 0.03,
                 ),
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      'Forma de pagamento:',
+                    Text('Forma de pagamento:',
                       style: TextStyle(
-                          fontSize: size.height * 0.018,
-                          color: kTextButtonColor),
+                        fontSize: size.height * 0.018,
+                        color: kTextButtonColor,
+                      ),
                     ),
                     Text(
                       widget.model.formaDePagamento!,
-                      style: TextStyle(
-                          fontSize: size.height * 0.018),
+                      style: TextStyle(fontSize: size.height * 0.018),
                     ),
                     widget.model.formaDePagamento == 'pix'
                         ? IconButton(
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (context) =>
-                                    AlertDialogComprovante(
+                                builder: (context) => AlertDialogComprovante(
                                   title: 'Comprovante',
-                                  body:
-                                      'Você quer visualizar ou baixar o comprovante?',
+                                  body: 'Deseja visualizar o comprovante?',
                                   viewText: 'Visualizar',
-                                  downloadText: 'Baixar',
                                   view: () async {
-                                    await widget.controller
-                                        .fetchComprovanteBytes(
-                                            widget
-                                                .model.id!);
-                                    if (widget.controller
-                                            .comprovanteBytes !=
-                                        null) {
+                                    await widget.controller.fetchComprovanteBytes(widget.model.id!);
+                                    if (widget.controller.comprovanteBytes != null) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              FileViewScreen(
-                                                comprovanteBytes: widget.controller.comprovanteBytes!,
-                                                comprovanteType: widget.controller.comprovanteType!,
+                                          builder: (context) => FileViewScreen(
+                                            model: widget.model,
+                                            controller: OrdersController(),
+                                            comprovanteBytes: widget.controller.comprovanteBytes!,
+                                            comprovanteType: widget.controller.comprovanteType!,
                                           ),
                                         ),
                                       );
                                     }
                                   },
-                                  download: () async {
-                                    await widget.controller
-                                        .downloadComprovante(widget.model.id!);
-                                    if (widget.controller.downloadPath !=null) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(content: Text('Comprovante baixado com sucesso!'),
-                                                ),
-                                      );
-                                    }
-                                  },
+                                 
                                   viewColor: kSuccessColor,
                                   downloadColor:kErrorColor,
                                 ),
@@ -180,19 +152,15 @@ class _OrderDetailScreenState
                   color: Colors.transparent,
                 ),
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      'Tipo de entrega:',
+                    Text('Tipo de entrega:',
                       style: TextStyle(
                           fontSize: size.height * 0.018,
                           color: kTextButtonColor),
                     ),
-                    Text(
-                      widget.model.tipoEntrega.toString(),
-                      style: TextStyle(
-                          fontSize: size.height * 0.018),
+                    Text(widget.model.tipoEntrega.toString(),
+                      style: TextStyle(fontSize: size.height * 0.018),
                     ),
                   ],
                 ),
@@ -206,8 +174,7 @@ class _OrderDetailScreenState
                   color: Colors.transparent,
                 ),
                 Expanded(
-                  child: ItensPedidoWidget(
-                      pedidoId: widget.model.id!),
+                  child: ItensPedidoWidget(pedidoId: widget.model.id!),
                 ),
 
                 Divider(
@@ -239,22 +206,20 @@ class _OrderDetailScreenState
                   color: Colors.transparent,
                 ),
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      'Total do pedido',
-                      style: TextStyle(
-                          fontSize: size.height * 0.018),
+                    Text('Total do pedido',
+                      style: TextStyle(fontSize: size.height * 0.018),
                     ),
                     Text(
                       NumberFormat.simpleCurrency(
-                              locale: 'pt-BR',
-                              decimalDigits: 2)
-                          .format(widget.model.subtotal),
+                        locale: 'pt-BR',
+                        decimalDigits: 2,
+                      ).format(widget.model.subtotal),
                       style: TextStyle(
-                          fontSize: size.height * 0.018,
-                          color: kPrimaryColor),
+                        fontSize: size.height * 0.018,
+                        color: kPrimaryColor,
+                      ),
                     ),
                   ],
                 ),
