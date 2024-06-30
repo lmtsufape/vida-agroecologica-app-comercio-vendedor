@@ -120,9 +120,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   context: context,
                                   builder: (context) => AlertDialogComprovante(
                                     title: 'Comprovante',
-                                    body: 'Você quer visualizar ou baixar o comprovante?',
+                                    body: 'Deseja visualizar o comprovante?',
                                     viewText: 'Visualizar',
-                                    downloadText: 'Baixar',
                                     view: () async {
                                       await widget.controller.fetchComprovanteBytes(widget.model.id!);
                                       if (widget.controller.comprovanteBytes != null) {
@@ -130,6 +129,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                           context,
                                           MaterialPageRoute( 
                                             builder: (context) => FileViewScreen(
+                                              model: widget.model,
+                                              controller: OrdersController(),
                                               comprovanteBytes: widget.controller.comprovanteBytes!,
                                               comprovanteType: widget.controller.comprovanteType!,
                                             ),
@@ -409,9 +410,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   context: context,
                                   builder: (context) => AlertDialogComprovante(
                                     title: 'Comprovante',
-                                    body: 'Você quer visualizar ou baixar o comprovante?',
+                                    body: 'Deseja visualizar o comprovante?',
                                     viewText: 'Visualizar',
-                                    downloadText: 'Baixar',
                                     view: () async {
                                       await widget.controller.fetchComprovanteBytes(widget.model.id!);
                                       if (widget.controller.comprovanteBytes != null) {
@@ -420,19 +420,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                           MaterialPageRoute(
                                             builder:
                                               (context) => FileViewScreen(
+                                                model: widget.model,
+                                                controller: OrdersController(),
                                                 comprovanteBytes: widget.controller.comprovanteBytes!,
                                                 comprovanteType: widget.controller.comprovanteType!,
                                             ),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    download: () async {
-                                      await widget.controller.downloadComprovante(widget.model.id!);
-                                      if (widget.controller.downloadPath != null) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                              content: Text('Comprovante baixado com sucesso!'),
                                           ),
                                         );
                                       }
@@ -669,9 +661,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   context: context,
                                   builder: (context) => AlertDialogComprovante(
                                     title: 'Comprovante',
-                                    body: 'Você quer visualizar ou baixar o comprovante?',
+                                    body: 'Deseja visualizar o comprovante?',
                                     viewText: 'Visualizar',
-                                    downloadText: 'Baixar',
                                     view: () async {
                                       await widget.controller.fetchComprovanteBytes(widget.model.id!);
                                       if (widget.controller.comprovanteBytes != null) {
@@ -679,6 +670,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => FileViewScreen(
+                                              model: widget.model,
+                                              controller: OrdersController(),
                                               comprovanteBytes: widget.controller.comprovanteBytes!,
                                               comprovanteType: widget.controller.comprovanteType!,
                                             ),
@@ -686,14 +679,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                         );
                                       }
                                     },
-                                    download: () async {
-                                      await widget.controller.downloadComprovante(widget.model.id!);
-                                      if (widget.controller.downloadPath != null) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(content: Text('Comprovante baixado com sucesso!')),
-                                        );
-                                      }
-                                    },
+                                   
                                     viewColor: kSuccessColor,
                                     downloadColor: kErrorColor,
                                   ),

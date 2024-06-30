@@ -115,9 +115,8 @@ class _OrderDetailScreenState
                                 context: context,
                                 builder: (context) => AlertDialogComprovante(
                                   title: 'Comprovante',
-                                  body: 'Você quer visualizar ou baixar o comprovante?',
+                                  body: 'Deseja visualizar o comprovante?',
                                   viewText: 'Visualizar',
-                                  downloadText: 'Baixar',
                                   view: () async {
                                     await widget.controller.fetchComprovanteBytes(widget.model.id!);
                                     if (widget.controller.comprovanteBytes != null) {
@@ -134,16 +133,7 @@ class _OrderDetailScreenState
                                       );
                                     }
                                   },
-                                  download: () async {
-                                    await widget.controller.downloadComprovante(widget.model.id!);
-                                    if (widget.controller.downloadPath !=null) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Comprovante baixado com sucesso!'),
-                                        ),
-                                      );
-                                    }
-                                  },
+                                 
                                   viewColor: kSuccessColor,
                                   downloadColor:kErrorColor,
                                 ),
