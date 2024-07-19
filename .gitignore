@@ -1,4 +1,6 @@
 .vscode/settings.json
+.fvmrc
+.vscode/settings.json
 # Miscellaneous
 .gitignore
 *.class

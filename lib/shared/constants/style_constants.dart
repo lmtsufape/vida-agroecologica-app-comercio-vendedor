@@ -8,10 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 //**FONT CONFIGURATION*/
 final kDefaultFontFamily = GoogleFonts.nunito().fontFamily;
 const double kDefaultFontSize = 18;
-final kSecondaryFontFamily =
-    GoogleFonts.nunito().fontFamily;
-final kDescriptionFontFamily =
-    GoogleFonts.firaSans().fontFamily;
+final kSecondaryFontFamily = GoogleFonts.nunito().fontFamily;
+final kDescriptionFontFamily = GoogleFonts.firaSans().fontFamily;
 //**LIGHT COLORS */
 const Color kPrimaryColor = Color(0xFFF5821F);
 const Color kBackgroundColor = Colors.white;
@@ -21,6 +19,7 @@ const Color kOnBackgroundColor = Color(0xFF212931);
 const Color kTextColor = Colors.white;
 const Color kOnSurfaceColor = Colors.white;
 const Color kTextButtonColor = Colors.grey;
+const Color colorIconDownload = Colors.white;
 //**LIGHT COLORS */
 
 //**DARK COLORS */
