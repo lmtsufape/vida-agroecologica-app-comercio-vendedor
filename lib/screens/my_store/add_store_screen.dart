@@ -439,7 +439,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                             },
                                             hintText: "R\$ 7,00",
                                             currencyFormatter: <TextInputFormatter>[
-                                              CurrencyTextInputFormatter.currency(
+                                                CurrencyTextInputFormatter(
                                                   locale: 'pt_BR',
                                                   symbol: 'R\$',
                                                   decimalDigits: 2,

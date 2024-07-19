@@ -464,7 +464,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                             },
                                             hintText: "R\$ $freteCorreto",
                                             currencyFormatter: <TextInputFormatter>[
-                                              CurrencyTextInputFormatter.currency(
+                                              CurrencyTextInputFormatter(
                                                   locale: 'pt_BR',
                                                   symbol: 'R\$',
                                                   decimalDigits: 2,
