@@ -24,6 +24,8 @@ class AddProductsController extends GetxController {
   String? description;
   String? title;
   String measure = 'unidade';
+  late var measureValue = ValueNotifier('');
+  String? imagem;
   int? productId;
   int? stock;
   String? salePrice;
@@ -49,7 +51,7 @@ class AddProductsController extends GetxController {
 
   final TextEditingController _descriptionController = TextEditingController();
 
-   var currencyFormatter = CurrencyTextInputFormatter.currency(
+   var currencyFormatter = CurrencyTextInputFormatter(
   locale: 'pt_BR',
   symbol: 'R\$',
   decimalDigits: 2,
@@ -97,6 +99,11 @@ class AddProductsController extends GetxController {
 
   void setMeasure(String value) {
     measure = value;
+    update();
+  }
+
+  void setMeasureValue(var value) {
+    measureValue = value;
     update();
   }
 
@@ -228,6 +235,23 @@ class AddProductsController extends GetxController {
       }
     }
     return null;
+  }
+
+  void clearFields() {
+    _saleController.clear();
+    _titleController.clear();
+    _descriptionController.clear();
+    _stockController.clear();
+    update();
+  }
+
+  @override
+  void onClose() {
+    _saleController.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _stockController.dispose();
+    super.onClose();
   }
 
   @override

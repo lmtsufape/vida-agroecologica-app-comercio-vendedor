@@ -175,7 +175,7 @@ class _SaleInfosState extends State<SaleInfos> {
                         });
                       },
                       currencyFormatter: <TextInputFormatter>[
-                        CurrencyTextInputFormatter.currency(
+                        CurrencyTextInputFormatter(
                           locale: 'pt_BR',
                           symbol: 'R\$',
                           decimalDigits: 2,

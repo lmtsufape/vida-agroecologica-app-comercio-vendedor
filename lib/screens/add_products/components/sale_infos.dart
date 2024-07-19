@@ -1,8 +1,10 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:thunderapp/components/forms/custom_text_form_field.dart';
 import 'package:thunderapp/screens/add_products/add_products_controller.dart';
+import 'package:thunderapp/screens/add_products/components/dropdown_add_product.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 class SaleInfos extends StatefulWidget {
@@ -128,6 +130,22 @@ class _SaleInfosState extends State<SaleInfos> {
           height: size.height * 0.03,
           color: Colors.transparent,
         ),
+        Align(
+          alignment: AlignmentDirectional.topStart,
+          child: Text(
+            'Imagem do produto',
+            style: TextStyle(
+              fontSize: size.height * 0.018,
+              fontWeight: FontWeight.w700,
+              color: kSecondaryColor,
+            ),
+          ),
+        ),
+        DropDownAddProduct(widget.controller),
+        Divider(
+          height: size.height * 0.03,
+          color: Colors.transparent,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -168,7 +186,7 @@ class _SaleInfosState extends State<SaleInfos> {
                         });
                       },
                       currencyFormatter: <TextInputFormatter>[
-                        CurrencyTextInputFormatter.currency(
+                        CurrencyTextInputFormatter(
                           locale: 'pt_BR',
                           symbol: 'R\$',
                           decimalDigits: 2,
@@ -181,6 +199,10 @@ class _SaleInfosState extends State<SaleInfos> {
                   ),
                 ),
               ),
+            ),
+            Divider(
+              height: size.height * 0.03,
+              color: Colors.transparent,
             ),
           ],
         ),

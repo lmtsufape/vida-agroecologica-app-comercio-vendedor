@@ -39,7 +39,7 @@ class _CardProductsListState extends State<CardProductsList> {
           height: size.height * 0.115,
           child: InkWell(
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       fullscreenDialog: true,

@@ -71,28 +71,11 @@ class _AddProductsScreenState
                     height: size.height * 0.03,
                     color: Colors.transparent,
                   ),
-                  Text(
-                    'Imagem do produto',
-                    style: TextStyle(
-                      fontSize: size.height * 0.018,
-                      fontWeight: FontWeight.w700,
-                      color: kSecondaryColor,
-                    ),
-                  ),
                   Divider(
                     height: size.height * 0.005,
                     color: Colors.transparent,
                   ),
-                  DropDownAddProduct(controller),
-                  Divider(
-                    height: size.height * 0.03,
-                    color: Colors.transparent,
-                  ),
                   SaleInfos(controller),
-                  Divider(
-                    height: size.height * 0.03,
-                    color: Colors.transparent,
-                  ),
                   Align(
                       alignment:
                           AlignmentDirectional.centerStart,

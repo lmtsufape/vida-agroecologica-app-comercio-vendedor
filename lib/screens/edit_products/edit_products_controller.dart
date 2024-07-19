@@ -56,7 +56,7 @@ class EditProductsController extends GetxController {
   final TextEditingController _stockController =
       TextEditingController();
 
-  var currencyFormatter = CurrencyTextInputFormatter.currency(
+  var currencyFormatter = CurrencyTextInputFormatter(
   locale: 'pt_BR',
   symbol: 'R\$',
   decimalDigits: 2,

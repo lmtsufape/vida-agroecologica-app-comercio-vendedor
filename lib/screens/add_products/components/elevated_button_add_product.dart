@@ -5,6 +5,8 @@ import 'package:thunderapp/screens/home/home_screen.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../shared/components/dialogs/default_alert_dialog.dart';
+import '../../list_products/list_products_screen.dart';
+import '../../screens_index.dart';
 
 class ElevatedButtonAddProduct extends StatefulWidget {
   final AddProductsController controller;
@@ -48,7 +50,13 @@ class _ElevatedButtonAddProductState
                       body:
                           'Produto cadastrado com sucesso',
                       confirmText: 'Ok',
-                      onConfirm: () => Get.offAll(() => const HomeScreen()),
+                      onConfirm: () {
+                        navigator?.pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context)=>const ListProductsScreen()),
+                              (Route<dynamic> route) => false,
+                        );
+                        widget.controller.clearFields();
+                      },
                       buttonColor: kSuccessColor,
                     )));
           }}
