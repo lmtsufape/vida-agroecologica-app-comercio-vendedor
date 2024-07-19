@@ -11,6 +11,7 @@ import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 import '../../components/utils/horizontal_spacer_box.dart';
+import '../../shared/components/dialogs/default_alert_dialog.dart';
 import '../my_store/edit_store_screen.dart';
 import 'components/item_card_holder.dart';
 
@@ -200,8 +201,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       UserStorage userStorage =
                           UserStorage();
                       userStorage.clearUserCredentials();
-                      Navigator.popAndPushNamed(
-                          context, Screens.signin);
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                            DefaultAlertDialog(
+                              title: 'Confirmar',
+                              body:
+                              'Você tem certeza que deseja sair do aplicativo?',
+                              confirmText: 'Sim',
+                              cancelText: 'Não',
+                              onConfirm: () {
+                                Navigator.popAndPushNamed(
+                                    context, Screens.signin);
+                              },
+                              confirmColor: kSuccessColor,
+                              cancelColor: kErrorColor,
+                            ),
+                      );
                     },
                   ),
                 ),
