@@ -1,14 +1,18 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/home/home_screen_repository.dart';
 import 'package:thunderapp/screens/orders/orders_repository.dart';
 import 'package:thunderapp/screens/orders/orders_screen.dart';
+import 'package:thunderapp/screens/screens_index.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/models/pedido_model.dart';
 import 'package:thunderapp/shared/core/models/produto_pedido_model.dart';
@@ -19,12 +23,13 @@ import '../../shared/core/user_storage.dart';
 import '../home/home_screen.dart';
 
 class OrdersController extends GetxController {
+  final HomeScreenController homeScreenController = Get.put(HomeScreenController());
   RxString statusOrder = ''.obs;
   int quantPedidos = 0;
   BancaModel? bancaModel;
   PedidoModel? pedidoModel;
-  HomeScreenRepository homeRepository =
-      HomeScreenRepository();
+  HomeScreenRepository homeRepository = HomeScreenRepository();
+  List<PedidoModel> testePedidos = [];
   List<PedidoModel> orders = [];
   List<OrderCard> pedidos = [];
   late Future<List<dynamic>> orderData;
@@ -38,7 +43,8 @@ class OrdersController extends GetxController {
   String? _pdfPath;
   String? _downloadPath;
   Uint8List? _comprovanteBytes;
-  
+  var listaPedidos;
+
   File? get comprovante => _comprovante;
 
   String? get comprovanteType => _comprovanteType;
@@ -63,22 +69,24 @@ class OrdersController extends GetxController {
 
   void confirmOrder(BuildContext context, int id) async {
     try {
-      confirmSucess =
-          await repository.confirmOrder(id, confirmedOrder);
+      confirmSucess = await repository.confirmOrder(id, confirmedOrder);
       if (confirmSucess && confirmedOrder == true) {
         showDialog(
             context: context,
-            builder: (context) =>
-                DefaultAlertDialogOneButton(
+            builder: (context) => DefaultAlertDialogOneButton(
                   title: 'Sucesso',
                   body: 'O pedido foi aceito',
                   confirmText: 'Ok',
                   onConfirm: () {
-                    navigator?.pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const HomeScreen()),
-                      (Route<dynamic> route) => false,
+                    // navigator?.pushAndRemoveUntil(
+                    //   MaterialPageRoute(
+                    //       builder: (context) =>
+                    //           const HomeScreen()),
+                    //   (Route<dynamic> route) => false,
+                    // );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const OrdersScreen()),
                     );
                   },
                   buttonColor: kSuccessColor,
@@ -86,17 +94,14 @@ class OrdersController extends GetxController {
       } else {
         showDialog(
             context: context,
-            builder: (context) =>
-                DefaultAlertDialogOneButton(
+            builder: (context) => DefaultAlertDialogOneButton(
                   title: 'Sucesso',
                   body: 'O pedido foi negado',
                   confirmText: 'Ok',
                   onConfirm: () {
                     navigator?.pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const HomeScreen()),
-                      (Route<dynamic> route) => false,
+                      MaterialPageRoute(builder: (context)=>const OrdersScreen()),
+                          (Route<dynamic> route) => false,
                     );
                   },
                   buttonColor: kSuccessColor,
@@ -106,8 +111,8 @@ class OrdersController extends GetxController {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text(
-              "${e.toString()}\n Procure o suporte com a equipe LMTS"),
+          content:
+              Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
               child: const Text('Voltar'),
@@ -127,17 +132,14 @@ class OrdersController extends GetxController {
       if (delivery == true) {
         showDialog(
             context: context,
-            builder: (context) =>
-                DefaultAlertDialogOneButton(
+            builder: (context) => DefaultAlertDialogOneButton(
                   title: 'Sucesso',
                   body: 'O pedido está pronto',
                   confirmText: 'Ok',
                   onConfirm: () {
                     navigator?.pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const HomeScreen()),
-                      (Route<dynamic> route) => false,
+                      MaterialPageRoute(builder: (context)=>const OrdersScreen()),
+                          (Route<dynamic> route) => false,
                     );
                   },
                   buttonColor: kSuccessColor,
@@ -145,17 +147,14 @@ class OrdersController extends GetxController {
       } else {
         showDialog(
             context: context,
-            builder: (context) =>
-                DefaultAlertDialogOneButton(
+            builder: (context) => DefaultAlertDialogOneButton(
                   title: 'Erro',
                   body: 'Erro na entrega',
                   confirmText: 'Ok',
                   onConfirm: () {
-                    navigator?.pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const HomeScreen()),
-                      (Route<dynamic> route) => false,
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const OrdersScreen()),
                     );
                   },
                   buttonColor: kSuccessColor,
@@ -165,8 +164,8 @@ class OrdersController extends GetxController {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text(
-              "${e.toString()}\n Procure o suporte com a equipe LMTS"),
+          content:
+              Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
               child: const Text('Voltar'),
@@ -180,54 +179,44 @@ class OrdersController extends GetxController {
     }
   }
 
+  Future<void> fetchOrders() async {
+    UserStorage userStorage = UserStorage();
+    String userId = await userStorage.getUserId();
+    try {
+      var fetchedOrders = await repository.getOrders(userId);
+      orders.assignAll(fetchedOrders); // Atualiza a lista de pedidos
+      await populateOrderCard(); // Atualiza os cartões de pedidos
+      update(); // Notifica a tela sobre a atualização
+    } catch (e) {
+      print('Erro ao buscar pedidos: $e');
+    }
+  }
+
   Future<List<OrderCard>> populateOrderCard() async {
     List<OrderCard> list = [];
     UserStorage userStorage = UserStorage();
     var token = await userStorage.getUserToken();
     var userId = await userStorage.getUserId();
-    bancaModel =
-        await homeRepository.getBancaPrefs(token, userId);
-    var pedidos = await repository.getOrders(userId);
+    bancaModel = await homeRepository.getBancaPrefs(token, userId);
 
-    quantPedidos = pedidos.length;
-
-    for (int i = 0; i < pedidos.length; i++) {
-      if (pedidos[i].status != "pedido recusado" &&
-          pedidos[i].status != "pagamento expirado" &&
-          pedidos[i].status != "pedido entregue") {
-        OrderCard card =
-            OrderCard(pedidos[i], OrdersController());
+    for (var order in orders) {
+      if (order.status != "pedido recusado" &&
+          order.status != "pagamento expirado" &&
+          order.status != "pedido entregue") {
+        OrderCard card = OrderCard(order, this);
         list.add(card);
       }
     }
 
-    if (list.isNotEmpty) {
-      update();
-      return list;
-    } else {
-      print(list);
-      log('CARD VAZIO');
-      return list;
-    }
-  }
-
-  @override
-  void onInit() async {
-    pedidos = await populateOrderCard();
-    super.onInit();
-    fetchOrders();
-
-    update();
+    pedidos = list; // Atualiza a lista de pedidos exibidos
+    return list;
   }
 
   Future<String> fetchUserDetails(int userId) async {
     try {
-      var userDetails =
-          await repository.fetchUserDetails(userId);
-      if (userDetails != null &&
-          userDetails.containsKey('user')) {
-        return userDetails['user']
-            ['name']; // Retorna apenas o nome do usuário
+      var userDetails = await repository.fetchUserDetails(userId);
+      if (userDetails != null && userDetails.containsKey('user')) {
+        return userDetails['user']['name']; // Retorna apenas o nome do usuário
       } else {
         return "Nome não encontrado"; // Retorna uma mensagem padrão
       }
@@ -244,13 +233,10 @@ class OrdersController extends GetxController {
         allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
       );
 
-      if (result != null &&
-          result.files.single.path != null) {
+      if (result != null && result.files.single.path != null) {
         _comprovante = File(result.files.single.path!);
         _comprovanteType = result.files.single.extension;
-        _pdfPath = (_comprovanteType == 'pdf')
-            ? _comprovante!.path
-            : null;
+        _pdfPath = (_comprovanteType == 'pdf') ? _comprovante!.path : null;
         update();
       } else {
         debugPrint('Nenhum arquivo selecionado');
@@ -263,8 +249,7 @@ class OrdersController extends GetxController {
   Future<void> loadPDF(String? path) async {
     try {
       if (path != null && path.isNotEmpty) {
-        await Future.delayed(
-            const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 500));
       }
     } catch (e) {
       debugPrint('Erro ao carregar PDF: $e');
@@ -274,12 +259,9 @@ class OrdersController extends GetxController {
 
   Future<void> downloadComprovante(int orderId) async {
     try {
-      _downloadPath =
-          await repository.downloadComprovante(orderId);
+      _downloadPath = await repository.downloadComprovante(orderId);
       _comprovanteType = _downloadPath!.split('.').last;
-      _pdfPath = (_comprovanteType == 'pdf')
-          ? _downloadPath
-          : null;
+      _pdfPath = (_comprovanteType == 'pdf') ? _downloadPath : null;
       update();
     } catch (e) {
       debugPrint('Erro ao baixar comprovante: $e');
@@ -288,8 +270,7 @@ class OrdersController extends GetxController {
 
   Future<void> fetchComprovanteBytes(int orderId) async {
     try {
-      _comprovanteBytes =
-          await repository.getComprovanteBytes(orderId);
+      _comprovanteBytes = await repository.getComprovanteBytes(orderId);
       _comprovanteType = detectFileType(_comprovanteBytes!);
       update();
     } catch (e) {
@@ -311,36 +292,36 @@ class OrdersController extends GetxController {
       return true;
     }
 
-    if (bytes.length >= 4 &&
-        matchesHeader(bytes, pdfHeader)) {
+    if (bytes.length >= 4 && matchesHeader(bytes, pdfHeader)) {
       return 'pdf';
-    } else if (bytes.length >= 3 &&
-        matchesHeader(bytes, jpgHeader)) {
+    } else if (bytes.length >= 3 && matchesHeader(bytes, jpgHeader)) {
       return 'jpg';
-    } else if (bytes.length >= 4 &&
-        matchesHeader(bytes, pngHeader)) {
+    } else if (bytes.length >= 4 && matchesHeader(bytes, pngHeader)) {
       return 'png';
     } else {
       return 'unknown';
     }
   }
 
- Future<void> fetchOrders() async {
-  UserStorage userStorage = UserStorage();
-  String userId = await userStorage.getUserId(); 
-  try {
-    var fetchedOrders = await repository.getOrders(userId);
-    orders.assignAll(fetchedOrders);
-  } catch (e) {
-    print('Erro ao buscar pedidos: $e');
+  Future<List<PedidoModel>> loadList() async {
+    UserStorage userStorage = UserStorage();
+    var userId = await userStorage.getUserId();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> listaString = prefs.getStringList('$userId/vendas') ?? [];
+    return listaString
+        .map((string) => PedidoModel.fromJson(json.decode(string)))
+        .toList();
   }
-}
-
 
   List<ProdutoPedidoModel> getItensDoPedido(int pedidoId) {
-    var pedido = orders.firstWhere(
-        (order) => order.id == pedidoId,
+    var pedido = orders.firstWhere((order) => order.id == pedidoId,
         orElse: () => PedidoModel(consumidorId: pedidoModel!.consumidorId));
     return pedido.listaDeProdutos ?? [];
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchOrders();
   }
 }
