@@ -23,6 +23,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeScreenController controller = Get.put(HomeScreenController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getBancaPrefs();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
       init: HomeScreenController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          
           backgroundColor: kPrimaryColor,
           title: Padding(
             padding: const EdgeInsets.only(left: 10),

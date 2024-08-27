@@ -178,7 +178,10 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
         banca);
     if (editSucess) {
       // ignore: use_build_context_synchronously
-      Get.offAll(() => const HomeScreen());
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
     }
   }
 
