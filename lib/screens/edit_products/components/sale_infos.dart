@@ -107,7 +107,8 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormField(
-                      hintText: widget.productsModel!.descricao,
+                      hintText:
+                          widget.productsModel!.descricao,
                       erroStyle:
                           const TextStyle(fontSize: 12),
                       validatorError: (value) {
@@ -175,7 +176,7 @@ class _SaleInfosState extends State<SaleInfos> {
                         });
                       },
                       currencyFormatter: <TextInputFormatter>[
-                        CurrencyTextInputFormatter(
+                        CurrencyTextInputFormatter.currency(
                           locale: 'pt_BR',
                           symbol: 'R\$',
                           decimalDigits: 2,
