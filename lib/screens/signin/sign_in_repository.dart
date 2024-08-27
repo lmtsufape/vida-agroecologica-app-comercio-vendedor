@@ -10,9 +10,10 @@ class SignInRepository {
   final userStorage = UserStorage();
   String userId = "0";
   String userToken = "0";
-  
+  String noAut = 'Você não possui autorização, fale com o Presidente da associação';
 
   final _dio = Dio();
+
   Future<int> signIn({
     required String email,
     required String password,
@@ -20,46 +21,56 @@ class SignInRepository {
     try {
       final response = await _dio.post(
         '$kBaseURL/sanctum/token',
-        data: {
-          'email': email,
-          'password': password,
-          'device_name': "PC"
-        },
+        data: {'email': email, 'password': password, 'device_name': "PC"},
       );
       if (response.statusCode == 200) {
-          if (await userStorage.userHasCredentials()) {
-            await userStorage.clearUserCredentials();
+        if (await userStorage.userHasCredentials()) {
+          await userStorage.clearUserCredentials();
+        }
+        userId = response.data['user']['id'].toString();
+        userToken = response.data['token'].toString();
+        await userStorage.saveUserCredentials(
+          id: userId,
+          nome: response.data['user']['name'].toString(),
+          token: userToken,
+          email: response.data['user']['email'].toString(),
+        );
+        try {
+          Response response = await _dio.get(
+            '$kBaseURL/bancas/agricultores/$userId',
+            options: Options(headers: {"Authorization": "Bearer $userToken"}),
+          );
+          Response userResponse = await _dio.get(
+            '$kBaseURL/users/$userId',
+            options: Options(headers: {"Authorization": "Bearer $userToken"}),
+          );
+          if (response.statusCode == 200) {
+            List roles = userResponse.data['user']['roles'];
+            if (roles.isNotEmpty) {
+              int roleId =
+                  roles[0]['id'];
+              print('Role ID: $roleId');
+              if (response.data["bancas"].isEmpty) {
+                if (roleId == 4) {
+                  return 2;
+                } else {
+                  print(noAut);
+                  return 3;
+                }
+              } else if (roleId == 4) {
+                print(response.statusCode);
+                return 1;
+              } else {
+                print(noAut);
+                return 3;
+              }
+            }
           }
-          userId = response.data['user']['id'].toString();
-          userToken = response.data['token'].toString();
-          await userStorage.saveUserCredentials(
-              id: userId,
-              nome:
-                  response.data['user']['name'].toString(),
-              token:
-                  userToken,
-              email:
-                  response.data['user']['email'].toString(),
-              );
-          try{
-            Response response = await _dio.get(
-          '$kBaseURL/bancas/agricultores/$userId',
-          options: Options(headers: {
-            "Authorization": "Bearer $userToken"
-          }));
-      if (response.statusCode == 200) {
-        if(response.data["bancas"].isEmpty){
-          return 2;
-        }else{
-          print(response.statusCode);
-          return 1;}
-      }
-          }catch(e){
-            print(e);
-            return 0;
-          }
-      return 1;
-        
+        } catch (e) {
+          print(e);
+          return 0;
+        }
+        return 1;
       }
     } catch (e) {
       log(e.toString());
@@ -67,5 +78,4 @@ class SignInRepository {
     }
     return 0;
   }
-
 }

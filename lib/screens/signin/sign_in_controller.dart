@@ -1,4 +1,3 @@
-
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
@@ -20,18 +19,16 @@ class SignInController with ChangeNotifier {
   final SignInRepository _repository = SignInRepository();
   String? email;
   String? password;
-  final TextEditingController _emailController =
-      TextEditingController();
-  final TextEditingController _passwordController =
-      TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   String? errorMessage;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  TextEditingController get emailController =>
-      _emailController;
-  TextEditingController get passwordController =>
-      _passwordController;
+  TextEditingController get emailController => _emailController;
+
+  TextEditingController get passwordController => _passwordController;
   var status = SignInStatus.idle;
+
   void signIn(BuildContext context) async {
     try {
       status = SignInStatus.loading;
@@ -43,50 +40,41 @@ class SignInController with ChangeNotifier {
       );
       if (succ == 1) {
         status = SignInStatus.done;
-
         notifyListeners();
-
-
-          Navigator.pushReplacementNamed(
-            context, Screens.home);
-
-
-      }
-      else if (succ == 2) {
-
-
+        Navigator.pushReplacementNamed(context, Screens.home);
+      } else if (succ == 2) {
         Navigator.pushReplacementNamed(context, Screens.addStore);
-      }
-      else{
+      } else if (succ == 3) {
         showDialog(
-            context:
-            context,
-            builder:
-                (context) =>
-                DefaultAlertDialogOneButton(
-                  title:
-                  'Erro',
-                  body:
-                  'Credenciais inválidas, verifique seus dados',
-                  confirmText:
-                  'Voltar',
-                  onConfirm: () =>
-                      Get.back(),
-                  buttonColor:
-                  kErrorColor,
+            context: context,
+            builder: (context) => DefaultAlertDialogOneButton(
+                  title: 'Erro',
+                  body: 'Você não possui autorização para entrar no aplicativo, fale com o(a) presidente!',
+                  confirmText: 'Voltar',
+                  onConfirm: () => Get.back(),
+                  buttonColor: kErrorColor,
                 ));
         status = SignInStatus.error;
         setErrorMessage(
-            'Credenciais inválidas, verifique seus dados');
+            'Você não possui autorização para entrar no aplicativo, fale com o(a) presidente!');
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) => DefaultAlertDialogOneButton(
+                  title: 'Erro',
+                  body: 'Credenciais inválidas, verifique seus dados',
+                  confirmText: 'Voltar',
+                  onConfirm: () => Get.back(),
+                  buttonColor: kErrorColor,
+                ));
+        status = SignInStatus.error;
+        setErrorMessage('Credenciais inválidas, verifique seus dados');
         notifyListeners();
       }
       notifyListeners();
     } catch (e) {
-
-
       status = SignInStatus.error;
-      setErrorMessage(
-          'Credenciais inválidas verifique seus dados');
+      setErrorMessage('Credenciais inválidas verifique seus dados');
       notifyListeners();
     }
   }
