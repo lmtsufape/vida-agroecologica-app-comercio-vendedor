@@ -16,7 +16,6 @@ import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/models/table_products_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
 
-
 class AddProductsController extends GetxController {
   ScreenState screenState = ScreenState.idle;
 
@@ -40,43 +39,57 @@ class AddProductsController extends GetxController {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  HomeScreenRepository homeRepository = HomeScreenRepository();
+  HomeScreenRepository homeRepository =
+      HomeScreenRepository();
   UserStorage userStorage = UserStorage();
 
-  AddProductsRepository repository = AddProductsRepository();
+  AddProductsRepository repository =
+      AddProductsRepository();
 
   List<TableProductsModel> products = [];
 
-  final TextEditingController _stockController = TextEditingController();
+  final TextEditingController _stockController =
+      TextEditingController();
 
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _descriptionController =
+      TextEditingController();
 
-   var currencyFormatter = CurrencyTextInputFormatter(
-  locale: 'pt_BR',
-  symbol: 'R\$',
-  decimalDigits: 2,
-);
-  final TextEditingController _saleController = TextEditingController();
+  var currencyFormatter =
+      CurrencyTextInputFormatter.currency(
+    locale: 'pt_BR',
+    symbol: 'R\$',
+    decimalDigits: 2,
+  );
+  final TextEditingController _saleController =
+      TextEditingController();
 
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _titleController =
+      TextEditingController();
 
-  TextEditingController get saleController => _saleController;
+  TextEditingController get saleController =>
+      _saleController;
 
-  TextEditingController get titleController => _titleController;
+  TextEditingController get titleController =>
+      _titleController;
 
-  TextEditingController get stockController => _stockController;
+  TextEditingController get stockController =>
+      _stockController;
 
-  TextEditingController get descriptionController => _descriptionController;
+  TextEditingController get descriptionController =>
+      _descriptionController;
 
   double changeProfit(String salePrice, String costPrice) {
-    salePrice =
-        salePrice.replaceAll(RegExp(r'[^0-9,.]'), '').replaceAll(',', '.');
-    costPrice =
-        costPrice.replaceAll(RegExp(r'[^0-9,.]'), '').replaceAll(',', '.');
+    salePrice = salePrice
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
+    costPrice = costPrice
+        .replaceAll(RegExp(r'[^0-9,.]'), '')
+        .replaceAll(',', '.');
 
     double profit = 0.0;
     if (salePrice.isNotEmpty && costPrice.isNotEmpty) {
-      profit = double.parse(salePrice) - double.parse(costPrice);
+      profit =
+          double.parse(salePrice) - double.parse(costPrice);
     }
 
     return profit;
@@ -135,7 +148,8 @@ class AddProductsController extends GetxController {
     Size size = MediaQuery.of(context).size;
     ButtonStyle styleCancel = ElevatedButton.styleFrom(
       backgroundColor: kErrorColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0)),
     );
     try {
       if (description == null ||
@@ -147,8 +161,14 @@ class AddProductsController extends GetxController {
         log('Error, o user não preencheu todos os campos, retornando falso');
         return false;
       } else {
-        var response = await repository.registerProduct(description, title, measure,
-            stock, salePrice, productId, bancaModel?.id);
+        var response = await repository.registerProduct(
+            description,
+            title,
+            measure,
+            stock,
+            salePrice,
+            productId,
+            bancaModel?.id);
         if (response) {
           return true;
         }
@@ -158,9 +178,15 @@ class AddProductsController extends GetxController {
       if (e is DioError && e.response?.statusCode == 400) {
         Get.dialog(
           AlertDialog(
-            title:  Text('Erro', style: TextStyle(fontSize: size.height * 0.026)),
-            content: Text('Esse produto já está cadastrado.', style: TextStyle(fontSize: size.height * 0.022),),
-            actions:<Widget>[
+            title: Text('Erro',
+                style: TextStyle(
+                    fontSize: size.height * 0.026)),
+            content: Text(
+              'Esse produto já está cadastrado.',
+              style:
+                  TextStyle(fontSize: size.height * 0.022),
+            ),
+            actions: <Widget>[
               Align(
                 alignment: Alignment.center,
                 child: Padding(
@@ -188,12 +214,14 @@ class AddProductsController extends GetxController {
       } else {
         Get.dialog(
           AlertDialog(
-            title: const Text('Erro', style: TextStyle(fontSize: 22)),
+            title: const Text('Erro',
+                style: TextStyle(fontSize: 22)),
             content: Container(
               alignment: Alignment.center,
               height: 75,
               child: Padding(
-                padding: const EdgeInsetsDirectional.only(start: 10),
+                padding: const EdgeInsetsDirectional.only(
+                    start: 10),
                 child: Text(e.toString()),
               ),
             ),
@@ -201,7 +229,8 @@ class AddProductsController extends GetxController {
               TextButton(
                 child: const Text(
                   'Voltar',
-                  style: TextStyle(color: kErrorColor, fontSize: 20),
+                  style: TextStyle(
+                      color: kErrorColor, fontSize: 20),
                 ),
                 onPressed: () {
                   Get.back();
@@ -220,11 +249,13 @@ class AddProductsController extends GetxController {
   }
 
   Future<List<TableProductsModel>> loadList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs =
+        await SharedPreferences.getInstance();
     List<String> listaString =
         prefs.getStringList('listaProdutosTabelados') ?? [];
     return listaString
-        .map((string) => TableProductsModel.fromJson(json.decode(string)))
+        .map((string) => TableProductsModel.fromJson(
+            json.decode(string)))
         .toList();
   }
 
@@ -259,7 +290,8 @@ class AddProductsController extends GetxController {
     super.onInit();
     token = await userStorage.getUserToken();
     userId = await userStorage.getUserId();
-    bancaModel = await homeRepository.getBancaPrefs(token, userId);
+    bancaModel =
+        await homeRepository.getBancaPrefs(token, userId);
     products = await loadList();
     update();
   }

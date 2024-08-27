@@ -56,22 +56,21 @@ class EditProductsController extends GetxController {
   final TextEditingController _stockController =
       TextEditingController();
 
-  var currencyFormatter = CurrencyTextInputFormatter(
-  locale: 'pt_BR',
-  symbol: 'R\$',
-  decimalDigits: 2,
-);
-
+  var currencyFormatter =
+      CurrencyTextInputFormatter.currency(
+    locale: 'pt_BR',
+    symbol: 'R\$',
+    decimalDigits: 2,
+  );
 
   final TextEditingController _saleController =
       TextEditingController();
 
   final TextEditingController _descriptionController =
-  TextEditingController();
+      TextEditingController();
 
   final TextEditingController _titleController =
-  TextEditingController();
-
+      TextEditingController();
 
   TextEditingController get saleController =>
       _saleController;
