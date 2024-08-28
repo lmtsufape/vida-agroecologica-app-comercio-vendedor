@@ -209,20 +209,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
                   buttonColor: kSuccessColor,
                 ));
       } else {
-        if (_nomeBancaController.text.isEmpty == true) {
-          textoErro = "Insira um nome";
-        } else if (_horarioAberturaController.text.isEmpty) {
-          textoErro = "Insira o horário de abertura";
-        } else if (_horarioFechamentoController.text.isEmpty) {
-          textoErro = "Insira o horário de fechamento";
-        } else if (_quantiaMinController.text.isEmpty) {
-          textoErro = "Insira uma quantia mínima para entrega";
-        } else if (isSelected.isEmpty) {
-          textoErro = "Adicione pelo menos um método de pagamento";
-        } else {
           log("Ocorreu um erro, verifique os campos");
         }
-      }
     } catch (e) {
       Get.dialog(
         AlertDialog(

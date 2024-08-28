@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
@@ -385,58 +387,59 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         ],
                       ),
                     ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.small),
-                    Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Chave Pix',
-                          style: TextStyle(
-                            fontSize: size.height * 0.018,
-                            color: kSecondaryColor,
-                            fontWeight: FontWeight.w700,
+                    Visibility(
+                      visible: controller.pixBool,
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Chave Pix',
+                            style: TextStyle(
+                              fontSize: size.height * 0.018,
+                              color: kSecondaryColor,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        IntrinsicWidth(
-                          stepWidth: size.width,
-                          child: Card(
-                            margin: EdgeInsets.zero,
-                            elevation: 0,
-                            child: ClipPath(
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: CustomTextFormField(
-                                  autoValidate:
-                                      AutovalidateMode
-                                          .onUserInteraction,
-                                  enabled:
-                                      controller.pixBool,
-                                  erroStyle:
-                                      const TextStyle(
-                                          fontSize: 12),
-                                  validatorError: (value) {
-                                    if (controller
-                                            .pixBool ==
-                                        true) {
-                                      if (value.isEmpty) {
-                                        return 'Obrigatório';
+                          IntrinsicWidth(
+                            stepWidth: size.width,
+                            child: Card(
+                              margin: EdgeInsets.zero,
+                              elevation: 0,
+                              child: ClipPath(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: CustomTextFormField(
+                                    autoValidate:
+                                        AutovalidateMode
+                                            .onUserInteraction,
+                                    enabled:
+                                        controller.pixBool,
+                                    erroStyle:
+                                        const TextStyle(
+                                            fontSize: 12),
+                                    validatorError: (value) {
+                                      if (controller
+                                              .pixBool ==
+                                          true) {
+                                        if (value.isEmpty) {
+                                          return 'Obrigatório';
+                                        }
                                       }
-                                    }
-                                  },
-                                  hintText: "Chave Pix",
-                                  controller: controller
-                                      .pixController,
+                                    },
+                                    hintText: "Chave Pix",
+                                    controller: controller
+                                        .pixController,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          const VerticalSpacerBox(
+                              size: SpacerSize.small),
+                        ],
+                      ),
                     ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.small),
                     Text(
                       'Realizará entregas?',
                       style: TextStyle(
@@ -510,77 +513,78 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         ],
                       ),
                     ),
-                    Divider(
-                      height: size.height * 0.025,
-                      color: Colors.transparent,
-                    ),
-                    if (controller.delivery[
-                        0]) // Se "Sim" estiver selecionado
-                      Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Valor mínimo para frete',
-                            style: kTitle1.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: size.height * 0.018,
-                              color: kSecondaryColor,
+                      Visibility(
+                        visible: controller.delivery[0],
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                          children: [
+                            Divider(
+                              height: size.height * 0.025,
+                              color: Colors.transparent,
                             ),
-                          ),
-                          SizedBox(
-                            width: size.width,
-                            child: Card(
-                              margin: EdgeInsets.zero,
-                              elevation: 0,
-                              child: ClipPath(
-                                child: Container(
-                                  alignment:
-                                      Alignment.center,
-                                  child:
-                                      CustomTextFormFieldCurrency(
-                                    autoValidate:
-                                        AutovalidateMode
-                                            .onUserInteraction,
-                                    enabled: controller
-                                        .delivery[0],
-                                    erroStyle:
-                                        const TextStyle(
-                                            fontSize: 12),
-                                    validatorError:
-                                        (value) {
-                                      if (controller
-                                                  .delivery[
-                                              0] ==
-                                          true) {
-                                        if (value.isEmpty) {
-                                          return 'Obrigatório';
+                            Text(
+                              'Valor mínimo para frete',
+                              style: kTitle1.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: size.height * 0.018,
+                                color: kSecondaryColor,
+                              ),
+                            ),
+                            SizedBox(
+                              width: size.width,
+                              child: Card(
+                                margin: EdgeInsets.zero,
+                                elevation: 0,
+                                child: ClipPath(
+                                  child: Container(
+                                    alignment:
+                                        Alignment.center,
+                                    child:
+                                        CustomTextFormFieldCurrency(
+                                      autoValidate:
+                                          AutovalidateMode
+                                              .onUserInteraction,
+                                      enabled: controller
+                                          .delivery[0],
+                                      erroStyle:
+                                          const TextStyle(
+                                              fontSize: 12),
+                                      validatorError:
+                                          (value) {
+                                        if (controller
+                                                    .delivery[
+                                                0] ==
+                                            true) {
+                                          if (value.isEmpty) {
+                                            return 'Obrigatório';
+                                          }
                                         }
-                                      }
-                                    },
-                                    hintText:
-                                        "R\$ $freteCorreto",
-                                    currencyFormatter: <TextInputFormatter>[
-                                      CurrencyTextInputFormatter
-                                          .currency(
-                                        locale: 'pt_BR',
-                                        symbol: 'R\$',
-                                        decimalDigits: 2,
-                                      ),
-                                      LengthLimitingTextInputFormatter(
-                                          8),
-                                    ],
-                                    keyboardType:
-                                        TextInputType
-                                            .number,
-                                    controller: controller
-                                        .quantiaMinController,
+                                      },
+                                      hintText:
+                                          "R\$ $freteCorreto",
+                                      currencyFormatter: <TextInputFormatter>[
+                                        CurrencyTextInputFormatter
+                                            .currency(
+                                          locale: 'pt_BR',
+                                          symbol: 'R\$',
+                                          decimalDigits: 2,
+                                        ),
+                                        LengthLimitingTextInputFormatter(
+                                            8),
+                                      ],
+                                      keyboardType:
+                                          TextInputType
+                                              .number,
+                                      controller: controller
+                                          .quantiaMinController,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     const VerticalSpacerBox(
                         size: SpacerSize.large),

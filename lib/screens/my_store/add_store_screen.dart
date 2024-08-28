@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_unnecessary_containers, avoid_print
 import 'dart:math';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
@@ -80,7 +82,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                         child: Container(
                                           alignment: Alignment.center,
                                           child: CustomTextFormField(
-                                            autoValidate: AutovalidateMode.onUserInteraction,
+                                            autoValidate: AutovalidateMode
+                                                .onUserInteraction,
                                             erroStyle:
                                                 const TextStyle(fontSize: 12),
                                             validatorError: (value) {
@@ -271,7 +274,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                         ),
                                         checkboxShape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(5)),
+                                                BorderRadius.circular(5)),
                                         controlAffinity:
                                             ListTileControlAffinity.leading,
                                         onChanged: (value) =>
@@ -280,72 +283,77 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     ),
                                     Flexible(
                                       child: CheckboxListTile(
-                                        contentPadding:
-                                            EdgeInsetsDirectional.zero,
-                                        activeColor: kPrimaryColor,
-                                        value: controller.isSelected[1],
-                                        title: Text(
-                                          controller.checkItems[1],
-                                          style: TextStyle(
-                                              fontSize: size.height * 0.016),
-                                        ),
-                                        checkboxShape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(5)),
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                        onChanged: (value) {
-                                          controller.onItemTapped(1);
-                                          controller.setPixBool(!controller.pixBool);
-                                          print("valor do pix: ${controller.pixBool}");
-                                        }
-                                      ),
+                                          contentPadding:
+                                              EdgeInsetsDirectional.zero,
+                                          activeColor: kPrimaryColor,
+                                          value: controller.isSelected[1],
+                                          title: Text(
+                                            controller.checkItems[1],
+                                            style: TextStyle(
+                                                fontSize: size.height * 0.016),
+                                          ),
+                                          checkboxShape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
+                                          onChanged: (value) {
+                                            controller.onItemTapped(1);
+                                            controller.setPixBool(
+                                                !controller.pixBool);
+                                            print(
+                                                "valor do pix: ${controller.pixBool}");
+                                          }),
                                     ),
                                   ],
                                 ),
                               ),
-                              const VerticalSpacerBox(size: SpacerSize.small),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Chave Pix',
-                                    style: TextStyle(
-                                        fontSize: size.height * 0.018,
-                                        color: kSecondaryColor,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  IntrinsicWidth(
-                                    stepWidth: size.width,
-                                    child: Card(
-                                      margin: EdgeInsets.zero,
-                                      elevation: 0,
-                                      child: ClipPath(
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          child: CustomTextFormField(
-                                            autoValidate: AutovalidateMode.onUserInteraction,
-                                            enabled: controller.pixBool,
-                                            erroStyle:
-                                            const TextStyle(fontSize: 12),
-                                            validatorError: (value) {
-                                              if(controller.pixBool == true) {
-                                                if (value.isEmpty) {
-                                                  return 'Obrigatório';
+                              Visibility(
+                                visible: controller.pixBool,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Chave Pix',
+                                      style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: kSecondaryColor,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    IntrinsicWidth(
+                                      stepWidth: size.width,
+                                      child: Card(
+                                        margin: EdgeInsets.zero,
+                                        elevation: 0,
+                                        child: ClipPath(
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            child: CustomTextFormField(
+                                              autoValidate: AutovalidateMode
+                                                  .onUserInteraction,
+                                              enabled: controller.pixBool,
+                                              erroStyle:
+                                                  const TextStyle(fontSize: 12),
+                                              validatorError: (value) {
+                                                if (controller.pixBool ==
+                                                    true) {
+                                                  if (value.isEmpty) {
+                                                    return 'Obrigatório';
+                                                  }
                                                 }
-                                              }
-                                            },
-                                            hintText: "Chave Pix",
-                                            controller:
-                                            controller.pixController,
+                                              },
+                                              hintText: "Chave Pix",
+                                              controller:
+                                                  controller.pixController,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  )
-                                ],
+                                    const VerticalSpacerBox(size: SpacerSize.small),
+                                  ],
+                                ),
                               ),
-                              const VerticalSpacerBox(size: SpacerSize.small),
                               Text(
                                 'Realizará entregas?',
                                 style: TextStyle(
@@ -402,60 +410,65 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                   ],
                                 ),
                               ),
-                              Divider(
-                                height: size.height * 0.025,
-                                color: Colors.transparent,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Valor mínimo para frete',
-                                    style: TextStyle(
-                                        fontSize: size.height * 0.018,
-                                        color: kSecondaryColor,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  SizedBox(
-                                    width: size.width * 0.35,
-                                    child: Card(
-                                      margin: EdgeInsets.zero,
-                                      elevation: 0,
-                                      child: ClipPath(
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          child: CustomTextFormFieldCurrency(
-                                            autoValidate: AutovalidateMode.onUserInteraction,
-                                            enabled: controller.delivery[0],
-                                            erroStyle:
-                                                const TextStyle(fontSize: 12),
-                                            validatorError: (value) {
-                                              if (controller.delivery[0] ==
-                                                  true) {
-                                                if (value.isEmpty) {
-                                                  return 'Obrigatório';
+                              Visibility(
+                                visible: controller.delivery[0],
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Divider(
+                                      height: size.height * 0.025,
+                                      color: Colors.transparent,
+                                    ),
+                                    Text(
+                                      'Valor mínimo para frete',
+                                      style: TextStyle(
+                                          fontSize: size.height * 0.018,
+                                          color: kSecondaryColor,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.35,
+                                      child: Card(
+                                        margin: EdgeInsets.zero,
+                                        elevation: 0,
+                                        child: ClipPath(
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            child: CustomTextFormFieldCurrency(
+                                              autoValidate: AutovalidateMode
+                                                  .onUserInteraction,
+                                              enabled: controller.delivery[0],
+                                              erroStyle:
+                                                  const TextStyle(fontSize: 12),
+                                              validatorError: (value) {
+                                                if (controller.delivery[0] ==
+                                                    true) {
+                                                  if (value.isEmpty) {
+                                                    return 'Obrigatório';
+                                                  }
                                                 }
-                                              }
-                                            },
-                                            hintText: "R\$ 7,00",
-                                            currencyFormatter: <TextInputFormatter>[
-                                                    CurrencyTextInputFormatter.currency(
+                                              },
+                                              hintText: "R\$ 7,00",
+                                              currencyFormatter: <TextInputFormatter>[
+                                                CurrencyTextInputFormatter
+                                                    .currency(
                                                   locale: 'pt_BR',
                                                   symbol: 'R\$',
                                                   decimalDigits: 2,
                                                 ),
-                                              LengthLimitingTextInputFormatter(
-                                                  8),
-                                            ],
-                                            keyboardType: TextInputType.number,
-                                            controller:
-                                                controller.quantiaMinController,
+                                                LengthLimitingTextInputFormatter(
+                                                    8),
+                                              ],
+                                              keyboardType: TextInputType.number,
+                                              controller:
+                                                  controller.quantiaMinController,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                               /*CustomTextFormField(
                             hintText: widget.bancaModel!.precoMin.toString(),
