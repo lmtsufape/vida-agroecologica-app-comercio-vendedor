@@ -180,19 +180,11 @@ class _EditProductsScreenState extends State<EditProductsScreen> {
                     height: size.height * 0.03,
                     color: Colors.transparent,
                   ),
-                  Text(
-                    'Imagem do produto',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: size.height * 0.018,
-                        color: kSecondaryColor),
-                  ),
+                  SaleInfos(controller, widget.model),
                   Divider(
                     height: size.height * 0.005,
                     color: Colors.transparent,
                   ),
-                  DropDownEditProduct(controller, widget.model),
-                  SaleInfos(controller, widget.model),
                   Divider(
                     height: size.height * 0.02,
                     color: Colors.transparent,
