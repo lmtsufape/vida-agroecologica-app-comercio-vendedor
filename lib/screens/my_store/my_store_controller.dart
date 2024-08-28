@@ -66,15 +66,16 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
   }
 
   void onDeliveryTapped(int index) {
-    //delivery[index] = !delivery[index];
     for (int i = 0; i < delivery.length; i++) {
       delivery[i] = false;
     }
-    // Ativa o checkbox selecionado
     delivery[index] = true;
     deliver = delivery[0];
-    print(deliver);
     update();
+  }
+
+  String role(){
+    return myStoreRepository.role;
   }
 
   void setDeliver(bool value) {
@@ -202,7 +203,7 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
             context: context,
             builder: (context) => DefaultAlertDialogOneButton(
                   title: 'Sucesso',
-                  body: 'Sua banca foi criada',
+                  body: 'Sua banca foi criada!',
                   confirmText: 'Ok',
                   onConfirm: () =>
                       Navigator.pushReplacementNamed(context, Screens.home),
@@ -212,10 +213,11 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
           log("Ocorreu um erro, verifique os campos");
         }
     } catch (e) {
+      print(myStoreRepository.verificaRole());
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
+          content: Text("${e.toString()}\nProcure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
               child: const Text('Voltar'),

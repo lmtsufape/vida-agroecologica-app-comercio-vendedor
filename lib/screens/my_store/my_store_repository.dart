@@ -12,8 +12,28 @@ class MyStoreRepository {
   bool? entrega;
   FormData body = FormData.fromMap({});
   String formasPagamento = '';
+  String role = 'Não entrou';
   UserStorage userStorage = UserStorage();
   final Dio _dio = Dio();
+
+  Future<String> verificaRole() async {
+    UserStorage userStorage = UserStorage();
+    String? userToken = await userStorage.getUserToken();
+    String? userId = await userStorage.getUserId();
+
+    Response userResponse = await _dio.get(
+      '$kBaseURL/users/$userId',
+      options: Options(headers: {"Authorization": "Bearer $userToken"}),
+    );
+
+    List roles = userResponse.data['user']['roles'];
+    int roleId = roles[0]['id'];
+    String roleName = roles[0]['nome'];
+    print('Role ID: $roleId');
+    role = roleName;
+    print('Role Name MyStoreRepository: $role');
+    return role;
+  }
 
   //Função para editar a banca
   Future<bool> editarBanca(
@@ -249,17 +269,17 @@ class MyStoreRepository {
         }),
         data: body,
       );
-
       if (response.statusCode == 201 || response.statusCode == 200) {
         log('cadastro da banca bem sucedida');
-        // Mostrar o statusCode em um AlertDialog
         return true;
       } else {
         formasPagamento = '';
         checkItems = [];
+        print(response.statusCode);
         return false;
       }
     } catch (e) {
+      log('${e.toString()}');
       formasPagamento = '';
       checkItems = [];
       if (e is DioError) {
