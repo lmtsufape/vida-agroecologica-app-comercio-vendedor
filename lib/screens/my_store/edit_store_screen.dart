@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
@@ -28,8 +29,56 @@ class EditStoreScreen extends StatefulWidget {
 }
 
 class _EditStoreScreenState extends State<EditStoreScreen> {
+  String? startTime;
+  String? endTime;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!Get.isRegistered<MyStoreController>()) {
+      Get.put(MyStoreController());
+    }
+    final MyStoreController controller =
+        Get.find<MyStoreController>();
+    controller.horarioAberturaController.text =
+        widget.bancaModel?.horarioAbertura ?? '';
+    controller.horarioFechamentoController.text =
+        widget.bancaModel?.horarioFechamento ?? '';
+    controller.nomeBancaController.text =
+        widget.bancaModel?.nome ?? '';
+  }
+
+  TimeOfDay _getInitialTime(
+      TextEditingController controller) {
+    final timeParts = controller.text.split(':');
+    if (timeParts.length == 2) {
+      final hour = int.tryParse(timeParts[0]) ?? 0;
+      final minute = int.tryParse(timeParts[1]) ?? 0;
+      return TimeOfDay(hour: hour, minute: minute);
+    }
+    return TimeOfDay.now();
+  }
+
+  String _formatTimeOfDayTo24Hour(TimeOfDay time) {
+    final String hour =
+        time.hour.toString().padLeft(2, '0');
+    final String minute =
+        time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
   @override
   Widget build(BuildContext context) {
+    localizationsDelegates:
+    [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ];
+    supportedLocales:
+    [
+      const Locale('pt', 'BR'),
+    ];
     final double? doubleFrete =
         double.tryParse(widget.bancaModel!.precoMin);
     final String? freteCorreto =
@@ -138,7 +187,8 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         children: [
                           Column(
                             crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                CrossAxisAlignment
+                                    .center, // Centraliza o conteúdo na coluna
                             children: [
                               Text(
                                 'Início dos pedidos',
@@ -154,58 +204,89 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 height: size.height * 0.006,
                                 color: Colors.transparent,
                               ),
-                              SizedBox(
-                                width: size.width * 0.4,
-                                child: Card(
-                                  margin: EdgeInsets.zero,
-                                  elevation: 0,
-                                  child: ClipPath(
-                                    child: Container(
-                                      alignment:
-                                          Alignment.center,
-                                      child:
-                                          CustomTextFormFieldTime(
-                                        erroStyle:
-                                            const TextStyle(
-                                                fontSize:
-                                                    12),
-                                        validatorError:
-                                            (value) {
-                                          final exp = RegExp(
-                                              r"(\d{2})+:?(\d{2})+");
-                                          if (value
-                                              .isEmpty) {
-                                            return 'Obrigatório';
-                                          }
-                                          if (!exp.hasMatch(
-                                              value)) {
-                                            return 'Horário inválido';
-                                          }
-                                          return null;
-                                        },
-                                        hintText: widget
-                                            .bancaModel!
-                                            .horarioAbertura,
-                                        keyboardType:
-                                            TextInputType
-                                                .datetime,
-                                        timeFormatter: [
-                                          _HourInputFormatter()
-                                        ],
-                                        controller: controller
-                                            .horarioAberturaController,
-                                      ),
+                              IconButton(
+                                icon: const Icon(
+                                    Icons.access_time),
+                                onPressed: () async {
+                                  final selectedTime =
+                                      await showTimePicker(
+                                    context: context,
+                                    initialTime:
+                                        _getInitialTime(
+                                            controller
+                                                .horarioAberturaController),
+                                    builder:
+                                        (context, child) {
+                                      return Theme(
+                                        data: Theme.of(
+                                                context)
+                                            .copyWith(
+                                          colorScheme:
+                                              const ColorScheme
+                                                  .light(
+                                            primary:
+                                                kPrimaryColor,
+                                            onPrimary:
+                                                Colors
+                                                    .white,
+                                            onSurface:
+                                                kPrimaryColor,
+                                          ),
+                                        ),
+                                        child: MediaQuery(
+                                          data: MediaQuery.of(
+                                                  context)
+                                              .copyWith(
+                                            alwaysUse24HourFormat:
+                                                true,
+                                          ),
+                                          child: child!,
+                                        ),
+                                      );
+                                    },
+                                  );
+
+                                  if (selectedTime !=
+                                      null) {
+                                    final formattedTime =
+                                        _formatTimeOfDayTo24Hour(
+                                            selectedTime);
+                                    setState(() {
+                                      controller
+                                          .horarioAberturaController
+                                          .text = formattedTime;
+                                    });
+                                  }
+                                },
+                              ),
+                              if (controller
+                                  .horarioAberturaController
+                                  .text
+                                  .isNotEmpty)
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(
+                                          top: 8.0),
+                                  child: Text(
+                                    controller
+                                        .horarioAberturaController
+                                        .text,
+                                    style: TextStyle(
+                                      color:
+                                          kSecondaryColor,
+                                      fontWeight:
+                                          FontWeight.w700,
+                                      fontSize:
+                                          size.height *
+                                              0.018,
                                     ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.large),
                           Column(
                             crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                CrossAxisAlignment.center,
                             children: [
                               Text(
                                 'Término dos pedidos',
@@ -221,79 +302,84 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 height: size.height * 0.006,
                                 color: Colors.transparent,
                               ),
-                              SizedBox(
-                                width: size.width * 0.40,
-                                child: Card(
-                                  margin: EdgeInsets.zero,
-                                  elevation: 0,
-                                  child: ClipPath(
-                                    child: Container(
-                                      alignment:
-                                          Alignment.center,
-                                      child:
-                                          CustomTextFormFieldTime(
-                                        erroStyle:
-                                            const TextStyle(
-                                                fontSize:
-                                                    12),
-                                        validatorError:
-                                            (value) {
-                                          final exp = RegExp(
-                                              r"(\d{2})+:?(\d{2})+");
-                                          if (value
-                                              .isEmpty) {
-                                            return 'Obrigatório';
-                                          }
-                                          if (!exp.hasMatch(
-                                              value)) {
-                                            return 'Horário inválido';
-                                          }
-                                          List<int>
-                                              startTime =
-                                              _extractHoursAndMinutes(
-                                                  controller
-                                                      .horarioAberturaController
-                                                      .text);
-                                          List<int>
-                                              endTime =
-                                              _extractHoursAndMinutes(
-                                                  controller
-                                                      .horarioFechamentoController
-                                                      .text);
+                              IconButton(
+                                icon: const Icon(
+                                    Icons.access_time),
+                                onPressed: () async {
+                                  final selectedTime =
+                                      await showTimePicker(
+                                    context: context,
+                                    initialTime:
+                                        _getInitialTime(
+                                            controller
+                                                .horarioFechamentoController),
+                                    builder:
+                                        (context, child) {
+                                      return Theme(
+                                        data: Theme.of(
+                                                context)
+                                            .copyWith(
+                                          colorScheme:
+                                              const ColorScheme
+                                                  .light(
+                                            primary:
+                                                kPrimaryColor,
+                                            onPrimary:
+                                                Colors
+                                                    .white,
+                                            onSurface:
+                                                kPrimaryColor,
+                                          ),
+                                        ),
+                                        child: MediaQuery(
+                                          data: MediaQuery.of(
+                                                  context)
+                                              .copyWith(
+                                            alwaysUse24HourFormat:
+                                                true,
+                                          ),
+                                          child: child!,
+                                        ),
+                                      );
+                                    },
+                                  );
 
-                                          int startMinutes =
-                                              startTime[0] *
-                                                      60 +
-                                                  startTime[
-                                                      1];
-                                          int endMinutes =
-                                              endTime[0] *
-                                                      60 +
-                                                  endTime[
-                                                      1];
-
-                                          if (startMinutes >=
-                                              endMinutes) {
-                                            return 'Horário inválido';
-                                          }
-                                          return null;
-                                        },
-                                        hintText: widget
-                                            .bancaModel!
-                                            .horarioFechamento,
-                                        keyboardType:
-                                            TextInputType
-                                                .datetime,
-                                        timeFormatter: [
-                                          _HourInputFormatter()
-                                        ],
-                                        controller: controller
-                                            .horarioFechamentoController,
-                                      ),
+                                  if (selectedTime !=
+                                      null) {
+                                    final formattedTime =
+                                        _formatTimeOfDayTo24Hour(
+                                            selectedTime);
+                                    setState(() {
+                                      controller
+                                          .horarioFechamentoController
+                                          .text = formattedTime;
+                                    });
+                                  }
+                                },
+                              ),
+                              if (controller
+                                  .horarioFechamentoController
+                                  .text
+                                  .isNotEmpty)
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(
+                                          top: 8.0),
+                                  child: Text(
+                                    controller
+                                        .horarioFechamentoController
+                                        .text,
+                                    style: TextStyle(
+                                      color:
+                                          kSecondaryColor,
+                                      fontWeight:
+                                          FontWeight.w700,
+                                      fontSize:
+                                          size.height *
+                                              0.018,
                                     ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                         ],
@@ -408,8 +494,10 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               elevation: 0,
                               child: ClipPath(
                                 child: Container(
-                                  alignment: Alignment.center,
-                                  child: CustomTextFormField(
+                                  alignment:
+                                      Alignment.center,
+                                  child:
+                                      CustomTextFormField(
                                     autoValidate:
                                         AutovalidateMode
                                             .onUserInteraction,
@@ -418,7 +506,8 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     erroStyle:
                                         const TextStyle(
                                             fontSize: 12),
-                                    validatorError: (value) {
+                                    validatorError:
+                                        (value) {
                                       if (controller
                                               .pixBool ==
                                           true) {
@@ -440,152 +529,152 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         ],
                       ),
                     ),
-                    Text(
-                      'Realizará entregas?',
-                      style: TextStyle(
-                        fontSize: size.height * 0.018,
-                        color: kSecondaryColor,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.08,
-                      child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: ListTileTheme(
-                              horizontalTitleGap: 0,
-                              child: CheckboxListTile(
-                                contentPadding:
-                                    EdgeInsets.zero,
-                                activeColor: kPrimaryColor,
-                                value:
-                                    controller.delivery[0],
-                                title: Text(
-                                  'Sim',
-                                  style: TextStyle(
-                                      fontSize:
-                                          size.height *
-                                              0.018),
-                                ),
-                                checkboxShape:
-                                    const CircleBorder(),
-                                controlAffinity:
-                                    ListTileControlAffinity
-                                        .leading,
-                                onChanged: (value) {
-                                  controller
-                                      .onDeliveryTapped(0);
-                                },
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            child: ListTileTheme(
-                              horizontalTitleGap: 0,
-                              child: CheckboxListTile(
-                                contentPadding:
-                                    EdgeInsets.zero,
-                                activeColor: kPrimaryColor,
-                                value:
-                                    controller.delivery[1],
-                                title: Text(
-                                  'Não',
-                                  style: TextStyle(
-                                      fontSize:
-                                          size.height *
-                                              0.018),
-                                ),
-                                checkboxShape:
-                                    const CircleBorder(),
-                                controlAffinity:
-                                    ListTileControlAffinity
-                                        .leading,
-                                onChanged: (value) =>
-                                    controller
-                                        .onDeliveryTapped(
-                                            1),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                      Visibility(
-                        visible: controller.delivery[0],
-                        child: Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                          children: [
-                            Divider(
-                              height: size.height * 0.025,
-                              color: Colors.transparent,
-                            ),
-                            Text(
-                              'Valor mínimo para frete',
-                              style: kTitle1.copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontSize: size.height * 0.018,
-                                color: kSecondaryColor,
-                              ),
-                            ),
-                            SizedBox(
-                              width: size.width,
-                              child: Card(
-                                margin: EdgeInsets.zero,
-                                elevation: 0,
-                                child: ClipPath(
-                                  child: Container(
-                                    alignment:
-                                        Alignment.center,
-                                    child:
-                                        CustomTextFormFieldCurrency(
-                                      autoValidate:
-                                          AutovalidateMode
-                                              .onUserInteraction,
-                                      enabled: controller
-                                          .delivery[0],
-                                      erroStyle:
-                                          const TextStyle(
-                                              fontSize: 12),
-                                      validatorError:
-                                          (value) {
-                                        if (controller
-                                                    .delivery[
-                                                0] ==
-                                            true) {
-                                          if (value.isEmpty) {
-                                            return 'Obrigatório';
-                                          }
-                                        }
-                                      },
-                                      hintText:
-                                          "R\$ $freteCorreto",
-                                      currencyFormatter: <TextInputFormatter>[
-                                        CurrencyTextInputFormatter
-                                            .currency(
-                                          locale: 'pt_BR',
-                                          symbol: 'R\$',
-                                          decimalDigits: 2,
-                                        ),
-                                        LengthLimitingTextInputFormatter(
-                                            8),
-                                      ],
-                                      keyboardType:
-                                          TextInputType
-                                              .number,
-                                      controller: controller
-                                          .quantiaMinController,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    // Text(
+                    //   'Realizará entregas?',
+                    //   style: TextStyle(
+                    //     fontSize: size.height * 0.018,
+                    //     color: kSecondaryColor,
+                    //     fontWeight: FontWeight.w700,
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: size.height * 0.08,
+                    //   child: Column(
+                    //     mainAxisAlignment:
+                    //         MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Flexible(
+                    //         child: ListTileTheme(
+                    //           horizontalTitleGap: 0,
+                    //           child: CheckboxListTile(
+                    //             contentPadding:
+                    //                 EdgeInsets.zero,
+                    //             activeColor: kPrimaryColor,
+                    //             value:
+                    //                 controller.delivery[0],
+                    //             title: Text(
+                    //               'Sim',
+                    //               style: TextStyle(
+                    //                   fontSize:
+                    //                       size.height *
+                    //                           0.018),
+                    //             ),
+                    //             checkboxShape:
+                    //                 const CircleBorder(),
+                    //             controlAffinity:
+                    //                 ListTileControlAffinity
+                    //                     .leading,
+                    //             onChanged: (value) {
+                    //               controller
+                    //                   .onDeliveryTapped(0);
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       Flexible(
+                    //         child: ListTileTheme(
+                    //           horizontalTitleGap: 0,
+                    //           child: CheckboxListTile(
+                    //             contentPadding:
+                    //                 EdgeInsets.zero,
+                    //             activeColor: kPrimaryColor,
+                    //             value:
+                    //                 controller.delivery[1],
+                    //             title: Text(
+                    //               'Não',
+                    //               style: TextStyle(
+                    //                   fontSize:
+                    //                       size.height *
+                    //                           0.018),
+                    //             ),
+                    //             checkboxShape:
+                    //                 const CircleBorder(),
+                    //             controlAffinity:
+                    //                 ListTileControlAffinity
+                    //                     .leading,
+                    //             onChanged: (value) =>
+                    //                 controller
+                    //                     .onDeliveryTapped(
+                    //                         1),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // Visibility(
+                    //   visible: controller.delivery[0],
+                    //   child: Column(
+                    //     crossAxisAlignment:
+                    //         CrossAxisAlignment.start,
+                    //     children: [
+                    //       Divider(
+                    //         height: size.height * 0.025,
+                    //         color: Colors.transparent,
+                    //       ),
+                    //       Text(
+                    //         'Valor mínimo para frete',
+                    //         style: kTitle1.copyWith(
+                    //           fontWeight: FontWeight.w700,
+                    //           fontSize: size.height * 0.018,
+                    //           color: kSecondaryColor,
+                    //         ),
+                    //       ),
+                    //       SizedBox(
+                    //         width: size.width,
+                    //         child: Card(
+                    //           margin: EdgeInsets.zero,
+                    //           elevation: 0,
+                    //           child: ClipPath(
+                    //             child: Container(
+                    //               alignment:
+                    //                   Alignment.center,
+                    //               child:
+                    //                   CustomTextFormFieldCurrency(
+                    //                 autoValidate:
+                    //                     AutovalidateMode
+                    //                         .onUserInteraction,
+                    //                 enabled: controller
+                    //                     .delivery[0],
+                    //                 erroStyle:
+                    //                     const TextStyle(
+                    //                         fontSize: 12),
+                    //                 validatorError:
+                    //                     (value) {
+                    //                   if (controller
+                    //                               .delivery[
+                    //                           0] ==
+                    //                       true) {
+                    //                     if (value.isEmpty) {
+                    //                       return 'Obrigatório';
+                    //                     }
+                    //                   }
+                    //                 },
+                    //                 hintText:
+                    //                     "R\$ $freteCorreto",
+                    //                 currencyFormatter: <TextInputFormatter>[
+                    //                   CurrencyTextInputFormatter
+                    //                       .currency(
+                    //                     locale: 'pt_BR',
+                    //                     symbol: 'R\$',
+                    //                     decimalDigits: 2,
+                    //                   ),
+                    //                   LengthLimitingTextInputFormatter(
+                    //                       8),
+                    //                 ],
+                    //                 keyboardType:
+                    //                     TextInputType
+                    //                         .number,
+                    //                 controller: controller
+                    //                     .quantiaMinController,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     const VerticalSpacerBox(
                         size: SpacerSize.large),
                     SizedBox(
@@ -598,8 +687,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               .formKey.currentState!
                               .validate();
                           if (isValidForm) {
-                            if (controller
-                                .verifySelectedFields()) {
+                            if (controller.verifyFields()) {
                               showDialog(
                                 context: context,
                                 builder: (context) =>
@@ -673,6 +761,16 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
       ),
     );
   }
+}
+
+String? _validateTimes(String startTime, String endTime) {
+  List<int> start = _extractHoursAndMinutes(startTime);
+  List<int> end = _extractHoursAndMinutes(endTime);
+  if ((start[0] * 60 + start[1]) >=
+      (end[0] * 60 + end[1])) {
+    return 'O horário de início deve ser anterior ao horário de término.';
+  }
+  return null;
 }
 
 List<int> _extractHoursAndMinutes(String time) {

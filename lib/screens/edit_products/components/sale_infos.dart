@@ -12,7 +12,8 @@ class SaleInfos extends StatefulWidget {
   final EditProductsController controller;
   ProductsModel? productsModel;
 
-  SaleInfos(this.controller, this.productsModel, {Key? key}) : super(key: key);
+  SaleInfos(this.controller, this.productsModel, {Key? key})
+      : super(key: key);
 
   @override
   State<SaleInfos> createState() => _SaleInfosState();
@@ -23,6 +24,16 @@ class _SaleInfosState extends State<SaleInfos> {
 
   @override
   void initState() {
+    widget.controller.titleController.text =
+        widget.productsModel?.titulo ?? '';
+    widget.controller.descriptionController.text =
+        widget.productsModel?.descricao ?? '';
+    widget.controller.saleController.text =
+        widget.productsModel?.preco?.toStringAsFixed(2) ??
+            '';
+    widget.controller.stockController.text =
+        widget.productsModel?.estoque?.toString() ?? '';
+
     super.initState();
   }
 
@@ -56,7 +67,8 @@ class _SaleInfosState extends State<SaleInfos> {
                 child: ClipPath(
                   child: CustomTextFormField(
                     hintText: widget.productsModel!.titulo,
-                    erroStyle: const TextStyle(fontSize: 12),
+                    erroStyle:
+                        const TextStyle(fontSize: 12),
                     validatorError: (value) {
                       if (value.isEmpty) {
                         return 'Obrigatório';
@@ -67,7 +79,8 @@ class _SaleInfosState extends State<SaleInfos> {
                         widget.controller.setTitle();
                       });
                     },
-                    controller: widget.controller.titleController,
+                    controller:
+                        widget.controller.titleController,
                   ),
                 ),
               ),
@@ -101,8 +114,10 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormField(
-                      hintText: widget.productsModel!.descricao,
-                      erroStyle: const TextStyle(fontSize: 12),
+                      hintText:
+                          widget.productsModel!.descricao,
+                      erroStyle:
+                          const TextStyle(fontSize: 12),
                       validatorError: (value) {
                         if (value.isEmpty) {
                           return 'Obrigatório';
@@ -110,10 +125,12 @@ class _SaleInfosState extends State<SaleInfos> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          widget.controller.setDescription();
+                          widget.controller
+                              .setDescription();
                         });
                       },
-                      controller: widget.controller.descriptionController,
+                      controller: widget
+                          .controller.descriptionController,
                     ),
                   ),
                 ),
@@ -139,7 +156,8 @@ class _SaleInfosState extends State<SaleInfos> {
               height: size.height * 0.005,
               color: Colors.transparent,
             ),
-            DropDownEditProduct(widget.controller, widget.productsModel!),
+            DropDownEditProduct(
+                widget.controller, widget.productsModel!),
             Divider(
               height: size.height * 0.03,
               color: Colors.transparent,
@@ -173,7 +191,8 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormFieldCurrency(
                       keyboardType: TextInputType.number,
-                      erroStyle: const TextStyle(fontSize: 12),
+                      erroStyle:
+                          const TextStyle(fontSize: 12),
                       validatorError: (value) {
                         if (value.isEmpty) {
                           return 'Obrigatório';
@@ -193,7 +212,8 @@ class _SaleInfosState extends State<SaleInfos> {
                         ),
                         LengthLimitingTextInputFormatter(9),
                       ],
-                      controller: widget.controller.saleController,
+                      controller:
+                          widget.controller.saleController,
                     ),
                   ),
                 ),

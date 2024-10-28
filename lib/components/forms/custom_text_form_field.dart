@@ -34,10 +34,12 @@ class CustomTextFormField extends StatefulWidget {
   final dynamic autoValidate;
 
   @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+  State<CustomTextFormField> createState() =>
+      _CustomTextFormFieldState();
 }
 
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
+class _CustomTextFormFieldState
+    extends State<CustomTextFormField> {
   bool _obscureText = false;
 
   @override
@@ -58,17 +60,22 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return TextFormField(
-      autovalidateMode: widget.autoValidate == null ? null : widget.autoValidate!,
-      enabled: widget.enabled == null ? null : widget.enabled!,
+      autovalidateMode: widget.autoValidate == null
+          ? null
+          : widget.autoValidate!,
+      enabled:
+          widget.enabled == null ? null : widget.enabled!,
       onChanged: widget.onChanged,
-      inputFormatters:
-          widget.maskFormatter == null ? null : [widget.maskFormatter!],
+      inputFormatters: widget.maskFormatter == null
+          ? null
+          : [widget.maskFormatter!],
       validator: widget.validatorError,
       obscureText: _obscureText,
       controller: widget.controller,
       decoration: InputDecoration(
         errorStyle: widget.erroStyle,
-        prefixIcon: widget.icon == null ? null : Icon(widget.icon),
+        prefixIcon:
+            widget.icon == null ? null : Icon(widget.icon),
         /*border: widget.isBordered == null
             ? InputBorder.none
             : const OutlineInputBorder(),*/
@@ -81,7 +88,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ? InkWell(
                 onTap: () => _toggleVisibility(),
                 child: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  _obscureText
+                      ? Icons.visibility
+                      : Icons.visibility_off,
                 ),
               )
             : null,
@@ -150,17 +159,23 @@ class _CustomTextFormFieldCurrencyState
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: TextFormField(
-        autovalidateMode: widget.autoValidate == null ? null : widget.autoValidate!,
-        enabled: widget.enabled == null ? null : widget.enabled!,
+        autovalidateMode: widget.autoValidate == null
+            ? null
+            : widget.autoValidate!,
+        enabled:
+            widget.enabled == null ? null : widget.enabled!,
         onChanged: widget.onChanged,
-        inputFormatters:
-            widget.currencyFormatter == null ? null : widget.currencyFormatter!,
+        inputFormatters: widget.currencyFormatter == null
+            ? null
+            : widget.currencyFormatter!,
         obscureText: _obscureText,
         controller: widget.controller,
         validator: widget.validatorError,
         decoration: InputDecoration(
           errorStyle: widget.erroStyle,
-          prefixIcon: widget.icon == null ? null : Icon(widget.icon),
+          prefixIcon: widget.icon == null
+              ? null
+              : Icon(widget.icon),
           /*border: widget.isBordered == null
               ? InputBorder.none
               : const OutlineInputBorder(),*/
@@ -168,12 +183,15 @@ class _CustomTextFormFieldCurrencyState
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
-          hintStyle: TextStyle(fontSize: size.height * 0.02),
+          hintStyle:
+              TextStyle(fontSize: size.height * 0.02),
           suffixIcon: widget.isPassword == true
               ? InkWell(
                   onTap: () => _toggleVisibility(),
                   child: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    _obscureText
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                 )
               : null,
@@ -191,18 +209,17 @@ class CustomTextFormFieldTime extends StatefulWidget {
     this.timeFormatter,
     this.controller,
     this.keyboardType,
-    this.hintText,
     this.isPassword,
     this.icon,
     this.isBordered,
     this.erroStyle,
     this.validatorError,
+    this.style,
   }) : super(key: key);
 
   final Function(String)? onChanged;
   final String? label;
   final List<TextInputFormatter>? timeFormatter;
-  final String? hintText;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool? isPassword;
@@ -210,13 +227,15 @@ class CustomTextFormFieldTime extends StatefulWidget {
   final bool? isBordered;
   final dynamic validatorError;
   final dynamic erroStyle;
+  final TextStyle? style;
 
   @override
   State<CustomTextFormFieldTime> createState() =>
       _CustomTextFormFieldTimeState();
 }
 
-class _CustomTextFormFieldTimeState extends State<CustomTextFormFieldTime> {
+class _CustomTextFormFieldTimeState
+    extends State<CustomTextFormFieldTime> {
   bool _obscureText = false;
 
   @override
@@ -238,29 +257,33 @@ class _CustomTextFormFieldTimeState extends State<CustomTextFormFieldTime> {
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: TextFormField(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode:
+            AutovalidateMode.onUserInteraction,
         validator: widget.validatorError,
         onChanged: widget.onChanged,
-        inputFormatters:
-            widget.timeFormatter == null ? null : widget.timeFormatter!,
+        inputFormatters: widget.timeFormatter ?? [],
         obscureText: _obscureText,
         controller: widget.controller,
+        style: widget.style,
         decoration: InputDecoration(
           errorStyle: widget.erroStyle,
-          prefixIcon: widget.icon == null ? null : Icon(widget.icon),
-          /*border: widget.isBordered == null
-              ? InputBorder.none
-              : const OutlineInputBorder(),*/
+          prefixIcon: widget.icon == null
+              ? null
+              : Icon(widget.icon),
           labelText: widget.label,
           filled: true,
           fillColor: Colors.white,
-          hintText: widget.hintText,
-          hintStyle: TextStyle(fontSize: size.height * 0.02),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: EdgeInsets.zero,
           suffixIcon: widget.isPassword == true
               ? InkWell(
                   onTap: () => _toggleVisibility(),
                   child: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    _obscureText
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                   ),
                 )
               : null,

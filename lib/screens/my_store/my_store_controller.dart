@@ -27,38 +27,48 @@ class MyStoreController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final List<bool> isSelected = [false, false, false];
-  final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
+  final List<String> checkItems = [
+    'Dinheiro',
+    'PIX',
+    'Cartão'
+  ];
   final List<bool> delivery = [false, false];
   final List<String> deliveryItems = ['Sim', 'Não'];
 
   bool deliver = false;
   bool pixBool = false;
-MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
-    mask: '##:##',
-    filter: {
-      "#": RegExp(r'[0-9]')
-    },
-    type: MaskAutoCompletionType.lazy);
+  MaskTextInputFormatter timeFormatter =
+      MaskTextInputFormatter(
+          mask: '##:##',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: MaskAutoCompletionType.lazy);
 
-MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
-    mask: '##:##',
-    filter: {
-      "#": RegExp(r'[0-9]')
-    },
-    type: MaskAutoCompletionType.lazy);
+  MaskTextInputFormatter timeFormatter2 =
+      MaskTextInputFormatter(
+          mask: '##:##',
+          filter: {"#": RegExp(r'[0-9]')},
+          type: MaskAutoCompletionType.lazy);
 
+  final TextEditingController _nomeBancaController =
+      TextEditingController();
+  final TextEditingController _pixController =
+      TextEditingController();
+  final TextEditingController _quantiaMinController =
+      TextEditingController();
+  final TextEditingController _horarioAberturaController =
+      TextEditingController();
+  final TextEditingController _horarioFechamentoController =
+      TextEditingController();
 
-  final TextEditingController _nomeBancaController = TextEditingController();
-  final TextEditingController _pixController = TextEditingController();
-  final TextEditingController _quantiaMinController = TextEditingController();
-  final TextEditingController _horarioAberturaController = TextEditingController();
-  final TextEditingController _horarioFechamentoController = TextEditingController();
-
-  TextEditingController get nomeBancaController => _nomeBancaController;
-  TextEditingController get quantiaMinController => _quantiaMinController;
+  TextEditingController get nomeBancaController =>
+      _nomeBancaController;
+  TextEditingController get quantiaMinController =>
+      _quantiaMinController;
   TextEditingController get pixController => _pixController;
-  TextEditingController get horarioAberturaController => _horarioAberturaController;
-  TextEditingController get horarioFechamentoController => _horarioFechamentoController;
+  TextEditingController get horarioAberturaController =>
+      _horarioAberturaController;
+  TextEditingController get horarioFechamentoController =>
+      _horarioFechamentoController;
 
   void onItemTapped(int index) {
     isSelected[index] = !isSelected[index];
@@ -74,7 +84,7 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
     update();
   }
 
-  String role(){
+  String role() {
     return myStoreRepository.role;
   }
 
@@ -82,7 +92,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
     deliver = value;
     update();
   }
-  void setPixBool(bool value){
+
+  void setPixBool(bool value) {
     pixBool = value;
     update();
   }
@@ -105,7 +116,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
 
   Future selectImageCam() async {
     try {
-      File? file = await _imagePickerController.pickImageFromCamera();
+      File? file = await _imagePickerController
+          .pickImageFromCamera();
       if (file != null) {
         _imagePath = file.path;
       } else {
@@ -116,7 +128,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
       Get.dialog(
         AlertDialog(
           title: const Text('Erro 1'),
-          content: Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
+          content: Text(
+              "${e.toString()}\n Procure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
               child: const Text('OK'),
@@ -134,7 +147,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
 
   Future selectImage() async {
     try {
-      File? file = await _imagePickerController.pickImageFromGallery();
+      File? file = await _imagePickerController
+          .pickImageFromGallery();
       if (file != null) {
         _imagePath = file.path;
       } else {
@@ -147,7 +161,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text("${e.toString()}\n Procure o suporte com a equipe LMTS"),
+          content: Text(
+              "${e.toString()}\n Procure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
               child: const Text('Voltar'),
@@ -166,7 +181,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
     update();
   }
 
-  void editBanca(BuildContext context, BancaModel banca) async {
+  void editBanca(
+      BuildContext context, BancaModel banca) async {
     editSucess = await myStoreRepository.editarBanca(
         _nomeBancaController.text,
         _horarioAberturaController.text,
@@ -181,7 +197,8 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(
+            builder: (context) => const HomeScreen()),
       );
     }
   }
@@ -201,23 +218,26 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
         // ignore: use_build_context_synchronously
         showDialog(
             context: context,
-            builder: (context) => DefaultAlertDialogOneButton(
+            builder: (context) =>
+                DefaultAlertDialogOneButton(
                   title: 'Sucesso',
                   body: 'Sua banca foi criada!',
                   confirmText: 'Ok',
                   onConfirm: () =>
-                      Navigator.pushReplacementNamed(context, Screens.home),
+                      Navigator.pushReplacementNamed(
+                          context, Screens.home),
                   buttonColor: kSuccessColor,
                 ));
       } else {
-          log("Ocorreu um erro, verifique os campos");
-        }
+        log("Ocorreu um erro, verifique os campos");
+      }
     } catch (e) {
       print(myStoreRepository.verificaRole());
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text("${e.toString()}\nProcure o suporte com a equipe LMTS"),
+          content: Text(
+              "${e.toString()}\nProcure o suporte com a equipe LMTS"),
           actions: [
             TextButton(
               child: const Text('Voltar'),
@@ -247,14 +267,12 @@ MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
   bool verifyFields() {
     if (_nomeBancaController.text.isNotEmpty &&
         _horarioAberturaController.text.isNotEmpty &&
-        _horarioFechamentoController.text.isNotEmpty &&
-        _imagePath != null) {
+        _horarioFechamentoController.text.isNotEmpty) {
       for (int i = 0; i < isSelected.length; i++) {
         if (isSelected[i] == true) {
           return true;
         }
       }
-      return false;
     }
     return false;
   }
