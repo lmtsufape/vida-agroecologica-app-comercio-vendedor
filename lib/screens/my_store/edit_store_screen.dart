@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,11 +36,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
   @override
   void initState() {
     super.initState();
-    if (!Get.isRegistered<MyStoreController>()) {
-      Get.put(MyStoreController());
-    }
+
     final MyStoreController controller =
-        Get.find<MyStoreController>();
+        Get.put(MyStoreController());
     controller.horarioAberturaController.text =
         widget.bancaModel?.horarioAbertura ?? '';
     controller.horarioFechamentoController.text =
@@ -69,16 +68,6 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    localizationsDelegates:
-    [
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ];
-    supportedLocales:
-    [
-      const Locale('pt', 'BR'),
-    ];
     final double? doubleFrete =
         double.tryParse(widget.bancaModel!.precoMin);
     final String? freteCorreto =
@@ -187,8 +176,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         children: [
                           Column(
                             crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .center, // Centraliza o conteúdo na coluna
+                                CrossAxisAlignment.center,
                             children: [
                               Text(
                                 'Início dos pedidos',
@@ -683,10 +671,14 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                       child: PrimaryButton(
                         text: 'Salvar',
                         onPressed: () {
-                          final isValidForm = controller
-                              .formKey.currentState!
-                              .validate();
-                          if (isValidForm) {
+                          print("Validando formulário...");
+                          if (controller
+                                  .formKey.currentState
+                                  ?.validate() ??
+                              false) {
+                            print(
+                                "Formulário validado com sucesso.");
+
                             if (controller.verifyFields()) {
                               showDialog(
                                 context: context,
@@ -697,6 +689,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                       'Suas informações foram alteradas com sucesso',
                                   confirmText: 'Ok',
                                   onConfirm: () {
+                                    Get.back();
                                     controller.editBanca(
                                         context,
                                         widget.bancaModel!);
@@ -719,10 +712,14 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 ),
                               );
                             }
+                          } else {
+                            print(
+                                "Formulário não validado.");
                           }
                         },
                       ),
                     ),
+
                     Divider(
                         height: size.height * 0.015,
                         color: Colors.transparent),

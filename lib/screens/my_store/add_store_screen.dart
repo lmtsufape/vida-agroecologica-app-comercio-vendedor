@@ -24,6 +24,24 @@ class AddStoreScreen extends StatefulWidget {
       _AddStoreScreenState();
 }
 
+TimeOfDay _getInitialTime(
+    TextEditingController controller) {
+  final timeParts = controller.text.split(':');
+  if (timeParts.length == 2) {
+    final hour = int.tryParse(timeParts[0]) ?? 0;
+    final minute = int.tryParse(timeParts[1]) ?? 0;
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+  return TimeOfDay.now();
+}
+
+String _formatTimeOfDayTo24Hour(TimeOfDay time) {
+  final String hour = time.hour.toString().padLeft(2, '0');
+  final String minute =
+      time.minute.toString().padLeft(2, '0');
+  return '$hour:$minute';
+}
+
 class _AddStoreScreenState extends State<AddStoreScreen> {
   @override
   Widget build(BuildContext context) {
@@ -132,165 +150,229 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                       MainAxisAlignment
                                           .spaceBetween,
                                   children: [
-                                    IntrinsicWidth(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                        children: [
-                                          Text(
-                                            'Horário de abertura',
-                                            style: TextStyle(
-                                                fontSize:
-                                                    size.height *
-                                                        0.018,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .center,
+                                      children: [
+                                        Text(
+                                          'Horário de abertura',
+                                          style: TextStyle(
+                                            color:
+                                                kSecondaryColor,
+                                            fontWeight:
+                                                FontWeight
+                                                    .w700,
+                                            fontSize:
+                                                size.height *
+                                                    0.018,
+                                          ),
+                                        ),
+                                        Divider(
+                                          height:
+                                              size.height *
+                                                  0.006,
+                                          color: Colors
+                                              .transparent,
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons
+                                              .access_time),
+                                          onPressed:
+                                              () async {
+                                            final selectedTime =
+                                                await showTimePicker(
+                                              context:
+                                                  context,
+                                              initialTime:
+                                                  _getInitialTime(
+                                                      controller
+                                                          .horarioAberturaController),
+                                              builder:
+                                                  (context,
+                                                      child) {
+                                                return Theme(
+                                                  data: Theme.of(
+                                                          context)
+                                                      .copyWith(
+                                                    colorScheme:
+                                                        const ColorScheme.light(
+                                                      primary:
+                                                          kPrimaryColor,
+                                                      onPrimary:
+                                                          Colors.white,
+                                                      onSurface:
+                                                          kPrimaryColor,
+                                                    ),
+                                                  ),
+                                                  child:
+                                                      MediaQuery(
+                                                    data: MediaQuery.of(context)
+                                                        .copyWith(
+                                                      alwaysUse24HourFormat:
+                                                          true,
+                                                    ),
+                                                    child:
+                                                        child!,
+                                                  ),
+                                                );
+                                              },
+                                            );
+
+                                            if (selectedTime !=
+                                                null) {
+                                              final formattedTime =
+                                                  _formatTimeOfDayTo24Hour(
+                                                      selectedTime);
+                                              setState(() {
+                                                controller
+                                                        .horarioAberturaController
+                                                        .text =
+                                                    formattedTime;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        if (controller
+                                            .horarioAberturaController
+                                            .text
+                                            .isNotEmpty)
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets
+                                                    .only(
+                                                    top:
+                                                        8.0),
+                                            child: Text(
+                                              controller
+                                                  .horarioAberturaController
+                                                  .text,
+                                              style:
+                                                  TextStyle(
                                                 color:
                                                     kSecondaryColor,
                                                 fontWeight:
                                                     FontWeight
-                                                        .w700),
-                                          ),
-                                          Divider(
-                                            height:
-                                                size.height *
-                                                    0.006,
-                                            color: Colors
-                                                .transparent,
-                                          ),
-                                          SizedBox(
-                                            width:
-                                                size.width *
-                                                    0.4,
-                                            child: Card(
-                                              margin:
-                                                  EdgeInsets
-                                                      .zero,
-                                              elevation: 0,
-                                              child:
-                                                  ClipPath(
-                                                child:
-                                                    Container(
-                                                  child:
-                                                      CustomTextFormFieldTime(
-                                                    erroStyle:
-                                                        const TextStyle(fontSize: 12),
-                                                    validatorError:
-                                                        (value) {
-                                                      final exp =
-                                                          RegExp(r"(\d{2})+:?(\d{2})+");
-                                                      if (value
-                                                          .isEmpty) {
-                                                        return 'Obrigatório';
-                                                      }
-                                                      if (!exp
-                                                          .hasMatch(value)) {
-                                                        return 'Horário inválido';
-                                                      }
-                                                    },
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    timeFormatter: [
-                                                      _HourInputFormatter(),
-                                                    ],
-                                                    controller:
-                                                        controller.horarioAberturaController,
-                                                  ),
-                                                ),
+                                                        .w700,
+                                                fontSize:
+                                                    size.height *
+                                                        0.018,
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                      ],
                                     ),
-                                    const VerticalSpacerBox(
-                                        size: SpacerSize
-                                            .small),
-                                    IntrinsicWidth(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                        children: [
-                                          Text(
-                                            'Horário de fechamento',
-                                            style: TextStyle(
-                                                fontSize:
-                                                    size.height *
-                                                        0.018,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .center,
+                                      children: [
+                                        Text(
+                                          'Término dos pedidos',
+                                          style: TextStyle(
+                                            color:
+                                                kSecondaryColor,
+                                            fontWeight:
+                                                FontWeight
+                                                    .w700,
+                                            fontSize:
+                                                size.height *
+                                                    0.018,
+                                          ),
+                                        ),
+                                        Divider(
+                                          height:
+                                              size.height *
+                                                  0.006,
+                                          color: Colors
+                                              .transparent,
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons
+                                              .access_time),
+                                          onPressed:
+                                              () async {
+                                            final selectedTime =
+                                                await showTimePicker(
+                                              context:
+                                                  context,
+                                              initialTime:
+                                                  _getInitialTime(
+                                                      controller
+                                                          .horarioFechamentoController),
+                                              builder:
+                                                  (context,
+                                                      child) {
+                                                return Theme(
+                                                  data: Theme.of(
+                                                          context)
+                                                      .copyWith(
+                                                    colorScheme:
+                                                        const ColorScheme.light(
+                                                      primary:
+                                                          kPrimaryColor,
+                                                      onPrimary:
+                                                          Colors.white,
+                                                      onSurface:
+                                                          kPrimaryColor,
+                                                    ),
+                                                  ),
+                                                  child:
+                                                      MediaQuery(
+                                                    data: MediaQuery.of(context)
+                                                        .copyWith(
+                                                      alwaysUse24HourFormat:
+                                                          true,
+                                                    ),
+                                                    child:
+                                                        child!,
+                                                  ),
+                                                );
+                                              },
+                                            );
+
+                                            if (selectedTime !=
+                                                null) {
+                                              final formattedTime =
+                                                  _formatTimeOfDayTo24Hour(
+                                                      selectedTime);
+                                              setState(() {
+                                                controller
+                                                        .horarioFechamentoController
+                                                        .text =
+                                                    formattedTime;
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        if (controller
+                                            .horarioFechamentoController
+                                            .text
+                                            .isNotEmpty)
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets
+                                                    .only(
+                                                    top:
+                                                        8.0),
+                                            child: Text(
+                                              controller
+                                                  .horarioFechamentoController
+                                                  .text,
+                                              style:
+                                                  TextStyle(
                                                 color:
                                                     kSecondaryColor,
                                                 fontWeight:
                                                     FontWeight
-                                                        .w700),
-                                          ),
-                                          Divider(
-                                            height:
-                                                size.height *
-                                                    0.006,
-                                            color: Colors
-                                                .transparent,
-                                          ),
-                                          SizedBox(
-                                            width:
-                                                size.width *
-                                                    0.4,
-                                            child: Card(
-                                              margin:
-                                                  EdgeInsets
-                                                      .zero,
-                                              elevation: 0,
-                                              child:
-                                                  ClipPath(
-                                                child:
-                                                    Container(
-                                                  child:
-                                                      CustomTextFormFieldTime(
-                                                    erroStyle:
-                                                        const TextStyle(fontSize: 12),
-                                                    validatorError:
-                                                        (value) {
-                                                      final exp =
-                                                          RegExp(r"(\d{2})+:?(\d{2})+");
-                                                      if (value
-                                                          .isEmpty) {
-                                                        return 'Obrigatório';
-                                                      }
-                                                      if (!exp
-                                                          .hasMatch(value)) {
-                                                        return 'Horário inválido';
-                                                      }
-                                                      List<int>
-                                                          startTime =
-                                                          _extractHoursAndMinutes(controller.horarioAberturaController.text);
-                                                      List<int>
-                                                          endTime =
-                                                          _extractHoursAndMinutes(controller.horarioFechamentoController.text);
-
-                                                      int startMinutes =
-                                                          startTime[0] * 60 + startTime[1];
-                                                      int endMinutes =
-                                                          endTime[0] * 60 + endTime[1];
-
-                                                      if (startMinutes >=
-                                                          endMinutes) {
-                                                        return 'Horário inválido';
-                                                      }
-                                                      return null;
-                                                    },
-                                                    keyboardType:
-                                                        TextInputType.datetime,
-                                                    timeFormatter: [
-                                                      _HourInputFormatter(),
-                                                    ],
-                                                    controller:
-                                                        controller.horarioFechamentoController,
-                                                  ),
-                                                ),
+                                                        .w700,
+                                                fontSize:
+                                                    size.height *
+                                                        0.018,
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -690,6 +772,16 @@ List<int> _extractHoursAndMinutes(String time) {
     // Se não houver correspondência, retorna uma lista com valores padrão
     return [0, 0];
   }
+}
+
+String? _validateTimes(String startTime, String endTime) {
+  List<int> start = _extractHoursAndMinutes(startTime);
+  List<int> end = _extractHoursAndMinutes(endTime);
+  if ((start[0] * 60 + start[1]) >=
+      (end[0] * 60 + end[1])) {
+    return 'O horário de início deve ser anterior ao horário de término.';
+  }
+  return null;
 }
 
 class _HourInputFormatter extends TextInputFormatter {
