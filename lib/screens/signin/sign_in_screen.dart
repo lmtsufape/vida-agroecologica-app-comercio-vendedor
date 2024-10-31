@@ -123,7 +123,11 @@ class SignInScreen extends StatelessWidget {
                                                         children: [
                                                           Text(
                                                             'E-mail',
-                                                            style: TextStyle(color: kSecondaryColor, fontWeight: FontWeight.w700, fontSize: size.height * 0.018),
+                                                            style: TextStyle(
+                                                              color: kSecondaryColor,
+                                                              fontWeight: FontWeight.w700,
+                                                              fontSize: size.height * 0.018,
+                                                            ),
                                                           ),
                                                           IntrinsicWidth(
                                                             stepWidth: size.width,
@@ -143,6 +147,7 @@ class SignInScreen extends StatelessWidget {
                                                                       } else if (value.contains('@') == false) {
                                                                         return "Digite um e-mail válido";
                                                                       }
+                                                                      return null;
                                                                     },
                                                                     controller: controller.emailController,
                                                                   ),
@@ -160,7 +165,11 @@ class SignInScreen extends StatelessWidget {
                                                         children: [
                                                           Text(
                                                             'Senha',
-                                                            style: TextStyle(color: kSecondaryColor, fontWeight: FontWeight.w700, fontSize: size.height * 0.018),
+                                                            style: TextStyle(
+                                                              color: kSecondaryColor,
+                                                              fontWeight: FontWeight.w700,
+                                                              fontSize: size.height * 0.018,
+                                                            ),
                                                           ),
                                                           IntrinsicWidth(
                                                             stepWidth: size.width,
@@ -175,7 +184,10 @@ class SignInScreen extends StatelessWidget {
                                                                     validatorError: (value) {
                                                                       if (value.isEmpty) {
                                                                         return 'Obrigatório';
+                                                                      } else if (value.length < 6) {
+                                                                        return "A senha deve ter no mínimo 6 caracteres";
                                                                       }
+                                                                      return null;
                                                                     },
                                                                     controller: controller.passwordController,
                                                                     isPassword: true,
@@ -198,7 +210,12 @@ class SignInScreen extends StatelessWidget {
                                                               width: MediaQuery.of(context).size.width,
                                                               height: MediaQuery.of(context).size.height * 0.06,
                                                               child: ElevatedButton(
-                                                                style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(kDefaultBorderRadius))),
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: kPrimaryColor,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+                                                                  ),
+                                                                ),
                                                                 onPressed: () {
                                                                   final isValidForm = controller.formKey.currentState!.validate();
                                                                   if (isValidForm) {

@@ -63,8 +63,7 @@ class AddProductsRepository extends GetxController {
     var body = {
       "descricao": description.toString(),
       "titulo": title.toString(),
-      "tipo_medida": measure
-          .toString(),
+      "tipo_medida": measure.toString(),
       "estoque": stock,
       "preco": salePrice,
       "custo": "1.00",
@@ -94,7 +93,6 @@ class AddProductsRepository extends GetxController {
     }
   }
 
-
   Future<bool> deleteProduct(context, int? prodId) async {
     Dio dio = Dio();
 
@@ -118,6 +116,4 @@ class AddProductsRepository extends GetxController {
     print(response.statusCode);
     return true;
   }
-
-
 }

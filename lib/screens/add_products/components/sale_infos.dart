@@ -55,6 +55,10 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormField(
                       hintText: 'Nome do produto',
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: kTextButtonColor,
+                      ),
                       erroStyle:
                           const TextStyle(fontSize: 12),
                       validatorError: (value) {
@@ -104,6 +108,10 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormField(
                       hintText: 'Descrição do produto',
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: kTextButtonColor,
+                      ),
                       erroStyle:
                           const TextStyle(fontSize: 12),
                       validatorError: (value) {
@@ -172,14 +180,18 @@ class _SaleInfosState extends State<SaleInfos> {
                   child: Container(
                     alignment: Alignment.center,
                     child: CustomTextFormFieldCurrency(
+                      hintText: 'R\$ 0,00',
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: kTextButtonColor,
+                      ),
                       erroStyle:
-                          const TextStyle(fontSize: 12),
+                          const TextStyle(fontSize: 14),
                       validatorError: (value) {
                         if (value.isEmpty) {
                           return 'Obrigatório';
                         }
                       },
-                      hintText: 'R\$ 4,62',
                       onChanged: (value) {
                         setState(() {
                           widget.controller.setSalePrice();

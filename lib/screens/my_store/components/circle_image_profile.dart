@@ -23,7 +23,7 @@ class _CircleImageProfileState
     extends State<CircleImageProfile> {
   @override
   Widget build(BuildContext context) {
-        Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     final heightScreen = MediaQuery.of(context).size.height;
     final widthScreen = MediaQuery.of(context).size.width;
     return Padding(
@@ -34,43 +34,48 @@ class _CircleImageProfileState
             width: widthScreen * 0.24,
             height: heightScreen * 0.12,
             child: FloatingActionButton(
-                heroTag: 'Photo',
+              heroTag: 'Photo',
+              backgroundColor: kBackgroundColor,
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: ((builder) =>
+                        bottomSheet(widget.controller)));
+              },
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(100))),
+              child: CircleAvatar(
+                radius: 65,
                 backgroundColor: kBackgroundColor,
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: ((builder) => bottomSheet(widget.controller)));
-                },
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(100))),
-                child: CircleAvatar(
-                    radius: 65,
-                    backgroundColor: kBackgroundColor,
-                    backgroundImage: widget
-                                .controller.selectedImage !=
-                            null
-                        ? FileImage(
-                            widget.controller.selectedImage!)
+                backgroundImage: widget
+                            .controller.selectedImage !=
+                        null
+                    ? FileImage(
+                        widget.controller.selectedImage!)
+                    : AssetImage(Assets.bancaExemplo)
+                        as ImageProvider,
+                child:
+                    widget.controller.selectedImage == null
+                        ? null
                         : null,
-                    child: widget.controller.selectedImage ==
-                            null
-                        ?  Image.asset(Assets.bancaExemplo)
-                        : null)),
+              ),
+            ),
           ),
           const SizedBox(
             height: 20,
           ),
-           Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Center(
                 child: Text("Editar imagem  "),
               ),
               Icon(
-                  Icons.mode_edit_outline_outlined,
-                  color: kPrimaryColor,
-                  size: size.height * 0.025,
-                ),
+                Icons.mode_edit_outline_outlined,
+                color: kPrimaryColor,
+                size: size.height * 0.025,
+              ),
             ],
           )
         ],
@@ -84,7 +89,6 @@ Widget bottomSheet(MyStoreController controller) {
   return Container(
     height: 130.0,
     width: 500,
-
     margin: const EdgeInsets.symmetric(
       horizontal: 20,
       vertical: 20,
@@ -106,21 +110,32 @@ Widget bottomSheet(MyStoreController controller) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton.icon(
-                    icon: const Icon(Icons.camera, size: 30,),
-                    onPressed: () {
-                      controller0.selectImageCam();
-                    },
-                    label: const Text("Camera", style: TextStyle(fontSize: 23),),
+                  icon: const Icon(
+                    Icons.camera,
+                    size: 30,
                   ),
-                
+                  onPressed: () {
+                    controller0.selectImageCam();
+                  },
+                  label: const Text(
+                    "Camera",
+                    style: TextStyle(fontSize: 23),
+                  ),
+                ),
                 const HorizontalSpacerBox(
                     size: SpacerSize.small),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.image, size: 30,),
+                  icon: const Icon(
+                    Icons.image,
+                    size: 30,
+                  ),
                   onPressed: () {
                     controller0.selectImage();
                   },
-                  label: const Text("Galeria", style: TextStyle(fontSize: 23),),
+                  label: const Text(
+                    "Galeria",
+                    style: TextStyle(fontSize: 23),
+                  ),
                 ),
               ]),
         )

@@ -31,7 +31,8 @@ class HomeScreenRepository {
                 .toString(),
             response.data["bancas"][0]["horario_fechamento"]
                 .toString(),
-            response.data["bancas"][0]["preco_minimo"].toString(),
+            response.data["bancas"][0]["preco_minimo"]
+                .toString(),
             response.data["bancas"][0]["pix"].toString(),
             response.data["bancas"][0]["feira_id"],
             response.data["bancas"][0]["agricultor_id"]);
