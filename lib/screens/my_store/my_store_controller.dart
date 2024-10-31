@@ -214,7 +214,7 @@ class MyStoreController extends GetxController {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text(
+          content: const Text(
               "Ocorreu um erro ao editar a banca. Por favor, tente novamente."),
           actions: [
             TextButton(
@@ -305,15 +305,23 @@ class MyStoreController extends GetxController {
   }
 
   bool verifyFields() {
-    if (_nomeBancaController.text.isNotEmpty &&
-        _horarioAberturaController.text.isNotEmpty &&
-        _horarioFechamentoController.text.isNotEmpty) {
-      for (int i = 0; i < isSelected.length; i++) {
-        if (isSelected[i] == true) {
-          return true;
-        }
-      }
+    bool hasPaymentMethod = isSelected.contains(true);
+
+    if (!hasPaymentMethod) {
+      textoErro =
+          "Selecione ao menos uma forma de pagamento.";
+      return false;
     }
-    return false;
+
+    if (_nomeBancaController.text.isEmpty &&
+        _horarioAberturaController.text.isEmpty &&
+        _horarioFechamentoController.text.isEmpty &&
+        pixController.text.isEmpty &&
+        selectedImage == null) {
+      textoErro = "Nenhum campo foi alterado.";
+      return false;
+    }
+
+    return true;
   }
 }

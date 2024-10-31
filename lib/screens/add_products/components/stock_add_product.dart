@@ -6,7 +6,6 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 
 import '../../../components/forms/custom_text_form_field.dart';
 
-
 class StockAddProduct extends StatefulWidget {
   final AddProductsController controller;
 
@@ -46,10 +45,15 @@ class _StockAddProductState extends State<StockAddProduct> {
               child: Container(
                 alignment: Alignment.center,
                 child: CustomTextFormField(
-                    hintText: '30',
-                    erroStyle: const TextStyle(fontSize: 12),
+                    hintText: '0',
+                    hintStyle: TextStyle(
+                      fontSize: 17,
+                      color: kTextButtonColor,
+                    ),
+                    erroStyle:
+                        const TextStyle(fontSize: 12),
                     validatorError: (value) {
-                      if(value!.isEmpty){
+                      if (value!.isEmpty) {
                         return 'Obrigatório';
                       }
                       return null;

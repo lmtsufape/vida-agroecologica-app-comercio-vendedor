@@ -6,13 +6,16 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 class DropDownQtdAddProduct extends StatefulWidget {
   final AddProductsController controller;
 
-  const DropDownQtdAddProduct(this.controller, {Key? key}) : super(key: key);
+  const DropDownQtdAddProduct(this.controller, {Key? key})
+      : super(key: key);
 
   @override
-  State<DropDownQtdAddProduct> createState() => _DropDownQtdAddProductState();
+  State<DropDownQtdAddProduct> createState() =>
+      _DropDownQtdAddProductState();
 }
 
-class _DropDownQtdAddProductState extends State<DropDownQtdAddProduct> {
+class _DropDownQtdAddProductState
+    extends State<DropDownQtdAddProduct> {
   final dropValue = ValueNotifier('');
 
   final dropOpcoes = [
@@ -54,7 +57,8 @@ class _DropDownQtdAddProductState extends State<DropDownQtdAddProduct> {
               width: size.width * 0.4,
               child: ValueListenableBuilder(
                   valueListenable: dropValue,
-                  builder: (BuildContext context, String value, _) {
+                  builder: (BuildContext context,
+                      String value, _) {
                     return DropdownButtonFormField<String>(
                       isExpanded: true,
                       icon: Icon(
@@ -64,13 +68,18 @@ class _DropDownQtdAddProductState extends State<DropDownQtdAddProduct> {
                       ),
                       hint: Text(
                         'Selecione',
-                        style: TextStyle(fontSize: size.height * 0.02),
+                        style: TextStyle(
+                          fontSize: size.height * 0.02,
+                          color: kTextButtonColor,
+                        ),
                       ),
                       value: (value.isEmpty) ? null : value,
                       onChanged: (escolha) {
                         setState(() {
-                          dropValue.value = escolha.toString();
-                          widget.controller.setMeasure(escolha.toString());
+                          dropValue.value =
+                              escolha.toString();
+                          widget.controller.setMeasure(
+                              escolha.toString());
                         });
                       },
                       items: dropOpcoes

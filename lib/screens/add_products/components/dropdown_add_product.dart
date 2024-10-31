@@ -30,7 +30,7 @@ class _DropDownAddProductState
             alignment: Alignment.topCenter,
             width: size.width,
             child:
-            DropdownButtonFormField<TableProductsModel>(
+                DropdownButtonFormField<TableProductsModel>(
               isExpanded: true,
               icon: Icon(
                 Icons.keyboard_arrow_down,
@@ -39,7 +39,10 @@ class _DropDownAddProductState
               ),
               hint: Text(
                 'Selecione',
-                style: TextStyle(fontSize: size.height * 0.02),
+                style: TextStyle(
+                  fontSize: size.height * 0.02,
+                  color: kTextButtonColor,
+                ),
               ),
               value: null,
               items: widget.controller.products.map((obj) {
@@ -52,15 +55,13 @@ class _DropDownAddProductState
                 setState(() {
                   widget.controller
                       .setProductId(selectedObj!.id);
-                  // widget.controller
-                  //     .setDescription(selectedObj.nome);
                 });
               },
               decoration: const InputDecoration(
                 errorStyle: TextStyle(fontSize: 12),
               ),
               validator: (dropValue) {
-                if(dropValue == null){
+                if (dropValue == null) {
                   return 'Obrigatório';
                 }
                 return null;

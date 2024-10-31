@@ -11,6 +11,7 @@ class CustomTextFormField extends StatefulWidget {
     this.controller,
     this.keyboardType,
     this.hintText,
+    this.hintStyle,
     this.isPassword,
     this.icon,
     this.isBordered,
@@ -19,10 +20,12 @@ class CustomTextFormField extends StatefulWidget {
     this.enabled,
     this.autoValidate,
   }) : super(key: key);
+
   final Function(String)? onChanged;
   final String? label;
   final MaskTextInputFormatter? maskFormatter;
   final String? hintText;
+  final TextStyle? hintStyle;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool? isPassword;
@@ -76,14 +79,12 @@ class _CustomTextFormFieldState
         errorStyle: widget.erroStyle,
         prefixIcon:
             widget.icon == null ? null : Icon(widget.icon),
-        /*border: widget.isBordered == null
-            ? InputBorder.none
-            : const OutlineInputBorder(),*/
         labelText: widget.label,
         filled: true,
         fillColor: Colors.white,
         hintText: widget.hintText,
-        hintStyle: TextStyle(fontSize: size.height * 0.02),
+        hintStyle: widget.hintStyle ??
+            TextStyle(fontSize: size.height * 0.02),
         suffixIcon: widget.isPassword == true
             ? InkWell(
                 onTap: () => _toggleVisibility(),
@@ -108,6 +109,7 @@ class CustomTextFormFieldCurrency extends StatefulWidget {
     this.controller,
     this.keyboardType,
     this.hintText,
+    this.hintStyle,
     this.isPassword,
     this.icon,
     this.isBordered,
@@ -121,6 +123,7 @@ class CustomTextFormFieldCurrency extends StatefulWidget {
   final String? label;
   final List<TextInputFormatter>? currencyFormatter;
   final String? hintText;
+  final TextStyle? hintStyle;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool? isPassword;
@@ -176,14 +179,11 @@ class _CustomTextFormFieldCurrencyState
           prefixIcon: widget.icon == null
               ? null
               : Icon(widget.icon),
-          /*border: widget.isBordered == null
-              ? InputBorder.none
-              : const OutlineInputBorder(),*/
           labelText: widget.label,
           filled: true,
           fillColor: Colors.white,
           hintText: widget.hintText,
-          hintStyle:
+          hintStyle: widget.hintStyle ??
               TextStyle(fontSize: size.height * 0.02),
           suffixIcon: widget.isPassword == true
               ? InkWell(

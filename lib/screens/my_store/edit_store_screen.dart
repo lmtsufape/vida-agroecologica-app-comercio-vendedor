@@ -45,6 +45,23 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
         widget.bancaModel?.horarioFechamento ?? '';
     controller.nomeBancaController.text =
         widget.bancaModel?.nome ?? '';
+
+    controller.pixController.text =
+        widget.bancaModel?.pix ?? '';
+    controller.pixBool = widget.bancaModel?.pix != null &&
+        widget.bancaModel!.pix.isNotEmpty;
+
+    // Definir os itens selecionados de acordo com as formas de pagamento
+    String formasPagamento = "1,2,3";
+    List<String> pagamentoSelecionado =
+        formasPagamento.split(",");
+
+    controller.isSelected[0] =
+        pagamentoSelecionado.contains("1"); // Dinheiro
+    controller.isSelected[1] =
+        pagamentoSelecionado.contains("2"); // PIX
+    controller.isSelected[2] =
+        pagamentoSelecionado.contains("3"); // Cartão
   }
 
   TimeOfDay _getInitialTime(
@@ -69,9 +86,11 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
   @override
   Widget build(BuildContext context) {
     final double? doubleFrete =
-        double.tryParse(widget.bancaModel!.precoMin);
-    final String? freteCorreto =
-        doubleFrete?.toStringAsFixed(2);
+        double.tryParse(widget.bancaModel?.precoMin ?? '');
+
+    final String freteCorreto = doubleFrete != null
+        ? doubleFrete.toStringAsFixed(2)
+        : '';
     Size size = MediaQuery.of(context).size;
 
     return GetBuilder<MyStoreController>(
@@ -141,17 +160,18 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                       AutovalidateMode
                                           .onUserInteraction,
                                   hintText: widget
-                                      .bancaModel!.nome,
+                                          .bancaModel
+                                          ?.nome ??
+                                      '',
                                   erroStyle:
                                       const TextStyle(
                                           fontSize: 12),
                                   validatorError: (value) {
-                                    if (value.isEmpty) {
-                                      return 'Obrigatório';
-                                    }
-                                    if (value.length < 3) {
+                                    if (value.isNotEmpty &&
+                                        value.length < 3) {
                                       return 'O nome deve ter no mínimo 3 caracteres';
                                     }
+                                    return null;
                                   },
                                   controller: controller
                                       .nomeBancaController,
