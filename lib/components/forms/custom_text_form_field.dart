@@ -63,11 +63,8 @@ class _CustomTextFormFieldState
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return TextFormField(
-      autovalidateMode: widget.autoValidate == null
-          ? null
-          : widget.autoValidate!,
-      enabled:
-          widget.enabled == null ? null : widget.enabled!,
+      autovalidateMode: widget.autoValidate,
+      enabled: widget.enabled,
       onChanged: widget.onChanged,
       inputFormatters: widget.maskFormatter == null
           ? null
@@ -162,15 +159,10 @@ class _CustomTextFormFieldCurrencyState
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: TextFormField(
-        autovalidateMode: widget.autoValidate == null
-            ? null
-            : widget.autoValidate!,
-        enabled:
-            widget.enabled == null ? null : widget.enabled!,
+        autovalidateMode: widget.autoValidate,
+        enabled: widget.enabled,
         onChanged: widget.onChanged,
-        inputFormatters: widget.currencyFormatter == null
-            ? null
-            : widget.currencyFormatter!,
+        inputFormatters: widget.currencyFormatter,
         obscureText: _obscureText,
         controller: widget.controller,
         validator: widget.validatorError,

@@ -55,7 +55,7 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormField(
                       hintText: 'Nome do produto',
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontSize: 14,
                         color: kTextButtonColor,
                       ),
@@ -108,7 +108,7 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormField(
                       hintText: 'Descrição do produto',
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontSize: 14,
                         color: kTextButtonColor,
                       ),
@@ -181,7 +181,7 @@ class _SaleInfosState extends State<SaleInfos> {
                     alignment: Alignment.center,
                     child: CustomTextFormFieldCurrency(
                       hintText: 'R\$ 0,00',
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontSize: 14,
                         color: kTextButtonColor,
                       ),

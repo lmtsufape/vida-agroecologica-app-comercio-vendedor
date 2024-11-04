@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:thunderapp/assets/index.dart';
 import 'package:thunderapp/components/buttons/primary_button.dart';
 import 'package:thunderapp/screens/home/home_screen_controller.dart';
 import 'package:thunderapp/screens/list_products/list_products_screen.dart';
@@ -23,14 +24,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeScreenController controller = Get.put(HomeScreenController());
+  HomeScreenController controller =
+      Get.put(HomeScreenController());
 
   @override
   void initState() {
     super.initState();
     controller.getBancaPrefs();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Center(
               child: Text(
                 'Início',
-                style: kTitle2.copyWith(color: Colors.white),
+                style:
+                    kTitle2.copyWith(color: Colors.white),
               ),
             ),
           ),
@@ -63,44 +65,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: controller
-                                .bancaModel?.id ==
-                            null
-                        ? null
-                        : Image.network(
-                            '$kBaseURL/bancas/${controller.bancaModel?.id}/imagem',
-                            headers: {
-                              "Authorization":
-                                  "Bearer ${controller.userToken}"
-                            },
-                            loadingBuilder:
-                                (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent?
-                                        loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return CircularProgressIndicator(
-                                value: loadingProgress
-                                            .expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress
-                                            .cumulativeBytesLoaded /
-                                        loadingProgress
-                                            .expectedTotalBytes!
-                                    : null,
-                              );
-                            },
-                          ).image,
                     radius: 38,
+                    backgroundImage: const AssetImage(
+                        Assets.logoAssociacao),
+                    foregroundImage:
+                        controller.bancaModel?.id == null
+                            ? null
+                            : NetworkImage(
+                                '$kBaseURL/bancas/${controller.bancaModel?.id}/imagem',
+                                headers: {
+                                  "Authorization":
+                                      "Bearer ${controller.userToken}"
+                                },
+                              ),
                   ),
                   const HorizontalSpacerBox(
                       size: SpacerSize.small),
                   SizedBox(
                     width: size.width * 0.61,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
                       children: [
                         controller.bancaModel == null
                             ? const CircularProgressIndicator(
@@ -131,13 +116,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      fullscreenDialog: true,
-                                      builder: (_) => EditStoreScreen(controller.bancaModel)
-                                      )
-                                );
+                                      fullscreenDialog:
+                                          true,
+                                      builder: (_) =>
+                                          EditStoreScreen(
+                                              controller
+                                                  .bancaModel)));
                             },
                             icon: Icon(
-                              Icons.mode_edit_outline_outlined,
+                              Icons
+                                  .mode_edit_outline_outlined,
                               color: kPrimaryColor,
                               size: size.height * 0.04,
                             )),
@@ -153,9 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   height: size.height * 0.6,
-                  padding: const EdgeInsets.all(kDefaultPadding),
+                  padding:
+                      const EdgeInsets.all(kDefaultPadding),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment:
+                        CrossAxisAlignment.stretch,
                     children: [
                       ItemCardHolder(
                         icon: Icons.storefront,
@@ -172,7 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 14.0),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
                             width: size.width * 0.40,
@@ -181,7 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: Icons.list_alt_sharp,
                               title: 'Pedidos',
                               onTap: () {
-                                Navigator.pushNamed(context, Screens.orders);
+                                Navigator.pushNamed(context,
+                                    Screens.orders);
                               },
                             ),
                           ),
@@ -192,7 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: Icons.history_outlined,
                               title: 'Histórico',
                               onTap: () {
-                                Navigator.pushNamed(context, Screens.report);
+                                Navigator.pushNamed(context,
+                                    Screens.report);
                               },
                             ),
                           ),
@@ -213,18 +206,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         context: context,
                         builder: (context) =>
                             DefaultAlertDialog(
-                              title: 'Confirmar',
-                              body:
+                          title: 'Confirmar',
+                          body:
                               'Você tem certeza que deseja sair do aplicativo?',
-                              confirmText: 'Sim',
-                              cancelText: 'Não',
-                              onConfirm: () {
-                                Navigator.popAndPushNamed(
-                                    context, Screens.signin);
-                              },
-                              confirmColor: kSuccessColor,
-                              cancelColor: kErrorColor,
-                            ),
+                          confirmText: 'Sim',
+                          cancelText: 'Não',
+                          onConfirm: () {
+                            Navigator.popAndPushNamed(
+                                context, Screens.signin);
+                          },
+                          confirmColor: kSuccessColor,
+                          cancelColor: kErrorColor,
+                        ),
                       );
                     },
                   ),

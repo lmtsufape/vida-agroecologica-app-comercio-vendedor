@@ -57,6 +57,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
               child: Scaffold(
                   appBar: AppBar(
                     backgroundColor: kPrimaryColor,
+                    centerTitle: true,
                     title: Center(
                       child: Text(
                         'Criar Banca',

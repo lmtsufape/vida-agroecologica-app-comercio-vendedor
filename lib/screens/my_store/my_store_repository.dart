@@ -65,7 +65,7 @@ class MyStoreRepository {
     // Função para formatar o horário
     String formatTime(String time) {
       if (time.isNotEmpty && time.length >= 5) {
-        return time.substring(0, 5); // Pega apenas "HH:mm"
+        return time.substring(0, 5);
       }
       return time;
     }
@@ -94,7 +94,6 @@ class MyStoreRepository {
     var preMinimo = pMinimo.replaceAll(",", ".");
 
     try {
-      // Preparar o Map com os dados
       Map<String, dynamic> formDataMap = {
         "nome": nome.isEmpty
             ? banca.getNome.toString()
@@ -118,7 +117,6 @@ class MyStoreRepository {
         "bairro entrega": "1=>4.50"
       };
 
-      // Incluir 'preco_minimo' apenas se 'precoMin' não estiver vazio
       if (precoMin.isNotEmpty) {
         const find = "R\$";
         const replace = "";
@@ -127,7 +125,6 @@ class MyStoreRepository {
         formDataMap["preco_minimo"] = preMinimo.toString();
       }
 
-      // Incluir imagem se fornecida
       if (imgPath != null) {
         formDataMap["imagem"] =
             await MultipartFile.fromFile(
@@ -136,10 +133,8 @@ class MyStoreRepository {
         );
       }
 
-      // Criar o FormData a partir do Map
       body = FormData.fromMap(formDataMap);
 
-      // Enviar a requisição
       Response response = await _dio.post(
         '$kBaseURL/bancas/${banca.getId}',
         options: Options(
@@ -189,69 +184,39 @@ class MyStoreRepository {
       List<bool> isSelected,
       bool? entrega,
       String? pix) async {
-    const find = "R\$";
-    const replace = "";
-    var pMinimo = precoMin.replaceAll(find, replace);
-    var preMinimo = pMinimo.replaceAll(",", ".");
-
-    if (formasPagamento == '' && checkItems.isEmpty) {
-      for (int i = 0; i < isSelected.length; i++) {
-        if (isSelected[i] == true) {
-          checkItems.add((i + 1).toString());
-        }
-      }
-      for (int i = 0; i < checkItems.length; i++) {
-        formasPagamento += '${checkItems[i]},';
-      }
-      formasPagamento = formasPagamento.substring(
-          0, formasPagamento.length - 1);
-    }
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
-    try {
-      if (entrega == true) {
-        body = FormData.fromMap({
-          "nome": nome.toString(),
-          "descricao": 'loja',
-          "horario_abertura": horarioAbertura.toString(),
-          "horario_fechamento":
-              horarioFechamento.toString(),
-          "preco_minimo": preMinimo.toString(),
-          "imagem": await MultipartFile.fromFile(
-            imgPath.toString(),
-            filename: imgPath!.split("\\").last,
-          ),
-          "formas pagamento": formasPagamento.isNotEmpty
-              ? formasPagamento
-              : '1',
-          "entrega": entrega?.toString() ?? 'false',
-          "pix": pix.toString(),
-          "agricultor_id": userId.toString(),
-          "feira_id": '1',
-          "bairro entrega": '1=>3.50'
-        });
-      } else {
-        body = FormData.fromMap({
-          "nome": nome.toString(),
-          "descricao": 'loja',
-          "horario_abertura": horarioAbertura.toString(),
-          "horario_fechamento":
-              horarioFechamento.toString(),
-          "imagem": await MultipartFile.fromFile(
-            imgPath.toString(),
-            filename: imgPath!.split("\\").last,
-          ),
-          "formas pagamento": formasPagamento.isNotEmpty
-              ? formasPagamento
-              : '1',
-          "entrega": entrega?.toString() ?? 'false',
-          "pix": pix.toString(),
-          "agricultor_id": userId.toString(),
-          "feira_id": '1',
-          "bairro entrega": '1=>3.50'
-        });
-      }
 
+    Map<String, dynamic> formDataMap = {
+      "nome": nome,
+      "descricao": 'loja',
+      "horario_abertura": horarioAbertura,
+      "horario_fechamento": horarioFechamento,
+      "preco_minimo": precoMin.isNotEmpty ? precoMin : "0",
+      "formas_pagamento": formasPagamento.isNotEmpty
+          ? formasPagamento
+          : '1',
+      "entrega": entrega?.toString() ?? 'false',
+      "pix": pix ?? '',
+      "agricultor_id": userId.toString(),
+      "feira_id": '1',
+      "bairro_entrega": '1=>3.50'
+    };
+
+    if (imgPath != null) {
+      formDataMap["imagem"] =
+          await MultipartFile.fromFile(imgPath);
+    } else {
+      formDataMap.remove("imagem");
+    }
+
+    print("Dados enviados para adicionarBanca:");
+    formDataMap
+        .forEach((key, value) => print("$key: $value"));
+
+    body = FormData.fromMap(formDataMap);
+
+    try {
       Response response = await _dio.post(
         '$kBaseURL/bancas',
         options: Options(headers: {
@@ -260,25 +225,22 @@ class MyStoreRepository {
         }),
         data: body,
       );
+
       if (response.statusCode == 201 ||
           response.statusCode == 200) {
-        log('cadastro da banca bem sucedida');
+        log('cadastro da banca bem-sucedido');
         return true;
       } else {
-        formasPagamento = '';
-        checkItems = [];
-        print(response.statusCode);
+        print(
+            'Erro ao criar banca: ${response.statusCode}');
         return false;
       }
     } catch (e) {
-      formasPagamento = '';
-      checkItems = [];
-      if (e is DioError) {
-        final dioError = e;
-        if (e.response != null) {
-          print('Erro: ${e.response!.data['errors']}');
-        }
+      if (e is DioError && e.response != null) {
+        print(
+            "Erro ao adicionar banca: ${e.response?.data}");
       }
+      print('Erro ao adicionar banca: $e');
       return false;
     }
   }
