@@ -472,8 +472,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                       .onItemTapped(1);
                                   controller.setPixBool(
                                       !controller.pixBool);
-                                  print(
-                                      "valor do pix: ${controller.pixBool}");
+                                  ("valor do pix: ${controller.pixBool}");
                                 },
                               ),
                             ),
@@ -691,13 +690,12 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                       child: PrimaryButton(
                         text: 'Salvar',
                         onPressed: () {
-                          print("Validando formulário...");
+                          ("Validando formulário...");
                           if (controller
                                   .formKey.currentState
                                   ?.validate() ??
                               false) {
-                            print(
-                                "Formulário validado com sucesso.");
+                            ("Formulário validado com sucesso.");
 
                             if (controller.verifyFields()) {
                               showDialog(
@@ -733,8 +731,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               );
                             }
                           } else {
-                            print(
-                                "Formulário não validado.");
+                            ("Formulário não validado.");
                           }
                         },
                       ),

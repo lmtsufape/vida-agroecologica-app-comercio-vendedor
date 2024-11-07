@@ -16,9 +16,11 @@ import '../screens_index.dart';
 class MyStoreController extends GetxController {
   UserStorage userStorage = UserStorage();
   MyStoreRepository myStoreRepository = MyStoreRepository();
-  File? _selectedImage;
   final _imagePickerController = ImagePickerController();
+
+  File? _selectedImage;
   String? _imagePath;
+
   bool hasImg = false;
   bool editSucess = false;
   bool adcSucess = false;
@@ -37,6 +39,19 @@ class MyStoreController extends GetxController {
 
   bool deliver = false;
   bool pixBool = false;
+
+  String? get imagePath => _imagePath;
+  set imagePath(String? value) {
+    _imagePath = value;
+    update();
+  }
+
+  File? get selectedImage => _selectedImage;
+  set selectedImage(File? value) {
+    _selectedImage = value;
+    update();
+  }
+
   MaskTextInputFormatter timeFormatter =
       MaskTextInputFormatter(
           mask: '##:##',
@@ -105,21 +120,13 @@ class MyStoreController extends GetxController {
     return true;
   }
 
-  String? get imagePath => _imagePath;
-
-  File? get selectedImage => _selectedImage;
-
-  set selectedImage(File? value) {
-    _selectedImage = value;
-    update();
-  }
-
   Future selectImageCam() async {
     try {
       File? file = await _imagePickerController
           .pickImageFromCamera();
       if (file != null) {
-        _imagePath = file.path;
+        imagePath = file.path;
+        selectedImage = file;
       } else {
         return null;
       }
@@ -150,7 +157,8 @@ class MyStoreController extends GetxController {
       File? file = await _imagePickerController
           .pickImageFromGallery();
       if (file != null) {
-        _imagePath = file.path;
+        imagePath = file.path;
+        selectedImage = file;
       } else {
         return null;
       }
@@ -254,7 +262,7 @@ class MyStoreController extends GetxController {
         _horarioAberturaController.text,
         _horarioFechamentoController.text,
         _quantiaMinController.text,
-        _imagePath!,
+        imagePath!,
         isSelected,
         deliver,
         _pixController.text,
@@ -313,15 +321,14 @@ class MyStoreController extends GetxController {
       return false;
     }
 
-    if (_nomeBancaController.text.isEmpty &&
-        _horarioAberturaController.text.isEmpty &&
-        _horarioFechamentoController.text.isEmpty &&
-        pixController.text.isEmpty &&
+    if (_nomeBancaController.text.isEmpty ||
+        _horarioAberturaController.text.isEmpty ||
+        _horarioFechamentoController.text.isEmpty ||
+        pixController.text.isEmpty ||
         selectedImage == null) {
-      textoErro = "Nenhum campo foi alterado.";
+      textoErro = "Verifique os campos obrigatórios.";
       return false;
     }
-
     return true;
   }
 }
