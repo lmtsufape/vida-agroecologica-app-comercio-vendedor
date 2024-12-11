@@ -21,12 +21,10 @@ import 'components/circle_image_profile.dart';
 class EditStoreScreen extends StatefulWidget {
   BancaModel? bancaModel;
 
-  EditStoreScreen(this.bancaModel, {Key? key})
-      : super(key: key);
+  EditStoreScreen(this.bancaModel, {Key? key}) : super(key: key);
 
   @override
-  State<EditStoreScreen> createState() =>
-      _EditStoreScreenState();
+  State<EditStoreScreen> createState() => _EditStoreScreenState();
 }
 
 class _EditStoreScreenState extends State<EditStoreScreen> {
@@ -37,35 +35,27 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
   void initState() {
     super.initState();
 
-    final MyStoreController controller =
-        Get.put(MyStoreController());
+    final MyStoreController controller = Get.put(MyStoreController());
     controller.horarioAberturaController.text =
         widget.bancaModel?.horarioAbertura ?? '';
     controller.horarioFechamentoController.text =
         widget.bancaModel?.horarioFechamento ?? '';
-    controller.nomeBancaController.text =
-        widget.bancaModel?.nome ?? '';
+    controller.nomeBancaController.text = widget.bancaModel?.nome ?? '';
 
-    controller.pixController.text =
-        widget.bancaModel?.pix ?? '';
-    controller.pixBool = widget.bancaModel?.pix != null &&
-        widget.bancaModel!.pix.isNotEmpty;
+    controller.pixController.text = widget.bancaModel?.pix ?? '';
+    controller.pixBool =
+        widget.bancaModel?.pix != null && widget.bancaModel!.pix.isNotEmpty;
 
     // Definir os itens selecionados de acordo com as formas de pagamento
     String formasPagamento = "1,2,3";
-    List<String> pagamentoSelecionado =
-        formasPagamento.split(",");
+    List<String> pagamentoSelecionado = formasPagamento.split(",");
 
-    controller.isSelected[0] =
-        pagamentoSelecionado.contains("1"); // Dinheiro
-    controller.isSelected[1] =
-        pagamentoSelecionado.contains("2"); // PIX
-    controller.isSelected[2] =
-        pagamentoSelecionado.contains("3"); // Cartão
+    controller.isSelected[0] = pagamentoSelecionado.contains("1"); // Dinheiro
+    controller.isSelected[1] = pagamentoSelecionado.contains("2"); // PIX
+    controller.isSelected[2] = pagamentoSelecionado.contains("3"); // Cartão
   }
 
-  TimeOfDay _getInitialTime(
-      TextEditingController controller) {
+  TimeOfDay _getInitialTime(TextEditingController controller) {
     final timeParts = controller.text.split(':');
     if (timeParts.length == 2) {
       final hour = int.tryParse(timeParts[0]) ?? 0;
@@ -76,10 +66,8 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
   }
 
   String _formatTimeOfDayTo24Hour(TimeOfDay time) {
-    final String hour =
-        time.hour.toString().padLeft(2, '0');
-    final String minute =
-        time.minute.toString().padLeft(2, '0');
+    final String hour = time.hour.toString().padLeft(2, '0');
+    final String minute = time.minute.toString().padLeft(2, '0');
     return '$hour:$minute';
   }
 
@@ -88,9 +76,12 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
     final double? doubleFrete =
         double.tryParse(widget.bancaModel?.precoMin ?? '');
 
-    final String freteCorreto = doubleFrete != null
-        ? doubleFrete.toStringAsFixed(2)
-        : '';
+    final String freteCorreto =
+        doubleFrete != null ? doubleFrete.toStringAsFixed(2) : '';
+
+    const String red = '\x1B[31m';
+    const String reset = '\x1B[0m';
+
     Size size = MediaQuery.of(context).size;
 
     return GetBuilder<MyStoreController>(
@@ -125,8 +116,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                   bottom: 18,
                 ),
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
                       child: CircleImageProfile(controller),
@@ -136,8 +126,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                       color: Colors.transparent,
                     ),
                     Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Nome da banca',
@@ -157,24 +146,16 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 alignment: Alignment.center,
                                 child: CustomTextFormField(
                                   autoValidate:
-                                      AutovalidateMode
-                                          .onUserInteraction,
-                                  hintText: widget
-                                          .bancaModel
-                                          ?.nome ??
-                                      '',
-                                  erroStyle:
-                                      const TextStyle(
-                                          fontSize: 12),
+                                      AutovalidateMode.onUserInteraction,
+                                  hintText: widget.bancaModel?.nome ?? '',
+                                  erroStyle: const TextStyle(fontSize: 12),
                                   validatorError: (value) {
-                                    if (value.isNotEmpty &&
-                                        value.length < 3) {
+                                    if (value.isNotEmpty && value.length < 3) {
                                       return 'O nome deve ter no mínimo 3 caracteres';
                                     }
                                     return null;
                                   },
-                                  controller: controller
-                                      .nomeBancaController,
+                                  controller: controller.nomeBancaController,
                                 ),
                               ),
                             ),
@@ -182,8 +163,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         ),
                       ],
                     ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.small),
+                    const VerticalSpacerBox(size: SpacerSize.small),
                     Divider(
                       height: size.height * 0.01,
                       color: Colors.transparent,
@@ -191,21 +171,17 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                     SizedBox(
                       width: size.width,
                       child: Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                 'Início dos pedidos',
                                 style: TextStyle(
                                   color: kSecondaryColor,
-                                  fontWeight:
-                                      FontWeight.w700,
-                                  fontSize:
-                                      size.height * 0.018,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.height * 0.018,
                                 ),
                               ),
                               Divider(
@@ -213,40 +189,31 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 color: Colors.transparent,
                               ),
                               IconButton(
-                                icon: const Icon(
-                                    Icons.access_time),
+                                icon: const Icon(Icons.access_time),
                                 onPressed: () async {
-                                  final selectedTime =
-                                      await showTimePicker(
+                                  final selectedTime = await showTimePicker(
                                     context: context,
-                                    initialTime:
-                                        _getInitialTime(
-                                            controller
-                                                .horarioAberturaController),
-                                    builder:
-                                        (context, child) {
+                                    cancelText: "Cancelar",
+                                    confirmText: "Confirmar",
+                                    hourLabelText: "Horas",
+                                    minuteLabelText: "Minutos",
+                                    helpText: "Insira o horário:",
+                                    initialTime: _getInitialTime(
+                                        controller.horarioAberturaController),
+                                    initialEntryMode:
+                                        TimePickerEntryMode.inputOnly,
+                                    builder: (context, child) {
                                       return Theme(
-                                        data: Theme.of(
-                                                context)
-                                            .copyWith(
-                                          colorScheme:
-                                              const ColorScheme
-                                                  .light(
-                                            primary:
-                                                kPrimaryColor,
-                                            onPrimary:
-                                                Colors
-                                                    .white,
-                                            onSurface:
-                                                kPrimaryColor,
+                                        data: Theme.of(context).copyWith(
+                                          colorScheme: const ColorScheme.light(
+                                            primary: kPrimaryColor,
+                                            onPrimary: Colors.white,
+                                            onSurface: kPrimaryColor,
                                           ),
                                         ),
                                         child: MediaQuery(
-                                          data: MediaQuery.of(
-                                                  context)
-                                              .copyWith(
-                                            alwaysUse24HourFormat:
-                                                true,
+                                          data: MediaQuery.of(context).copyWith(
+                                            alwaysUse24HourFormat: true,
                                           ),
                                           child: child!,
                                         ),
@@ -254,56 +221,40 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     },
                                   );
 
-                                  if (selectedTime !=
-                                      null) {
+                                  if (selectedTime != null) {
                                     final formattedTime =
-                                        _formatTimeOfDayTo24Hour(
-                                            selectedTime);
+                                        _formatTimeOfDayTo24Hour(selectedTime);
                                     setState(() {
-                                      controller
-                                          .horarioAberturaController
+                                      controller.horarioAberturaController
                                           .text = formattedTime;
                                     });
                                   }
                                 },
                               ),
                               if (controller
-                                  .horarioAberturaController
-                                  .text
-                                  .isNotEmpty)
+                                  .horarioAberturaController.text.isNotEmpty)
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(
-                                          top: 8.0),
+                                  padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(
-                                    controller
-                                        .horarioAberturaController
-                                        .text,
+                                    controller.horarioAberturaController.text,
                                     style: TextStyle(
-                                      color:
-                                          kSecondaryColor,
-                                      fontWeight:
-                                          FontWeight.w700,
-                                      fontSize:
-                                          size.height *
-                                              0.018,
+                                      color: kSecondaryColor,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: size.height * 0.018,
                                     ),
                                   ),
                                 ),
                             ],
                           ),
                           Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                 'Término dos pedidos',
                                 style: TextStyle(
                                   color: kSecondaryColor,
-                                  fontWeight:
-                                      FontWeight.w700,
-                                  fontSize:
-                                      size.height * 0.018,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.height * 0.018,
                                 ),
                               ),
                               Divider(
@@ -311,40 +262,31 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 color: Colors.transparent,
                               ),
                               IconButton(
-                                icon: const Icon(
-                                    Icons.access_time),
+                                icon: const Icon(Icons.access_time),
                                 onPressed: () async {
-                                  final selectedTime =
-                                      await showTimePicker(
+                                  final selectedTime = await showTimePicker(
                                     context: context,
-                                    initialTime:
-                                        _getInitialTime(
-                                            controller
-                                                .horarioFechamentoController),
-                                    builder:
-                                        (context, child) {
+                                    cancelText: "Cancelar",
+                                    confirmText: "Confirmar",
+                                    hourLabelText: "Horas",
+                                    minuteLabelText: "Minutos",
+                                    helpText: "Insira o horário:",
+                                    initialTime: _getInitialTime(
+                                        controller.horarioFechamentoController),
+                                    initialEntryMode:
+                                        TimePickerEntryMode.inputOnly,
+                                    builder: (context, child) {
                                       return Theme(
-                                        data: Theme.of(
-                                                context)
-                                            .copyWith(
-                                          colorScheme:
-                                              const ColorScheme
-                                                  .light(
-                                            primary:
-                                                kPrimaryColor,
-                                            onPrimary:
-                                                Colors
-                                                    .white,
-                                            onSurface:
-                                                kPrimaryColor,
+                                        data: Theme.of(context).copyWith(
+                                          colorScheme: const ColorScheme.light(
+                                            primary: kPrimaryColor,
+                                            onPrimary: Colors.white,
+                                            onSurface: kPrimaryColor,
                                           ),
                                         ),
                                         child: MediaQuery(
-                                          data: MediaQuery.of(
-                                                  context)
-                                              .copyWith(
-                                            alwaysUse24HourFormat:
-                                                true,
+                                          data: MediaQuery.of(context).copyWith(
+                                            alwaysUse24HourFormat: true,
                                           ),
                                           child: child!,
                                         ),
@@ -352,39 +294,26 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     },
                                   );
 
-                                  if (selectedTime !=
-                                      null) {
+                                  if (selectedTime != null) {
                                     final formattedTime =
-                                        _formatTimeOfDayTo24Hour(
-                                            selectedTime);
+                                        _formatTimeOfDayTo24Hour(selectedTime);
                                     setState(() {
-                                      controller
-                                          .horarioFechamentoController
+                                      controller.horarioFechamentoController
                                           .text = formattedTime;
                                     });
                                   }
                                 },
                               ),
                               if (controller
-                                  .horarioFechamentoController
-                                  .text
-                                  .isNotEmpty)
+                                  .horarioFechamentoController.text.isNotEmpty)
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(
-                                          top: 8.0),
+                                  padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(
-                                    controller
-                                        .horarioFechamentoController
-                                        .text,
+                                    controller.horarioFechamentoController.text,
                                     style: TextStyle(
-                                      color:
-                                          kSecondaryColor,
-                                      fontWeight:
-                                          FontWeight.w700,
-                                      fontSize:
-                                          size.height *
-                                              0.018,
+                                      color: kSecondaryColor,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: size.height * 0.018,
                                     ),
                                   ),
                                 ),
@@ -408,37 +337,27 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                     SizedBox(
                       width: size.width,
                       child: Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
                             child: ListTileTheme(
                               horizontalTitleGap: 0,
                               child: CheckboxListTile(
-                                contentPadding:
-                                    EdgeInsets.zero,
+                                contentPadding: EdgeInsets.zero,
                                 activeColor: kPrimaryColor,
-                                value: controller
-                                    .isSelected[0],
+                                value: controller.isSelected[0],
                                 title: Text(
                                   controller.checkItems[0],
-                                  style: TextStyle(
-                                      fontSize:
-                                          size.height *
-                                              0.016),
+                                  style:
+                                      TextStyle(fontSize: size.height * 0.016),
                                 ),
-                                checkboxShape:
-                                    RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(
-                                          5),
+                                checkboxShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 controlAffinity:
-                                    ListTileControlAffinity
-                                        .leading,
+                                    ListTileControlAffinity.leading,
                                 onChanged: (value) =>
-                                    controller
-                                        .onItemTapped(0),
+                                    controller.onItemTapped(0),
                               ),
                             ),
                           ),
@@ -446,32 +365,22 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                             child: ListTileTheme(
                               horizontalTitleGap: 0,
                               child: CheckboxListTile(
-                                contentPadding:
-                                    EdgeInsets.zero,
+                                contentPadding: EdgeInsets.zero,
                                 activeColor: kPrimaryColor,
-                                value: controller
-                                    .isSelected[1],
+                                value: controller.isSelected[1],
                                 title: Text(
                                   controller.checkItems[1],
-                                  style: TextStyle(
-                                      fontSize:
-                                          size.height *
-                                              0.016),
+                                  style:
+                                      TextStyle(fontSize: size.height * 0.016),
                                 ),
-                                checkboxShape:
-                                    RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(
-                                          5),
+                                checkboxShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 controlAffinity:
-                                    ListTileControlAffinity
-                                        .leading,
+                                    ListTileControlAffinity.leading,
                                 onChanged: (value) {
-                                  controller
-                                      .onItemTapped(1);
-                                  controller.setPixBool(
-                                      !controller.pixBool);
+                                  controller.onItemTapped(1);
+                                  controller.setPixBool(!controller.pixBool);
                                   ("valor do pix: ${controller.pixBool}");
                                 },
                               ),
@@ -483,8 +392,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                     Visibility(
                       visible: controller.pixBool,
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Chave Pix',
@@ -501,38 +409,27 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               elevation: 0,
                               child: ClipPath(
                                 child: Container(
-                                  alignment:
-                                      Alignment.center,
-                                  child:
-                                      CustomTextFormField(
+                                  alignment: Alignment.center,
+                                  child: CustomTextFormField(
                                     autoValidate:
-                                        AutovalidateMode
-                                            .onUserInteraction,
-                                    enabled:
-                                        controller.pixBool,
-                                    erroStyle:
-                                        const TextStyle(
-                                            fontSize: 12),
-                                    validatorError:
-                                        (value) {
-                                      if (controller
-                                              .pixBool ==
-                                          true) {
+                                        AutovalidateMode.onUserInteraction,
+                                    enabled: controller.pixBool,
+                                    erroStyle: const TextStyle(fontSize: 12),
+                                    validatorError: (value) {
+                                      if (controller.pixBool == true) {
                                         if (value.isEmpty) {
                                           return 'Obrigatório';
                                         }
                                       }
                                     },
                                     hintText: "Chave Pix",
-                                    controller: controller
-                                        .pixController,
+                                    controller: controller.pixController,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          const VerticalSpacerBox(
-                              size: SpacerSize.small),
+                          const VerticalSpacerBox(size: SpacerSize.small),
                         ],
                       ),
                     ),
@@ -682,8 +579,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                     //     ],
                     //   ),
                     // ),
-                    const VerticalSpacerBox(
-                        size: SpacerSize.large),
+                    const VerticalSpacerBox(size: SpacerSize.large),
                     SizedBox(
                       width: size.width,
                       height: size.height * 0.06,
@@ -691,9 +587,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                         text: 'Salvar',
                         onPressed: () {
                           ("Validando formulário...");
-                          if (controller
-                                  .formKey.currentState
-                                  ?.validate() ??
+                          if (controller.formKey.currentState?.validate() ??
                               false) {
                             ("Formulário validado com sucesso.");
 
@@ -709,8 +603,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                   onConfirm: () {
                                     Get.back();
                                     controller.editBanca(
-                                        context,
-                                        widget.bancaModel!);
+                                        context, widget.bancaModel!);
                                   },
                                   buttonColor: kAlertColor,
                                 ),
@@ -721,11 +614,9 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 builder: (context) =>
                                     DefaultAlertDialogOneButton(
                                   title: 'Erro',
-                                  body:
-                                      controller.textoErro,
+                                  body: controller.textoErro,
                                   confirmText: 'Voltar',
-                                  onConfirm: () =>
-                                      Get.back(),
+                                  onConfirm: () => Get.back(),
                                   buttonColor: kAlertColor,
                                 ),
                               );
@@ -738,22 +629,18 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                     ),
 
                     Divider(
-                        height: size.height * 0.015,
-                        color: Colors.transparent),
+                        height: size.height * 0.015, color: Colors.transparent),
                     SizedBox(
                       width: size.width,
                       height: size.height * 0.06,
                       child: OutlinedButton(
-                        onPressed: () => Get.off(
-                            () => const HomeScreen()),
+                        onPressed: () => Get.off(() => const HomeScreen()),
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.white,
                           side: const BorderSide(
-                              color: Colors.orange,
-                              width: 1.5),
+                              color: Colors.orange, width: 1.5),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                         child: Text(
@@ -780,8 +667,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
 String? _validateTimes(String startTime, String endTime) {
   List<int> start = _extractHoursAndMinutes(startTime);
   List<int> end = _extractHoursAndMinutes(endTime);
-  if ((start[0] * 60 + start[1]) >=
-      (end[0] * 60 + end[1])) {
+  if ((start[0] * 60 + start[1]) >= (end[0] * 60 + end[1])) {
     return 'O horário de início deve ser anterior ao horário de término.';
   }
   return null;
@@ -807,8 +693,7 @@ class _HourInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    String newText =
-        newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    String newText = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
 
     if (newText.length > 4) {
       newText = newText.substring(0, 4);
@@ -818,18 +703,15 @@ class _HourInputFormatter extends TextInputFormatter {
       int hours = int.parse(newText.substring(0, 2));
       hours = hours.clamp(0, 23);
 
-      String formattedText =
-          hours.toString().padLeft(2, '0');
+      String formattedText = hours.toString().padLeft(2, '0');
 
       if (newText.length >= 3) {
-        int minutes = int.tryParse(newText.substring(
-                2, min(newText.length, 4))) ??
-            0;
+        int minutes =
+            int.tryParse(newText.substring(2, min(newText.length, 4))) ?? 0;
 
         if (newText.length > 3) {
           minutes = minutes.clamp(0, 59);
-          formattedText +=
-              ':${minutes.toString().padLeft(2, '0')}';
+          formattedText += ':${minutes.toString().padLeft(2, '0')}';
         } else {
           formattedText += ':$minutes';
         }
@@ -841,14 +723,12 @@ class _HourInputFormatter extends TextInputFormatter {
     }
 
     if (newValue.text.length < oldValue.text.length) {
-      newText =
-          newText.substring(0, max(0, newText.length - 1));
+      newText = newText.substring(0, max(0, newText.length - 1));
     }
 
     return TextEditingValue(
       text: newText,
-      selection:
-          TextSelection.collapsed(offset: newText.length),
+      selection: TextSelection.collapsed(offset: newText.length),
     );
   }
 }
