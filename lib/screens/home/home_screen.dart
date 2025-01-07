@@ -40,9 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
       init: HomeScreenController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: kPrimaryColor,
           title: Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.all(10),
             child: Center(
               child: Text(
                 'Início',
