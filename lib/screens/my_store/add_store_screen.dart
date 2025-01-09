@@ -58,14 +58,14 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                   appBar: AppBar(
                     backgroundColor: kPrimaryColor,
                     centerTitle: true,
-                    title: Center(
-                      child: Text(
-                        'Criar Banca',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: size.height * 0.030),
+                    title: Text(
+                      'Criar Banca',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: size.height * 0.030
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   body: SingleChildScrollView(
