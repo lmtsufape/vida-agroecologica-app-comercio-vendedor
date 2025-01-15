@@ -632,7 +632,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 10),
-                          child: Text(widget.model.consumidorName!,
+                          child: Text(widget.model.consumidorName ?? 'Nome não especificado',
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,)
                       ),
