@@ -18,6 +18,16 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
+
+  ReportController controller = Get.put(ReportController());
+  OrdersController ordersController = Get.put(OrdersController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchOrders();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,28 +40,16 @@ class _ReportScreenState extends State<ReportScreen> {
             style: kTitle2.copyWith(color: kPrimaryColor),
           ),
         ),
-        body: Obx(() {
-          if (controller.isLoading.value) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (controller.pedidos.isEmpty) {
-            return Center(
-              child: Text('Nenhum pedido encontrado.'),
-            );
-          } else {
-            return Container(
-              padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
-              height: size.height,
-              child: ListView.builder(
-                itemCount: controller.pedidos.length,
-                itemBuilder: (context, index) {
-                  return controller.pedidos[index];
-                },
-              ),
-            );
-          }
-        }),
+        body: RefreshIndicator(
+          onRefresh: () => controller.fetchOrders(),
+          child: Container(
+            padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
+            height: size.height,
+            child: ListView(
+              children: controller.listaPedidos,
+            ),
+          ),
+        ),
       ),
     );
   }
