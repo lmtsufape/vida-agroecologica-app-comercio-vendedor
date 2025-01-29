@@ -11,6 +11,7 @@ import 'package:thunderapp/components/utils/vertical_spacer_box.dart';
 import 'package:thunderapp/screens/my_store/my_store_controller.dart';
 import 'package:thunderapp/shared/constants/app_enums.dart';
 import 'package:thunderapp/shared/constants/style_constants.dart';
+import '../../assets/index.dart';
 import '../../components/forms/custom_text_form_field.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
 import 'components/circle_image_profile.dart';
@@ -57,10 +58,9 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                     title: Text(
                       'Criar Banca',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: size.height * 0.030
-                      ),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: size.height * 0.030),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -138,20 +138,19 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                           ),
                                         ),
                                         Divider(
-                                          height: size.height * 0.006,
-                                          color: Colors.transparent,
-                                        ),
+                                            height: size.height * 0.006,
+                                            color: Colors.transparent),
                                         IconButton(
                                           icon: const Icon(Icons.access_time),
                                           onPressed: () async {
                                             final selectedTime =
                                                 await showTimePicker(
                                               context: context,
-                                                  cancelText: "Cancelar",
-                                                  confirmText: "Confirmar",
-                                                  hourLabelText: "Horas",
-                                                  minuteLabelText: "Minutos",
-                                                  helpText: "Insira o horário:",
+                                              cancelText: "Cancelar",
+                                              confirmText: "Confirmar",
+                                              hourLabelText: "Horas",
+                                              minuteLabelText: "Minutos",
+                                              helpText: "Insira o horário:",
                                               initialTime: _getInitialTime(
                                                   controller
                                                       .horarioAberturaController),
@@ -171,9 +170,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                                   child: MediaQuery(
                                                     data: MediaQuery.of(context)
                                                         .copyWith(
-                                                      alwaysUse24HourFormat:
-                                                          true,
-                                                    ),
+                                                            alwaysUse24HourFormat:
+                                                                true),
                                                     child: child!,
                                                   ),
                                                 );
@@ -184,6 +182,19 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                               final formattedTime =
                                                   _formatTimeOfDayTo24Hour(
                                                       selectedTime);
+                                              final fechamentoTime = controller
+                                                  .horarioFechamentoController
+                                                  .text;
+
+                                              if (fechamentoTime.isNotEmpty &&
+                                                  _isClosingTimeInvalid(
+                                                      formattedTime,
+                                                      fechamentoTime)) {
+                                                _showSnackbar(context,
+                                                    "O horário de abertura deve ser menor que o de fechamento.");
+                                                return;
+                                              }
+
                                               setState(() {
                                                 controller
                                                     .horarioAberturaController
@@ -223,20 +234,19 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                           ),
                                         ),
                                         Divider(
-                                          height: size.height * 0.006,
-                                          color: Colors.transparent,
-                                        ),
+                                            height: size.height * 0.006,
+                                            color: Colors.transparent),
                                         IconButton(
                                           icon: const Icon(Icons.access_time),
                                           onPressed: () async {
                                             final selectedTime =
                                                 await showTimePicker(
                                               context: context,
-                                                  cancelText: "Cancelar",
-                                                  confirmText: "Confirmar",
-                                                  hourLabelText: "Horas",
-                                                  minuteLabelText: "Minutos",
-                                                  helpText: "Insira o horário:",
+                                              cancelText: "Cancelar",
+                                              confirmText: "Confirmar",
+                                              hourLabelText: "Horas",
+                                              minuteLabelText: "Minutos",
+                                              helpText: "Insira o horário:",
                                               initialTime: _getInitialTime(
                                                   controller
                                                       .horarioFechamentoController),
@@ -256,9 +266,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                                   child: MediaQuery(
                                                     data: MediaQuery.of(context)
                                                         .copyWith(
-                                                      alwaysUse24HourFormat:
-                                                          true,
-                                                    ),
+                                                            alwaysUse24HourFormat:
+                                                                true),
                                                     child: child!,
                                                   ),
                                                 );
@@ -269,6 +278,18 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                               final formattedTime =
                                                   _formatTimeOfDayTo24Hour(
                                                       selectedTime);
+                                              final aberturaTime = controller
+                                                  .horarioAberturaController
+                                                  .text;
+
+                                              if (_isClosingTimeInvalid(
+                                                  aberturaTime,
+                                                  formattedTime)) {
+                                                _showSnackbar(context,
+                                                    "O horário de fechamento deve ser maior que o de abertura.");
+                                                return;
+                                              }
+
                                               setState(() {
                                                 controller
                                                     .horarioFechamentoController
@@ -319,23 +340,25 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                   children: [
                                     Flexible(
                                       child: CheckboxListTile(
-                                        contentPadding:
-                                            EdgeInsetsDirectional.zero,
-                                        activeColor: kPrimaryColor,
-                                        value: controller.isSelected[0],
-                                        title: Text(
-                                          controller.checkItems[0],
-                                          style: TextStyle(
-                                              fontSize: size.height * 0.016),
-                                        ),
-                                        checkboxShape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        controlAffinity:
-                                            ListTileControlAffinity.leading,
-                                        onChanged: (value) =>
-                                            controller.onItemTapped(0),
-                                      ),
+                                          contentPadding:
+                                              EdgeInsetsDirectional.zero,
+                                          activeColor: kPrimaryColor,
+                                          value: controller.isSelected[0],
+                                          title: Text(
+                                            controller.checkItems[0],
+                                            style: TextStyle(
+                                                fontSize: size.height * 0.016),
+                                          ),
+                                          checkboxShape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
+                                          onChanged: (value) {
+                                            controller.onItemTapped(0);
+                                            controller.setCashBool(
+                                                !controller.cashBool);
+                                          }),
                                     ),
                                     Flexible(
                                       child: CheckboxListTile(
@@ -687,4 +710,26 @@ class _HourInputFormatter extends TextInputFormatter {
       selection: TextSelection.collapsed(offset: newText.length),
     );
   }
+}
+
+bool _isClosingTimeInvalid(String abertura, String fechamento) {
+  if (abertura.isEmpty || fechamento.isEmpty) return false;
+
+  final aberturaParts = abertura.split(":").map(int.parse).toList();
+  final fechamentoParts = fechamento.split(":").map(int.parse).toList();
+
+  final aberturaMinutes = aberturaParts[0] * 60 + aberturaParts[1];
+  final fechamentoMinutes = fechamentoParts[0] * 60 + fechamentoParts[1];
+
+  return fechamentoMinutes <= aberturaMinutes;
+}
+
+void _showSnackbar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+      duration: const Duration(seconds: 2),
+    ),
+  );
 }

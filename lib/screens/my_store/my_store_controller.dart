@@ -2,16 +2,19 @@
 import 'dart:io';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:thunderapp/screens/my_store/my_store_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
+import '../../assets/index.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
 import '../../shared/constants/style_constants.dart';
 import '../../shared/core/image_picker_controller.dart';
 import '../home/home_screen.dart';
 import '../screens_index.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MyStoreController extends GetxController {
   UserStorage userStorage = UserStorage();
@@ -29,59 +32,55 @@ class MyStoreController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final List<bool> isSelected = [false, false, false];
-  final List<String> checkItems = [
-    'Dinheiro',
-    'PIX',
-    'Cartão'
-  ];
+  final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
   final List<bool> delivery = [false, false];
   final List<String> deliveryItems = ['Sim', 'Não'];
 
   bool deliver = false;
   bool pixBool = false;
+  bool cashBool = false;
 
   String? get imagePath => _imagePath;
+
   set imagePath(String? value) {
     _imagePath = value;
     update();
   }
 
   File? get selectedImage => _selectedImage;
+
   set selectedImage(File? value) {
     _selectedImage = value;
     update();
   }
 
-  MaskTextInputFormatter timeFormatter =
-      MaskTextInputFormatter(
-          mask: '##:##',
-          filter: {"#": RegExp(r'[0-9]')},
-          type: MaskAutoCompletionType.lazy);
+  MaskTextInputFormatter timeFormatter = MaskTextInputFormatter(
+      mask: '##:##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
-  MaskTextInputFormatter timeFormatter2 =
-      MaskTextInputFormatter(
-          mask: '##:##',
-          filter: {"#": RegExp(r'[0-9]')},
-          type: MaskAutoCompletionType.lazy);
+  MaskTextInputFormatter timeFormatter2 = MaskTextInputFormatter(
+      mask: '##:##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
 
-  final TextEditingController _nomeBancaController =
-      TextEditingController();
-  final TextEditingController _pixController =
-      TextEditingController();
-  final TextEditingController _quantiaMinController =
-      TextEditingController();
+  final TextEditingController _nomeBancaController = TextEditingController();
+  final TextEditingController _pixController = TextEditingController();
+  final TextEditingController _quantiaMinController = TextEditingController();
   final TextEditingController _horarioAberturaController =
       TextEditingController();
   final TextEditingController _horarioFechamentoController =
       TextEditingController();
 
-  TextEditingController get nomeBancaController =>
-      _nomeBancaController;
-  TextEditingController get quantiaMinController =>
-      _quantiaMinController;
+  TextEditingController get nomeBancaController => _nomeBancaController;
+
+  TextEditingController get quantiaMinController => _quantiaMinController;
+
   TextEditingController get pixController => _pixController;
+
   TextEditingController get horarioAberturaController =>
       _horarioAberturaController;
+
   TextEditingController get horarioFechamentoController =>
       _horarioFechamentoController;
 
@@ -112,6 +111,10 @@ class MyStoreController extends GetxController {
     pixBool = value;
     update();
   }
+  void setCashBool(bool value) {
+    cashBool = value;
+    update();
+  }
 
   bool checkImg() {
     if (_selectedImage == null) {
@@ -120,77 +123,88 @@ class MyStoreController extends GetxController {
     return true;
   }
 
+  Future<File> _getAssetAsFile(String assetPath) async {
+    final ByteData data = await rootBundle.load(assetPath);
+    final List<int> bytes = data.buffer.asUint8List();
+
+    Directory? tempDir;
+    try {
+      tempDir = await getTemporaryDirectory(); // Pode lançar erro
+    } catch (e) {
+      print("Erro ao acessar getTemporaryDirectory: $e");
+    }
+
+    // Se getTemporaryDirectory() falhar, usa getApplicationDocumentsDirectory()
+    tempDir ??= await getApplicationDocumentsDirectory();
+
+    final tempFile = File('${tempDir.path}/default_image.png');
+    await tempFile.writeAsBytes(bytes, flush: true);
+    return tempFile;
+  }
+
   Future selectImageCam() async {
     try {
-      File? file = await _imagePickerController
-          .pickImageFromCamera();
+      File? file = await _imagePickerController.pickImageFromCamera();
       if (file != null) {
         imagePath = file.path;
         selectedImage = file;
       } else {
-        return null;
+        selectedImage = await _getAssetAsFile(Assets.logoAssociacao);
+        imagePath = selectedImage!.path;
+        // imagePath == null;
+        // selectedImage = null;
       }
-      _selectedImage = file;
+      _selectedImage = selectedImage;
+      update();
     } catch (e) {
-      Get.dialog(
-        AlertDialog(
-          title: const Text('Erro 1'),
-          content: Text(
-              "${e.toString()}\n Procure o suporte com a equipe LMTS"),
-          actions: [
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-          ],
-        ),
-      );
+      _showErrorDialog(e.toString());
     }
-
-    update();
   }
 
   Future selectImage() async {
     try {
-      File? file = await _imagePickerController
-          .pickImageFromGallery();
+      File? file = await _imagePickerController.pickImageFromGallery();
       if (file != null) {
         imagePath = file.path;
         selectedImage = file;
       } else {
-        return null;
+        selectedImage = await _getAssetAsFile(Assets.logoAssociacao);
+        imagePath = selectedImage!.path;
+        // imagePath == null;
+        // selectedImage = null;
       }
-
-      _selectedImage = file;
+      _selectedImage = selectedImage;
       update();
     } catch (e) {
-      Get.dialog(
-        AlertDialog(
-          title: const Text('Erro'),
-          content: Text(
-              "${e.toString()}\n Procure o suporte com a equipe LMTS"),
-          actions: [
-            TextButton(
-              child: const Text('Voltar'),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-          ],
-        ),
-      );
+      _showErrorDialog(e.toString());
     }
   }
+
+
+  void _showErrorDialog(String errorMessage) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Erro'),
+        content: Text("$errorMessage\n Procure o suporte com a equipe LMTS"),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Future clearImg() async {
     _selectedImage = null;
     update();
   }
 
-  void editBanca(
-      BuildContext context, BancaModel banca) async {
+  void editBanca(BuildContext context, BancaModel banca) async {
     try {
       editSucess = await myStoreRepository.editarBanca(
         _nomeBancaController.text,
@@ -205,15 +219,13 @@ class MyStoreController extends GetxController {
       );
 
       if (editSucess) {
-        print(
-            "Edição bem-sucedida. Navegando para HomeScreen...");
+        print("Edição bem-sucedida. Navegando para HomeScreen...");
         Get.back();
         Future.delayed(Duration(milliseconds: 200), () {
           Get.offAll(() => const HomeScreen());
         });
       } else {
-        print(
-            "Edição falhou. Nenhuma navegação executada.");
+        print("Edição falhou. Nenhuma navegação executada.");
       }
     } catch (e, stackTrace) {
       print("Erro ao tentar editar banca: $e");
@@ -236,23 +248,18 @@ class MyStoreController extends GetxController {
   }
 
   void adicionarBanca(BuildContext context) async {
-    if (!verifyFields() || _imagePath == null) {
+    if (!verifyFields()) { // Removida a verificação _imagePath == null
       textoErro = "Verifique os campos obrigatórios.";
       showDialog(
         context: context,
         builder: (context) => DefaultAlertDialogOneButton(
-          title: 'Sucesso',
-          body: 'Sua banca foi criada!',
+          title: 'Erro',
+          body: textoErro,
           confirmText: 'Ok',
-          onConfirm: () {
-            Get.back();
-            Navigator.pushReplacementNamed(
-                context, Screens.home);
-          },
-          buttonColor: kSuccessColor,
+          onConfirm: () => Get.back(),
+          buttonColor: Colors.red,
         ),
       );
-
       return;
     }
 
@@ -262,11 +269,12 @@ class MyStoreController extends GetxController {
         _horarioAberturaController.text,
         _horarioFechamentoController.text,
         _quantiaMinController.text,
-        imagePath!,
+        _imagePath, // Pode ser null, o repositório trata isso
         isSelected,
         deliver,
         _pixController.text,
       );
+
       if (adcSucess) {
         showDialog(
           context: context,
@@ -274,8 +282,7 @@ class MyStoreController extends GetxController {
             title: 'Sucesso',
             body: 'Sua banca foi criada!',
             confirmText: 'Ok',
-            onConfirm: () => Navigator.pushReplacementNamed(
-                context, Screens.home),
+            onConfirm: () => Navigator.pushReplacementNamed(context, Screens.home),
             buttonColor: kSuccessColor,
           ),
         );
@@ -286,8 +293,7 @@ class MyStoreController extends GetxController {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: Text(
-              "Erro: ${e.toString()}\nEntre em contato com o suporte."),
+          content: Text("Erro: ${e.toString()}\nEntre em contato com o suporte."),
           actions: [
             TextButton(
               child: const Text('Voltar'),
@@ -306,28 +312,43 @@ class MyStoreController extends GetxController {
         isSelected.contains(true)) {
       return true;
     } else {
-      textoErro =
-          "Selecione ao menos uma forma de pagamento.";
+      textoErro = "Selecione ao menos uma forma de pagamento.";
       return false;
     }
   }
 
   bool verifyFields() {
     bool hasPaymentMethod = isSelected.contains(true);
+    int boolPagamento = 0;
 
-    if (!hasPaymentMethod) {
-      textoErro =
-          "Selecione ao menos uma forma de pagamento.";
-      return false;
+    if(pixBool == false && cashBool == false){
+      boolPagamento = 1;
+    }
+    else{
+      boolPagamento = 0;
     }
 
     if (_nomeBancaController.text.isEmpty ||
         _horarioAberturaController.text.isEmpty ||
-        _horarioFechamentoController.text.isEmpty ||
-        pixController.text.isEmpty ||
-        selectedImage == null) {
-      textoErro = "Verifique os campos obrigatórios.";
-      return false;
+        _horarioFechamentoController.text.isEmpty || imagePath == null || boolPagamento == 1) {
+      if (pixBool == true && _pixController.text.isEmpty) {
+        textoErro = "Insira uma chave PIX.";
+        return false;
+      }
+      else if(boolPagamento == 1 && imagePath == null){
+        textoErro = "Insira uma imagem e Selecione ao menos uma forma de pagamento.";
+        return false;
+      }
+      else if(imagePath == null){
+        textoErro = "Insira uma imagem.";
+        return false;
+      }
+      else if(boolPagamento == 1){
+        textoErro = "Selecione ao menos uma forma de pagamento.";
+        return false;
+      }
+        textoErro = "Verifique os campos obrigatórios.";
+        return false;
     }
     return true;
   }

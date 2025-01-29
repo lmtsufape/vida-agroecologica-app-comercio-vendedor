@@ -177,17 +177,14 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'Início dos pedidos',
+                                'Horário de abertura',
                                 style: TextStyle(
                                   color: kSecondaryColor,
                                   fontWeight: FontWeight.w700,
                                   fontSize: size.height * 0.018,
                                 ),
                               ),
-                              Divider(
-                                height: size.height * 0.006,
-                                color: Colors.transparent,
-                              ),
+                              Divider(height: size.height * 0.006, color: Colors.transparent),
                               IconButton(
                                 icon: const Icon(Icons.access_time),
                                 onPressed: () async {
@@ -198,10 +195,8 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     hourLabelText: "Horas",
                                     minuteLabelText: "Minutos",
                                     helpText: "Insira o horário:",
-                                    initialTime: _getInitialTime(
-                                        controller.horarioAberturaController),
-                                    initialEntryMode:
-                                        TimePickerEntryMode.inputOnly,
+                                    initialTime: _getInitialTime(controller.horarioAberturaController),
+                                    initialEntryMode: TimePickerEntryMode.inputOnly,
                                     builder: (context, child) {
                                       return Theme(
                                         data: Theme.of(context).copyWith(
@@ -212,9 +207,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                           ),
                                         ),
                                         child: MediaQuery(
-                                          data: MediaQuery.of(context).copyWith(
-                                            alwaysUse24HourFormat: true,
-                                          ),
+                                          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
                                           child: child!,
                                         ),
                                       );
@@ -222,17 +215,22 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                   );
 
                                   if (selectedTime != null) {
-                                    final formattedTime =
-                                        _formatTimeOfDayTo24Hour(selectedTime);
+                                    final formattedTime = _formatTimeOfDayTo24Hour(selectedTime);
+                                    final fechamentoTime = controller.horarioFechamentoController.text;
+
+                                    if (fechamentoTime.isNotEmpty &&
+                                        _isClosingTimeInvalid(formattedTime, fechamentoTime)) {
+                                      _showSnackbar(context, "O horário de abertura deve ser menor que o de fechamento.");
+                                      return;
+                                    }
+
                                     setState(() {
-                                      controller.horarioAberturaController
-                                          .text = formattedTime;
+                                      controller.horarioAberturaController.text = formattedTime;
                                     });
                                   }
                                 },
                               ),
-                              if (controller
-                                  .horarioAberturaController.text.isNotEmpty)
+                              if (controller.horarioAberturaController.text.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(
@@ -257,10 +255,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                   fontSize: size.height * 0.018,
                                 ),
                               ),
-                              Divider(
-                                height: size.height * 0.006,
-                                color: Colors.transparent,
-                              ),
+                              Divider(height: size.height * 0.006, color: Colors.transparent),
                               IconButton(
                                 icon: const Icon(Icons.access_time),
                                 onPressed: () async {
@@ -271,10 +266,8 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                     hourLabelText: "Horas",
                                     minuteLabelText: "Minutos",
                                     helpText: "Insira o horário:",
-                                    initialTime: _getInitialTime(
-                                        controller.horarioFechamentoController),
-                                    initialEntryMode:
-                                        TimePickerEntryMode.inputOnly,
+                                    initialTime: _getInitialTime(controller.horarioFechamentoController),
+                                    initialEntryMode: TimePickerEntryMode.inputOnly,
                                     builder: (context, child) {
                                       return Theme(
                                         data: Theme.of(context).copyWith(
@@ -285,9 +278,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                           ),
                                         ),
                                         child: MediaQuery(
-                                          data: MediaQuery.of(context).copyWith(
-                                            alwaysUse24HourFormat: true,
-                                          ),
+                                          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
                                           child: child!,
                                         ),
                                       );
@@ -295,17 +286,21 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                   );
 
                                   if (selectedTime != null) {
-                                    final formattedTime =
-                                        _formatTimeOfDayTo24Hour(selectedTime);
+                                    final formattedTime = _formatTimeOfDayTo24Hour(selectedTime);
+                                    final aberturaTime = controller.horarioAberturaController.text;
+
+                                    if (_isClosingTimeInvalid(aberturaTime, formattedTime)) {
+                                      _showSnackbar(context, "O horário de fechamento deve ser maior que o de abertura.");
+                                      return;
+                                    }
+
                                     setState(() {
-                                      controller.horarioFechamentoController
-                                          .text = formattedTime;
+                                      controller.horarioFechamentoController.text = formattedTime;
                                     });
                                   }
                                 },
                               ),
-                              if (controller
-                                  .horarioFechamentoController.text.isNotEmpty)
+                              if (controller.horarioFechamentoController.text.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Text(
@@ -731,4 +726,26 @@ class _HourInputFormatter extends TextInputFormatter {
       selection: TextSelection.collapsed(offset: newText.length),
     );
   }
+}
+
+bool _isClosingTimeInvalid(String abertura, String fechamento) {
+  if (abertura.isEmpty || fechamento.isEmpty) return false;
+
+  final aberturaParts = abertura.split(":").map(int.parse).toList();
+  final fechamentoParts = fechamento.split(":").map(int.parse).toList();
+
+  final aberturaMinutes = aberturaParts[0] * 60 + aberturaParts[1];
+  final fechamentoMinutes = fechamentoParts[0] * 60 + fechamentoParts[1];
+
+  return fechamentoMinutes <= aberturaMinutes;
+}
+
+void _showSnackbar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+      duration: const Duration(seconds: 2),
+    ),
+  );
 }

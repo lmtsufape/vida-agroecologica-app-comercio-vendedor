@@ -1,11 +1,16 @@
 // ignore_for_file: avoid_print
 
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../assets/index.dart';
 
 class MyStoreRepository {
   List<String> checkItems = [];
@@ -193,9 +198,7 @@ class MyStoreRepository {
       "horario_abertura": horarioAbertura,
       "horario_fechamento": horarioFechamento,
       "preco_minimo": precoMin.isNotEmpty ? precoMin : "0",
-      "formas_pagamento": formasPagamento.isNotEmpty
-          ? formasPagamento
-          : '1',
+      "formas_pagamento": formasPagamento.isNotEmpty ? formasPagamento : '1',
       "entrega": entrega?.toString() ?? 'false',
       "pix": pix ?? '',
       "agricultor_id": userId.toString(),
@@ -203,16 +206,13 @@ class MyStoreRepository {
       "bairro_entrega": '1=>3.50'
     };
 
+    // Se não houver imagem selecionada, usa a imagem padrão
     if (imgPath != null) {
-      formDataMap["imagem"] =
-          await MultipartFile.fromFile(imgPath);
+      formDataMap["imagem"] = await MultipartFile.fromFile(imgPath);
     } else {
-      formDataMap.remove("imagem");
+      File defaultImage = await _getAssetAsFile(Assets.logoAssociacao);
+      formDataMap["imagem"] = await MultipartFile.fromFile(defaultImage.path);
     }
-
-    print("Dados enviados para adicionarBanca:");
-    formDataMap
-        .forEach((key, value) => print("$key: $value"));
 
     body = FormData.fromMap(formDataMap);
 
@@ -226,23 +226,40 @@ class MyStoreRepository {
         data: body,
       );
 
-      if (response.statusCode == 201 ||
-          response.statusCode == 200) {
-        log('cadastro da banca bem-sucedido');
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        log('Cadastro da banca bem-sucedido');
         return true;
       } else {
-        print(
-            'Erro ao criar banca: ${response.statusCode}');
+        print('Erro ao criar banca: ${response.statusCode}');
         return false;
       }
     } catch (e) {
       if (e is DioError && e.response != null) {
-        print(
-            "Erro ao adicionar banca: ${e.response?.data}");
+        print("Erro ao adicionar banca: ${e.response?.data}");
       }
       print('Erro ao adicionar banca: $e');
       return false;
     }
+  }
+
+
+  Future<File> _getAssetAsFile(String assetPath) async {
+    final ByteData data = await rootBundle.load(assetPath);
+    final List<int> bytes = data.buffer.asUint8List();
+
+    Directory? tempDir;
+    try {
+      tempDir = await getTemporaryDirectory(); // Pode lançar erro
+    } catch (e) {
+      print("Erro ao acessar getTemporaryDirectory: $e");
+    }
+
+    // Se getTemporaryDirectory() falhar, usa getApplicationDocumentsDirectory()
+    tempDir ??= await getApplicationDocumentsDirectory();
+
+    final tempFile = File('${tempDir.path}/default_image.png');
+    await tempFile.writeAsBytes(bytes, flush: true);
+    return tempFile;
   }
 
 /*void _showAlertDialog(BuildContext context, String title, String content) {
