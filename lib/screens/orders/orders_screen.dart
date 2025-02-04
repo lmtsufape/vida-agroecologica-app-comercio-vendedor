@@ -19,7 +19,7 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  OrdersController controller = Get.put(OrdersController());
+  final OrdersController controller = Get.put(OrdersController());
 
   @override
   void initState() {
@@ -31,7 +31,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return GetBuilder<OrdersController>(
-      init: OrdersController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
           title: Text(
@@ -44,9 +43,30 @@ class _OrdersScreenState extends State<OrdersScreen> {
           child: Container(
             padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
             height: size.height,
-            child: ListView(
-              children: controller.pedidos,
-            ),
+            child: controller.pedidos.isEmpty 
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_bag_outlined,
+                        size: 64,
+                        color: kTextButtonColor.withOpacity(0.5),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Você ainda não possui pedidos',
+                        style: kBody2.copyWith(
+                          color: kTextButtonColor.withOpacity(0.5),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                )
+              : ListView(
+                  children: controller.pedidos,
+                ),
           ),
         ),
       ),
