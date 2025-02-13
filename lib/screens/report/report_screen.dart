@@ -18,7 +18,6 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-
   ReportController controller = Get.put(ReportController());
   OrdersController ordersController = Get.put(OrdersController());
 
@@ -45,9 +44,30 @@ class _ReportScreenState extends State<ReportScreen> {
           child: Container(
             padding: const EdgeInsets.all(kDefaultPadding - kSmallSize),
             height: size.height,
-            child: ListView(
-              children: controller.listaPedidos,
-            ),
+            child: controller.orders.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_bag_outlined,
+                          size: 64,
+                          color: kTextButtonColor.withOpacity(0.5),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Você ainda não possui pedidos',
+                          style: kBody2.copyWith(
+                            color: kTextButtonColor.withOpacity(0.5),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView(
+                    children: controller.listaPedidos,
+                  ),
           ),
         ),
       ),
@@ -73,7 +93,8 @@ class _ReportCardState extends State<ReportCard> {
     return Column(
       children: [
         InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
+          onTap: () =>
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
             return OrderDetailScreen(widget.model, widget.ordersController);
           })),
           child: Ink(
@@ -81,11 +102,14 @@ class _ReportCardState extends State<ReportCard> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white, // Cor de fundo do Container
-                  borderRadius: BorderRadius.circular(10), // Bordas arredondadas
+                  color: Colors.white,
+                  // Cor de fundo do Container
+                  borderRadius: BorderRadius.circular(10),
+                  // Bordas arredondadas
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // Cor da sombra com transparência
+                      color: Colors.grey.withOpacity(0.5),
+                      // Cor da sombra com transparência
                       spreadRadius: 1,
                       blurRadius: 10,
                       offset: const Offset(0, 0),
@@ -106,7 +130,8 @@ class _ReportCardState extends State<ReportCard> {
                               children: [
                                 Text(
                                   'Pedido #${widget.model.id.toString()}',
-                                  style: kBody3.copyWith(fontWeight: FontWeight.bold),
+                                  style: kBody3.copyWith(
+                                      fontWeight: FontWeight.bold),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Divider(
@@ -117,7 +142,8 @@ class _ReportCardState extends State<ReportCard> {
                                   children: [
                                     Text(
                                       'Cliente:',
-                                      style: kCaption2.copyWith(color: kTextButtonColor),
+                                      style: kCaption2.copyWith(
+                                          color: kTextButtonColor),
                                     ),
                                     const SizedBox(width: 10),
                                     Expanded(
@@ -142,7 +168,9 @@ class _ReportCardState extends State<ReportCard> {
                             'Itens:',
                             style: kCaption2.copyWith(color: kTextButtonColor),
                           ),
-                          Text(NumberFormat.simpleCurrency(locale: 'pt-BR', decimalDigits: 2).format(widget.model.total))
+                          Text(NumberFormat.simpleCurrency(
+                                  locale: 'pt-BR', decimalDigits: 2)
+                              .format(widget.model.total))
                         ],
                       ),
                       const VerticalSpacerBox(size: SpacerSize.medium),
@@ -155,7 +183,9 @@ class _ReportCardState extends State<ReportCard> {
                             style: kBody2,
                           ),
                           Text(
-                            NumberFormat.simpleCurrency(locale: 'pt-BR', decimalDigits: 2).format(widget.model.total),
+                            NumberFormat.simpleCurrency(
+                                    locale: 'pt-BR', decimalDigits: 2)
+                                .format(widget.model.total),
                             style: kBody2.copyWith(color: kDetailColor),
                           )
                         ],
@@ -165,8 +195,10 @@ class _ReportCardState extends State<ReportCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
-                            style: kCaption2.copyWith(color: kTextButtonColor, fontSize: 16),
+                            DateFormat('dd/MM/yyyy')
+                                .format(widget.model.dataPedido!),
+                            style: kCaption2.copyWith(
+                                color: kTextButtonColor, fontSize: 16),
                           ),
                           Container(
                             padding: const EdgeInsets.all(kTinySize),
@@ -175,7 +207,8 @@ class _ReportCardState extends State<ReportCard> {
                                 color: kAlertColor),
                             child: Text(
                               widget.model.status.toString(),
-                              style: kCaption2.copyWith(color: kBackgroundColor, fontSize: 14),
+                              style: kCaption2.copyWith(
+                                  color: kBackgroundColor, fontSize: 14),
                             ),
                           )
                         ],
