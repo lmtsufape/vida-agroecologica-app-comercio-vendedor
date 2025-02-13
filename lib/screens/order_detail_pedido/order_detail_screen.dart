@@ -535,7 +535,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   color: Colors.transparent,
                 ),
                 Text(
-                  'Confirmar entrega/retirada',
+                  'Pronto para retirada?',
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: size.height * 0.020),
@@ -554,7 +554,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           context: context,
                           builder: (context) => DefaultAlertDialog(
                             title: 'Confirmar',
-                            body: 'O pedido está pronto para entrega/retirada?',
+                            body: 'O pedido está pronto para retirada?',
                             confirmText: 'Sim',
                             cancelText: 'Não',
                             onConfirm: () {
