@@ -18,22 +18,23 @@ class _DropDownQtdAddProductState
     extends State<DropDownQtdAddProduct> {
   final dropValue = ValueNotifier('');
 
-  final dropOpcoes = [
+  final List<String> dropOpcoes = [
     'Unidade',
-    'Peso',
-    'Molho',
+    'Bandeja',
     'Kg',
     'Litro',
-    'Pote',
-    'Dúzia',
     'Mão',
+    'Molho',
+    'Dúzia',
+    'Peso',
     'Arroba',
-    'Bandeja',
+    'Pote',
   ];
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    dropOpcoes.sort((a, b) => a.compareTo(b));
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

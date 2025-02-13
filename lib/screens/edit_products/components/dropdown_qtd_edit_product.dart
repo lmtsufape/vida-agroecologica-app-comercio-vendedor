@@ -38,6 +38,7 @@ class _DropDownQtdEditProductState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    dropOpcoes.sort((a, b) => a.compareTo(b));
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

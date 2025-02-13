@@ -35,6 +35,7 @@ class AddProductsController extends GetxController {
   late String userToken;
   bool hasImage = false;
 
+
   // -----------------------
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
