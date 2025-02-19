@@ -55,177 +55,183 @@ class _HomeScreenState extends State<HomeScreen> {
           iconTheme:
               const IconThemeData(color: Colors.white),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(
-                  top: 18, bottom: 10, left: 26, right: 26),
-              alignment: AlignmentDirectional.topStart,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 38,
-                    backgroundImage: const AssetImage(
-                        Assets.logoAssociacao),
-                    foregroundImage:
-                        controller.bancaModel?.id == null
-                            ? null
-                            : NetworkImage(
-                                '$kBaseURL/bancas/${controller.bancaModel?.id}/imagem',
-                                headers: {
-                                  "Authorization":
-                                      "Bearer ${controller.userToken}"
-                                },
-                              ),
-                  ),
-                  const HorizontalSpacerBox(
-                      size: SpacerSize.small),
-                  SizedBox(
-                    width: size.width * 0.61,
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                      children: [
-                        controller.bancaModel == null
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Container(
-                                width: size.width * 0.38,
-                                alignment:
-                                    AlignmentDirectional
-                                        .topStart,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    "Olá, ${controller.bancaModel?.nome}",
-                                    style: TextStyle(
-                                        fontSize:
-                                            size.height *
-                                                0.032,
-                                        fontWeight:
-                                            FontWeight.w500,
-                                        color:
-                                            kSecondaryColor),
-                                  ),
-                                ),
-                              ),
-                        IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      fullscreenDialog:
-                                          true,
-                                      builder: (_) =>
-                                          EditStoreScreen(
-                                              controller
-                                                  .bancaModel)));
-                            },
-                            icon: Icon(
-                              Icons
-                                  .mode_edit_outline_outlined,
-                              color: kPrimaryColor,
-                              size: size.height * 0.04,
-                            )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+        body: RefreshIndicator(
+          onRefresh: () => controller.getBancaPrefs(),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: size.height * 0.6,
-                  padding:
-                      const EdgeInsets.all(kDefaultPadding),
-                  child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.stretch,
-                    children: [
-                      ItemCardHolder(
-                        icon: Icons.storefront,
-                        title: 'Produtos',
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  const ListProductsScreen(),
-                            ),
-                          );
-                        },
+                  padding: const EdgeInsets.only(
+                      top: 18, bottom: 10, left: 26, right: 26),
+                  alignment: AlignmentDirectional.topStart,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 38,
+                        backgroundImage: const AssetImage(
+                            Assets.logoAssociacao),
+                        foregroundImage:
+                            controller.bancaModel?.id == null
+                                ? null
+                                : NetworkImage(
+                                    '$kBaseURL/bancas/${controller.bancaModel?.id}/imagem',
+                                    headers: {
+                                      "Authorization":
+                                          "Bearer ${controller.userToken}"
+                                    },
+                                  ),
                       ),
-                      const SizedBox(height: 14.0),
-                      Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.40,
-                            height: size.height * 0.19,
-                            child: ItemCardHolder(
-                              icon: Icons.list_alt_sharp,
-                              title: 'Pedidos',
-                              onTap: () {
-                                Navigator.pushNamed(context,
-                                    Screens.orders);
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: size.width * 0.40,
-                            height: size.height * 0.19,
-                            child: ItemCardHolder(
-                              icon: Icons.history_outlined,
-                              title: 'Histórico',
-                              onTap: () {
-                                Navigator.pushNamed(context,
-                                    Screens.report);
-                              },
-                            ),
-                          ),
-                        ],
+                      const HorizontalSpacerBox(
+                          size: SpacerSize.small),
+                      SizedBox(
+                        width: size.width * 0.61,
+                        child: Row(
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                          children: [
+                            controller.bancaModel == null
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Container(
+                                    width: size.width * 0.38,
+                                    alignment:
+                                        AlignmentDirectional
+                                            .topStart,
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        "Olá, ${controller.bancaModel?.nome}",
+                                        style: TextStyle(
+                                            fontSize:
+                                                size.height *
+                                                    0.032,
+                                            fontWeight:
+                                                FontWeight.w500,
+                                            color:
+                                                kSecondaryColor),
+                                      ),
+                                    ),
+                                  ),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          fullscreenDialog:
+                                              true,
+                                          builder: (_) =>
+                                              EditStoreScreen(
+                                                  controller
+                                                      .bancaModel)));
+                                },
+                                icon: Icon(
+                                  Icons
+                                      .mode_edit_outline_outlined,
+                                  color: kPrimaryColor,
+                                  size: size.height * 0.04,
+                                )),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: size.width * 0.9,
-                  child: PrimaryButton(
-                    text: 'Sair',
-                    onPressed: () async {
-                      UserStorage userStorage =
-                          UserStorage();
-                      userStorage.clearUserCredentials();
-                      showDialog(
-                        context: context,
-                        builder: (context) =>
-                            DefaultAlertDialog(
-                          title: 'Confirmar',
-                          body:
-                              'Você tem certeza que deseja sair do aplicativo?',
-                          confirmText: 'Sim',
-                          cancelText: 'Não',
-                          onConfirm: () {
-                            Navigator.popAndPushNamed(
-                                context, Screens.signin);
-                          },
-                          confirmColor: kSuccessColor,
-                          cancelColor: kErrorColor,
-                        ),
-                      );
-                    },
-                  ),
+                Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: size.height * 0.6,
+                      padding:
+                          const EdgeInsets.all(kDefaultPadding),
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.stretch,
+                        children: [
+                          ItemCardHolder(
+                            icon: Icons.storefront,
+                            title: 'Produtos',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      const ListProductsScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 14.0),
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: size.width * 0.40,
+                                height: size.height * 0.19,
+                                child: ItemCardHolder(
+                                  icon: Icons.list_alt_sharp,
+                                  title: 'Pedidos',
+                                  onTap: () {
+                                    Navigator.pushNamed(context,
+                                        Screens.orders);
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.40,
+                                height: size.height * 0.19,
+                                child: ItemCardHolder(
+                                  icon: Icons.history_outlined,
+                                  title: 'Histórico',
+                                  onTap: () {
+                                    Navigator.pushNamed(context,
+                                        Screens.report);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.9,
+                      child: PrimaryButton(
+                        text: 'Sair',
+                        onPressed: () async {
+                          UserStorage userStorage =
+                              UserStorage();
+                          userStorage.clearUserCredentials();
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                DefaultAlertDialog(
+                              title: 'Confirmar',
+                              body:
+                                  'Você tem certeza que deseja sair do aplicativo?',
+                              confirmText: 'Sim',
+                              cancelText: 'Não',
+                              onConfirm: () {
+                                Navigator.popAndPushNamed(
+                                    context, Screens.signin);
+                              },
+                              confirmColor: kSuccessColor,
+                              cancelColor: kErrorColor,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
