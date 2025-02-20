@@ -21,7 +21,7 @@ class MyStoreRepository {
   UserStorage userStorage = UserStorage();
   final Dio _dio = Dio();
 
-  Future<String> verificaRole() async {
+  Future<bool> verificaRole() async {
     UserStorage userStorage = UserStorage();
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
@@ -32,12 +32,11 @@ class MyStoreRepository {
     );
 
     List roles = userResponse.data['user']['roles'];
-    int roleId = roles[0]['id'];
+    bool hasRole4 = roles.any((role) => role['id'] == 4);
     String roleName = roles[0]['nome'];
-    print('Role ID: $roleId');
     role = roleName;
     print('Role Name MyStoreRepository: $role');
-    return role;
+    return hasRole4;
   }
 
   String gerarFormasPagamento(List<bool> isSelected) {

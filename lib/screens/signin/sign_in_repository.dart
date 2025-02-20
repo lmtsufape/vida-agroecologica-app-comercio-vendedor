@@ -47,17 +47,17 @@ class SignInRepository {
           if (response.statusCode == 200) {
             List roles = userResponse.data['user']['roles'];
             if (roles.isNotEmpty) {
-              int roleId =
-                  roles[0]['id'];
-              print('Role ID: $roleId');
+              bool hasRole4 = roles.any((role) => role['id'] == 4);
+              print('Role ID: $hasRole4');
+              if(roles.contains(4)){}
               if (response.data["bancas"].isEmpty) {
-                if (roleId == 4) {
+                if (hasRole4) {
                   return 2;
                 } else {
                   print(noAut);
                   return 3;
                 }
-              } else if (roleId == 4) {
+              } else if (hasRole4) {
                 print(response.statusCode);
                 return 1;
               } else {
