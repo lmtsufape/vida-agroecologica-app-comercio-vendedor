@@ -28,8 +28,7 @@ class MyStoreRepository {
 
     Response userResponse = await _dio.get(
       '$kBaseURL/users/$userId',
-      options: Options(
-          headers: {"Authorization": "Bearer $userToken"}),
+      options: Options(headers: {"Authorization": "Bearer $userToken"}),
     );
 
     List roles = userResponse.data['user']['roles'];
@@ -44,8 +43,7 @@ class MyStoreRepository {
   String gerarFormasPagamento(List<bool> isSelected) {
     List<String> selectedItems = [];
     for (int i = 0; i < isSelected.length; i++) {
-      if (isSelected[i])
-        selectedItems.add((i + 1).toString());
+      if (isSelected[i]) selectedItems.add((i + 1).toString());
     }
     return selectedItems.join(",");
   }
@@ -75,8 +73,7 @@ class MyStoreRepository {
       return time;
     }
 
-    String formasPagamento =
-        gerarFormasPagamento(isSelected);
+    String formasPagamento = gerarFormasPagamento(isSelected);
 
     if (formasPagamento == '' && checkItems.isEmpty) {
       for (int i = 0; i < isSelected.length; i++) {
@@ -100,25 +97,17 @@ class MyStoreRepository {
 
     try {
       Map<String, dynamic> formDataMap = {
-        "nome": nome.isEmpty
-            ? banca.getNome.toString()
-            : nome.toString(),
+        "nome": nome.isEmpty ? banca.getNome.toString() : nome.toString(),
         "descricao": "loja",
         "horario_abertura": horarioAbertura.isEmpty
-            ? formatTime(
-                banca.getHorarioAbertura.toString())
+            ? formatTime(banca.getHorarioAbertura.toString())
             : formatTime(horarioAbertura),
         "horario_fechamento": horarioFechamento.isEmpty
-            ? formatTime(
-                banca.getHorarioFechamento.toString())
+            ? formatTime(banca.getHorarioFechamento.toString())
             : formatTime(horarioFechamento),
-        "formas_pagamento": formasPagamento.isNotEmpty
-            ? formasPagamento
-            : '1',
+        "formas_pagamento": formasPagamento.isNotEmpty ? formasPagamento : '1',
         "entrega": entrega?.toString() ?? 'false',
-        "pix": pix.isEmpty
-            ? banca.getPix.toString()
-            : pix.toString(),
+        "pix": pix.isEmpty ? banca.getPix.toString() : pix.toString(),
         "bairro entrega": "1=>4.50"
       };
 
@@ -131,8 +120,7 @@ class MyStoreRepository {
       }
 
       if (imgPath != null) {
-        formDataMap["imagem"] =
-            await MultipartFile.fromFile(
+        formDataMap["imagem"] = await MultipartFile.fromFile(
           imgPath,
           filename: imgPath.split("\\").last,
         );
@@ -192,6 +180,8 @@ class MyStoreRepository {
     String? userToken = await userStorage.getUserToken();
     String? userId = await userStorage.getUserId();
 
+    String formasPagamento = gerarFormasPagamento(isSelected);
+
     Map<String, dynamic> formDataMap = {
       "nome": nome,
       "descricao": 'loja',
@@ -213,6 +203,8 @@ class MyStoreRepository {
       File defaultImage = await _getAssetAsFile(Assets.logoAssociacao);
       formDataMap["imagem"] = await MultipartFile.fromFile(defaultImage.path);
     }
+
+
 
     body = FormData.fromMap(formDataMap);
 
@@ -241,7 +233,6 @@ class MyStoreRepository {
       return false;
     }
   }
-
 
   Future<File> _getAssetAsFile(String assetPath) async {
     final ByteData data = await rootBundle.load(assetPath);

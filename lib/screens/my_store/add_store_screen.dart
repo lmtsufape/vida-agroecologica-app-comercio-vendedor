@@ -382,6 +382,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                                 !controller.pixBool);
                                             print(
                                                 "valor do pix: ${controller.pixBool}");
+                                            print(
+                                                "valor do isSelected: ${controller.isSelected}");
                                           }),
                                     ),
                                   ],
@@ -632,6 +634,8 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                                 ));
                                       } else {
                                         controller.adicionarBanca(context);
+                                        print("TEM PIX? ${controller.pixBool}");
+                                        print("Valor isSelected? ${controller.isSelected}");
                                       }
                                     }
                                   }),

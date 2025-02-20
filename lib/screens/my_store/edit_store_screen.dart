@@ -351,8 +351,10 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 ),
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
-                                onChanged: (value) =>
-                                    controller.onItemTapped(0),
+                                onChanged: (value) {
+                                  controller.onItemTapped(0);
+                                  print("valor do isSelected: ${controller.isSelected}");
+                                }
                               ),
                             ),
                           ),
@@ -376,7 +378,8 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                                 onChanged: (value) {
                                   controller.onItemTapped(1);
                                   controller.setPixBool(!controller.pixBool);
-                                  ("valor do pix: ${controller.pixBool}");
+                                  print("valor do pix: ${controller.pixBool}");
+                                  print("valor do isSelected: ${controller.isSelected}");
                                 },
                               ),
                             ),
