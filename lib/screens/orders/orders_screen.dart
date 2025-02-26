@@ -65,7 +65,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   ),
                 )
               : ListView(
-                  children: controller.pedidos,
+                  children: controller.pedidos.reversed.toList(),
                 ),
           ),
         ),
