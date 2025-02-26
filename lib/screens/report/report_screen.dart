@@ -66,7 +66,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     ),
                   )
                 : ListView(
-                    children: controller.listaPedidos,
+                    children: controller.listaPedidos.reversed.toList(),
                   ),
           ),
         ),
