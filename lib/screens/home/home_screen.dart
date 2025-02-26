@@ -24,8 +24,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeScreenController controller =
-      Get.put(HomeScreenController());
+  HomeScreenController controller = Get.put(HomeScreenController());
 
   @override
   void initState() {
@@ -47,13 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Center(
               child: Text(
                 'Início',
-                style:
-                    kTitle2.copyWith(color: Colors.white),
+                style: kTitle2.copyWith(color: Colors.white),
               ),
             ),
           ),
-          iconTheme:
-              const IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         body: RefreshIndicator(
           onRefresh: () => controller.getBancaPrefs(),
@@ -71,26 +68,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       CircleAvatar(
                         radius: 38,
-                        backgroundImage: const AssetImage(
-                            Assets.logoAssociacao),
-                        foregroundImage:
-                            controller.bancaModel?.id == null
-                                ? null
-                                : NetworkImage(
-                                    '$kBaseURL/bancas/${controller.bancaModel?.id}/imagem',
-                                    headers: {
-                                      "Authorization":
-                                          "Bearer ${controller.userToken}"
-                                    },
-                                  ),
+                        backgroundImage: const AssetImage(Assets.logoAssociacao),
+                        foregroundImage: controller.bancaModel?.id == null
+                            ? null
+                            : NetworkImage(
+                          '$kBaseURL/bancas/${controller.bancaModel?.id}/imagem?timestamp=${DateTime.now().millisecondsSinceEpoch}',
+                          headers: {
+                            "Authorization": "Bearer ${controller.userToken}"
+                          },
+                        ),
                       ),
-                      const HorizontalSpacerBox(
-                          size: SpacerSize.small),
+                      const HorizontalSpacerBox(size: SpacerSize.small),
                       SizedBox(
                         width: size.width * 0.61,
                         child: Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             controller.bancaModel == null
                                 ? const CircularProgressIndicator(
@@ -98,21 +90,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 : Container(
                                     width: size.width * 0.38,
-                                    alignment:
-                                        AlignmentDirectional
-                                            .topStart,
+                                    alignment: AlignmentDirectional.topStart,
                                     child: FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: Text(
                                         "Olá, ${controller.bancaModel?.nome}",
                                         style: TextStyle(
-                                            fontSize:
-                                                size.height *
-                                                    0.032,
-                                            fontWeight:
-                                                FontWeight.w500,
-                                            color:
-                                                kSecondaryColor),
+                                            fontSize: size.height * 0.032,
+                                            fontWeight: FontWeight.w500,
+                                            color: kSecondaryColor),
                                       ),
                                     ),
                                   ),
@@ -121,16 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          fullscreenDialog:
-                                              true,
-                                          builder: (_) =>
-                                              EditStoreScreen(
-                                                  controller
-                                                      .bancaModel)));
+                                          fullscreenDialog: true,
+                                          builder: (_) => EditStoreScreen(
+                                              controller.bancaModel)));
                                 },
                                 icon: Icon(
-                                  Icons
-                                      .mode_edit_outline_outlined,
+                                  Icons.mode_edit_outline_outlined,
                                   color: kPrimaryColor,
                                   size: size.height * 0.04,
                                 )),
@@ -141,16 +123,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       height: size.height * 0.6,
-                      padding:
-                          const EdgeInsets.all(kDefaultPadding),
+                      padding: const EdgeInsets.all(kDefaultPadding),
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           ItemCardHolder(
                             icon: Icons.storefront,
@@ -159,16 +138,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) =>
-                                      const ListProductsScreen(),
+                                  builder: (_) => const ListProductsScreen(),
                                 ),
                               );
                             },
                           ),
                           const SizedBox(height: 14.0),
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
                                 width: size.width * 0.40,
@@ -177,8 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   icon: Icons.list_alt_sharp,
                                   title: 'Pedidos',
                                   onTap: () {
-                                    Navigator.pushNamed(context,
-                                        Screens.orders);
+                                    Navigator.pushNamed(
+                                        context, Screens.orders);
                                   },
                                 ),
                               ),
@@ -189,8 +166,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   icon: Icons.history_outlined,
                                   title: 'Histórico',
                                   onTap: () {
-                                    Navigator.pushNamed(context,
-                                        Screens.report);
+                                    Navigator.pushNamed(
+                                        context, Screens.report);
                                   },
                                 ),
                               ),
@@ -204,13 +181,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: PrimaryButton(
                         text: 'Sair',
                         onPressed: () async {
-                          UserStorage userStorage =
-                              UserStorage();
+                          UserStorage userStorage = UserStorage();
                           userStorage.clearUserCredentials();
                           showDialog(
                             context: context,
-                            builder: (context) =>
-                                DefaultAlertDialog(
+                            builder: (context) => DefaultAlertDialog(
                               title: 'Confirmar',
                               body:
                                   'Você tem certeza que deseja sair do aplicativo?',
