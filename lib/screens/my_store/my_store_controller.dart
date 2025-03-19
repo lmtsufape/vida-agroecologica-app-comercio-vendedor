@@ -342,6 +342,42 @@ class MyStoreController extends GetxController {
 
     if (_nomeBancaController.text.isEmpty ||
         _horarioAberturaController.text.isEmpty ||
+        _horarioFechamentoController.text.isEmpty || imagePath == null || boolPagamento == 1) {
+      if (pixBool == true && _pixController.text.isEmpty) {
+        textoErro = "Insira uma chave PIX.";
+        return false;
+      }
+      else if(boolPagamento == 1 && imagePath == null){
+        textoErro = "Insira uma imagem e Selecione ao menos uma forma de pagamento.";
+        return false;
+      }
+      else if(imagePath == null){
+        textoErro = "Insira uma imagem.";
+        return false;
+      }
+      else if(boolPagamento == 1){
+        textoErro = "Selecione ao menos uma forma de pagamento.";
+        return false;
+      }
+        textoErro = "Verifique os campos obrigatórios.";
+        return false;
+    }
+    return true;
+  }
+
+  bool verifyFieldsEdit() {
+    bool hasPaymentMethod = isSelected.contains(true);
+    int boolPagamento = 0;
+
+    if(pixBool == false && cashBool == false){
+      boolPagamento = 1;
+    }
+    else{
+      boolPagamento = 0;
+    }
+
+    if (_nomeBancaController.text.isEmpty ||
+        _horarioAberturaController.text.isEmpty ||
         _horarioFechamentoController.text.isEmpty || boolPagamento == 1) {
       if (pixBool == true && _pixController.text.isEmpty) {
         textoErro = "Insira uma chave PIX.";
@@ -355,8 +391,8 @@ class MyStoreController extends GetxController {
         textoErro = "Selecione ao menos uma forma de pagamento.";
         return false;
       }
-        textoErro = "Verifique os campos obrigatórios.";
-        return false;
+      textoErro = "Verifique os campos obrigatórios.";
+      return false;
     }
     return true;
   }

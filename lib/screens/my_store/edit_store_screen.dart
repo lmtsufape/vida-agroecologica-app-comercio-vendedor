@@ -591,7 +591,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                               false) {
                             ("Formulário validado com sucesso.");
 
-                            if (controller.verifyFields()) {
+                            if (controller.verifyFieldsEdit()) {
                               showDialog(
                                 context: context,
                                 builder: (context) =>
