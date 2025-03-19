@@ -16,7 +16,9 @@ import 'package:thunderapp/shared/constants/style_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import '../../components/forms/custom_text_form_field.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
+import '../../shared/core/user_storage.dart';
 import 'components/circle_image_profile.dart';
+import 'components/circle_image_profile_edit.dart';
 
 class EditStoreScreen extends StatefulWidget {
   BancaModel? bancaModel;
@@ -119,7 +121,7 @@ class _EditStoreScreenState extends State<EditStoreScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: CircleImageProfile(controller),
+                      child: CircleImageProfileEdit(controller, widget.bancaModel!.id),
                     ),
                     Divider(
                       height: size.height * 0.016,

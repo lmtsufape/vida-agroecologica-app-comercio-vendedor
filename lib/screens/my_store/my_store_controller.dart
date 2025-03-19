@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thunderapp/screens/home/home_screen_repository.dart';
 import 'package:thunderapp/screens/my_store/my_store_repository.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
 import 'package:thunderapp/shared/core/user_storage.dart';
@@ -19,16 +21,20 @@ import 'package:path_provider/path_provider.dart';
 class MyStoreController extends GetxController {
   UserStorage userStorage = UserStorage();
   MyStoreRepository myStoreRepository = MyStoreRepository();
+  HomeScreenRepository homeScreenRepository = HomeScreenRepository();
+  BancaModel? bancaModel;
   final _imagePickerController = ImagePickerController();
 
   File? _selectedImage;
   String? _imagePath;
+  NetworkImage? imagemStore;
 
   bool hasImg = false;
   bool editSucess = false;
   bool adcSucess = false;
   var textoErro = "Verifique os campos";
-  String userToken = '';
+  String? userId;
+  String? userToken;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final List<bool> isSelected = [false, false, false];
@@ -89,6 +95,16 @@ class MyStoreController extends GetxController {
     update();
   }
 
+  Future getBancaPrefs() async {
+    SharedPreferences prefs =
+    await SharedPreferences.getInstance();
+    userId = (await userStorage.getUserId());
+    userToken = await userStorage.getUserToken();
+    bancaModel = await homeScreenRepository.getBancaPrefs(
+        userToken, userId);
+    update();
+  }
+
   void onDeliveryTapped(int index) {
     for (int i = 0; i < delivery.length; i++) {
       delivery[i] = false;
@@ -101,6 +117,12 @@ class MyStoreController extends GetxController {
   String role() {
     return myStoreRepository.role;
   }
+
+  Future<NetworkImage?> getImageStore(int id) async {
+    imagemStore = await myStoreRepository.getImageStore(id);
+    return imagemStore;
+  }
+
 
   void setDeliver(bool value) {
     deliver = value;
@@ -142,44 +164,33 @@ class MyStoreController extends GetxController {
     return tempFile;
   }
 
-  Future selectImageCam() async {
+  Future<void> selectImageCam() async {
     try {
       File? file = await _imagePickerController.pickImageFromCamera();
       if (file != null) {
         imagePath = file.path;
         selectedImage = file;
-      } else {
-        selectedImage = await _getAssetAsFile(Assets.logoAssociacao);
-        imagePath = selectedImage!.path;
-        // imagePath == null;
-        // selectedImage = null;
+        _selectedImage = selectedImage;
       }
-      _selectedImage = selectedImage;
-      update();
+      update(); // Atualiza a UI apenas se uma nova imagem for selecionada
     } catch (e) {
       _showErrorDialog(e.toString());
     }
   }
 
-  Future selectImage() async {
+  Future<void> selectImage() async {
     try {
       File? file = await _imagePickerController.pickImageFromGallery();
       if (file != null) {
         imagePath = file.path;
         selectedImage = file;
-      } else {
-        selectedImage = await _getAssetAsFile(Assets.logoAssociacao);
-        imagePath = selectedImage!.path;
-        // imagePath == null;
-        // selectedImage = null;
+        _selectedImage = selectedImage;
       }
-      _selectedImage = selectedImage;
-      update();
+      update(); // Atualiza a UI apenas se uma nova imagem for selecionada
     } catch (e) {
       _showErrorDialog(e.toString());
     }
   }
-
 
   void _showErrorDialog(String errorMessage) {
     Get.dialog(
@@ -246,6 +257,7 @@ class MyStoreController extends GetxController {
       );
     }
   }
+
 
   void adicionarBanca(BuildContext context) async {
     if (!verifyFields()) { // Removida a verificação _imagePath == null
@@ -330,17 +342,13 @@ class MyStoreController extends GetxController {
 
     if (_nomeBancaController.text.isEmpty ||
         _horarioAberturaController.text.isEmpty ||
-        _horarioFechamentoController.text.isEmpty || imagePath == null || boolPagamento == 1) {
+        _horarioFechamentoController.text.isEmpty || boolPagamento == 1) {
       if (pixBool == true && _pixController.text.isEmpty) {
         textoErro = "Insira uma chave PIX.";
         return false;
       }
       else if(boolPagamento == 1 && imagePath == null){
         textoErro = "Insira uma imagem e Selecione ao menos uma forma de pagamento.";
-        return false;
-      }
-      else if(imagePath == null){
-        textoErro = "Insira uma imagem.";
         return false;
       }
       else if(boolPagamento == 1){
@@ -352,4 +360,13 @@ class MyStoreController extends GetxController {
     }
     return true;
   }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getBancaPrefs();
+    update();
+  }
+
 }

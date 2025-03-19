@@ -14,6 +14,7 @@ import 'package:thunderapp/shared/core/user_storage.dart';
 import '../../components/utils/horizontal_spacer_box.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
 import '../my_store/edit_store_screen.dart';
+import '../my_store/my_store_controller.dart';
 import 'components/item_card_holder.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -104,12 +105,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                             IconButton(
                                 onPressed: () {
-                                  Navigator.push(
+                                  if (controller.bancaModel != null) {
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          fullscreenDialog: true,
-                                          builder: (_) => EditStoreScreen(
-                                              controller.bancaModel)));
+                                        fullscreenDialog: true,
+                                        builder: (_) => EditStoreScreen(controller.bancaModel),
+                                      ),
+                                    );
+                                  } else {
+                                    // Talvez exibir uma mensagem de erro ou fazer algo para tratar o estado.
+                                    print("BancaModel não encontrado!");
+                                  }
                                 },
                                 icon: Icon(
                                   Icons.mode_edit_outline_outlined,

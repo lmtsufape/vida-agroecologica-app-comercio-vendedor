@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thunderapp/shared/constants/app_text_constants.dart';
 import 'package:thunderapp/shared/core/models/banca_model.dart';
@@ -162,9 +163,6 @@ class MyStoreRepository {
       }
       return false;
     }
-
-    print(body);
-    return false;
   }
 
   Future<bool> adicionarBanca(
@@ -202,8 +200,6 @@ class MyStoreRepository {
       File defaultImage = await _getAssetAsFile(Assets.logoAssociacao);
       formDataMap["imagem"] = await MultipartFile.fromFile(defaultImage.path);
     }
-
-
 
     body = FormData.fromMap(formDataMap);
 
@@ -250,6 +246,41 @@ class MyStoreRepository {
     final tempFile = File('${tempDir.path}/default_image.png');
     await tempFile.writeAsBytes(bytes, flush: true);
     return tempFile;
+  }
+
+  Future<NetworkImage?> getImageStore(int id) async {
+    String? userToken = await userStorage.getUserToken();
+
+    if (userToken == null || userToken.isEmpty) {
+      print("Token inválido ou ausente. O usuário precisa se autenticar.");
+      return null; // Ou redirecionar para a tela de login
+    }
+
+    try {
+      Response response = await _dio.get(
+        '$kBaseURL/bancas/$id/imagem',
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $userToken",
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print('Imagem da banca obtida com sucesso');
+        return await response.data; // Retorna a URL da imagem
+      } else if (response.statusCode == 401) {
+        print('Erro de autenticação: Token inválido ou expirado');
+        // Tente renovar o token ou redirecionar para a tela de login
+        return null;
+      } else {
+        print('Erro ao obter imagem da banca: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao obter imagem da banca: $e');
+      return null;
+    }
   }
 
 /*void _showAlertDialog(BuildContext context, String title, String content) {
