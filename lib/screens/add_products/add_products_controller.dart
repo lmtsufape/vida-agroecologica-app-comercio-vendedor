@@ -135,7 +135,6 @@ class AddProductsController extends GetxController {
     salePrice = saleController.text
         .replaceAll(RegExp(r'[^0-9,.]'), '')
         .replaceAll(',', '.');
-
     update();
   }
 

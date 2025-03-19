@@ -87,7 +87,7 @@ class EditProductsRepository extends GetxController {
       "tipo_medida": controller.measure
           .toString() /**Alterar para "measure" quando tiver a validação*/,
       "estoque": controller.stock,
-      "preco": controller.salePrice,
+      "preco": double.tryParse(controller.salePrice!.replaceAll(RegExp(r'[^0-9,.]'), '').replaceAll(',', '.'))?.toStringAsFixed(2) ?? "0.00",
       "custo": controller.costPrice,
       "disponivel": true
     };
@@ -103,13 +103,16 @@ class EditProductsRepository extends GetxController {
             },
           ),
           data: body);
-
+      print('Response Repository: ${response.statusCode}');
       if (response.statusCode == 200 ||
           response.statusCode == 201) {
+        print("STATUS TRUE: ${response.statusCode}");
         return true;
       }
+      print("STATUS FALSE: ${response.statusCode}");
       return false;
     } catch (e) {
+      print('Erro inesperado: $e');
       return false;
     }
   }

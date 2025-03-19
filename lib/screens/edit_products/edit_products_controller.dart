@@ -46,56 +46,47 @@ class EditProductsController extends GetxController {
     costPrice = "1.00";
     salePrice = model.preco.toString();
   }
-  HomeScreenRepository homeRepository =
-      HomeScreenRepository();
+
+  HomeScreenRepository homeRepository = HomeScreenRepository();
   UserStorage userStorage = UserStorage();
 
-  EditProductsRepository repository =
-      EditProductsRepository();
+  EditProductsRepository repository = EditProductsRepository();
   List<TableProductsModel> products = [];
-  final TextEditingController _stockController =
-      TextEditingController();
+  final TextEditingController _stockController = TextEditingController();
 
-  var currencyFormatter =
-      CurrencyTextInputFormatter.currency(
+  // Inicialize o controller
+  final TextEditingController _saleController = TextEditingController();
+
+// Crie o formatador para o campo de preço
+  final currencyFormatter = CurrencyTextInputFormatter.currency(
     locale: 'pt_BR',
     symbol: 'R\$',
-    decimalDigits: 2,
+    decimalDigits: 2, // Garante sempre 2 casas decimais
   );
 
-  final TextEditingController _saleController =
-      TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
-  final TextEditingController _descriptionController =
-      TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
-  final TextEditingController _titleController =
-      TextEditingController();
+  TextEditingController get saleController => _saleController;
 
-  TextEditingController get saleController =>
-      _saleController;
+  TextEditingController get titleController => _titleController;
 
-  TextEditingController get titleController =>
-      _titleController;
+  TextEditingController get descriptionController => _descriptionController;
 
-  TextEditingController get descriptionController =>
-      _descriptionController;
+  TextEditingController get stockController => _stockController;
 
-  TextEditingController get stockController =>
-      _stockController;
+
 
   double changeProfit(String salePrice, String costPrice) {
-    salePrice = salePrice
-        .replaceAll(RegExp(r'[^0-9,.]'), '')
-        .replaceAll(',', '.');
-    costPrice = costPrice
-        .replaceAll(RegExp(r'[^0-9,.]'), '')
-        .replaceAll(',', '.');
+    salePrice =
+        salePrice.replaceAll(RegExp(r'[^0-9,.]'), '').replaceAll(',', '.');
+    costPrice =
+        costPrice.replaceAll(RegExp(r'[^0-9,.]'), '').replaceAll(',', '.');
 
     double profit = 0.0;
     if (salePrice.isNotEmpty && costPrice.isNotEmpty) {
-      profit =
-          double.parse(salePrice) - double.parse(costPrice);
+      profit = double.parse(salePrice) - double.parse(costPrice);
     }
 
     return profit;
@@ -137,11 +128,24 @@ class EditProductsController extends GetxController {
   }
 
   void setSalePrice() {
-    salePrice = saleController.text
-        .replaceAll(RegExp(r'[^0-9,.]'), '')
+    // Remover os caracteres não numéricos e substituir a vírgula por ponto
+    String value = saleController.text
+        .replaceAll(RegExp(r'[^0-9,]'), '')
         .replaceAll(',', '.');
 
-    update();
+    // Verifica se o valor não está vazio ou nulo
+    if (value.isNotEmpty) {
+      // Converter para double
+      double parsedValue = double.tryParse(value) ?? 0.0;
+
+      // Formatar para 2 casas decimais
+      String formattedValue = parsedValue.toStringAsFixed(2);
+
+      // Atribuir ao controlador a String formatada
+      salePrice = formattedValue;
+
+      update();
+    }
   }
 
   Future<bool> validateEmptyFields() async {
@@ -160,19 +164,17 @@ class EditProductsController extends GetxController {
         return false;
       } else {
         var response = await repository.editProducts(this);
-        if (response) {
+        if (response == true) {
           log('tá certo');
           return true;
         }
-        log('tá errado dog ${response}');
         return false;
       }
     } catch (e) {
       if (e is DioError) {
         final dioError = e;
         if (dioError.response != null) {
-          final errorMessage =
-              dioError.response!.data['errors'];
+          final errorMessage = dioError.response!.data['errors'];
           print('Erro: $errorMessage');
           print("Erro ${e.toString()}");
           return false;
@@ -183,13 +185,11 @@ class EditProductsController extends GetxController {
   }
 
   Future<List<TableProductsModel>> loadList() async {
-    SharedPreferences prefs =
-        await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> listaString =
         prefs.getStringList('listaProdutosTabelados') ?? [];
     return listaString
-        .map((string) => TableProductsModel.fromJson(
-            json.decode(string)))
+        .map((string) => TableProductsModel.fromJson(json.decode(string)))
         .toList();
   }
 
