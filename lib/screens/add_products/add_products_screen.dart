@@ -30,8 +30,18 @@ class _AddProductsScreenState
 
   @override
   void initState() {
-    products = repository.getProducts();
     super.initState();
+
+    // Obtém os produtos do repositório
+    repository.getProducts().then((produtos) {
+      // Ordena a lista alfabeticamente pelo nome do produto
+      produtos.sort((a, b) => a.nome!.compareTo(b.nome!));
+
+      // Atribui a lista ordenada à variável products
+      setState(() {
+        products = Future.value(produtos);
+      });
+    });
   }
 
   @override

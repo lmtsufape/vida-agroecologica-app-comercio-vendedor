@@ -249,15 +249,19 @@ class AddProductsController extends GetxController {
   }
 
   Future<List<TableProductsModel>> loadList() async {
-    SharedPreferences prefs =
-        await SharedPreferences.getInstance();
-    List<String> listaString =
-        prefs.getStringList('listaProdutosTabelados') ?? [];
-    return listaString
-        .map((string) => TableProductsModel.fromJson(
-            json.decode(string)))
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String> listaString = prefs.getStringList('listaProdutosTabelados') ?? [];
+
+    List<TableProductsModel> produtos = listaString
+        .map((string) => TableProductsModel.fromJson(json.decode(string)))
         .toList();
+
+    produtos.sort((a, b) => a.nome!.compareTo(b.nome!));
+
+    return produtos; // Retorna a lista ordenada
   }
+
 
   TableProductsModel? search(int? tableProId) {
     for (int i = 0; i < products.length; i++) {

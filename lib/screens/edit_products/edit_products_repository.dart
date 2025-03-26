@@ -89,7 +89,7 @@ class EditProductsRepository extends GetxController {
       "estoque": controller.stock,
       "preco": double.tryParse(controller.salePrice!.replaceAll(RegExp(r'[^0-9,.]'), '').replaceAll(',', '.'))?.toStringAsFixed(2) ?? "0.00",
       "custo": controller.costPrice,
-      "disponivel": true
+      "disponivel": true,
     };
     print(body);
     try {
