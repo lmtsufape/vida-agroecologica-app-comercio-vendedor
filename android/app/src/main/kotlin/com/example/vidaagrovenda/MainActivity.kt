@@ -1,4 +1,4 @@
-package com.vidaagrovendedor
+package com.ufape.lmts.vidaagrovendedor
 
 import io.flutter.embedding.android.FlutterActivity
 
