@@ -245,8 +245,8 @@ class MyStoreController extends GetxController {
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
-          content: const Text(
-              "Ocorreu um erro ao editar a banca. Por favor, tente novamente."),
+          content: Text(
+              "Ocorreu um erro ao editar a banca. Por favor, tente novamente. \nERRO: ${e.toString()} \nSTACKTRACE: $stackTrace"),
           actions: [
             TextButton(
               child: const Text('OK'),

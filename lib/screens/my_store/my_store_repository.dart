@@ -145,7 +145,7 @@ class MyStoreRepository {
         print(body.fields);
         return true;
       } else {
-        final errorMessage = response.data['errors'];
+        final errorMessage = "${response.data['errors']} ${response.data['message']} ${response.statusCode}";
         print('Erro ao editar a banca: $errorMessage');
         print('Status Code: ${response.statusCode}');
         print(body.fields);

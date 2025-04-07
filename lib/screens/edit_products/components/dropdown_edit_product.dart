@@ -42,7 +42,12 @@ class _DropDownEditProductState
                 color: kPrimaryColor,
                 size: size.width * 0.05,
               ),
-              hint: Text('${widget.model.descricao}'),
+              hint: Text('${widget.controller.tableProducts[widget.model.produtoTabeladoId! - 1].nome}',
+                style: TextStyle(
+                  fontSize: size.height * 0.02,
+                  color: kTextButtonColor,
+                ),
+              ),
               value: null,
               items: widget.controller.products.map((obj) {
                 return DropdownMenuItem<TableProductsModel>(
