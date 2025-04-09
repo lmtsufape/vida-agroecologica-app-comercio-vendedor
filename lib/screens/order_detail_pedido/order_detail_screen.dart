@@ -33,7 +33,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       Size size = MediaQuery.of(context).size;
       return Scaffold(
         appBar: AppBar(
-          title: Text('Detalhe pedido #${widget.model.id}',
+          title: Text(
+            'Detalhe pedido #${widget.model.id}',
             style: kTitle2.copyWith(
               color: kPrimaryColor,
             ),
@@ -44,11 +45,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           height: size.height,
           child: Container(
             decoration: BoxDecoration(
-              color:Colors.white, 
-              borderRadius: BorderRadius.circular(10), 
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), 
+                  color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 1,
                   blurRadius: 10,
                   offset: const Offset(0, 0),
@@ -62,17 +63,19 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Pedido #${widget.model.id.toString()}',
+                      Text(
+                        'Pedido #${widget.model.id.toString()}',
                         style: TextStyle(
-                            fontSize: size.height * 0.018,
-                            ),
+                          fontSize: size.height * 0.018,
+                        ),
                       ),
                       Text(
-                        DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
+                        DateFormat('dd/MM/yyyy')
+                            .format(widget.model.dataPedido!),
                         style: TextStyle(
-                            fontSize: size.height * 0.018,
-                            fontWeight: FontWeight.w500,
-                            ),
+                          fontSize: size.height * 0.018,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
@@ -82,21 +85,30 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      Text('Cliente:',
+                      Text(
+                        'Cliente:',
                         style: TextStyle(
-                            fontSize: size.height * 0.022,
-                            color: kTextButtonColor,
-                            ),
+                          fontSize: size.height * 0.022,
+                          color: kTextButtonColor,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 10),
-                          child: Text(widget.model.consumidorName!,
+                        child: Container(
+                          width: size.width * 0.5,  // Limita o espaço disponível para o nome
+                          child: Text(
+                            widget.model.consumidorName!,
+                            style: const TextStyle(
+                              fontSize: 16,  // Ajuste o tamanho da fonte conforme necessário
+                            ),
                             overflow: TextOverflow.ellipsis,
                             softWrap: false,
-                            )
+                          ),
+                        ),
                       ),
-                      const SizedBox()
+                      const SizedBox(),
                     ],
                   ),
                   Divider(
@@ -105,7 +117,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Forma de pagamento:',
+                      Text(
+                        'Forma de pagamento:',
                         style: TextStyle(
                             fontSize: size.height * 0.018,
                             color: kTextButtonColor),
@@ -114,7 +127,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         widget.model.formaDePagamento!,
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
-                      widget.model.bancaId == 'pix' ? IconButton(
+                      widget.model.bancaId == 'pix'
+                          ? IconButton(
                               onPressed: () {
                                 showDialog(
                                   context: context,
@@ -123,28 +137,39 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     body: 'Deseja visualizar o comprovante?',
                                     viewText: 'Visualizar',
                                     view: () async {
-                                      await widget.controller.fetchComprovanteBytes(widget.model.id!);
-                                      if (widget.controller.comprovanteBytes != null) {
+                                      await widget.controller
+                                          .fetchComprovanteBytes(
+                                              widget.model.id!);
+                                      if (widget.controller.comprovanteBytes !=
+                                          null) {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute( 
-                                            builder: (context) => FileViewScreen(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FileViewScreen(
                                               model: widget.model,
                                               controller: OrdersController(),
-                                              comprovanteBytes: widget.controller.comprovanteBytes!,
-                                              comprovanteType: widget.controller.comprovanteType!,
+                                              comprovanteBytes: widget
+                                                  .controller.comprovanteBytes!,
+                                              comprovanteType: widget
+                                                  .controller.comprovanteType!,
                                             ),
                                           ),
                                         );
                                       }
                                     },
                                     download: () async {
-                                      await widget.controller.downloadComprovante(widget.model.id!);
-                                      if (widget.controller.downloadPath != null) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                      await widget.controller
+                                          .downloadComprovante(
+                                              widget.model.id!);
+                                      if (widget.controller.downloadPath !=
+                                          null) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           const SnackBar(
-                                              content: Text('Comprovante baixado com sucesso!'),
-                                              ),
+                                            content: Text(
+                                                'Comprovante baixado com sucesso!'),
+                                          ),
                                         );
                                       }
                                     },
@@ -168,15 +193,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Tipo de entrega:',
+                      Text(
+                        'Tipo de entrega:',
                         style: TextStyle(
                             fontSize: size.height * 0.018,
                             color: kTextButtonColor),
                       ),
                       Text(
                         widget.model.tipoEntrega.toString(),
-                        style: TextStyle(
-                          fontSize: size.height * 0.018),
+                        style: TextStyle(fontSize: size.height * 0.018),
                       ),
                     ],
                   ),
@@ -184,16 +209,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
-                  // const InformationHolder(),
+                  Text(
+                    "Itens:",
+                    style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.bold),
+                  ),
                   Divider(
                     height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
-                  Expanded(
+                  // const InformationHolder()
+                  SizedBox(
                     child: ItensPedidoWidget(pedidoId: widget.model.id!),
                   ),
                   Divider(
-                    height: size.height * 0.03,
+                    height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
                   //========================================================================
@@ -219,25 +250,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   //     ),
                   //   ],
                   // ),
-                  Divider(
-                    height: size.height * 0.015,
-                    color: Colors.transparent,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Total do pedido',
-                        style: TextStyle(
-                            fontSize: size.height * 0.018),
+                      Text(
+                        'Total do pedido:',
+                        style: TextStyle(fontSize: size.height * 0.018),
                       ),
-                      Text(NumberFormat.simpleCurrency(
-                                locale: 'pt-BR',
-                                decimalDigits: 2,
-                                ).format(widget.model.subtotal),
+                      Text(
+                        NumberFormat.simpleCurrency(
+                          locale: 'pt-BR',
+                          decimalDigits: 2,
+                        ).format(widget.model.subtotal),
                         style: TextStyle(
-                            fontSize: size.height * 0.018,
-                            color: kPrimaryColor,
-                            ),
+                          fontSize: size.height * 0.018,
+                          color: kPrimaryColor,
+                        ),
                       ),
                     ],
                   ),
@@ -276,12 +304,15 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             context: context,
                             builder: (context) => DefaultAlertDialog(
                               title: 'Confirmar',
-                              body: 'Você tem certeza que deseja aceitar o pedido?',
+                              body:
+                                  'Você tem certeza que deseja aceitar o pedido?',
                               confirmText: 'Sim',
                               cancelText: 'Não',
                               onConfirm: () {
                                 widget.controller.setConfirm(true);
-                                widget.controller.confirmOrder(context, widget.model.id!,
+                                widget.controller.confirmOrder(
+                                  context,
+                                  widget.model.id!,
                                 );
                               },
                               confirmColor: kSuccessColor,
@@ -300,11 +331,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             context: context,
                             builder: (context) => DefaultAlertDialog(
                               title: 'Recusar',
-                              body: 'Você tem certeza que deseja recusar o pedido?',
+                              body:
+                                  'Você tem certeza que deseja recusar o pedido?',
                               confirmText: 'Sim',
                               cancelText: 'Não',
                               onConfirm: () {
-                                widget.controller.confirmOrder(context, widget.model.id!,
+                                widget.controller.confirmOrder(
+                                  context,
+                                  widget.model.id!,
                                 );
                               },
                               confirmColor: kSuccessColor,
@@ -335,11 +369,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           height: size.height,
           child: Container(
             decoration: BoxDecoration(
-              color:Colors.white, // Cor de fundo do Container
+              color: Colors.white, // Cor de fundo do Container
               borderRadius: BorderRadius.circular(10), // Bordas arredondadas
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), // Cor da sombra com transparência
+                  color: Colors.grey.withOpacity(0.5),
+                  // Cor da sombra com transparência
                   spreadRadius: 1,
                   blurRadius: 10,
                   offset: const Offset(0, 0),
@@ -353,12 +388,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Pedido #${widget.model.id.toString()}',
-                        style: TextStyle(
-                            fontSize: size.height * 0.018),
+                      Text(
+                        'Pedido #${widget.model.id.toString()}',
+                        style: TextStyle(fontSize: size.height * 0.018),
                       ),
                       Text(
-                        DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
+                        DateFormat('dd/MM/yyyy')
+                            .format(widget.model.dataPedido!),
                         style: TextStyle(
                             fontSize: size.height * 0.018,
                             fontWeight: FontWeight.w500),
@@ -369,22 +405,32 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     height: size.height * 0.01,
                     color: Colors.transparent,
                   ),
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Text(
                         'Cliente:',
                         style: TextStyle(
-                            fontSize: size.height * 0.022,
-                            color: kTextButtonColor),
+                          fontSize: size.height * 0.022,
+                          color: kTextButtonColor,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 10),
-                          child: Text(widget.model.consumidorName!,
+                        child: Container(
+                          width: size.width * 0.5,  // Limita o espaço disponível para o nome
+                          child: Text(
+                            widget.model.consumidorName!,
+                            style: const TextStyle(
+                              fontSize: 16,  // Ajuste o tamanho da fonte conforme necessário
+                            ),
                             overflow: TextOverflow.ellipsis,
-                            softWrap: false,)
+                            softWrap: false,
+                          ),
+                        ),
                       ),
-                      const SizedBox()
+                      const SizedBox(),
                     ],
                   ),
                   Divider(
@@ -401,10 +447,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Text(
                         widget.model.formaDePagamento!,
-                        style: TextStyle(
-                            fontSize: size.height * 0.018),
+                        style: TextStyle(fontSize: size.height * 0.018),
                       ),
-                      widget.model.formaDePagamento == 'pix' ? IconButton(
+                      widget.model.formaDePagamento == 'pix'
+                          ? IconButton(
                               onPressed: () {
                                 showDialog(
                                   context: context,
@@ -413,17 +459,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     body: 'Deseja visualizar o comprovante?',
                                     viewText: 'Visualizar',
                                     view: () async {
-                                      await widget.controller.fetchComprovanteBytes(widget.model.id!);
-                                      if (widget.controller.comprovanteBytes != null) {
+                                      await widget.controller
+                                          .fetchComprovanteBytes(
+                                              widget.model.id!);
+                                      if (widget.controller.comprovanteBytes !=
+                                          null) {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder:
-                                              (context) => FileViewScreen(
-                                                model: widget.model,
-                                                controller: OrdersController(),
-                                                comprovanteBytes: widget.controller.comprovanteBytes!,
-                                                comprovanteType: widget.controller.comprovanteType!,
+                                            builder: (context) =>
+                                                FileViewScreen(
+                                              model: widget.model,
+                                              controller: OrdersController(),
+                                              comprovanteBytes: widget
+                                                  .controller.comprovanteBytes!,
+                                              comprovanteType: widget
+                                                  .controller.comprovanteType!,
                                             ),
                                           ),
                                         );
@@ -457,8 +508,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Text(
                         widget.model.tipoEntrega.toString(),
-                        style: TextStyle(
-                            fontSize: size.height * 0.018),
+                        style: TextStyle(fontSize: size.height * 0.018),
                       ),
                     ],
                   ),
@@ -466,12 +516,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
+                  Text(
+                    "Itens:",
+                    style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.bold),
+                  ),
                   // const InformationHolder(),
                   Divider(
                     height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
-                  Expanded(
+                  SizedBox(
                     child: ItensPedidoWidget(pedidoId: widget.model.id!),
                   ),
                   Divider(
@@ -511,13 +567,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ),
                       Text(
                         NumberFormat.simpleCurrency(
-                          locale: 'pt-BR',
-                          decimalDigits: 2
-                        ).format(widget.model.subtotal),
+                                locale: 'pt-BR', decimalDigits: 2)
+                            .format(widget.model.subtotal),
                         style: TextStyle(
-                            fontSize: size.height * 0.018,
-                            color: kPrimaryColor,
-                          ),
+                          fontSize: size.height * 0.018,
+                          color: kPrimaryColor,
+                        ),
                       ),
                     ],
                   ),
@@ -558,7 +613,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             confirmText: 'Sim',
                             cancelText: 'Não',
                             onConfirm: () {
-                              widget.controller.confirmDeliver(context, widget.model.id!);
+                              widget.controller
+                                  .confirmDeliver(context, widget.model.id!);
                             },
                             confirmColor: kSuccessColor,
                             cancelColor: kErrorColor,
@@ -577,7 +633,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       Size size = MediaQuery.of(context).size;
       return Scaffold(
         appBar: AppBar(
-          title: Text('Detalhe pedido #${widget.model.id}',
+          title: Text(
+            'Detalhe pedido #${widget.model.id}',
             style: kTitle2.copyWith(color: kPrimaryColor),
           ),
         ),
@@ -586,11 +643,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           height: size.height,
           child: Container(
             decoration: BoxDecoration(
-              color:Colors.white, // Cor de fundo do Container
+              color: Colors.white, // Cor de fundo do Container
               borderRadius: BorderRadius.circular(10), // Bordas arredondadas
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), // Cor da sombra com transparência
+                  color: Colors.grey.withOpacity(0.5),
+                  // Cor da sombra com transparência
                   spreadRadius: 1,
                   blurRadius: 10,
                   offset: const Offset(0, 0),
@@ -609,11 +667,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
                       Text(
-                        DateFormat('dd/MM/yyyy').format(widget.model.dataPedido!),
+                        DateFormat('dd/MM/yyyy')
+                            .format(widget.model.dataPedido!),
                         style: TextStyle(
-                            fontSize: size.height * 0.018,
-                            fontWeight: FontWeight.w500,
-                            ),
+                          fontSize: size.height * 0.018,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
@@ -621,22 +680,32 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     height: size.height * 0.01,
                     color: Colors.transparent,
                   ),
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Text(
                         'Cliente:',
                         style: TextStyle(
-                            fontSize: size.height * 0.022,
-                            color: kTextButtonColor),
+                          fontSize: size.height * 0.022,
+                          color: kTextButtonColor,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(start: 10),
-                          child: Text(widget.model.consumidorName ?? 'Nome não especificado',
+                        child: Container(
+                          width: size.width * 0.5,  // Limita o espaço disponível para o nome
+                          child: Text(
+                            widget.model.consumidorName!,
+                            style: const TextStyle(
+                              fontSize: 16,  // Ajuste o tamanho da fonte conforme necessário
+                            ),
                             overflow: TextOverflow.ellipsis,
-                            softWrap: false,)
+                            softWrap: false,
+                          ),
+                        ),
                       ),
-                      const SizedBox()
+                      const SizedBox(),
                     ],
                   ),
                   Divider(
@@ -655,7 +724,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         widget.model.formaDePagamento!,
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
-                      widget.model.formaDePagamento == "pix"? IconButton(
+                      widget.model.formaDePagamento == "pix"
+                          ? IconButton(
                               onPressed: () {
                                 showDialog(
                                   context: context,
@@ -664,22 +734,27 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     body: 'Deseja visualizar o comprovante?',
                                     viewText: 'Visualizar',
                                     view: () async {
-                                      await widget.controller.fetchComprovanteBytes(widget.model.id!);
-                                      if (widget.controller.comprovanteBytes != null) {
+                                      await widget.controller
+                                          .fetchComprovanteBytes(
+                                              widget.model.id!);
+                                      if (widget.controller.comprovanteBytes !=
+                                          null) {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => FileViewScreen(
+                                            builder: (context) =>
+                                                FileViewScreen(
                                               model: widget.model,
                                               controller: OrdersController(),
-                                              comprovanteBytes: widget.controller.comprovanteBytes!,
-                                              comprovanteType: widget.controller.comprovanteType!,
+                                              comprovanteBytes: widget
+                                                  .controller.comprovanteBytes!,
+                                              comprovanteType: widget
+                                                  .controller.comprovanteType!,
                                             ),
                                           ),
                                         );
                                       }
                                     },
-                                   
                                     viewColor: kSuccessColor,
                                     downloadColor: kErrorColor,
                                   ),
@@ -716,17 +791,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
-                  // const InformationHolder(),
+                  Text(
+                    "Itens:",
+                    style: TextStyle(
+                        fontSize: size.height * 0.02,
+                        fontWeight: FontWeight.bold),
+                  ),
                   Divider(
                     height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
-                  Expanded(
+                  // const InformationHolder()
+                  SizedBox(
                     child: ItensPedidoWidget(pedidoId: widget.model.id!),
                   ),
-
                   Divider(
-                    height: size.height * 0.03,
+                    height: size.height * 0.02,
                     color: Colors.transparent,
                   ),
                   // Row(
@@ -760,10 +840,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         'Total do pedido',
                         style: TextStyle(fontSize: size.height * 0.018),
                       ),
-                      Text(NumberFormat.simpleCurrency(
-                              locale: 'pt-BR',
-                              decimalDigits: 2,
-                            ).format(widget.model.subtotal),
+                      Text(
+                        NumberFormat.simpleCurrency(
+                          locale: 'pt-BR',
+                          decimalDigits: 2,
+                        ).format(widget.model.subtotal),
                         style: TextStyle(
                             fontSize: size.height * 0.018,
                             color: kPrimaryColor),

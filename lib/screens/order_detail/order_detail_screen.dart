@@ -84,9 +84,13 @@ class _OrderDetailScreenState
                   ),
                   Padding(
                     padding: const EdgeInsetsDirectional.only(start: 10),
-                      child: Text(widget.model.consumidorName!,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
+                      child: SizedBox(
+                        width: size.width * 0.5,
+                        child: Text(widget.model.consumidorName!,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          maxLines: 1,
+                        ),
                       )
                   ),
                   const SizedBox()
@@ -133,7 +137,7 @@ class _OrderDetailScreenState
                                       );
                                     }
                                   },
-                                 
+
                                   viewColor: kSuccessColor,
                                   downloadColor:kErrorColor,
                                 ),
@@ -168,17 +172,22 @@ class _OrderDetailScreenState
                   height: size.height * 0.02,
                   color: Colors.transparent,
                 ),
-                // const InformationHolder(),
+                Text(
+                  "Itens:",
+                  style: TextStyle(
+                      fontSize: size.height * 0.02,
+                      fontWeight: FontWeight.bold),
+                ),
                 Divider(
                   height: size.height * 0.02,
                   color: Colors.transparent,
                 ),
-                Expanded(
+                // const InformationHolder()
+                SizedBox(
                   child: ItensPedidoWidget(pedidoId: widget.model.id!),
                 ),
-
                 Divider(
-                  height: size.height * 0.03,
+                  height: size.height * 0.02,
                   color: Colors.transparent,
                 ),
                 // Row(
