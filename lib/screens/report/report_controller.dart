@@ -54,6 +54,7 @@ class ReportController extends GetxController {
     String userId = await userStorage.getUserId();
     try {
       var fetchedOrders = await repository.getReports(userId);
+      fetchedOrders.sort((a, b) => b.id!.compareTo(a.id!));
       orders.assignAll(fetchedOrders); // Atualiza a lista de pedidos
       await populateReportCard(); // Atualiza os cartões de pedidos
       update(); // Notifica a tela sobre a atualização

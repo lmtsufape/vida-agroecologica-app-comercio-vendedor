@@ -73,29 +73,34 @@ class _OrderDetailScreenState
                   height: size.height * 0.01,
                   color: Colors.transparent,
                 ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text('Cliente:',
-                    style: TextStyle(
-                      fontSize: size.height * 0.022,
-                      color: kTextButtonColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Text(
+                      'Cliente:',
+                      style: TextStyle(
+                        fontSize: size.height * 0.022,
+                        color: kTextButtonColor,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 10),
-                      child: SizedBox(
-                        width: size.width * 0.5,
-                        child: Text(widget.model.consumidorName!,
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 10),
+                      child: Container(
+                        width: size.width * 0.5,  // Limita o espaço disponível para o nome
+                        child: Text(
+                          widget.model.consumidorName!,
+                          style: const TextStyle(
+                            fontSize: 16,  // Ajuste o tamanho da fonte conforme necessário
+                          ),
                           overflow: TextOverflow.ellipsis,
                           softWrap: false,
-                          maxLines: 1,
                         ),
-                      )
-                  ),
-                  const SizedBox()
-                ],
-              ),
+                      ),
+                    ),
+                    const SizedBox(),
+                  ],
+                ),
                 Divider(
                   height: size.height * 0.03,
                 ),
