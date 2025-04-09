@@ -184,6 +184,7 @@ class OrdersController extends GetxController {
     String userId = await userStorage.getUserId();
     try {
       var fetchedOrders = await repository.getOrders(userId);
+      fetchedOrders.sort((a, b) => b.id!.compareTo(a.id!));
       orders.assignAll(fetchedOrders); // Atualiza a lista de pedidos
       await populateOrderCard(); // Atualiza os cartões de pedidos
       update(); // Notifica a tela sobre a atualização
