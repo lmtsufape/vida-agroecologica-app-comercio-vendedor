@@ -6,5 +6,9 @@
 ///use camel case to separate the words
 const String kPppTitle = 'Vida Agroecológica Vendedor';
 // const String kBaseURL = 'http://172.20.144.1:8000/api';
+
 const String kBaseURL =
     'https://comerciovidaagroecologica.ufape.edu.br/api';
+
+    //https://comerciovidaagroecologica.ufape.edu.br/api
+    //https://lmtsteste07.ufape.edu.br/api

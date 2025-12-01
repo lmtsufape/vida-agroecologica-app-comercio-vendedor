@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thunderapp/screens/screens_index.dart';
+import 'package:thunderapp/screens/signin/components/sign_in_result.dart';
 import '../../shared/components/dialogs/default_alert_dialog.dart';
 import '../../shared/constants/style_constants.dart';
 import 'sign_in_repository.dart';
@@ -23,22 +24,18 @@ class SignInController with ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var status = SignInStatus.idle;
 
-  // Getters for controllers
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
 
-  // Constructor to load saved email on initialization
   SignInController() {
     loadSavedEmail();
   }
 
-  // Save email to SharedPreferences
   Future<void> saveEmail(String email) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userEmail', email);
   }
 
-  // Load email from SharedPreferences
   Future<void> loadSavedEmail() async {
     final prefs = await SharedPreferences.getInstance();
     final savedEmail = prefs.getString('userEmail');
@@ -48,7 +45,6 @@ class SignInController with ChangeNotifier {
     }
   }
 
-  // Set error message with delay for reset
   void setErrorMessage(String value) async {
     errorMessage = value;
     notifyListeners();
@@ -57,60 +53,90 @@ class SignInController with ChangeNotifier {
     notifyListeners();
   }
 
-  // Sign-in method
   void signIn(BuildContext context) async {
     try {
       status = SignInStatus.loading;
       notifyListeners();
 
-      var succ = await _repository.signIn(
+      final result = await _repository.signIn(
         email: _emailController.text,
         password: _passwordController.text,
       );
 
-      if (succ == 1 || succ == 2) {
-        // Save email on successful login
-        await saveEmail(_emailController.text);
+      switch (result.type) {
+        case SignInResultType.success:
+          await saveEmail(_emailController.text);
+          status = SignInStatus.done;
+          notifyListeners();
+          Navigator.pushReplacementNamed(context, Screens.home);
+          break;
 
-        status = SignInStatus.done;
-        notifyListeners();
+        case SignInResultType.successNoBanca:
+          await saveEmail(_emailController.text);
+          status = SignInStatus.done;
+          notifyListeners();
+          Navigator.pushReplacementNamed(context, Screens.addStore);
+          break;
 
-        Navigator.pushReplacementNamed(
-          context,
-          succ == 1 ? Screens.home : Screens.addStore,
-        );
-      } else if (succ == 3) {
-        showDialog(
-          context: context,
-          builder: (context) => DefaultAlertDialogOneButton(
-            title: 'Erro',
-            body: 'Você não possui autorização para entrar no aplicativo, fale com o(a) presidente!',
-            confirmText: 'Voltar',
-            onConfirm: () => Get.back(),
-            buttonColor: kErrorColor,
-          ),
-        );
-        status = SignInStatus.error;
-        setErrorMessage('Você não possui autorização para entrar no aplicativo.');
-      } else {
-        showDialog(
-          context: context,
-          builder: (context) => DefaultAlertDialogOneButton(
-            title: 'Erro',
-            body: 'Credenciais inválidas, verifique seus dados',
-            confirmText: 'Voltar',
-            onConfirm: () => Get.back(),
-            buttonColor: kErrorColor,
-          ),
-        );
-        status = SignInStatus.error;
-        setErrorMessage('Credenciais inválidas, verifique seus dados.');
+        case SignInResultType.unauthorized:
+          _showErrorDialog(
+            context,
+            title: 'Acesso negado',
+            body: 'Você não possui autorização para entrar no aplicativo. Fale com o(a) presidente!',
+          );
+          break;
+
+        case SignInResultType.invalidCredentials:
+          _showErrorDialog(
+            context,
+            title: 'Erro de login',
+            body: 'E-mail ou senha incorretos. Verifique seus dados.',
+          );
+          break;
+
+        case SignInResultType.serverError:
+          _showErrorDialog(
+            context,
+            title: 'Erro no servidor',
+            body: result.message ?? 'Servidor indisponível. Tente novamente mais tarde.',
+          );
+          break;
+
+        case SignInResultType.networkError:
+          _showErrorDialog(
+            context,
+            title: 'Erro de conexão',
+            body: result.message ?? 'Verifique sua conexão com a internet.',
+          );
+          break;
       }
-      notifyListeners();
     } catch (e) {
-      status = SignInStatus.error;
-      setErrorMessage('Credenciais inválidas, verifique seus dados.');
-      notifyListeners();
+      _showErrorDialog(
+        context,
+        title: 'Erro',
+        body: 'Ocorreu um erro inesperado. Tente novamente.',
+      );
     }
+  }
+
+  void _showErrorDialog(
+    BuildContext context, {
+    required String title,
+    required String body,
+  }) {
+    status = SignInStatus.error;
+    setErrorMessage(body);
+    notifyListeners();
+
+    showDialog(
+      context: context,
+      builder: (context) => DefaultAlertDialogOneButton(
+        title: title,
+        body: body,
+        confirmText: 'Voltar',
+        onConfirm: () => Get.back(),
+        buttonColor: kErrorColor,
+      ),
+    );
   }
 }

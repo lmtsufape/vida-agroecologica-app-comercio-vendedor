@@ -18,16 +18,30 @@ class HomeScreenRepository {
           '$kBaseURL/bancas/agricultores/$userId',
           options: Options(headers: {"Authorization": "Bearer $userToken"}));
       if (response.statusCode == 200) {
+        var bancaData = response.data["bancas"][0];
+        
+        // Parsear horarios_funcionamento se existir
+        Map<String, List<String>>? horariosFuncionamento;
+        if (bancaData["horarios_funcionamento"] != null) {
+          horariosFuncionamento = {};
+          (bancaData["horarios_funcionamento"] as Map<String, dynamic>).forEach((key, value) {
+            if (value is List) {
+              horariosFuncionamento![key] = value.map((e) => e.toString()).toList();
+            }
+          });
+        }
+        
         BancaModel bancaModel = BancaModel(
-            response.data["bancas"][0]["id"],
-            response.data["bancas"][0]["nome"].toString(),
-            response.data["bancas"][0]["descricao"].toString(),
-            response.data["bancas"][0]["horario_abertura"].toString(),
-            response.data["bancas"][0]["horario_fechamento"].toString(),
-            response.data["bancas"][0]["preco_minimo"].toString(),
-            response.data["bancas"][0]["pix"].toString(),
-            response.data["bancas"][0]["feira_id"],
-            response.data["bancas"][0]["agricultor_id"]);
+            bancaData["id"],
+            bancaData["nome"].toString(),
+            bancaData["descricao"].toString(),
+            bancaData["horario_abertura"].toString(),
+            bancaData["horario_fechamento"].toString(),
+            bancaData["preco_minimo"].toString(),
+            bancaData["pix"].toString(),
+            bancaData["feira_id"],
+            bancaData["agricultor_id"],
+            horariosFuncionamento: horariosFuncionamento);
         log('bancaModel: ${bancaModel.getNome}');
         return bancaModel;
       } else {
