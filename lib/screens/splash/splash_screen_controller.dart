@@ -101,31 +101,37 @@ class SplashScreenController {
     UserStorage userStorage = UserStorage();
     List<TableProductsModel> products = [];
 
-    var userToken = await userStorage.getUserToken();
+    try {
+      var userToken = await userStorage.getUserToken();
 
-    var response =
-        await dio.get('$kBaseURL/produtos/tabelados',
-            options: Options(
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Authorization": "Bearer $userToken"
-              },
-            ));
+      var response = await dio.get(
+        '$kBaseURL/produtos/tabelados',
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer $userToken"
+          },
+        ),
+      );
 
-    List<dynamic> responseData = response.data['produtos'];
+      List<dynamic> responseData = response.data['produtos'];
 
-    for (int i = 0; i < responseData.length; i++) {
-      var product =
-          TableProductsModel.fromJson(responseData[i]);
-      products.add(product);
+      for (int i = 0; i < responseData.length; i++) {
+        var product = TableProductsModel.fromJson(responseData[i]);
+        products.add(product);
+      }
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String> listProducts = products
+          .map((product) => json.encode(product.toJson()))
+          .toList();
+      prefs.setStringList('listaProdutosTabelados', listProducts);
+      
+    } on DioError catch (e) {
+      log('Erro na requisição: ${e.response?.statusCode}');
+      log('Mensagem: ${e.message}');
+      // Não quebra o app, apenas loga o erro
     }
-    SharedPreferences prefs =
-        await SharedPreferences.getInstance();
-    List<String> listProducts = products
-        .map((product) => json.encode(product.toJson()))
-        .toList();
-    prefs.setStringList(
-        'listaProdutosTabelados', listProducts);
   }
 }

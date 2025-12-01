@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
 import 'package:flutter/material.dart';
@@ -41,6 +42,34 @@ class MyStoreController extends GetxController {
   final List<String> checkItems = ['Dinheiro', 'PIX', 'Cartão'];
   final List<bool> delivery = [false, false];
   final List<String> deliveryItems = ['Sim', 'Não'];
+  final List<String?> horariosAbertura = List.filled(7, null);
+  final List<String?> horariosFechamento = List.filled(7, null);
+
+  // Lista de dias da semana
+  final List<String> diasSemana = [
+    'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'
+  ];
+  
+  // Estados dos dias selecionados (todos começam como falso)
+  final List<bool> diasSelecionados = List.generate(7, (_) => false);
+
+  // Método para alternar a seleção de um dia específico
+  void toggleDiaSemana(int index) {
+    diasSelecionados[index] = !diasSelecionados[index];
+    update();
+  }
+
+  void definirHorarioDia(int index, String abertura, String fechamento) {
+    diasSelecionados[index] = true;
+    horariosAbertura[index] = abertura;
+    horariosFechamento[index] = fechamento;
+    update();
+  }
+
+  // Método para verificar se pelo menos um dia foi selecionado
+  bool temDiaSelecionado() {
+    return diasSelecionados.contains(true);
+  }
 
   bool deliver = false;
   bool pixBool = false;
@@ -123,7 +152,6 @@ class MyStoreController extends GetxController {
     return imagemStore;
   }
 
-
   void setDeliver(bool value) {
     deliver = value;
     update();
@@ -144,6 +172,52 @@ class MyStoreController extends GetxController {
     }
     return true;
   }
+
+  Future<void> saveDiasFuncionamento() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  Map<String, List<String>> diasFuncionamentoMap = {};
+  
+  // Mapeamento dos nomes de dias para o formato esperado pela API
+  final Map<String, String> formatoDiasSemana = {
+    'Segunda': 'segunda-feira',
+    'Terça': 'terca-feira',
+    'Quarta': 'quarta-feira',
+    'Quinta': 'quinta-feira',
+    'Sexta': 'sexta-feira',
+    'Sábado': 'sábado',
+    'Domingo': 'domingo'
+  };
+  
+  log("Estado atual dos dias selecionados: $diasSelecionados");
+  
+  for (int i = 0; i < diasSelecionados.length; i++) {
+    if (diasSelecionados[i]) {
+      // Use o formato correto do dia e adicione os horários específicos deste dia
+      String diaFormatado = formatoDiasSemana[diasSemana[i]] ?? diasSemana[i].toLowerCase();
+      
+      // Usar horários específicos do dia ou valores padrão
+      String horarioAbertura = horariosAbertura[i] ?? horarioAberturaController.text;
+      String horarioFechamento = horariosFechamento[i] ?? horarioFechamentoController.text;
+      
+      diasFuncionamentoMap[diaFormatado] = [
+        horarioAbertura,
+        horarioFechamento
+      ];
+      
+      log("Dia adicionado: ${diasSemana[i]} => $diaFormatado: [$horarioAbertura, $horarioFechamento]");
+    }
+  }
+  
+  // Converte o mapa para formato JSON
+  String diasJson = jsonEncode(diasFuncionamentoMap);
+  await prefs.setString('dias_funcionamento_banca', diasJson);
+  
+  // Verificar se o valor foi salvo corretamente
+  String? savedValue = prefs.getString('dias_funcionamento_banca');
+  log("Valor salvo em SharedPreferences: $savedValue");
+  
+  log("Dias de funcionamento salvos localmente no formato correto");
+}
 
   Future<File> _getAssetAsFile(String assetPath) async {
     final ByteData data = await rootBundle.load(assetPath);
@@ -209,7 +283,6 @@ class MyStoreController extends GetxController {
     );
   }
 
-
   Future clearImg() async {
     _selectedImage = null;
     update();
@@ -217,6 +290,19 @@ class MyStoreController extends GetxController {
 
   void editBanca(BuildContext context, BancaModel banca) async {
     try {
+      // Primeiro, salvar os dias de funcionamento no SharedPreferences
+      await saveDiasFuncionamento();
+      
+      // A lista de dias pode ainda ser útil para o log ou outras operações
+      List<String> diasFuncionamento = [];
+      for (int i = 0; i < diasSelecionados.length; i++) {
+        if (diasSelecionados[i]) {
+          diasFuncionamento.add(diasSemana[i]);
+        }
+      }
+      
+      print("Dias selecionados: ${diasFuncionamento.join(', ')}");
+      
       editSucess = await myStoreRepository.editarBanca(
         _nomeBancaController.text,
         _horarioAberturaController.text,
@@ -227,6 +313,7 @@ class MyStoreController extends GetxController {
         _pixController.text,
         deliver,
         banca,
+        diasFuncionamento // Mantendo para compatibilidade
       );
 
       if (editSucess) {
@@ -258,9 +345,8 @@ class MyStoreController extends GetxController {
     }
   }
 
-
   void adicionarBanca(BuildContext context) async {
-    if (!verifyFields()) { // Removida a verificação _imagePath == null
+    if (!verifyFields()) {
       textoErro = "Verifique os campos obrigatórios.";
       showDialog(
         context: context,
@@ -276,16 +362,43 @@ class MyStoreController extends GetxController {
     }
 
     try {
-      adcSucess = await myStoreRepository.adicionarBanca(
+      // Mostrar um indicador de progresso
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const Center(child: CircularProgressIndicator());
+        },
+      );
+      
+      // Primeiro salvar os dias de funcionamento
+      await saveDiasFuncionamento();
+      
+      // Log dos dias selecionados
+      List<String> diasFuncionamento = [];
+      for (int i = 0; i < diasSelecionados.length; i++) {
+        if (diasSelecionados[i]) {
+          diasFuncionamento.add(diasSemana[i]);
+        }
+      }
+      log("Dias selecionados: ${diasFuncionamento.join(', ')}");
+      
+      // Chamar o método adicionarBancaJson do repository
+      adcSucess = await myStoreRepository.adicionarBancaJson(
         _nomeBancaController.text,
         _horarioAberturaController.text,
         _horarioFechamentoController.text,
         _quantiaMinController.text,
-        _imagePath, // Pode ser null, o repositório trata isso
+        _imagePath,
         isSelected,
         deliver,
         _pixController.text,
       );
+
+      // Fechar o indicador de progresso
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
 
       if (adcSucess) {
         showDialog(
@@ -300,8 +413,24 @@ class MyStoreController extends GetxController {
         );
       } else {
         log("Erro ao criar banca.");
+        showDialog(
+          context: context,
+          builder: (context) => DefaultAlertDialogOneButton(
+            title: 'Erro',
+            body: 'Não foi possível criar a banca. Tente novamente.',
+            confirmText: 'Ok',
+            onConfirm: () => Navigator.pop(context),
+            buttonColor: Colors.red,
+          ),
+        );
       }
     } catch (e) {
+      // Fechar o indicador de progresso em caso de erro
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+      
+      log("Erro detalhado: $e");
       Get.dialog(
         AlertDialog(
           title: const Text('Erro'),
@@ -330,40 +459,57 @@ class MyStoreController extends GetxController {
   }
 
   bool verifyFields() {
-    bool hasPaymentMethod = isSelected.contains(true);
-    int boolPagamento = 0;
+  int boolPagamento = 0;
 
-    if(pixBool == false && cashBool == false){
-      boolPagamento = 1;
-    }
-    else{
-      boolPagamento = 0;
-    }
-
-    if (_nomeBancaController.text.isEmpty ||
-        _horarioAberturaController.text.isEmpty ||
-        _horarioFechamentoController.text.isEmpty || imagePath == null || boolPagamento == 1) {
-      if (pixBool == true && _pixController.text.isEmpty) {
-        textoErro = "Insira uma chave PIX.";
-        return false;
-      }
-      else if(boolPagamento == 1 && imagePath == null){
-        textoErro = "Insira uma imagem e Selecione ao menos uma forma de pagamento.";
-        return false;
-      }
-      else if(imagePath == null){
-        textoErro = "Insira uma imagem.";
-        return false;
-      }
-      else if(boolPagamento == 1){
-        textoErro = "Selecione ao menos uma forma de pagamento.";
-        return false;
-      }
-        textoErro = "Verifique os campos obrigatórios.";
-        return false;
-    }
-    return true;
+  if (pixBool == false && cashBool == false) {
+    boolPagamento = 1;
+  } else {
+    boolPagamento = 0;
   }
+
+  // Verificar se tem pelo menos um dia selecionado COM horários definidos
+  bool temHorarioDefinido = false;
+  for (int i = 0; i < diasSelecionados.length; i++) {
+    if (diasSelecionados[i] && 
+        horariosAbertura[i] != null && 
+        horariosFechamento[i] != null) {
+      temHorarioDefinido = true;
+      break;
+    }
+  }
+
+  if (_nomeBancaController.text.isEmpty) {
+    textoErro = "Insira o nome da banca.";
+    return false;
+  }
+
+  if (imagePath == null) {
+    textoErro = "Insira uma imagem.";
+    return false;
+  }
+
+  if (boolPagamento == 1) {
+    textoErro = "Selecione ao menos uma forma de pagamento.";
+    return false;
+  }
+
+  if (pixBool == true && _pixController.text.isEmpty) {
+    textoErro = "Insira uma chave PIX.";
+    return false;
+  }
+
+  if (!temDiaSelecionado()) {
+    textoErro = "Selecione pelo menos um dia de funcionamento.";
+    return false;
+  }
+
+  if (!temHorarioDefinido) {
+    textoErro = "Defina os horários de funcionamento para os dias selecionados.";
+    return false;
+  }
+
+  return true;
+}
 
   bool verifyFieldsEdit() {
     bool hasPaymentMethod = isSelected.contains(true);
@@ -378,17 +524,20 @@ class MyStoreController extends GetxController {
 
     if (_nomeBancaController.text.isEmpty ||
         _horarioAberturaController.text.isEmpty ||
-        _horarioFechamentoController.text.isEmpty || boolPagamento == 1) {
+        _horarioFechamentoController.text.isEmpty || 
+        boolPagamento == 1 ||
+        !temDiaSelecionado()) {
+      
       if (pixBool == true && _pixController.text.isEmpty) {
         textoErro = "Insira uma chave PIX.";
         return false;
       }
-      else if(boolPagamento == 1 && imagePath == null){
-        textoErro = "Insira uma imagem e Selecione ao menos uma forma de pagamento.";
-        return false;
-      }
       else if(boolPagamento == 1){
         textoErro = "Selecione ao menos uma forma de pagamento.";
+        return false;
+      }
+      else if(!temDiaSelecionado()){
+        textoErro = "Selecione pelo menos um dia de funcionamento.";
         return false;
       }
       textoErro = "Verifique os campos obrigatórios.";
@@ -404,5 +553,4 @@ class MyStoreController extends GetxController {
     getBancaPrefs();
     update();
   }
-
 }

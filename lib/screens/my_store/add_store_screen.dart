@@ -119,7 +119,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                 ],
                               ),
                               const VerticalSpacerBox(size: SpacerSize.small),
-                              SizedBox(
+                              /*SizedBox(
                                 width: size.width,
                                 child: Row(
                                   mainAxisAlignment:
@@ -320,7 +320,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     ),
                                   ],
                                 ),
-                              ),
+                              ),*/
                               Divider(
                                 height: size.height * 0.018,
                                 color: Colors.transparent,
@@ -436,6 +436,58 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                   ],
                                 ),
                               ),
+                              Divider(
+                                height: size.height * 0.018,
+                                color: Colors.transparent,
+                              ),
+                              Text(
+                                'Dias de Funcionamento',
+                                style: TextStyle(
+                                  fontSize: size.height * 0.018,
+                                  color: kSecondaryColor,
+                                  fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              const VerticalSpacerBox(size: SpacerSize.small),
+                              Wrap(
+                                spacing: 8.0,
+                                runSpacing: 8.0,
+                                children: List.generate(
+                                  controller.diasSemana.length,
+                                  (index) => FilterChip(
+                                    selectedColor: kPrimaryColor.withOpacity(0.2),
+                                    checkmarkColor: kPrimaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      side: BorderSide(
+                                        color: controller.diasSelecionados[index] 
+                                            ? kPrimaryColor 
+                                            : Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    label: Text(
+                                      controller.diasSemana[index],
+                                      style: TextStyle(
+                                        color: controller.diasSelecionados[index] 
+                                            ? kPrimaryColor 
+                                            : kSecondaryColor,
+                                      ),
+                                    ),
+                                    selected: controller.diasSelecionados[index],
+                                    onSelected: (_) {
+                                      if (!controller.diasSelecionados[index]) {
+                                        // Se o dia está sendo selecionado (não estava selecionado antes)
+                                        _mostrarDialogConfiguracaoHorario(context, controller, index);
+                                      } else {
+                                        // Se o dia está sendo desmarcado, apenas desmarque
+                                        controller.toggleDiaSemana(index);
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const VerticalSpacerBox(size: SpacerSize.medium),
                               // Text(
                               //   'Realizará entregas?',
                               //   style: TextStyle(
@@ -714,6 +766,126 @@ class _HourInputFormatter extends TextInputFormatter {
       selection: TextSelection.collapsed(offset: newText.length),
     );
   }
+}
+
+void _mostrarDialogConfiguracaoHorario(BuildContext context, MyStoreController controller, int index) {
+  // Valores padrão para os horários
+  TimeOfDay horarioAbertura = TimeOfDay(hour: 8, minute: 0);
+  TimeOfDay horarioFechamento = TimeOfDay(hour: 18, minute: 0);
+  
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Horário para ${controller.diasSemana[index]}'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            title: Text('Horário de abertura'),
+            subtitle: Text('${_formatTimeOfDayTo24Hour(horarioAbertura)}'),
+            trailing: Icon(Icons.access_time),
+            onTap: () async {
+              final selectedTime = await showTimePicker(
+                context: context,
+                cancelText: "Cancelar",
+                confirmText: "Confirmar",
+                hourLabelText: "Horas",
+                minuteLabelText: "Minutos",
+                helpText: "Insira o horário:",
+                initialTime: horarioAbertura,
+                initialEntryMode: TimePickerEntryMode.inputOnly,
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: const ColorScheme.light(
+                        primary: kPrimaryColor,
+                        onPrimary: Colors.white,
+                        onSurface: kPrimaryColor,
+                      ),
+                    ),
+                    child: MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                          alwaysUse24HourFormat: true),
+                      child: child!,
+                    ),
+                  );
+                },
+              );
+              
+              if (selectedTime != null) {
+                horarioAbertura = selectedTime;
+                (context as Element).markNeedsBuild();
+              }
+            },
+          ),
+          ListTile(
+            title: Text('Horário de fechamento'),
+            subtitle: Text('${_formatTimeOfDayTo24Hour(horarioFechamento)}'),
+            trailing: Icon(Icons.access_time),
+            onTap: () async {
+              final selectedTime = await showTimePicker(
+                context: context,
+                cancelText: "Cancelar",
+                confirmText: "Confirmar",
+                hourLabelText: "Horas",
+                minuteLabelText: "Minutos",
+                helpText: "Insira o horário:",
+                initialTime: horarioFechamento,
+                initialEntryMode: TimePickerEntryMode.inputOnly,
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: const ColorScheme.light(
+                        primary: kPrimaryColor,
+                        onPrimary: Colors.white,
+                        onSurface: kPrimaryColor,
+                      ),
+                    ),
+                    child: MediaQuery(
+                      data: MediaQuery.of(context).copyWith(
+                          alwaysUse24HourFormat: true),
+                      child: child!,
+                    ),
+                  );
+                },
+              );
+              
+              if (selectedTime != null) {
+                horarioFechamento = selectedTime;
+                (context as Element).markNeedsBuild();
+              }
+            },
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () {
+            final formattedAbertura = _formatTimeOfDayTo24Hour(horarioAbertura);
+            final formattedFechamento = _formatTimeOfDayTo24Hour(horarioFechamento);
+            
+            // Verificar se o horário de fechamento é maior que o de abertura
+            if (_isClosingTimeInvalid(formattedAbertura, formattedFechamento)) {
+              _showSnackbar(context, "O horário de fechamento deve ser maior que o de abertura.");
+              return;
+            }
+            
+            controller.definirHorarioDia(
+              index, 
+              formattedAbertura, 
+              formattedFechamento
+            );
+            Navigator.pop(context);
+          },
+          child: Text('Confirmar'),
+        ),
+      ],
+    ),
+  );
 }
 
 bool _isClosingTimeInvalid(String abertura, String fechamento) {

@@ -8,6 +8,7 @@ class BancaModel {
   String pix;
   int feiraId;
   int agricultorId;
+  Map<String, List<String>>? horariosFuncionamento;
 
   BancaModel(
       this.id,
@@ -18,7 +19,8 @@ class BancaModel {
       this.precoMin,
       this.pix,
       this.feiraId,
-      this.agricultorId);
+      this.agricultorId,
+      {this.horariosFuncionamento});
 
   get getId => id;
   get getNome => nome;
@@ -29,4 +31,5 @@ class BancaModel {
   get getPix => pix;
   get getFeiraId => feiraId;
   get getAgricultorId => agricultorId;
+  get getHorariosFuncionamento => horariosFuncionamento;
 }

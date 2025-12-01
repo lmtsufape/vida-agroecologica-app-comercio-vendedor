@@ -1,4 +1,7 @@
 {
   "dart.lineLength": 60,
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "cSpell.words": [
+    "Funcionamento"
+  ]
 }
